@@ -1,0 +1,39 @@
+apply plugin: 'com.android.library'
+
+group = GROUP
+version = VERSION_NAME
+
+android {
+  compileSdkVersion 25
+  buildToolsVersion "25.0.1"
+
+  defaultConfig {
+    minSdkVersion 15
+    targetSdkVersion 25
+    versionCode 1
+    versionName "1.0"
+
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+    }
+  }
+}
+
+apply from: rootProject.file('checkstyle/checkstyle.gradle')
+
+dependencies {
+
+  compile fileTree(dir: 'libs', include: ['*.jar'])
+  compile project(':magellan-library')
+  compile 'io.reactivex:rxjava:1.2.2'
+
+  testCompile 'junit:junit:4.12'
+  testCompile 'com.google.truth:truth:0.28'
+  testCompile 'org.mockito:mockito-core:2.0.31-beta'
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
