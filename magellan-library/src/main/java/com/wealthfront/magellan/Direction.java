@@ -1,7 +1,7 @@
 package com.wealthfront.magellan;
 
 /**
- * Represent the direction in whcih we are navigation. Either forward or backward.
+ * Represent the direction in which we are navigating, either forward or backward.
  */
 public enum Direction {
 
