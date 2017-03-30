@@ -17,15 +17,15 @@ Add the dependencies you need in your `build.gradle`.
 
 ### Core library
 
-```
+```gradle
 compile 'com.wealthfront:magellan:0.1.2'
 ```
 ### With optional add-ons
 
-```
+```gradle
 def magellanVersion = '0.1.2'
 compile 'com.wealthfront:magellan:' + magellanVersion
-compile 'com.wealthfront:magellan-rx:' + magellanVersioncompile
+compile 'com.wealthfront:magellan-rx:' + magellanVersion
 ```
 
 ### Getting started
@@ -34,7 +34,7 @@ compile 'com.wealthfront:magellan-rx:' + magellanVersioncompile
 
 In your single `MainActivity.java`:
 
-```
+```java
   static Navigator navigator = Navigator.with(new HomeScreen()).build();
 
   @Override
@@ -62,20 +62,20 @@ In your single `MainActivity.java`:
 
 In your `main_activity.xml`:
 
-```
+```xml
 <com.wealthfront.magellan.ScreenContainer
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@id/magellan_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-  	/>
+    /> 
 ```
 
 #### Minimal Screen implementation
 
 `Screen` example `HomeScreen.java`:
 
-```
+```java
 public class HomeScreen extends Screen<HomeView> {
   @Override
   protected HomeView createView(Context context) {
@@ -86,7 +86,7 @@ public class HomeScreen extends Screen<HomeView> {
 
 Associated `ScreenView` `HomeView.java`:
 
-```
+```java
 public class HomeView extends BaseScreenView<HomeScreen> {
   public InviteView(Context context) {
     super(context);
