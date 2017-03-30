@@ -16,24 +16,24 @@ The simplest navigation library for Android.
  
 ## Download
 
-Add the dependencies you need in your `build.gradle`.
+Add the dependencies you need in your `build.gradle`:
 
 ### Core library
 
 ```gradle
-compile 'com.wealthfront:magellan:0.1.2'
+compile 'com.wealthfront:magellan:0.1.4'
 ```
 ### With optional add-ons
 
 ```gradle
-def magellanVersion = '0.1.2'
+def magellanVersion = '0.1.4'
 compile 'com.wealthfront:magellan:' + magellanVersion
 compile 'com.wealthfront:magellan-rx:' + magellanVersion
 ```
 
-### Getting started
+## Getting started
 
-#### Minimal implementation in your main activity
+### Minimal implementation in your main activity
 
 In your single `MainActivity.java`:
 
@@ -74,7 +74,7 @@ In your `main_activity.xml`:
     /> 
 ```
 
-#### Minimal Screen implementation
+### Minimal Screen implementation
 
 `Screen` example `HomeScreen.java`:
 
@@ -87,7 +87,7 @@ public class HomeScreen extends Screen<HomeView> {
 }
 ```
 
-Associated `ScreenView` `HomeView.java`:
+Associated `ScreenView` in `HomeView.java`:
 
 ```java
 public class HomeView extends BaseScreenView<HomeScreen> {
