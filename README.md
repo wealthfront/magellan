@@ -1,6 +1,3 @@
-:warning: **This library has not yet been published to Maven Central, and is not yet ready to be used in production**
-___
-
 <img src="assets/magellan_icon_web_hi_res_512.png" width="200" align="right" hspace="20" />
 
 # Magellan
