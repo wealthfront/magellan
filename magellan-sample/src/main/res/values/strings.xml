@@ -1,3 +1,8 @@
 <resources>
   <string name="app_name">Magellan Sample</string>
+  <string name="detail_view_text">This is a detail view</string>
+  <string name="default_transition">Default transition</string>
+  <string name="circular_reveal_transition">Circular reveal transition</string>
+  <string name="show_transition">Show transition</string>
+  <string name="show_now_transition">Show now transition</string>
 </resources>
