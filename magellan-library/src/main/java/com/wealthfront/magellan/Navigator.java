@@ -251,7 +251,7 @@ public class Navigator implements BackHandler {
    * @throws IllegalStateException if {@link #onCreate(Activity, Bundle)} has already been called on this Navigator
    */
   public void resetWithRoot(Activity activity, final Screen root) {
-    checkOnCreateNotYetCalled(activity);
+    checkOnCreateNotYetCalled(activity, "resetWithRoot() must be called before onCreate()");
     backStack.clear();
     backStack.push(root);
   }
@@ -268,7 +268,7 @@ public class Navigator implements BackHandler {
    * @throws IllegalStateException if {@link #onCreate(Activity, Bundle)} has already been called on this Navigator
    */
   public void rewriteHistory(Activity activity, HistoryRewriter historyRewriter) {
-    checkOnCreateNotYetCalled(activity);
+    checkOnCreateNotYetCalled(activity, "rewriteHistory() must be called before onCreate()");
     historyRewriter.rewriteHistory(backStack);
   }
 
@@ -625,8 +625,8 @@ public class Navigator implements BackHandler {
     return this.activity == activity;
   }
 
-  private void checkOnCreateNotYetCalled(Activity activity) {
-    checkState(this.activity == null || !sameActivity(activity), "resetWithRoot() must be called before onCreate()");
+  private void checkOnCreateNotYetCalled(Activity activity, String reason) {
+    checkState(this.activity == null || !sameActivity(activity), reason);
   }
 
   private void checkBackStackNotEmpty() {
