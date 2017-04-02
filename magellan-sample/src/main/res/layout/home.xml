@@ -34,5 +34,4 @@
         android:text="@string/show_now_transition"
         />
 
-
 </LinearLayout>
