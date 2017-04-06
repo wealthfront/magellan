@@ -109,6 +109,8 @@ public class HomeView extends BaseScreenView<HomeScreen> {
 
 [Basic sample](https://github.com/wealthfront/magellan/tree/master/magellan-sample/src/main/java/com/wealthfront/magellan/sample)
 
+![basic-sample-gif](https://cloud.githubusercontent.com/assets/3293136/24590417/4a39bbd8-17a1-11e7-89f9-e20398001341.gif)
+
 Advanced sample (coming soon)
 
 ## More
