@@ -16,6 +16,10 @@ android {
             minifyEnabled false
         }
     }
+
+    packagingOptions{
+        exclude 'META-INF/LICENSE'
+    }
 }
 
 apply from: rootProject.file('checkstyle/checkstyle.gradle')
@@ -36,4 +40,13 @@ dependencies {
 
     compile 'com.google.dagger:dagger:2.10'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
+
+    compile project(path: ':magellan-rx')
+
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
+    compile 'com.squareup.retrofit2:converter-jackson:2.2.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+
+    compile 'io.reactivex:rxandroid:1.2.1'
 }
