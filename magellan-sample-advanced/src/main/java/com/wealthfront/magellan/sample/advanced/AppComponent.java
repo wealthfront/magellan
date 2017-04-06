@@ -10,4 +10,6 @@ interface AppComponent {
 
     void inject(MainActivity activity);
 
+    void inject(TideDetailsScreen screen);
+
 }

@@ -9,8 +9,8 @@ import dagger.Component;
 
 public class SampleApplication extends Application {
 
-    public static SampleApplication app(Activity activity) {
-        return (SampleApplication) activity.getApplication();
+    public static SampleApplication app(Context context) {
+        return (SampleApplication) context.getApplicationContext();
     }
 
     public AppComponent injector() {

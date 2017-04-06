@@ -20,4 +20,23 @@ public class MainActivity extends AppCompatActivity {
         app(this).injector().inject(this);
         navigator.onCreate(this, savedInstanceState);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        navigator.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigator.onResume(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!navigator.handleBack()) {
+            super.onBackPressed();
+        }
+    }
 }
