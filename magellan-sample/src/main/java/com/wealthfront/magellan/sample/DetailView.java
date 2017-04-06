@@ -6,7 +6,7 @@ import com.wealthfront.magellan.BaseScreenView;
 
 class DetailView extends BaseScreenView<DetailScreen> {
 
-  public DetailView(Context context) {
+  DetailView(Context context) {
     super(context);
     inflate(context, R.layout.detail, this);
   }
