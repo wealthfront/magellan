@@ -6,46 +6,11 @@
     android:layout_height="match_parent"
     >
 
-    <EditText
-        android:id="@+id/organizationNameField"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter organization Name"
-        />
-
-    <Button
-        android:id="@+id/findReposButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Find Repositories"
-        />
-
-    <FrameLayout
+    <GridView
+        android:id="@+id/tideLocationsGrid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-
-        <ScrollView
-            android:id="@+id/listContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-
-            <ListView
-                android:id="@+id/organizationRepositoriesList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-
-        </ScrollView>
-
-        <ProgressBar
-            android:id="@+id/loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            />
-
-    </FrameLayout>
+        android:numColumns="2"
+        />
 
 </LinearLayout>
