@@ -32,6 +32,12 @@ compile 'com.wealthfront:magellan:' + magellanVersion
 compile 'com.wealthfront:magellan-rx:' + magellanVersion
 ```
 
+### Add-ons coming soon
+
+- RxJava 2
+- Support lib
+- Design lib
+
 ## Getting started
 
 ### Minimal implementation in your main activity
@@ -98,6 +104,16 @@ public class HomeView extends BaseScreenView<HomeScreen> {
   }
 }
 ``` 
+
+## Samples
+
+[Basic sample](https://github.com/wealthfront/magellan/tree/master/magellan-sample/src/main/java/com/wealthfront/magellan/sample)
+
+Advanced sample (coming soon)
+
+## More
+
+For more, see the [wiki](https://github.com/wealthfront/magellan/wiki).
 
 ## License
 
