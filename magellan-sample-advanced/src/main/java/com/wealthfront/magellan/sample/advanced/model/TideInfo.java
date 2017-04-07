@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-import rx.Observable;
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TideInfo {
 

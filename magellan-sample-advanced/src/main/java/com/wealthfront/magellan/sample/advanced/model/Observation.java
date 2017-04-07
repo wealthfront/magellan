@@ -4,9 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
-import java.util.List;
-
-import static android.R.attr.data;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Observation {

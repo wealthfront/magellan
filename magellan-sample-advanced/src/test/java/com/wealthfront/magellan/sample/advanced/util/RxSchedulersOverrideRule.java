@@ -1,4 +1,5 @@
 package com.wealthfront.magellan.sample.advanced.util;
+
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -15,7 +16,7 @@ import rx.schedulers.Schedulers;
  * always subscribeOn and observeOn Schedulers.immediate().
  * Warning, this rule will reset RxAndroidPlugins and RxJavaPlugins before and after each test so
  * if the application code uses RxJava plugins this may affect the behaviour of the testing method.
- *
+ * <p>
  * Credit: https://github.com/ribot/android-boilerplate/blob/master/app/src/test/java/uk/co/ribot/androidboilerplate/util/RxSchedulersOverrideRule.java
  */
 public class RxSchedulersOverrideRule implements TestRule {
