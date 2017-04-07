@@ -1,4 +1,4 @@
-package com.wealthfront.magellan.sample.advanced;
+package com.wealthfront.magellan.sample.advanced.tide;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.wealthfront.magellan.BaseScreenView;
+import com.wealthfront.magellan.sample.advanced.R;
 
 import java.math.BigDecimal;
 

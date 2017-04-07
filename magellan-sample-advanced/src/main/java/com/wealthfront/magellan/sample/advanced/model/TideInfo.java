@@ -1,4 +1,4 @@
-package com.wealthfront.magellan.sample.advanced;
+package com.wealthfront.magellan.sample.advanced.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,12 +6,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-class TideInfo {
+public class TideInfo {
 
   @JsonProperty
   List<Observation> data;
 
-  TideInfo() {}
+  public TideInfo() {}
 
   public List<Observation> getData() {
     return data;

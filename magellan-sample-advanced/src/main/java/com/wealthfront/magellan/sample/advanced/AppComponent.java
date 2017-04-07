@@ -1,12 +1,14 @@
 package com.wealthfront.magellan.sample.advanced;
 
+import com.wealthfront.magellan.sample.advanced.tide.TideDetailsScreen;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
 
 @Component(modules = AppModule.class)
 @Singleton
-interface AppComponent {
+public interface AppComponent {
 
   void inject(MainActivity activity);
 

@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.sample.advanced;
 
 import com.wealthfront.magellan.Navigator;
+import com.wealthfront.magellan.sample.advanced.tide.TideLocationsScreen;
 
 import javax.inject.Singleton;
 

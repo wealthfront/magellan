@@ -1,8 +1,11 @@
-package com.wealthfront.magellan.sample.advanced;
+package com.wealthfront.magellan.sample.advanced.tide;
 
 import android.content.Context;
 
 import com.wealthfront.magellan.rx.RxScreen;
+import com.wealthfront.magellan.sample.advanced.NoaaApi;
+import com.wealthfront.magellan.sample.advanced.model.Observation;
+import com.wealthfront.magellan.sample.advanced.model.TideInfo;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,10 +18,9 @@ import rx.schedulers.Schedulers;
 
 import static com.wealthfront.magellan.sample.advanced.SampleApplication.app;
 
-class TideDetailsScreen extends RxScreen<TideDetailsView> {
+public class TideDetailsScreen extends RxScreen<TideDetailsView> {
 
-  @Inject
-  NoaaApi noaaApi;
+  @Inject NoaaApi noaaApi;
   private final String tideLocationName;
   int noaaApiId;
 

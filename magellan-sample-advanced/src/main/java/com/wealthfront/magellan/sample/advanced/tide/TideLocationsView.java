@@ -1,4 +1,4 @@
-package com.wealthfront.magellan.sample.advanced;
+package com.wealthfront.magellan.sample.advanced.tide;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wealthfront.magellan.BaseScreenView;
-import com.wealthfront.magellan.sample.advanced.TideLocationsScreen.TideLocations;
+import com.wealthfront.magellan.sample.advanced.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,11 +30,11 @@ class TideLocationsView extends BaseScreenView<TideLocationsScreen> {
     tideLocationsList.setAdapter(new TideLocationsListAdapter(context));
   }
 
-  private final class TideLocationsListAdapter extends ArrayAdapter<TideLocations> {
+  private final class TideLocationsListAdapter extends ArrayAdapter<TideLocationsScreen.TideLocations> {
 
     private TideLocationsListAdapter(@NonNull Context context) {
       super(context, R.layout.tide_location_grid_item, R.id.tideLocationName,
-          TideLocations.values());
+          TideLocationsScreen.TideLocations.values());
     }
 
     @NonNull
@@ -43,7 +43,7 @@ class TideLocationsView extends BaseScreenView<TideLocationsScreen> {
       if (convertView == null) {
         convertView = inflate(getContext(), R.layout.tide_location_grid_item, null);
       }
-      final TideLocations tideLocation = getItem(position);
+      final TideLocationsScreen.TideLocations tideLocation = getItem(position);
       ImageView tideLocationImageView = ButterKnife.findById(convertView, R.id.tideLocationImage);
       TextView tideLocationTextView = ButterKnife.findById(convertView, R.id.tideLocationName);
 

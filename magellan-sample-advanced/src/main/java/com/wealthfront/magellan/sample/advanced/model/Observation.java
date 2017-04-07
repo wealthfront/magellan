@@ -1,4 +1,4 @@
-package com.wealthfront.magellan.sample.advanced;
+package com.wealthfront.magellan.sample.advanced.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,12 +6,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-class Observation {
+public class Observation {
 
   @JsonProperty(value = "v")
   BigDecimal verifiedWaterLevel;
 
-  Observation() {}
+  public Observation() {}
 
   public BigDecimal getVerifiedWaterLevel() {
     return verifiedWaterLevel;
