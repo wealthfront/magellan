@@ -11,7 +11,7 @@ class Observation {
   @JsonProperty(value = "v")
   BigDecimal verifiedWaterLevel;
 
-  public Observation() {}
+  Observation() {}
 
   public BigDecimal getVerifiedWaterLevel() {
     return verifiedWaterLevel;

@@ -1,7 +1,6 @@
 package com.wealthfront.magellan.sample.advanced;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.wealthfront.magellan.rx.RxScreen;
 

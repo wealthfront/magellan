@@ -2,7 +2,6 @@ package com.wealthfront.magellan.sample.advanced;
 
 import android.content.Context;
 import android.support.annotation.DrawableRes;
-import android.widget.Toast;
 
 import com.wealthfront.magellan.Screen;
 
@@ -34,9 +33,7 @@ class TideLocationsScreen extends Screen<TideLocationsView> {
       return noaaApiId;
     }
 
-    public
-    @DrawableRes
-    int getImageId() {
+    public @DrawableRes int getImageId() {
       return imageId;
     }
 

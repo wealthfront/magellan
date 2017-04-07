@@ -11,7 +11,7 @@ class TideInfo {
   @JsonProperty
   List<Observation> data;
 
-  public TideInfo() {}
+  TideInfo() {}
 
   public List<Observation> getData() {
     return data;

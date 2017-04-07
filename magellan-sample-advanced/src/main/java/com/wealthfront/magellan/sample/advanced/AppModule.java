@@ -13,7 +13,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 @Module
-public class AppModule {
+final class AppModule {
 
   private static final String NOAA_API_BASE_URL = "https://tidesandcurrents.noaa.gov/";
 
@@ -47,5 +47,7 @@ public class AppModule {
     interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
     return new OkHttpClient.Builder().addInterceptor(interceptor).build();
   }
+
+  private AppModule() {}
 
 }

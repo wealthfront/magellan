@@ -21,7 +21,7 @@ class TideDetailsView extends BaseScreenView<TideDetailsScreen> {
   @BindView(R.id.tideDetailsContent) View content;
   @BindView(R.id.currentWaterLevel) TextView currentWaterLevel;
 
-  public TideDetailsView(Context context) {
+  TideDetailsView(Context context) {
     super(context);
     inflate(context, R.layout.tide_detail, this);
     bind(this);
