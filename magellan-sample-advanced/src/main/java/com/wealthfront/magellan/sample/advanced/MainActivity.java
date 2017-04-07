@@ -11,32 +11,32 @@ import static com.wealthfront.magellan.sample.advanced.SampleApplication.app;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Inject Navigator navigator;
+  @Inject Navigator navigator;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        app(this).injector().inject(this);
-        navigator.onCreate(this, savedInstanceState);
-    }
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    app(this).injector().inject(this);
+    navigator.onCreate(this, savedInstanceState);
+  }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        navigator.onPause(this);
-    }
+  @Override
+  protected void onPause() {
+    super.onPause();
+    navigator.onPause(this);
+  }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        navigator.onResume(this);
-    }
+  @Override
+  protected void onResume() {
+    super.onResume();
+    navigator.onResume(this);
+  }
 
-    @Override
-    public void onBackPressed() {
-        if (!navigator.handleBack()) {
-            super.onBackPressed();
-        }
+  @Override
+  public void onBackPressed() {
+    if (!navigator.handleBack()) {
+      super.onBackPressed();
     }
+  }
 }

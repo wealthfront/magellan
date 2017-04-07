@@ -8,13 +8,13 @@ import java.math.BigDecimal;
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Observation {
 
-    @JsonProperty(value = "v")
-    BigDecimal verifiedWaterLevel;
+  @JsonProperty(value = "v")
+  BigDecimal verifiedWaterLevel;
 
-    public Observation() {}
+  public Observation() {}
 
-    public BigDecimal getVerifiedWaterLevel() {
-        return verifiedWaterLevel;
-    }
+  public BigDecimal getVerifiedWaterLevel() {
+    return verifiedWaterLevel;
+  }
 
 }

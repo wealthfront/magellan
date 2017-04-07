@@ -17,27 +17,27 @@ import static butterknife.ButterKnife.bind;
 
 class TideDetailsView extends BaseScreenView<TideDetailsScreen> {
 
-    @BindView(R.id.loading) ProgressBar loading;
-    @BindView(R.id.tideDetailsContent) View content;
-    @BindView(R.id.currentWaterLevel) TextView currentWaterLevel;
+  @BindView(R.id.loading) ProgressBar loading;
+  @BindView(R.id.tideDetailsContent) View content;
+  @BindView(R.id.currentWaterLevel) TextView currentWaterLevel;
 
-    public TideDetailsView(Context context) {
-        super(context);
-        inflate(context, R.layout.tide_detail, this);
-        bind(this);
-    }
+  public TideDetailsView(Context context) {
+    super(context);
+    inflate(context, R.layout.tide_detail, this);
+    bind(this);
+  }
 
-    public void setLatestMeasuredTideHeight(BigDecimal latestMeasuredTideHeight) {
-        content.setAlpha(0f);
-        content.setVisibility(VISIBLE);
-        loading.animate().alpha(0f).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                content.animate().alpha(1f).start();
-                loading.setVisibility(GONE);
-            }
-        }).start();
-        currentWaterLevel.setText(String.format("%f ft", latestMeasuredTideHeight));
-    }
+  public void setLatestMeasuredTideHeight(BigDecimal latestMeasuredTideHeight) {
+    content.setAlpha(0f);
+    content.setVisibility(VISIBLE);
+    loading.animate().alpha(0f).setListener(new AnimatorListenerAdapter() {
+      @Override
+      public void onAnimationEnd(Animator animation) {
+        content.animate().alpha(1f).start();
+        loading.setVisibility(GONE);
+      }
+    }).start();
+    currentWaterLevel.setText(String.format("%f ft", latestMeasuredTideHeight));
+  }
 
 }

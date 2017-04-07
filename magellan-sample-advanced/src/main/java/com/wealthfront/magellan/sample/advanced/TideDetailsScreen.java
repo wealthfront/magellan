@@ -18,41 +18,42 @@ import static com.wealthfront.magellan.sample.advanced.SampleApplication.app;
 
 class TideDetailsScreen extends RxScreen<TideDetailsView> {
 
-    @Inject
-    NoaaApi noaaApi;
-    private final String tideLocationName;
-    int noaaApiId;
+  @Inject
+  NoaaApi noaaApi;
+  private final String tideLocationName;
+  int noaaApiId;
 
-    TideDetailsScreen(int noaaApiId, String tideLocationName) {
-        this.noaaApiId = noaaApiId;
-        this.tideLocationName = tideLocationName;
-    }
+  TideDetailsScreen(int noaaApiId, String tideLocationName) {
+    this.noaaApiId = noaaApiId;
+    this.tideLocationName = tideLocationName;
+  }
 
-    @Override
-    protected TideDetailsView createView(Context context) {
-        app(context).injector().inject(this);
-        return new TideDetailsView(context);
-    }
+  @Override
+  protected TideDetailsView createView(Context context) {
+    app(context).injector().inject(this);
+    return new TideDetailsView(context);
+  }
 
-    @Override
-    public String getTitle(Context context) {
-        return tideLocationName;
-    }
+  @Override
+  public String getTitle(Context context) {
+    return tideLocationName;
+  }
 
-    @Override
-    protected void onSubscribe(Context context) {
-        autoUnsubscribe(noaaApi.getTideInfo(noaaApiId)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<TideInfo>() {
-                    @Override
-                    public void call(TideInfo tideInfo) {
-                        if (!tideInfo.getData().isEmpty()) {
-                            List<Observation> observations = tideInfo.getData();
-                            BigDecimal latestMeasuredTideHeight = observations.get(observations.size() - 1).getVerifiedWaterLevel();
-                            getView().setLatestMeasuredTideHeight(latestMeasuredTideHeight);
-                        }
-                    }
-                }));
-    }
+  @Override
+  protected void onSubscribe(Context context) {
+    autoUnsubscribe(noaaApi.getTideInfo(noaaApiId)
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Action1<TideInfo>() {
+          @Override
+          public void call(TideInfo tideInfo) {
+            if (!tideInfo.getData().isEmpty()) {
+              List<Observation> observations = tideInfo.getData();
+              BigDecimal latestMeasuredTideHeight =
+                  observations.get(observations.size() - 1).getVerifiedWaterLevel();
+              getView().setLatestMeasuredTideHeight(latestMeasuredTideHeight);
+            }
+          }
+        }));
+  }
 }

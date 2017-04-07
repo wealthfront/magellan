@@ -29,44 +29,44 @@ import static butterknife.ButterKnife.findById;
 
 class TideLocationsView extends BaseScreenView<TideLocationsScreen> {
 
-    @BindView(R.id.tideLocationsGrid)
-    GridView tideLocationsList;
+  @BindView(R.id.tideLocationsGrid)
+  GridView tideLocationsList;
 
-    public TideLocationsView(Context context) {
-        super(context);
-        inflate(context, R.layout.home, this);
-        bind(this);
-        tideLocationsList.setAdapter(new TideLocationsListAdapter(context));
+  public TideLocationsView(Context context) {
+    super(context);
+    inflate(context, R.layout.home, this);
+    bind(this);
+    tideLocationsList.setAdapter(new TideLocationsListAdapter(context));
+  }
+
+  private class TideLocationsListAdapter extends ArrayAdapter<TideLocations> {
+
+    private TideLocationsListAdapter(@NonNull Context context) {
+      super(context, R.layout.tide_location_grid_item, R.id.tideLocationName,
+          TideLocations.values());
     }
 
-    private class TideLocationsListAdapter extends ArrayAdapter<TideLocations> {
+    @NonNull
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+      if (convertView == null) {
+        convertView = inflate(getContext(), R.layout.tide_location_grid_item, null);
+      }
+      final TideLocations tideLocation = getItem(position);
+      ImageView tideLocationImageView = ButterKnife.findById(convertView, R.id.tideLocationImage);
+      TextView tideLocationTextView = ButterKnife.findById(convertView, R.id.tideLocationName);
 
-        private TideLocationsListAdapter(@NonNull Context context) {
-            super(context, R.layout.tide_location_grid_item, R.id.tideLocationName, TideLocations.values());
-        }
-
-        @NonNull
+      tideLocationImageView.setImageResource(tideLocation.getImageId());
+      tideLocationTextView.setText(tideLocation.getName());
+      convertView.setOnClickListener(new OnClickListener() {
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            if (convertView == null) {
-                convertView = inflate(getContext(), R.layout.tide_location_grid_item, null);
-            }
-            final TideLocations tideLocation = getItem(position);
-            ImageView tideLocationImageView = ButterKnife.findById(convertView, R.id.tideLocationImage);
-            TextView tideLocationTextView = ButterKnife.findById(convertView, R.id.tideLocationName);
-
-            tideLocationImageView.setImageResource(tideLocation.getImageId());
-            tideLocationTextView.setText(tideLocation.getName());
-            convertView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    getScreen().tideLocationSelected(tideLocation.getNoaaApiId(), tideLocation.getName());
-                }
-            });
-            return convertView;
+        public void onClick(View view) {
+          getScreen().tideLocationSelected(tideLocation.getNoaaApiId(), tideLocation.getName());
         }
-
+      });
+      return convertView;
     }
 
+  }
 
 }

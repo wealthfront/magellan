@@ -8,8 +8,8 @@ import dagger.Component;
 @Singleton
 interface AppComponent {
 
-    void inject(MainActivity activity);
+  void inject(MainActivity activity);
 
-    void inject(TideDetailsScreen screen);
+  void inject(TideDetailsScreen screen);
 
 }
