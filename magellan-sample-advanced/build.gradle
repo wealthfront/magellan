@@ -1,52 +1,54 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.1"
-    defaultConfig {
-        applicationId "com.wealthfront.magellan.sample"
-        minSdkVersion 15
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  compileSdkVersion 25
+  buildToolsVersion "25.0.1"
+  defaultConfig {
+    applicationId "com.wealthfront.magellan.sample"
+    minSdkVersion 15
+    targetSdkVersion 25
+    versionCode 1
+    versionName "1.0"
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
-    }
+  }
 
-    packagingOptions{
-        exclude 'META-INF/LICENSE'
-    }
+  packagingOptions {
+    exclude 'META-INF/LICENSE'
+  }
 }
 
 apply from: rootProject.file('checkstyle/checkstyle.gradle')
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile project(':magellan-library')
+  compile fileTree(dir: 'libs', include: ['*.jar'])
+  compile 'com.android.support:appcompat-v7:25.2.0'
+  compile project(':magellan-library')
 
-    testCompile 'junit:junit:4.12'
+  compile 'com.jakewharton:butterknife:8.5.1'
+  annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+  compile 'com.google.dagger:dagger:2.10'
+  annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
 
-    compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+  compile project(path: ':magellan-rx')
 
-    compile 'com.google.dagger:dagger:2.10'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
+  compile 'com.squareup.retrofit2:retrofit:2.2.0'
+  compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
+  compile 'com.squareup.retrofit2:converter-jackson:2.2.0'
+  compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
 
-    compile project(path: ':magellan-rx')
+  compile 'io.reactivex:rxandroid:1.2.1'
 
-    compile 'com.squareup.retrofit2:retrofit:2.2.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
-    compile 'com.squareup.retrofit2:converter-jackson:2.2.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+  testCompile 'junit:junit:4.12'
+  testCompile "org.mockito:mockito-core:2.7.21"
+  testCompile "org.robolectric:robolectric:3.3.2"
 
-    compile 'io.reactivex:rxandroid:1.2.1'
+  androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    exclude group: 'com.android.support', module: 'support-annotations'
+  })
 }

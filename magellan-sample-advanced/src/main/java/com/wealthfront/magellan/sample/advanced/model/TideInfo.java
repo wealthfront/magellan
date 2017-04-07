@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+import rx.Observable;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TideInfo {
 
@@ -13,8 +15,29 @@ public class TideInfo {
 
   public TideInfo() {}
 
+  public static Builder with() {
+    return new Builder();
+  }
+
   public List<Observation> getData() {
     return data;
+  }
+
+  public static class Builder {
+
+    List<Observation> data;
+
+    public Builder data(List<Observation> data) {
+      this.data = data;
+      return this;
+    }
+
+    public TideInfo build() {
+      TideInfo tideInfo = new TideInfo();
+      tideInfo.data = data;
+      return tideInfo;
+    }
+
   }
 
 }
