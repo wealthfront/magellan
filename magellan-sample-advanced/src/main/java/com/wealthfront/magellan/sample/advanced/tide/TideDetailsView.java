@@ -42,14 +42,20 @@ class TideDetailsView extends BaseScreenView<TideDetailsScreen> {
     showContent();
     displayWaterLevelText(latestMeasuredTideHeight, lowestMeasuredTideHeight,
         highestMeasuredTideHeight);
+    setVisibleWaterLevel(latestMeasuredTideHeight, lowestMeasuredTideHeight,
+        highestMeasuredTideHeight);
+  }
 
-    float percentOfMax = latestMeasuredTideHeight.subtract(lowestMeasuredTideHeight)
-        .divide(highestMeasuredTideHeight.subtract(lowestMeasuredTideHeight), RoundingMode.HALF_UP)
-        .multiply(BigDecimal.valueOf(100)).setScale(0, BigDecimal.ROUND_HALF_UP).floatValue();
-    currentWaterLevelBottomSpacing.setLayoutParams(new LinearLayout.LayoutParams(
-        ViewGroup.LayoutParams.MATCH_PARENT, 2, percentOfMax));
-    currentWaterLevelTopSpacing.setLayoutParams(new LinearLayout.LayoutParams(
-        ViewGroup.LayoutParams.MATCH_PARENT, 2, 100 - percentOfMax));
+  private void showContent() {
+    content.setAlpha(0f);
+    content.setVisibility(VISIBLE);
+    loading.animate().alpha(0f).setListener(new AnimatorListenerAdapter() {
+      @Override
+      public void onAnimationEnd(Animator animation) {
+        content.animate().alpha(1f).start();
+        loading.setVisibility(GONE);
+      }
+    }).start();
   }
 
   private void displayWaterLevelText(
@@ -63,16 +69,16 @@ class TideDetailsView extends BaseScreenView<TideDetailsScreen> {
         lowestMeasuredTideHeight.setScale(2, RoundingMode.HALF_UP)));
   }
 
-  private void showContent() {
-    content.setAlpha(0f);
-    content.setVisibility(VISIBLE);
-    loading.animate().alpha(0f).setListener(new AnimatorListenerAdapter() {
-      @Override
-      public void onAnimationEnd(Animator animation) {
-        content.animate().alpha(1f).start();
-        loading.setVisibility(GONE);
-      }
-    }).start();
+  private void setVisibleWaterLevel(
+      BigDecimal latestMeasuredTideHeight, BigDecimal lowestMeasuredTideHeight,
+      BigDecimal highestMeasuredTideHeight) {
+    float percentOfMax = latestMeasuredTideHeight.subtract(lowestMeasuredTideHeight)
+        .divide(highestMeasuredTideHeight.subtract(lowestMeasuredTideHeight), RoundingMode.HALF_UP)
+        .multiply(BigDecimal.valueOf(100)).setScale(0, BigDecimal.ROUND_HALF_UP).floatValue();
+    currentWaterLevelBottomSpacing.setLayoutParams(new LinearLayout.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT, 2, percentOfMax));
+    currentWaterLevelTopSpacing.setLayoutParams(new LinearLayout.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT, 2, 100 - percentOfMax));
   }
 
 }
