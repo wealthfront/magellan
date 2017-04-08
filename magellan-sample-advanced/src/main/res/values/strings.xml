@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Magellan Advanced Sample</string>
+  <string name="app_name">Magellan Advanced Sample</string>
+  <string name="tide_location_image">Tide Location Image</string>
+  <string name="current_water_level">Current Water Level:</string>
 </resources>

@@ -12,6 +12,7 @@
       android:layout_height="match_parent"
       android:scaleType="centerCrop"
       tools:src="@drawable/san_francisco"
+      android:contentDescription="@string/tide_location_image"
       />
 
   <TextView

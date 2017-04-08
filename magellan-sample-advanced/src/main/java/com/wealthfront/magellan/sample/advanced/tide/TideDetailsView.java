@@ -11,6 +11,7 @@ import com.wealthfront.magellan.BaseScreenView;
 import com.wealthfront.magellan.sample.advanced.R;
 
 import java.math.BigDecimal;
+import java.util.Locale;
 
 import butterknife.BindView;
 
@@ -38,7 +39,7 @@ class TideDetailsView extends BaseScreenView<TideDetailsScreen> {
         loading.setVisibility(GONE);
       }
     }).start();
-    currentWaterLevel.setText(String.format("%f ft", latestMeasuredTideHeight));
+    currentWaterLevel.setText(String.format(Locale.US, "%f ft", latestMeasuredTideHeight));
   }
 
 }

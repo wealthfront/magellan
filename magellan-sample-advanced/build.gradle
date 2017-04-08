@@ -20,6 +20,10 @@ android {
   packagingOptions {
     exclude 'META-INF/LICENSE'
   }
+
+  lintOptions {
+    disable 'InvalidPackage','IconDensities'
+  }
 }
 
 apply from: rootProject.file('checkstyle/checkstyle.gradle')
