@@ -22,13 +22,13 @@ import static com.wealthfront.magellan.sample.advanced.SampleApplication.app;
 
 public class TideDetailsScreen extends RxScreen<TideDetailsView> {
 
-  public static final Comparator<Observation>
-      OBSERVATION_COMPARATOR = new Comparator<Observation>() {
-    @Override
-    public int compare(Observation o1, Observation o2) {
-      return o1.getVerifiedWaterLevel().compareTo(o2.getVerifiedWaterLevel());
-    }
-  };
+  public static final Comparator<Observation> OBSERVATION_COMPARATOR =
+      new Comparator<Observation>() {
+        @Override
+        public int compare(Observation o1, Observation o2) {
+          return o1.getVerifiedWaterLevel().compareTo(o2.getVerifiedWaterLevel());
+        }
+      };
   @Inject NoaaApi noaaApi;
   private final String tideLocationName;
   int noaaApiId;
