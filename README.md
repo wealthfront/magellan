@@ -1,5 +1,9 @@
 <img src="assets/magellan_icon_web_hi_res_512.png" width="200" align="right" hspace="20" />
 
+[![Build Status](https://travis-ci.org/wealthfront/magellan.svg?branch=master)](https://travis-ci.org/wealthfront/magellan)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.wealthfront/magellan/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.wealthfront/magellan)
+[![Javadocs](https://www.javadoc.io/badge/com.wealthfront/magellan.svg)](https://www.javadoc.io/doc/com.wealthfront/magellan)
+
 # Magellan
 
 The simplest navigation library for Android.
@@ -27,6 +31,12 @@ def magellanVersion = '0.1.4'
 compile 'com.wealthfront:magellan:' + magellanVersion
 compile 'com.wealthfront:magellan-rx:' + magellanVersion
 ```
+
+### Add-ons coming soon
+
+- RxJava 2
+- Support lib
+- Design lib
 
 ## Getting started
 
@@ -94,6 +104,18 @@ public class HomeView extends BaseScreenView<HomeScreen> {
   }
 }
 ``` 
+
+## Samples
+
+[Basic sample](https://github.com/wealthfront/magellan/tree/master/magellan-sample/src/main/java/com/wealthfront/magellan/sample)
+
+![basic-sample-gif](https://cloud.githubusercontent.com/assets/3293136/24590417/4a39bbd8-17a1-11e7-89f9-e20398001341.gif)
+
+Advanced sample (coming soon)
+
+## More
+
+For more, see the [wiki](https://github.com/wealthfront/magellan/wiki).
 
 ## License
 
