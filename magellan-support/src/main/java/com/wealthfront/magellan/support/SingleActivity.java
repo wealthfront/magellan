@@ -9,9 +9,13 @@ import com.wealthfront.magellan.Navigator;
 
 public abstract class SingleActivity extends AppCompatActivity {
 
-  protected static Navigator navigator;
+  private static Navigator navigator;
 
   protected abstract Navigator createNavigator();
+
+  public static Navigator getNavigator() {
+    return navigator;
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
