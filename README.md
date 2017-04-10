@@ -21,12 +21,12 @@ Add the dependencies you need in your `build.gradle`:
 ### Core library
 
 ```gradle
-compile 'com.wealthfront:magellan:0.1.5'
+compile 'com.wealthfront:magellan:1.0.0'
 ```
 ### Optional add-ons
 
 ```gradle
-def magellanVersion = '0.1.5'
+def magellanVersion = '1.0.0'
 compile 'com.wealthfront:magellan:' + magellanVersion
 compile 'com.wealthfront:magellan-support:' + magellanVersion
 compile 'com.wealthfront:magellan-rx:' + magellanVersion
