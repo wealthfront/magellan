@@ -8,7 +8,6 @@
 
 The simplest navigation library for Android.
 
-
 ## Main Features
 
  - Navigation is as simple as calling `goTo(screen)`
@@ -22,55 +21,46 @@ Add the dependencies you need in your `build.gradle`:
 ### Core library
 
 ```gradle
-compile 'com.wealthfront:magellan:0.1.4'
+compile 'com.wealthfront:magellan:0.1.5'
 ```
-### With optional add-ons
+### Optional add-ons
 
 ```gradle
-def magellanVersion = '0.1.4'
+def magellanVersion = '0.1.5'
 compile 'com.wealthfront:magellan:' + magellanVersion
+compile 'com.wealthfront:magellan-support:' + magellanVersion
 compile 'com.wealthfront:magellan-rx:' + magellanVersion
 ```
 
 ### Add-ons coming soon
 
 - RxJava 2
-- Support lib
 - Design lib
 
 ## Getting started
 
-### Minimal implementation in your main activity
+### Single Activity
 
-In your single `MainActivity.java`:
+`MainActivity.java`:
 
 ```java
-  static Navigator navigator = Navigator.with(new HomeScreen()).build();
+public class MainActivity extends SingleActivity {
+
+  @Override
+  protected Navigator createNavigator() {
+    return Navigator.withRoot(new HomeScreen()).build();
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main_activity);
-    
-    navigator.onCreate(this, savedInstanceState);
-  }
-  
-  @Override
-  public void onBackPressed() {
-    if (!navigator.handleBack()) {
-      super.onBackPressed();
-    }
-  }
-  
-  @Override
-  protected void onDestroy() {
-    navigator.onDestroy(this);
-    super.onDestroy();
   }
 
+}
 ```
 
-In your `main_activity.xml`:
+`main_activity.xml`:
 
 ```xml
 <com.wealthfront.magellan.ScreenContainer
@@ -83,7 +73,7 @@ In your `main_activity.xml`:
 
 ### Minimal Screen implementation
 
-`Screen` example `HomeScreen.java`:
+Screen example `HomeScreen.java`:
 
 ```java
 public class HomeScreen extends Screen<HomeView> {
@@ -94,7 +84,7 @@ public class HomeScreen extends Screen<HomeView> {
 }
 ```
 
-Associated `ScreenView` in `HomeView.java`:
+Associated View `HomeView.java`:
 
 ```java
 public class HomeView extends BaseScreenView<HomeScreen> {
@@ -111,9 +101,11 @@ public class HomeView extends BaseScreenView<HomeScreen> {
 
 ![basic-sample-gif](https://cloud.githubusercontent.com/assets/3293136/24590417/4a39bbd8-17a1-11e7-89f9-e20398001341.gif)
 
-Advanced sample (coming soon)
+[Advanced sample](https://github.com/wealthfront/magellan/pull/14) (work in progress)
 
-## More
+![advanced-sample-gif](https://cloud.githubusercontent.com/assets/3293136/24832801/b94ad73a-1c6c-11e7-89dd-2f561af21a04.gif)
+
+## Learn More
 
 For more, see the [wiki](https://github.com/wealthfront/magellan/wiki).
 
