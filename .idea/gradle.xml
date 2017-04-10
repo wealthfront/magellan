@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/magellan-library" />
             <option value="$PROJECT_DIR$/magellan-rx" />
             <option value="$PROJECT_DIR$/magellan-sample" />
+            <option value="$PROJECT_DIR$/magellan-support" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
