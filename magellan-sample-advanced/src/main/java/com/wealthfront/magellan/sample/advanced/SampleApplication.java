@@ -5,12 +5,20 @@ import android.content.Context;
 
 public class SampleApplication extends Application {
 
+  private AppComponent appComponent;
+
   public static SampleApplication app(Context context) {
     return (SampleApplication) context.getApplicationContext();
   }
 
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    appComponent = DaggerAppComponent.create();
+  }
+
   public AppComponent injector() {
-    return DaggerAppComponent.create();
+    return appComponent;
   }
 
 }

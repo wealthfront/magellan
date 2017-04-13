@@ -14,11 +14,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 import static com.wealthfront.magellan.sample.advanced.SampleApplication.app;
+import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
 public class TideDetailsScreen extends RxScreen<TideDetailsView> {
 
@@ -52,8 +51,7 @@ public class TideDetailsScreen extends RxScreen<TideDetailsView> {
   @Override
   protected void onSubscribe(Context context) {
     autoUnsubscribe(noaaApi.getTideInfo(noaaApiId)
-        .subscribeOn(Schedulers.newThread())
-        .observeOn(AndroidSchedulers.mainThread())
+        .observeOn(mainThread())
         .subscribe(new Action1<TideInfo>() {
           @Override
           public void call(TideInfo tideInfo) {
