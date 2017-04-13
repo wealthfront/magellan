@@ -30,12 +30,12 @@ def magellanVersion = '1.0.0'
 compile 'com.wealthfront:magellan:' + magellanVersion
 compile 'com.wealthfront:magellan-support:' + magellanVersion
 compile 'com.wealthfront:magellan-rx:' + magellanVersion
-compile 'com.wealthfront:magellan-rx2:' + magellanVersion
 ```
 
 ### Add-on coming soon
 
-- Design lib (for tabs)
+- Rx 2: already merged, will be in the next release (thanks to @FabianTerhorst).
+- Design lib (for tabs).
 
 ## Getting started
 
