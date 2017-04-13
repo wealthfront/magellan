@@ -1,1 +1,1 @@
-include ':magellan-sample', ':magellan-library', ':magellan-rx', ':magellan-support'
+include ':magellan-sample', ':magellan-library', ':magellan-rx', ':magellan-rx2', ':magellan-support'
