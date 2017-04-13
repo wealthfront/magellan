@@ -1,27 +1,21 @@
 package com.wealthfront.magellan.sample;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.wealthfront.magellan.Navigator;
+import com.wealthfront.magellan.support.SingleActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends SingleActivity {
 
-  Navigator navigator;
+  @Override
+  protected Navigator createNavigator() {
+    return Navigator.withRoot(new HomeScreen()).loggingEnabled(true).build();
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main_activity);
-    navigator = Navigator.withRoot(new HomeScreen()).loggingEnabled(true).build();
-    navigator.onCreate(this, savedInstanceState);
-  }
-
-  @Override
-  public void onBackPressed() {
-    if (!navigator.handleBack()) {
-      super.onBackPressed();
-    }
   }
 
 }

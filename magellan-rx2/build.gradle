@@ -1,15 +1,20 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
+
+group = GROUP
+version = VERSION_NAME
 
 android {
   compileSdkVersion 25
   buildToolsVersion "25.0.1"
+
   defaultConfig {
-    applicationId "com.wealthfront.magellan.sample"
     minSdkVersion 15
     targetSdkVersion 25
     versionCode 1
     versionName "1.0"
+
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
   }
   buildTypes {
     release {
@@ -21,14 +26,14 @@ android {
 apply from: rootProject.file('checkstyle/checkstyle.gradle')
 
 dependencies {
+
   compile fileTree(dir: 'libs', include: ['*.jar'])
-  compile 'com.android.support:appcompat-v7:25.2.0'
   compile project(':magellan-library')
-  compile project(':magellan-support')
+  compile 'io.reactivex.rxjava2:rxjava:2.0.8'
 
   testCompile 'junit:junit:4.12'
-
-  androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-    exclude group: 'com.android.support', module: 'support-annotations'
-  })
+  testCompile 'com.google.truth:truth:0.28'
+  testCompile 'org.mockito:mockito-core:2.0.31-beta'
 }
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
