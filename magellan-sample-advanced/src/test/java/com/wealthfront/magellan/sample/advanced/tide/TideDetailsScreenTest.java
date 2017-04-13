@@ -13,8 +13,8 @@ import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 import rx.Observable;
 
 import static edu.emory.mathcs.backport.java.util.Collections.singletonList;
@@ -48,12 +48,12 @@ public class TideDetailsScreenTest {
   public void onSubscribe_emptyTideInfo() throws Exception {
     when(noaaApi.getTideInfo(FAKE_NOAA_API_ID)).thenReturn(Observable.just(
         TideInfo.with()
-            .data(Collections.emptyList())
+            .data(Collections.<Observation>emptyList())
             .build()));
     screen.onSubscribe(application);
 
     verify(noaaApi).getTideInfo(FAKE_NOAA_API_ID);
-    verify(view, never()).setLatestMeasuredTideHeight(any(BigDecimal.class));
+    verify(view, never()).setTideHeights(any(BigDecimal.class), any(BigDecimal.class), any(BigDecimal.class));
   }
 
   @Test
@@ -66,7 +66,7 @@ public class TideDetailsScreenTest {
     screen.onSubscribe(application);
 
     verify(noaaApi).getTideInfo(FAKE_NOAA_API_ID);
-    verify(view).setLatestMeasuredTideHeight(BigDecimal.ONE);
+    verify(view).setTideHeights(BigDecimal.ONE, BigDecimal.ONE, BigDecimal.ONE);
   }
 
 }
