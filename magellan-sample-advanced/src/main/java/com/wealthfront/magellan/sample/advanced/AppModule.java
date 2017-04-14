@@ -12,6 +12,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+import rx.schedulers.Schedulers;
 
 @Module
 final class AppModule {
@@ -35,7 +36,7 @@ final class AppModule {
   Retrofit provideRetrofit(OkHttpClient httpClient) {
     return new Retrofit.Builder()
         .baseUrl(NOAA_API_BASE_URL)
-        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+        .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
         .addConverterFactory(JacksonConverterFactory.create())
         .client(httpClient)
         .build();
