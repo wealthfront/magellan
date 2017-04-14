@@ -1,15 +1,16 @@
 package com.wealthfront.magellan.sample.advanced.tide;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.wealthfront.magellan.rx.RxScreen;
 import com.wealthfront.magellan.sample.advanced.NoaaApi;
+import com.wealthfront.magellan.sample.advanced.R;
 import com.wealthfront.magellan.sample.advanced.model.Observation;
 import com.wealthfront.magellan.sample.advanced.model.TideInfo;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -51,7 +52,7 @@ public class TideDetailsScreen extends RxScreen<TideDetailsView> {
   }
 
   @Override
-  protected void onSubscribe(Context context) {
+  protected void onSubscribe(final Context context) {
     autoUnsubscribe(noaaApi.getTideInfo(noaaApiId)
         .observeOn(mainThread())
         .subscribe(new Action1<TideInfo>() {
@@ -60,14 +61,21 @@ public class TideDetailsScreen extends RxScreen<TideDetailsView> {
             if (tideInfo.getData() != null && !tideInfo.getData().isEmpty()) {
               List<Observation> observations = tideInfo.getData();
               BigDecimal highestMeasuredTideHeight =
-                  Collections.max(filterOutNullMeasurements(observations), OBSERVATION_COMPARATOR).getVerifiedWaterLevel();
+                  Collections.max(filterOutNullMeasurements(observations), OBSERVATION_COMPARATOR)
+                      .getVerifiedWaterLevel();
               BigDecimal lowestMeasuredTideHeight =
-                  Collections.min(filterOutNullMeasurements(observations), OBSERVATION_COMPARATOR).getVerifiedWaterLevel();
+                  Collections.min(filterOutNullMeasurements(observations), OBSERVATION_COMPARATOR)
+                      .getVerifiedWaterLevel();
               BigDecimal latestMeasuredTideHeight =
                   observations.get(observations.size() - 1).getVerifiedWaterLevel();
               getView().setTideHeights(latestMeasuredTideHeight, lowestMeasuredTideHeight,
                   highestMeasuredTideHeight);
             }
+          }
+        }, new Action1<Throwable>() {
+          @Override
+          public void call(Throwable throwable) {
+            Toast.makeText(context, R.string.cannot_retrieve_tide_info, Toast.LENGTH_SHORT).show();
           }
         }));
   }

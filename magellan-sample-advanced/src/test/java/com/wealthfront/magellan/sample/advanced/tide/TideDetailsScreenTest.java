@@ -36,7 +36,7 @@ public class TideDetailsScreenTest {
   TideDetailsScreen screen;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     initMocks(this);
     screen = new TideDetailsScreen(FAKE_NOAA_API_ID, "San Francisco");
     screen.noaaApi = noaaApi;
@@ -44,7 +44,7 @@ public class TideDetailsScreenTest {
   }
 
   @Test
-  public void onSubscribe_nullTideInfo() throws Exception {
+  public void onSubscribe_nullTideInfo() {
     when(noaaApi.getTideInfo(FAKE_NOAA_API_ID)).thenReturn(Observable.just(
         TideInfo.with()
             .build()));
@@ -55,7 +55,7 @@ public class TideDetailsScreenTest {
   }
 
   @Test
-  public void onSubscribe_emptyTideInfo() throws Exception {
+  public void onSubscribe_emptyTideInfo() {
     when(noaaApi.getTideInfo(FAKE_NOAA_API_ID)).thenReturn(Observable.just(
         TideInfo.with()
             .data(Collections.<Observation>emptyList())
@@ -67,7 +67,7 @@ public class TideDetailsScreenTest {
   }
 
   @Test
-  public void onSubscribe_withTideInfo() throws Exception {
+  public void onSubscribe_withTideInfo() {
     TideInfo tideInfo = TideInfo.with()
         .data(asList(
             Observation.with().verifiedWaterLevel(BigDecimal.TEN).build(),
