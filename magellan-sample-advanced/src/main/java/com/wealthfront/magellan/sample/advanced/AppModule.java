@@ -20,19 +20,19 @@ final class AppModule {
 
   @Provides
   @Singleton
-  static Navigator provideNavigator() {
+  Navigator provideNavigator() {
     return Navigator.withRoot(new TideLocationsScreen()).build();
   }
 
   @Provides
   @Singleton
-  static NoaaApi provideNoaaApi(Retrofit retrofit) {
+  NoaaApi provideNoaaApi(Retrofit retrofit) {
     return retrofit.create(NoaaApi.class);
   }
 
   @Provides
   @Singleton
-  static Retrofit provideRetrofit(OkHttpClient httpClient) {
+  Retrofit provideRetrofit(OkHttpClient httpClient) {
     return new Retrofit.Builder()
         .baseUrl(NOAA_API_BASE_URL)
         .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -43,12 +43,10 @@ final class AppModule {
 
   @Provides
   @Singleton
-  static OkHttpClient provideHttpClient() {
+  OkHttpClient provideHttpClient() {
     HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
     interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
     return new OkHttpClient.Builder().addInterceptor(interceptor).build();
   }
-
-  private AppModule() {}
 
 }

@@ -44,6 +44,17 @@ public class TideDetailsScreenTest {
   }
 
   @Test
+  public void onSubscribe_nullTideInfo() throws Exception {
+    when(noaaApi.getTideInfo(FAKE_NOAA_API_ID)).thenReturn(Observable.just(
+        TideInfo.with()
+            .build()));
+    screen.onSubscribe(application);
+
+    verify(noaaApi).getTideInfo(FAKE_NOAA_API_ID);
+    verify(view, never()).setTideHeights(any(BigDecimal.class), any(BigDecimal.class), any(BigDecimal.class));
+  }
+
+  @Test
   public void onSubscribe_emptyTideInfo() throws Exception {
     when(noaaApi.getTideInfo(FAKE_NOAA_API_ID)).thenReturn(Observable.just(
         TideInfo.with()

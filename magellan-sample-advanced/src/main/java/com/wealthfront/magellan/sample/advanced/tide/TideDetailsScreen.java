@@ -8,6 +8,8 @@ import com.wealthfront.magellan.sample.advanced.model.Observation;
 import com.wealthfront.magellan.sample.advanced.model.TideInfo;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -55,12 +57,12 @@ public class TideDetailsScreen extends RxScreen<TideDetailsView> {
         .subscribe(new Action1<TideInfo>() {
           @Override
           public void call(TideInfo tideInfo) {
-            if (!tideInfo.getData().isEmpty()) {
+            if (tideInfo.getData() != null && !tideInfo.getData().isEmpty()) {
               List<Observation> observations = tideInfo.getData();
               BigDecimal highestMeasuredTideHeight =
-                  Collections.max(observations, OBSERVATION_COMPARATOR).getVerifiedWaterLevel();
+                  Collections.max(filterOutNullMeasurements(observations), OBSERVATION_COMPARATOR).getVerifiedWaterLevel();
               BigDecimal lowestMeasuredTideHeight =
-                  Collections.min(observations, OBSERVATION_COMPARATOR).getVerifiedWaterLevel();
+                  Collections.min(filterOutNullMeasurements(observations), OBSERVATION_COMPARATOR).getVerifiedWaterLevel();
               BigDecimal latestMeasuredTideHeight =
                   observations.get(observations.size() - 1).getVerifiedWaterLevel();
               getView().setTideHeights(latestMeasuredTideHeight, lowestMeasuredTideHeight,
@@ -68,5 +70,15 @@ public class TideDetailsScreen extends RxScreen<TideDetailsView> {
             }
           }
         }));
+  }
+
+  private static List<Observation> filterOutNullMeasurements(List<Observation> listWithNulls) {
+    List<Observation> result = new ArrayList<>();
+    for (Observation item : listWithNulls) {
+      if (item.getVerifiedWaterLevel() != null) {
+        result.add(item);
+      }
+    }
+    return result;
   }
 }
