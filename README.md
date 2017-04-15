@@ -101,7 +101,7 @@ public class HomeView extends BaseScreenView<HomeScreen> {
 
 ![basic-sample-gif](https://cloud.githubusercontent.com/assets/3293136/24590417/4a39bbd8-17a1-11e7-89f9-e20398001341.gif)
 
-[Advanced sample](https://github.com/wealthfront/magellan/pull/14) (work in progress)
+[Advanced sample](https://github.com/wealthfront/magellan/tree/master/magellan-sample-advanced) using Dependency Injection, Retrofit, and Rx.
 
 ![advanced-sample-gif](https://cloud.githubusercontent.com/assets/3293136/24832801/b94ad73a-1c6c-11e7-89dd-2f561af21a04.gif)
 
