@@ -5,7 +5,9 @@
       <module fileurl="file://$PROJECT_DIR$/magellan.iml" filepath="$PROJECT_DIR$/magellan.iml" />
       <module fileurl="file://$PROJECT_DIR$/magellan-library/magellan-library.iml" filepath="$PROJECT_DIR$/magellan-library/magellan-library.iml" />
       <module fileurl="file://$PROJECT_DIR$/magellan-rx/magellan-rx.iml" filepath="$PROJECT_DIR$/magellan-rx/magellan-rx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/magellan-rx2/magellan-rx2.iml" filepath="$PROJECT_DIR$/magellan-rx2/magellan-rx2.iml" />
       <module fileurl="file://$PROJECT_DIR$/magellan-sample/magellan-sample.iml" filepath="$PROJECT_DIR$/magellan-sample/magellan-sample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/magellan-sample-advanced/magellan-sample-advanced.iml" filepath="$PROJECT_DIR$/magellan-sample-advanced/magellan-sample-advanced.iml" />
       <module fileurl="file://$PROJECT_DIR$/magellan-support/magellan-support.iml" filepath="$PROJECT_DIR$/magellan-support/magellan-support.iml" />
     </modules>
   </component>
