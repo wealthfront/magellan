@@ -88,7 +88,7 @@ Associated View `HomeView.java`:
 
 ```java
 public class HomeView extends BaseScreenView<HomeScreen> {
-  public InviteView(Context context) {
+  public HomeView(Context context) {
     super(context);
     inflate(getContext(), R.layout.home, this);
   }
