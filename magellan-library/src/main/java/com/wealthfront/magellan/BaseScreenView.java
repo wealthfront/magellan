@@ -24,4 +24,7 @@ public class BaseScreenView<S extends Screen> extends FrameLayout implements Scr
     return screen;
   }
 
+  public View inflate(int resource, ViewGroup root) {
+    inflate(getContext(), resource, root);
+  }
 }
