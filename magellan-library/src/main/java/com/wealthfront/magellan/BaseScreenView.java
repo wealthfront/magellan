@@ -1,6 +1,7 @@
 package com.wealthfront.magellan;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.content.Context;
 import android.widget.FrameLayout;
 
