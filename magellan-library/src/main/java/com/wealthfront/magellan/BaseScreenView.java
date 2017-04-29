@@ -1,7 +1,6 @@
 package com.wealthfront.magellan;
 
 import android.view.View;
-import android.view.ViewGroup;
 import android.content.Context;
 import android.widget.FrameLayout;
 
@@ -26,7 +25,7 @@ public class BaseScreenView<S extends Screen> extends FrameLayout implements Scr
     return screen;
   }
 
-  public View inflate(int resource, ViewGroup root) {
-    return inflate(getContext(), resource, root);
+  public View inflate(int resource) {
+    return inflate(getContext(), resource, this);
   }
 }
