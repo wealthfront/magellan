@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.sample.advanced.tide;
 
 import com.wealthfront.magellan.sample.advanced.NoaaApi;
+import com.wealthfront.magellan.sample.advanced.R;
 import com.wealthfront.magellan.sample.advanced.model.Observation;
 import com.wealthfront.magellan.sample.advanced.model.TideInfo;
 
@@ -38,7 +39,7 @@ public class TideDetailsScreenTest {
   @Before
   public void setUp() {
     initMocks(this);
-    screen = new TideDetailsScreen(FAKE_NOAA_API_ID, "San Francisco");
+    screen = new TideDetailsScreen(FAKE_NOAA_API_ID, R.color.san_francisco, "San Francisco");
     screen.noaaApi = noaaApi;
     screen.setView(view);
   }
