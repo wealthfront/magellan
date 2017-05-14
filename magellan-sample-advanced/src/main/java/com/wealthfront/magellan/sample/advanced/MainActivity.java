@@ -1,20 +1,10 @@
 package com.wealthfront.magellan.sample.advanced;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
-import android.support.annotation.ColorRes;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -26,10 +16,8 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 
-import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.wealthfront.magellan.sample.advanced.SampleApplication.app;
-import static rx.schedulers.Schedulers.start;
 
 public class MainActivity extends AppCompatActivity implements NavigationListener {
 
