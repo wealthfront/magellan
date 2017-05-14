@@ -26,4 +26,5 @@ class ActionBarHiddenScreen extends Screen<ActionBarHiddenView> {
   protected int getActionBarColorRes() {
     return R.color.colorPrimary;
   }
+
 }
