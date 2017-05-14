@@ -4,4 +4,16 @@
   <color name="colorPrimaryDark">#303F9F</color>
   <color name="colorAccent">#FF4081</color>
   <color name="water">#2A7EFF</color>
+
+  <color name="san_francisco">#ba16a1</color>
+  <color name="seattle">#389154</color>
+  <color name="anchorage">#129ea8</color>
+  <color name="galveston">#b56803</color>
+  <color name="miami">#0371ad</color>
+  <color name="charleston">#60ad03</color>
+  <color name="chesapeake_bay">#7fad03</color>
+  <color name="new_york">#656066</color>
+  <color name="boston">#6b3975</color>
+  <color name="washington_dc">#930505</color>
+
 </resources>

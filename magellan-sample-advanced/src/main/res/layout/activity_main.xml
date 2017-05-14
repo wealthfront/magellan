@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.wealthfront.magellan.ScreenContainer
-    android:id="@+id/magellan_container"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.wealthfront.magellan.sample.advanced.MainActivity"
-    />
+    >
+
+  <android.support.v7.widget.Toolbar
+      android:id="@+id/toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:background="?attr/colorPrimary"
+      app:titleTextColor="@android:color/white"
+      app:navigationIcon="@mipmap/magellan_icon"
+      android:theme="@style/ActionBar"
+      />
+
+  <com.wealthfront.magellan.ScreenContainer
+      android:id="@+id/magellan_container"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      />
+
+</LinearLayout>

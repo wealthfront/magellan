@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.sample.advanced.tide;
 
 import android.content.Context;
+import android.support.annotation.ColorRes;
 import android.widget.Toast;
 
 import com.wealthfront.magellan.rx.RxScreen;
@@ -34,10 +35,12 @@ public class TideDetailsScreen extends RxScreen<TideDetailsView> {
   @Inject NoaaApi noaaApi;
   private final String tideLocationName;
   int noaaApiId;
+  @ColorRes int actionBarColorId;
 
-  TideDetailsScreen(int noaaApiId, String tideLocationName) {
+  TideDetailsScreen(int noaaApiId, @ColorRes int colorId, String tideLocationName) {
     this.noaaApiId = noaaApiId;
     this.tideLocationName = tideLocationName;
+    actionBarColorId = colorId;
   }
 
   @Override
@@ -49,6 +52,11 @@ public class TideDetailsScreen extends RxScreen<TideDetailsView> {
   @Override
   public String getTitle(Context context) {
     return tideLocationName;
+  }
+
+  @Override
+  protected int getActionBarColorRes() {
+    return actionBarColorId;
   }
 
   @Override
