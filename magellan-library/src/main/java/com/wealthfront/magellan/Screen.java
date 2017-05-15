@@ -204,7 +204,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     activity.setTitle(titleResId);
   }
 
-  protected final void setTitle(String title) {
+  protected final void setTitle(CharSequence title) {
     activity.setTitle(title);
   }
 
