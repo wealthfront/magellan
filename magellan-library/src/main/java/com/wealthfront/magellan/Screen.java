@@ -204,6 +204,10 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     activity.setTitle(titleResId);
   }
 
+  protected final void setTitle(CharSequence title) {
+    activity.setTitle(title);
+  }
+
   /**
    * Display a {@link Dialog} using a {@link DialogCreator}. The dialog will be automatically recreated and redisplayed
    * on rotation.
