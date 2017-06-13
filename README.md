@@ -1,10 +1,10 @@
-<img src="assets/magellan_icon_web_hi_res_512.png" width="200" align="right" hspace="20" />
-
 [![Build Status](https://travis-ci.org/wealthfront/magellan.svg?branch=master)](https://travis-ci.org/wealthfront/magellan)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.wealthfront/magellan/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.wealthfront/magellan)
 [![Javadocs](https://www.javadoc.io/badge/com.wealthfront/magellan.svg)](https://www.javadoc.io/doc/com.wealthfront/magellan)
 
 # Magellan
+
+<img src="assets/magellan_icon_web_hi_res_512.png" width="200" align="right" />
 
 The simplest navigation library for Android.
 
@@ -88,9 +88,9 @@ Associated View `HomeView.java`:
 
 ```java
 public class HomeView extends BaseScreenView<HomeScreen> {
-  public InviteView(Context context) {
+  public HomeView(Context context) {
     super(context);
-    inflate(getContext(), R.layout.home, this);
+    inflate(R.layout.home);
   }
 }
 ``` 
@@ -101,7 +101,7 @@ public class HomeView extends BaseScreenView<HomeScreen> {
 
 ![basic-sample-gif](https://cloud.githubusercontent.com/assets/3293136/24590417/4a39bbd8-17a1-11e7-89f9-e20398001341.gif)
 
-[Advanced sample](https://github.com/wealthfront/magellan/pull/14) (work in progress)
+[Advanced sample](https://github.com/wealthfront/magellan/tree/master/magellan-sample-advanced) using Dependency Injection, Retrofit, and Rx.
 
 ![advanced-sample-gif](https://cloud.githubusercontent.com/assets/3293136/24832801/b94ad73a-1c6c-11e7-89dd-2f561af21a04.gif)
 
