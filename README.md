@@ -35,7 +35,7 @@ compile 'com.wealthfront:magellan-rx:' + magellanVersion
 ### Add-on coming soon
 
 - Rx 2: already merged, will be in the next release (thanks to @FabianTerhorst).
-- Design lib (for tabs).
+- Design lib (for tabs), in the meantime, [here is the code to implement tabs](https://github.com/wealthfront/magellan/wiki/Implementing-Tabs-or-other-%22Screens-into-a-Screen%22-UI%2C-using-ScreenGroup).
 
 ## Getting started
 
