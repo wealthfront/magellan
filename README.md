@@ -105,6 +105,8 @@ public class HomeView extends BaseScreenView<HomeScreen> {
 
 ![advanced-sample-gif](https://cloud.githubusercontent.com/assets/3293136/24832801/b94ad73a-1c6c-11e7-89dd-2f561af21a04.gif)
 
+[Kotlin sample](https://github.com/jmfayard/android-kotlin-magellan) (courtesey of @jmfayard)
+
 ## Learn More
 
 For more, see the [wiki](https://github.com/wealthfront/magellan/wiki).
