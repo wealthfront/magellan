@@ -2,11 +2,10 @@ package com.wealthfront.magellan.sample.advanced.tide;
 
 import android.content.Context;
 import android.support.annotation.DrawableRes;
-
-import com.wealthfront.magellan.Screen;
 import com.wealthfront.magellan.sample.advanced.R;
+import com.wealthfront.magellan.sample.advanced.base.RefWatcherScreen;
 
-public class TideLocationsScreen extends Screen<TideLocationsView> {
+public class TideLocationsScreen extends RefWatcherScreen<TideLocationsView> {
 
   public enum TideLocations {
     SAN_FRANCISCO(9414290, R.drawable.san_francisco, "San Francisco"),

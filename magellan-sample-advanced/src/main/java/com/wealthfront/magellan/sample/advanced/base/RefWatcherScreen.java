@@ -9,11 +9,9 @@ import com.wealthfront.magellan.sample.advanced.SampleApplication;
 
 public abstract class RefWatcherScreen<V extends ViewGroup & ScreenView> extends RxScreen<V> {
 
-  public final void onHide(Context context) {
-    super.onHide(context);
+  @Override protected void onUnsubscribe(Context context) {
     if (BuildConfig.DEBUG) {
       SampleApplication.app(context).refWatcher().watch(this);
     }
   }
-
 }
