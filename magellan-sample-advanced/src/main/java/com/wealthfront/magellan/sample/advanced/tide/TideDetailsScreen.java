@@ -2,22 +2,17 @@ package com.wealthfront.magellan.sample.advanced.tide;
 
 import android.content.Context;
 import android.widget.Toast;
-
-import com.wealthfront.magellan.rx.RxScreen;
 import com.wealthfront.magellan.sample.advanced.NoaaApi;
 import com.wealthfront.magellan.sample.advanced.R;
 import com.wealthfront.magellan.sample.advanced.base.RefWatcherScreen;
 import com.wealthfront.magellan.sample.advanced.model.Observation;
 import com.wealthfront.magellan.sample.advanced.model.TideInfo;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 import javax.inject.Inject;
-
 import rx.functions.Action1;
 
 import static com.wealthfront.magellan.sample.advanced.SampleApplication.app;
