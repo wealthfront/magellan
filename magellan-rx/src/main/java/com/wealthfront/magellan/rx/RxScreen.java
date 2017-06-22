@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.rx;
 
 import android.content.Context;
+import android.support.annotation.CallSuper;
 import android.view.ViewGroup;
 
 import com.wealthfront.magellan.Screen;
@@ -27,8 +28,8 @@ public abstract class RxScreen<V extends ViewGroup & ScreenView> extends Screen<
 
   protected void onUnsubscribe(Context context) {}
 
-  @Override
-  protected final void onHide(Context context) {
+  @CallSuper
+  public void onHide(Context context) {
     onUnsubscribe(context);
     subscriptions.unsubscribe();
   }

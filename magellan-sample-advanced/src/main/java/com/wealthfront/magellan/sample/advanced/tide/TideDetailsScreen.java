@@ -6,6 +6,7 @@ import android.widget.Toast;
 import com.wealthfront.magellan.rx.RxScreen;
 import com.wealthfront.magellan.sample.advanced.NoaaApi;
 import com.wealthfront.magellan.sample.advanced.R;
+import com.wealthfront.magellan.sample.advanced.base.RefWatcherScreen;
 import com.wealthfront.magellan.sample.advanced.model.Observation;
 import com.wealthfront.magellan.sample.advanced.model.TideInfo;
 
@@ -22,7 +23,7 @@ import rx.functions.Action1;
 import static com.wealthfront.magellan.sample.advanced.SampleApplication.app;
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
-public class TideDetailsScreen extends RxScreen<TideDetailsView> {
+public class TideDetailsScreen extends RefWatcherScreen<TideDetailsView> {
 
   public static final Comparator<Observation> OBSERVATION_COMPARATOR = new Comparator<Observation>() {
     @Override
