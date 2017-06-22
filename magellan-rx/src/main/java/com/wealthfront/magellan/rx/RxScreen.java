@@ -2,10 +2,8 @@ package com.wealthfront.magellan.rx;
 
 import android.content.Context;
 import android.view.ViewGroup;
-
 import com.wealthfront.magellan.Screen;
 import com.wealthfront.magellan.ScreenView;
-
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
