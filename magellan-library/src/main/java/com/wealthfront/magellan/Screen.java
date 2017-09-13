@@ -200,8 +200,18 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     return true;
   }
 
+  /**
+   * Allow screen to set the title with resource id after screen is shown
+   */
   protected final void setTitle(@StringRes int titleResId) {
     activity.setTitle(titleResId);
+  }
+
+  /**
+   * Allow screen to set the title after screen is shown
+   */
+  protected final void setTitle(CharSequence titleText) {
+    activity.setTitle(titleText);
   }
 
   /**
