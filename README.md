@@ -27,9 +27,9 @@ compile 'com.wealthfront:magellan:1.0.0'
 
 ```gradle
 def magellanVersion = '1.0.0'
-compile 'com.wealthfront:magellan:' + magellanVersion
-compile 'com.wealthfront:magellan-support:' + magellanVersion
-compile 'com.wealthfront:magellan-rx:' + magellanVersion
+compile "com.wealthfront:magellan:$magellanVersion"
+compile "com.wealthfront:magellan-support:$magellanVersion"
+compile "com.wealthfront:magellan-rx:$magellanVersion"
 ```
 
 ### Add-on coming soon
