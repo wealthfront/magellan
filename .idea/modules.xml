@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/magellan.iml" filepath="$PROJECT_DIR$/magellan.iml" />
+      <module fileurl="file://$PROJECT_DIR$/magellan-kotlin/magellan-kotlin.iml" filepath="$PROJECT_DIR$/magellan-kotlin/magellan-kotlin.iml" />
       <module fileurl="file://$PROJECT_DIR$/magellan-library/magellan-library.iml" filepath="$PROJECT_DIR$/magellan-library/magellan-library.iml" />
       <module fileurl="file://$PROJECT_DIR$/magellan-rx/magellan-rx.iml" filepath="$PROJECT_DIR$/magellan-rx/magellan-rx.iml" />
       <module fileurl="file://$PROJECT_DIR$/magellan-rx2/magellan-rx2.iml" filepath="$PROJECT_DIR$/magellan-rx2/magellan-rx2.iml" />
