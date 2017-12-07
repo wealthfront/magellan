@@ -3,9 +3,12 @@ package com.wealthfront.magellan;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.ColorRes;
+import android.support.annotation.RequiresApi;
 import android.support.annotation.StringRes;
 import android.support.annotation.VisibleForTesting;
 import android.util.SparseArray;
@@ -256,4 +259,30 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     checkState(activity == null, reason);
   }
 
+  public void requestPermission(String[] permissions, int requestCode) {
+    Preconditions.checkNotNull(activity);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      activity.requestPermissions(permissions, requestCode);
+      getNavigator().registerForPermissionResultWithId(requestCode, this);
+    }
+  }
+
+  protected final void startActivityForResult(Intent intent, int requestCode) {
+    startActivityForResult(intent, requestCode, null);
+  }
+
+  protected final void startActivityForResult(Intent intent, int requestCode, Bundle bundle) {
+    Preconditions.checkNotNull(activity);
+    if (bundle != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+      activity.startActivityForResult(intent, requestCode, bundle);
+    } else {
+      activity.startActivityForResult(intent, requestCode);
+    }
+    getNavigator().registerForActivityResult(requestCode, this);
+  }
+
+  protected void onRequestPermissionsResult(int requestCode, String[] permissions,
+      int[] grantResults) { }
+
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) { }
 }

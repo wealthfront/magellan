@@ -1,6 +1,7 @@
 package com.wealthfront.magellan;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -15,7 +16,9 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.os.Looper.getMainLooper;
 import static com.wealthfront.magellan.Direction.BACKWARD;
@@ -43,6 +46,8 @@ public class Navigator implements BackHandler {
   private View ghostView; // keep track of the disappearing view we are animating
   private boolean loggingEnabled;
   private EventTracker eventTracker;
+  private final Map<Integer, Screen> requestPermissionResultMap = new HashMap<>();
+  private final Map<Integer, Screen> activityResultMap = new HashMap<>();
 
   public static Builder withRoot(Screen root) {
     return new Builder(root);
@@ -677,6 +682,37 @@ public class Navigator implements BackHandler {
   public Navigator overrideTransition(Transition overridingTransition) {
     this.overridingTransition = overridingTransition;
     return this;
+  }
+
+  public void registerForPermissionResultWithId(int requestCode, Screen screen) {
+    Preconditions.checkArgument(
+        !requestPermissionResultMap.containsKey(requestCode),
+        "Key already exists");
+    requestPermissionResultMap.put(requestCode, screen);
+  }
+
+  public void onRequestPermissionsResult(int requestCode, String[] permissions,
+      int[] grantResults) {
+    if (requestPermissionResultMap.containsKey(requestCode)) {
+      Screen screen = requestPermissionResultMap.get(requestCode);
+      requestPermissionResultMap.remove(requestCode);
+      screen.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+  }
+
+  void registerForActivityResult(int requestCode, Screen vScreen) {
+    Preconditions.checkArgument(
+        !activityResultMap.containsKey(requestCode),
+        "Key already exists");
+    activityResultMap.put(requestCode, vScreen);
+  }
+
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (activityResultMap.containsKey(requestCode)) {
+      Screen screen = activityResultMap.get(requestCode);
+      activityResultMap.remove(requestCode);
+      screen.onActivityResult(requestCode, resultCode, data);
+    }
   }
 
   /**
