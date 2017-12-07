@@ -1,6 +1,8 @@
 package com.wealthfront.magellan.support;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -73,4 +75,13 @@ public abstract class SingleActivity extends AppCompatActivity {
     return super.onPrepareOptionsMenu(menu);
   }
 
+  @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+      @NonNull int[] grantResults) {
+    navigator.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+  }
+
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    navigator.onActivityResult(requestCode, resultCode, data);
+  }
 }
