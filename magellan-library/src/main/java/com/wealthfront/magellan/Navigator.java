@@ -443,6 +443,19 @@ public class Navigator implements BackHandler {
    * @param screen  screen to navigate back to through this Navigator's back stack
    */
   public void goBackTo(final Screen screen) {
+    goBackTo(screen, GO);
+  }
+
+  /**
+   * Navigates from the current screen back to the Screen parameter wherever it is in this Navigator's back stack.
+   * Screens in between the current screen and the Screen parameter on the back stack are removed. If the Screen
+   * parameter is not present in this Navigator's back stack, this method is equivalent to
+   * {@link #goBackToRoot(NavigationType) goBackToRoot(magellanType)}
+   *
+   * @param screen  screen to navigate back to through this Navigator's back stack
+   * @param magellanType  determines how the magellan event is animated
+   */
+  public void goBackTo(final Screen screen, NavigationType magellanType) {
     navigate(new HistoryRewriter() {
       @Override
       public void rewriteHistory(Deque<Screen> history) {
@@ -454,7 +467,7 @@ public class Navigator implements BackHandler {
           history.pop();
         }
       }
-    }, GO, BACKWARD);
+    }, magellanType, BACKWARD);
   }
 
   /**
