@@ -528,12 +528,13 @@ public class Navigator implements BackHandler {
     backStackOperation.run();
     View to = showCurrentScreen(direction);
     currentScreen().onResume(activity);
-    animateAndRemove(from, to, navType, direction);
+    animateAndRemove(from, to, navType, direction, currentScreen());
     reportEvent(navType, direction);
   }
 
-  private void animateAndRemove(
-      final View from, final View to, final NavigationType navType, final Direction direction) {
+  private void animateAndRemove(final View from, final View to, final NavigationType navType, final Direction direction,
+                                final Screen currentScreen) {
+    currentScreen.onTransitionStarted();
     ghostView = from;
     final Transition transitionToUse = overridingTransition != null ? overridingTransition : transition;
     overridingTransition = null;
@@ -549,6 +550,7 @@ public class Navigator implements BackHandler {
                 // Only clear the ghost if it's the same as the view we just removed
                 ghostView = null;
               }
+              currentScreen.onTransitionFinished();
               container.setInterceptTouchEvents(false);
             }
           }

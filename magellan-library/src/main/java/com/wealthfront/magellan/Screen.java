@@ -12,6 +12,9 @@ import android.util.SparseArray;
 import android.view.Menu;
 import android.view.ViewGroup;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import static com.wealthfront.magellan.Preconditions.checkState;
 
 /**
@@ -46,6 +49,8 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
   private boolean dialogIsShowing;
   private Dialog dialog;
   private SparseArray<Parcelable> viewState;
+  private boolean transitionFinished = false;
+  private Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
 
   /**
    * @return the View associated with this Screen or null if we are not in between {@link #onShow(Context)} and\
@@ -126,6 +131,25 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
       dialog.setOnDismissListener(null);
       dialog.dismiss();
       dialog = null;
+    }
+  }
+
+  void onTransitionStarted() {
+    transitionFinished = false;
+  }
+
+  void onTransitionFinished() {
+    transitionFinished = true;
+    while (transitionFinishedListeners.size() > 0) {
+      transitionFinishedListeners.remove().onTransitionFinished();
+    }
+  }
+
+  protected void whenTransitionFinished(TransitionFinishedListener listener) {
+    if (transitionFinished) {
+      listener.onTransitionFinished();
+    } else {
+      transitionFinishedListeners.add(listener);
     }
   }
 
@@ -254,6 +278,12 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
 
   protected final void checkOnCreateNotYetCalled(String reason) {
     checkState(activity == null, reason);
+  }
+
+  public interface TransitionFinishedListener {
+
+    void onTransitionFinished();
+
   }
 
 }
