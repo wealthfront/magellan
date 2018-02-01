@@ -134,11 +134,11 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     }
   }
 
-  void onTransitionStarted() {
+  protected void onTransitionStarted() {
     transitionFinished = false;
   }
 
-  void onTransitionFinished() {
+  protected void onTransitionFinished() {
     transitionFinished = true;
     while (transitionFinishedListeners.size() > 0) {
       transitionFinishedListeners.remove().onTransitionFinished();

@@ -22,6 +22,8 @@ import org.robolectric.annotation.Config;
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -106,6 +108,28 @@ public class ScreenTest {
     verify(view).saveHierarchyState(isA(SparseArray.class));
     verify(view).restoreHierarchyState(sparseArrayCaptor.capture());
     assertThat(((Bundle) sparseArrayCaptor.getValue().get(42)).getString("key")).isEqualTo("value");
+  }
+
+  @Test
+  public void whenTransitionFinished() {
+    final Screen.TransitionFinishedListener listener = mock(Screen.TransitionFinishedListener.class);
+    screen.onTransitionStarted();
+
+    screen.whenTransitionFinished(listener);
+    verify(listener, never()).onTransitionFinished();
+
+    screen.onTransitionFinished();
+    verify(listener).onTransitionFinished();
+  }
+
+  @Test
+  public void whenTransitionFinished_afterTransitionFinished() {
+    final Screen.TransitionFinishedListener listener = mock(Screen.TransitionFinishedListener.class);
+    screen.onTransitionStarted();
+    screen.onTransitionFinished();
+
+    screen.whenTransitionFinished(listener);
+    verify(listener).onTransitionFinished();
   }
 
   private static class DummyScreen extends Screen<BaseScreenView<DummyScreen>> {
