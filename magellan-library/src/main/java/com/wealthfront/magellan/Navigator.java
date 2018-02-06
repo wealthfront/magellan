@@ -275,9 +275,9 @@ public class Navigator implements BackHandler {
   /**
    * Navigates to the screen on top of the back stack after the HistoryRewriter has rewritten the back stack history.
    *
-   * Does not animate during the magellan.
+   * Does not animate during navigation.
    *
-   * @param historyRewriter  manipulates the back stack during magellan
+   * @param historyRewriter  manipulates the back stack during navigation
    */
   public void navigate(final HistoryRewriter historyRewriter) {
     navigate(historyRewriter, NO_ANIM);
@@ -286,9 +286,9 @@ public class Navigator implements BackHandler {
   /**
    * Navigates to the screen on top of the back stack after the HistoryRewriter has rewritten the back stack history.
    *
-   * Animates the magellan according to the NavigationType parameter.
+   * Animates the navigation according to the NavigationType parameter.
    *
-   * @param historyRewriter  manipulates the back stack during magellan
+   * @param historyRewriter  manipulates the back stack during navigation
    * @param navType  controls how the new screen is displayed to the user
    */
   public void navigate(final HistoryRewriter historyRewriter, NavigationType navType) {
@@ -303,12 +303,12 @@ public class Navigator implements BackHandler {
   /**
    * Navigates to the screen on top of the back stack after the HistoryRewriter has rewritten the back stack history.
    *
-   * Animates the magellan according to the NavigationType parameter, in the direction specified by the Direction
+   * Animates the navigation according to the NavigationType parameter, in the direction specified by the Direction
    * parameter.
    *
-   * @param historyRewriter  manipulates the back stack during magellan
+   * @param historyRewriter  manipulates the back stack during navigation
    * @param navType  controls how the new screen is displayed to the user
-   * @param direction  controls the direction in which the new screen moves in and old screen moves out during magellan
+   * @param direction  controls the direction in which the new screen moves in and old screen moves out during navigation
    */
   public void navigate(final HistoryRewriter historyRewriter, NavigationType navType, Direction direction) {
     navigate(direction, navType, new Runnable() {
@@ -320,7 +320,7 @@ public class Navigator implements BackHandler {
   }
 
   /**
-   * Replaces screen on top of the back stack with the new screen. When magellan completes, previous screen on top of
+   * Replaces screen on top of the back stack with the new screen. When navigation completes, previous screen on top of
    * the back stack will have been removed, and the Screen parameter will be the new top screen on the back stack.
    *
    * @param screen  new top screen on back stack
@@ -330,7 +330,7 @@ public class Navigator implements BackHandler {
   }
 
   /**
-   * Replaces screen on top of the back stack with the new screen without animation. When magellan completes,
+   * Replaces screen on top of the back stack with the new screen without animation. When navigation completes,
    * previous screen on top of the back stack will have been removed, and the Screen parameter will be the new top
    * screen on the back stack.
    *
@@ -341,7 +341,7 @@ public class Navigator implements BackHandler {
   }
 
   /**
-   * Shows new screen by animating screen to slide up from bottom of container to cover previous screen. When magellan
+   * Shows new screen by animating screen to slide up from bottom of container to cover previous screen. When navigation
    * completes, the Screen parameter will be on top of this Navigator's back stack.
    *
    * If the current screen is already being shown, as determined by {@code currentScreen().equals(screen)}, this method
@@ -354,7 +354,7 @@ public class Navigator implements BackHandler {
   }
 
   /**
-   * Shows new screen without animating the magellan event. When magellan completes, the Screen parameter will be
+   * Shows new screen without animating the navigation event. When navigation completes, the Screen parameter will be
    * on top of this Navigator's back stack.
    *
    * If the current screen is already being shown, this method will do nothing.
@@ -396,7 +396,7 @@ public class Navigator implements BackHandler {
 
   /**
    * Navigates to the Screen parameter. Animates current top screen on this Navigator's back stack out to the left and
-   * slides the Screen parameter screen in from the right. At the end of the magellan event, the Screen parameter will
+   * slides the Screen parameter screen in from the right. At the end of the navigation event, the Screen parameter will
    * be the top screen on this Navigator's back stack.
    *
    * @param screen  new top screen for this Navigator's back stack
@@ -421,9 +421,9 @@ public class Navigator implements BackHandler {
    * intermediate screen in this Navigator's back stack along the way. The current screen animates out of the view
    * according to the animation specified by the NavigationType parameter.
    *
-   * @param magellanType  determines how the magellan event is animated
+   * @param navigationType  determines how the navigation event is animated
    */
-  public void goBackToRoot(NavigationType magellanType) {
+  public void goBackToRoot(NavigationType navigationType) {
     navigate(new HistoryRewriter() {
       @Override
       public void rewriteHistory(Deque<Screen> history) {
@@ -431,7 +431,7 @@ public class Navigator implements BackHandler {
           history.pop();
         }
       }
-    }, magellanType, BACKWARD);
+    }, navigationType, BACKWARD);
   }
 
   /**
@@ -443,6 +443,19 @@ public class Navigator implements BackHandler {
    * @param screen  screen to navigate back to through this Navigator's back stack
    */
   public void goBackTo(final Screen screen) {
+    goBackTo(screen, GO);
+  }
+
+  /**
+   * Navigates from the current screen back to the Screen parameter wherever it is in this Navigator's back stack.
+   * Screens in between the current screen and the Screen parameter on the back stack are removed. If the Screen
+   * parameter is not present in this Navigator's back stack, this method is equivalent to
+   * {@link #goBackToRoot(NavigationType) goBackToRoot(navigationType)}
+   *
+   * @param screen  screen to navigate back to through this Navigator's back stack
+   * @param navigationType  determines how the navigation event is animated
+   */
+  public void goBackTo(final Screen screen, NavigationType navigationType) {
     navigate(new HistoryRewriter() {
       @Override
       public void rewriteHistory(Deque<Screen> history) {
@@ -454,7 +467,7 @@ public class Navigator implements BackHandler {
           history.pop();
         }
       }
-    }, GO, BACKWARD);
+    }, navigationType, BACKWARD);
   }
 
   /**
@@ -476,9 +489,9 @@ public class Navigator implements BackHandler {
    * {@link #goBackToRoot(NavigationType) goBackToRoot(NavigationType)}
    *
    * @param screen  screen to navigate back to through this Navigator's back stack
-   * @param magellanType  determines how the magellan event is animated
+   * @param navigationType  determines how the navigation event is animated
    */
-  public void goBackBefore(final Screen screen, NavigationType magellanType) {
+  public void goBackBefore(final Screen screen, NavigationType navigationType) {
     navigate(new HistoryRewriter() {
       @Override
       public void rewriteHistory(Deque<Screen> history) {
@@ -489,7 +502,7 @@ public class Navigator implements BackHandler {
           }
         }
       }
-    }, magellanType, BACKWARD);
+    }, navigationType, BACKWARD);
   }
 
   private void replace(final Screen screen, NavigationType navType) {
@@ -657,7 +670,7 @@ public class Navigator implements BackHandler {
   }
 
   /**
-   * Returns a human-readable string describing the magellan events that happened recently
+   * Returns a human-readable string describing the navigation events that happened recently
    * (including the state of the backStack at the time).
    * How many events are kept can be configured using {@link Builder#maxEventsTracked(int)} (the default is 50).
    *
@@ -668,11 +681,11 @@ public class Navigator implements BackHandler {
   }
 
   /**
-   * Sets a specific transition to use during the next magellan event. The overriding transition will only be used
-   * once, subsequent magellan events will use the default transition specified during construction of this Navigator.
+   * Sets a specific transition to use during the next navigation event. The overriding transition will only be used
+   * once, subsequent navigation events will use the default transition specified during construction of this Navigator.
    *
    * @param overridingTransition  transition to override default
-   * @return this Navigator that will use the Transition param for its next magellan event
+   * @return this Navigator that will use the Transition param for its next navigation event
    */
   public Navigator overrideTransition(Transition overridingTransition) {
     this.overridingTransition = overridingTransition;
