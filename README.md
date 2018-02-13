@@ -90,7 +90,7 @@ Associated View `HomeView.java`:
 public class HomeView extends BaseScreenView<HomeScreen> {
   public HomeView(Context context) {
     super(context);
-    inflate(R.layout.home);
+    inflate(context, R.layout.home, this);
   }
 }
 ``` 
