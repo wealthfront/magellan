@@ -65,7 +65,7 @@ public class MainActivity extends SingleActivity {
 ```xml
 <com.wealthfront.magellan.ScreenContainer
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@id/magellan_container"
+    android:id="@+id/magellan_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     /> 
