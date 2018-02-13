@@ -54,13 +54,13 @@ public class MainActivity extends SingleActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.main_activity);
+    setContentView(R.layout.activity_main);
   }
 
 }
 ```
 
-`main_activity.xml`:
+`activity_main.xml`:
 
 ```xml
 <com.wealthfront.magellan.ScreenContainer
