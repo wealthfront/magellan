@@ -54,18 +54,18 @@ public class MainActivity extends SingleActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.main_activity);
+    setContentView(R.layout.activity_main);
   }
 
 }
 ```
 
-`main_activity.xml`:
+`activity_main.xml`:
 
 ```xml
 <com.wealthfront.magellan.ScreenContainer
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@id/magellan_container"
+    android:id="@+id/magellan_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     /> 
@@ -90,7 +90,7 @@ Associated View `HomeView.java`:
 public class HomeView extends BaseScreenView<HomeScreen> {
   public HomeView(Context context) {
     super(context);
-    inflate(R.layout.home);
+    inflate(context, R.layout.home, this);
   }
 }
 ``` 
