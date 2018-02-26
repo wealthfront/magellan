@@ -494,14 +494,17 @@ public class NavigatorTest {
   @Test
   public void setLeaveTransition() {
     navigator.onCreate(activity, null);
-    Transition leaveTransition = new NoAnimationTransition();
-    when(screen.getLeaveTransition()).thenReturn(new NoAnimationTransition());
 
     navigator.goTo(screen);
 
     verify(screen).setLeaveTransition(isA(NoAnimationTransition.class));
+  }
 
-    reset(screen);
+  @Test
+  public void setLeaveTransition_overrideTransition() {
+    navigator.onCreate(activity, null);
+    Transition leaveTransition = new NoAnimationTransition();
+
     navigator.overrideTransition(leaveTransition);
     navigator.goTo(screen);
 
