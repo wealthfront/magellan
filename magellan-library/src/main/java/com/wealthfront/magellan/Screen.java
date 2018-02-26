@@ -49,7 +49,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
   private boolean dialogIsShowing;
   private Dialog dialog;
   private SparseArray<Parcelable> viewState;
-  private boolean transitionFinished = false;
+  private boolean transitionFinished = true;
   private Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
 
   /**

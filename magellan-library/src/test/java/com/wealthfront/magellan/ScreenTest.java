@@ -24,6 +24,7 @@ import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -120,6 +121,23 @@ public class ScreenTest {
 
     screen.onTransitionFinished();
     verify(listener).onTransitionFinished();
+
+    reset(listener);
+    screen.onTransitionStarted();
+    screen.onTransitionFinished();
+    verify(listener, never()).onTransitionFinished();
+  }
+
+  @Test
+  public void whenTransitionFinished_beforeTransitionStarted() {
+    final Screen.TransitionFinishedListener listener = mock(Screen.TransitionFinishedListener.class);
+    screen.whenTransitionFinished(listener);
+    verify(listener).onTransitionFinished();
+
+    reset(listener);
+    screen.onTransitionStarted();
+    screen.onTransitionFinished();
+    verify(listener, never()).onTransitionFinished();
   }
 
   @Test
