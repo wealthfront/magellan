@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.wealthfront.magellan.transitions.NoAnimationTransition;
+import com.wealthfront.magellan.transitions.Transition;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -488,6 +489,37 @@ public class NavigatorTest {
         "GO BACKWARD - Backstack: root > screen > [screen2]\n" +
         "SHOW FORWARD - Backstack: root > screen > screen2 > [screen3]\n"
     );
+  }
+
+  @Test
+  public void setLeaveTransition() {
+    navigator.onCreate(activity, null);
+    Transition leaveTransition = new NoAnimationTransition();
+    when(screen.getLeaveTransition()).thenReturn(new NoAnimationTransition());
+
+    navigator.goTo(screen);
+
+    verify(screen).setLeaveTransition(isA(NoAnimationTransition.class));
+
+    reset(screen);
+    navigator.overrideTransition(leaveTransition);
+    navigator.goTo(screen);
+
+    verify(screen).setLeaveTransition(leaveTransition);
+  }
+
+  @Test
+  public void useLeaveTransition() {
+    navigator.onCreate(activity, null);
+    Transition leaveTransition = spy(new NoAnimationTransition());
+    when(screen.getLeaveTransition()).thenReturn(leaveTransition);
+
+    navigator.goTo(screen);
+    navigator.goBack();
+
+    verify(leaveTransition).animate(isA(View.class), isA(View.class), isA(NavigationType.class), Direction.BACKWARD,
+        isA(Transition.Callback.class));
+    verify(screen).setLeaveTransition(null);
   }
 
   private static class NavigatorActivity extends Activity implements NavigationListener {

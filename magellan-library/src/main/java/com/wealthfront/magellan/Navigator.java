@@ -548,8 +548,18 @@ public class Navigator implements BackHandler {
   private void animateAndRemove(
       final View from, final View to, final NavigationType navType, final Direction direction) {
     ghostView = from;
-    final Transition transitionToUse = overridingTransition != null ? overridingTransition : transition;
-    overridingTransition = null;
+    Transition currentTransition = transition;
+    if (overridingTransition != null) {
+      currentTransition = overridingTransition;
+      overridingTransition = null;
+    } else if (direction.equals(Direction.BACKWARD) && currentScreen().getLeaveTransition() != null) {
+      currentTransition = currentScreen().getLeaveTransition();
+      currentScreen().setLeaveTransition(null);
+    }
+    if (direction.equals(Direction.FORWARD)) {
+      currentScreen().setLeaveTransition(currentTransition);
+    }
+    final Transition transitionToUse = currentTransition;
     whenMeasured(to, new Views.OnMeasured() {
       @Override
       public void onMeasured() {

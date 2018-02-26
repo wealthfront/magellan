@@ -12,6 +12,8 @@ import android.util.SparseArray;
 import android.view.Menu;
 import android.view.ViewGroup;
 
+import com.wealthfront.magellan.transitions.Transition;
+
 import static com.wealthfront.magellan.Preconditions.checkState;
 
 /**
@@ -46,6 +48,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
   private boolean dialogIsShowing;
   private Dialog dialog;
   private SparseArray<Parcelable> viewState;
+  private Transition leaveTransition;
 
   /**
    * @return the View associated with this Screen or null if we are not in between {@link #onShow(Context)} and\
@@ -127,6 +130,14 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
       dialog.dismiss();
       dialog = null;
     }
+  }
+
+  final Transition getLeaveTransition() {
+    return leaveTransition;
+  }
+
+  final void setLeaveTransition(Transition leaveTransition) {
+    this.leaveTransition = leaveTransition;
   }
 
   /**
