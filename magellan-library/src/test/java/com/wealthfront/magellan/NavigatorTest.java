@@ -511,20 +511,6 @@ public class NavigatorTest {
     verify(screen).setLeaveTransition(leaveTransition);
   }
 
-  @Test
-  public void useLeaveTransition() {
-    navigator.onCreate(activity, null);
-    Transition leaveTransition = spy(new NoAnimationTransition());
-    when(screen.getLeaveTransition()).thenReturn(leaveTransition);
-
-    navigator.goTo(screen);
-    navigator.goBack();
-
-    verify(leaveTransition).animate(isA(View.class), isA(View.class), isA(NavigationType.class), Direction.BACKWARD,
-        isA(Transition.Callback.class));
-    verify(screen).setLeaveTransition(null);
-  }
-
   private static class NavigatorActivity extends Activity implements NavigationListener {
 
     ActionBarConfig actionBarConfig;

@@ -132,11 +132,11 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     }
   }
 
-  final Transition getLeaveTransition() {
+  Transition getLeaveTransition() {
     return leaveTransition;
   }
 
-  final void setLeaveTransition(Transition leaveTransition) {
+  void setLeaveTransition(Transition leaveTransition) {
     this.leaveTransition = leaveTransition;
   }
 
