@@ -4,14 +4,14 @@ group = GROUP
 version = VERSION_NAME
 
 android {
-  compileSdkVersion 25
-  buildToolsVersion "25.0.1"
+  compileSdkVersion 27
+  buildToolsVersion "27.0.2"
 
   resourcePrefix 'magellan_'
 
   defaultConfig {
     minSdkVersion 15
-    targetSdkVersion 25
+    targetSdkVersion 27
     versionCode 1
     versionName "1.0"
 
@@ -29,13 +29,14 @@ apply from: rootProject.file('checkstyle/checkstyle.gradle')
 
 dependencies {
 
-  compile fileTree(dir: 'libs', include: ['*.jar'])
-  compile 'com.android.support:support-annotations:25.3.1'
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation 'com.android.support:support-annotations:27.0.2'
 
-  testCompile 'junit:junit:4.12'
-  testCompile 'com.google.truth:truth:0.28'
-  testCompile 'org.mockito:mockito-core:2.0.31-beta'
-  testCompile('org.robolectric:robolectric:3.1-rc1') {
+  testImplementation 'junit:junit:4.12'
+  testImplementation 'com.google.truth:truth:0.39'
+  testImplementation 'org.mockito:mockito-core:2.15.4'
+  testImplementation('org.robolectric:robolectric:3.7.1') {
+
     exclude group: 'commons-logging', module: 'commons-logging'
     exclude group: 'org.apache.httpcomponents', module: 'httpclient'
   }

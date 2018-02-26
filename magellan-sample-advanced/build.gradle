@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion 25
-  buildToolsVersion "25.0.1"
+  compileSdkVersion 27
+  buildToolsVersion "27.0.2"
   defaultConfig {
     applicationId "com.wealthfront.magellan.sample"
     minSdkVersion 15
-    targetSdkVersion 25
+    targetSdkVersion 27
     versionCode 1
     versionName "1.0"
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -29,30 +29,30 @@ android {
 apply from: rootProject.file('checkstyle/checkstyle.gradle')
 
 dependencies {
-  compile fileTree(dir: 'libs', include: ['*.jar'])
-  compile 'com.android.support:appcompat-v7:25.2.0'
-  compile project(':magellan-library')
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation 'com.android.support:appcompat-v7:27.0.2'
+  implementation project(':magellan-library')
 
-  compile 'com.jakewharton:butterknife:8.5.1'
-  annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+  implementation 'com.jakewharton:butterknife:8.8.1'
+  annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
-  compile 'com.google.dagger:dagger:2.10'
-  annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
+  implementation 'com.google.dagger:dagger:2.14.1'
+  annotationProcessor 'com.google.dagger:dagger-compiler:2.14.1'
 
-  compile project(path: ':magellan-rx')
+  implementation project(path: ':magellan-rx')
 
-  compile 'com.squareup.retrofit2:retrofit:2.2.0'
-  compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
-  compile 'com.squareup.retrofit2:converter-jackson:2.2.0'
-  compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+  implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+  implementation 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+  implementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
+  implementation 'com.squareup.okhttp3:logging-interceptor:3.6.0'
 
-  compile 'io.reactivex:rxandroid:1.2.1'
+  implementation 'io.reactivex:rxandroid:1.2.1'
 
-  testCompile 'junit:junit:4.12'
-  testCompile "org.mockito:mockito-core:2.7.21"
-  testCompile "org.robolectric:robolectric:3.3.2"
+  testImplementation 'junit:junit:4.12'
+  testImplementation 'org.mockito:mockito-core:2.15.4'
+  testImplementation 'org.robolectric:robolectric:3.7.1'
 
-  androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+  androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
 }
