@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.StringRes;
 import android.util.SparseArray;
 import android.view.View;
 
@@ -32,6 +33,7 @@ public class ScreenTest {
 
   @Mock BaseScreenView<DummyScreen> view;
   @Mock Dialog dialog;
+  @Mock Activity activity;
   @Captor ArgumentCaptor<SparseArray<Parcelable>> sparseArrayCaptor;
   private DummyScreen screen;
 
@@ -39,6 +41,7 @@ public class ScreenTest {
   public void setUp() {
     initMocks(this);
     screen = new DummyScreen(view);
+    screen.setActivity(activity);
   }
 
   @Test
@@ -83,6 +86,20 @@ public class ScreenTest {
 
     verify(dialog).setOnDismissListener(null);
     verify(dialog).dismiss();
+  }
+
+  @Test
+  public void setTitle_resId() {
+    @StringRes int stringRes = 5;
+    screen.setTitle(stringRes);
+    verify(activity).setTitle(stringRes);
+  }
+
+  @Test
+  public void setTitle() {
+    String testTitle = "Title Test";
+    screen.setTitle(testTitle);
+    verify(activity).setTitle(testTitle);
   }
 
   @Test
