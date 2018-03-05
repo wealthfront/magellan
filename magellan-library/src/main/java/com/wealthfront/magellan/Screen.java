@@ -134,17 +134,35 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     }
   }
 
-  protected void onTransitionStarted() {
+  final void transitionStarted() {
     transitionFinished = false;
+    onTransitionStarted();
   }
 
-  protected void onTransitionFinished() {
+  /**
+   * Override this to run code when the screen starts its navigation transition in or out. The screen is partially
+   * visible and animating, and its views are measured.
+   */
+  protected void onTransitionStarted() {}
+
+  final void transitionFinished() {
     transitionFinished = true;
     while (transitionFinishedListeners.size() > 0) {
       transitionFinishedListeners.remove().onTransitionFinished();
     }
+    onTransitionFinished();
   }
 
+  /**
+   * Override this to run code when the screen finishes its navigation transition in. The screen is now fully visible.
+   */
+  protected void onTransitionFinished() {}
+
+  /**
+   * Adds a {@link TransitionFinishedListener} to be called when the navigation transition into the screen is finished,
+   * or immediately if the screen is not currently transitioning.
+   * @param listener The listener to be called when the transition is finished or immediately.
+   */
   protected void whenTransitionFinished(TransitionFinishedListener listener) {
     if (transitionFinished) {
       listener.onTransitionFinished();
@@ -280,8 +298,14 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     checkState(activity == null, reason);
   }
 
+  /**
+   * A simple interface with a method to be run when the screen's transition is finished.
+   */
   public interface TransitionFinishedListener {
 
+    /**
+     * The method to run when the screen's transition is finished.
+     */
     void onTransitionFinished();
 
   }

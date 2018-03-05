@@ -114,17 +114,17 @@ public class ScreenTest {
   @Test
   public void whenTransitionFinished() {
     final Screen.TransitionFinishedListener listener = mock(Screen.TransitionFinishedListener.class);
-    screen.onTransitionStarted();
+    screen.transitionStarted();
 
     screen.whenTransitionFinished(listener);
     verify(listener, never()).onTransitionFinished();
 
-    screen.onTransitionFinished();
+    screen.transitionFinished();
     verify(listener).onTransitionFinished();
 
     reset(listener);
-    screen.onTransitionStarted();
-    screen.onTransitionFinished();
+    screen.transitionStarted();
+    screen.transitionFinished();
     verify(listener, never()).onTransitionFinished();
   }
 
@@ -135,16 +135,16 @@ public class ScreenTest {
     verify(listener).onTransitionFinished();
 
     reset(listener);
-    screen.onTransitionStarted();
-    screen.onTransitionFinished();
+    screen.transitionStarted();
+    screen.transitionFinished();
     verify(listener, never()).onTransitionFinished();
   }
 
   @Test
   public void whenTransitionFinished_afterTransitionFinished() {
     final Screen.TransitionFinishedListener listener = mock(Screen.TransitionFinishedListener.class);
-    screen.onTransitionStarted();
-    screen.onTransitionFinished();
+    screen.transitionStarted();
+    screen.transitionFinished();
 
     screen.whenTransitionFinished(listener);
     verify(listener).onTransitionFinished();
