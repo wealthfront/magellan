@@ -261,6 +261,19 @@ public class NavigatorTest {
     assertThat(navigator.currentScreen()).isEqualTo(screen);
   }
 
+  @Test
+  public void invalidateTitle() {
+    navigator.onCreate(activity, null);
+
+    when(screen.getTitle(activity)).thenReturn("Old Screen Title");
+    navigator.goTo(screen);
+    verify(activity).setTitle("Old Screen Title");
+
+    when(screen.getTitle(activity)).thenReturn("New Screen Title");
+    navigator.invalidateTitle();
+    verify(activity).setTitle("New Screen Title");
+  }
+
   @Test(expected = IllegalArgumentException.class)
   public void goBackBefore_screenNotInHistory() {
     navigator.onCreate(activity, null);
