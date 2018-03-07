@@ -634,6 +634,11 @@ public class Navigator implements BackHandler {
     }
   }
 
+  public void invalidateTitle() {
+    Screen currentScreen = currentScreen();
+    activity.setTitle(currentScreen.getTitle(activity));
+  }
+
   private boolean sameActivity(Activity activity) {
     return this.activity == activity;
   }
