@@ -528,19 +528,18 @@ public class Navigator implements BackHandler {
     backStackOperation.run();
     View to = showCurrentScreen(direction);
     currentScreen().onResume(activity);
-    animateAndRemove(from, to, navType, direction, currentScreen());
+    animateAndRemove(from, to, navType, direction);
     reportEvent(navType, direction);
   }
 
-  private void animateAndRemove(final View from, final View to, final NavigationType navType, final Direction direction,
-                                final Screen currentScreen) {
+  private void animateAndRemove(final View from, final View to, final NavigationType navType, final Direction direction) {
     ghostView = from;
     final Transition transitionToUse = overridingTransition != null ? overridingTransition : transition;
     overridingTransition = null;
     whenMeasured(to, new Views.OnMeasured() {
       @Override
       public void onMeasured() {
-        currentScreen.transitionStarted();
+        currentScreen().transitionStarted();
         transitionToUse.animate(from, to, navType, direction, new Transition.Callback() {
           @Override
           public void onAnimationEnd() {
@@ -550,7 +549,7 @@ public class Navigator implements BackHandler {
                 // Only clear the ghost if it's the same as the view we just removed
                 ghostView = null;
               }
-              currentScreen.transitionFinished();
+              currentScreen().transitionFinished();
               container.setInterceptTouchEvents(false);
             }
           }

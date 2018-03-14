@@ -49,8 +49,8 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
   private boolean dialogIsShowing;
   private Dialog dialog;
   private SparseArray<Parcelable> viewState;
-  private boolean transitionFinished = true;
-  private Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
+  private boolean isTransitioning;
+  private Queue<TransitionFinishedListener> transitionFinishedListeners;
 
   /**
    * @return the View associated with this Screen or null if we are not in between {@link #onShow(Context)} and\
@@ -135,28 +135,18 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
   }
 
   final void transitionStarted() {
-    transitionFinished = false;
-    onTransitionStarted();
+    isTransitioning = true;
+    if (transitionFinishedListeners != null) {
+      transitionFinishedListeners.clear();
+    }
   }
-
-  /**
-   * Override this to run code when the screen starts its navigation transition in or out. The screen is partially
-   * visible and animating, and its views are measured.
-   */
-  protected void onTransitionStarted() {}
 
   final void transitionFinished() {
-    transitionFinished = true;
-    while (transitionFinishedListeners.size() > 0) {
+    isTransitioning = false;
+    while (transitionFinishedListeners != null && transitionFinishedListeners.size() > 0) {
       transitionFinishedListeners.remove().onTransitionFinished();
     }
-    onTransitionFinished();
   }
-
-  /**
-   * Override this to run code when the screen finishes its navigation transition in. The screen is now fully visible.
-   */
-  protected void onTransitionFinished() {}
 
   /**
    * Adds a {@link TransitionFinishedListener} to be called when the navigation transition into the screen is finished,
@@ -164,10 +154,13 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
    * @param listener The listener to be called when the transition is finished or immediately.
    */
   protected void whenTransitionFinished(TransitionFinishedListener listener) {
-    if (transitionFinished) {
-      listener.onTransitionFinished();
-    } else {
+    if (isTransitioning) {
+      if (transitionFinishedListeners == null) {
+        transitionFinishedListeners = new LinkedList<>();
+      }
       transitionFinishedListeners.add(listener);
+    } else {
+      listener.onTransitionFinished();
     }
   }
 
