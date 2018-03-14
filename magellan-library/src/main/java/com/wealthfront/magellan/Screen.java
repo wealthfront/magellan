@@ -153,7 +153,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
    * or immediately if the screen is not currently transitioning.
    * @param listener The listener to be called when the transition is finished or immediately.
    */
-  protected void whenTransitionFinished(TransitionFinishedListener listener) {
+  final void whenTransitionFinished(TransitionFinishedListener listener) {
     if (isTransitioning) {
       if (transitionFinishedListeners == null) {
         transitionFinishedListeners = new LinkedList<>();
