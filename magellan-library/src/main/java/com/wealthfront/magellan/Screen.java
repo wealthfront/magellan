@@ -50,7 +50,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
   private Dialog dialog;
   private SparseArray<Parcelable> viewState;
   private boolean isTransitioning;
-  private Queue<TransitionFinishedListener> transitionFinishedListeners;
+  private Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
 
   /**
    * @return the View associated with this Screen or null if we are not in between {@link #onShow(Context)} and\
@@ -134,16 +134,14 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     }
   }
 
-  final void transitionStarted() {
+  void transitionStarted() {
     isTransitioning = true;
-    if (transitionFinishedListeners != null) {
-      transitionFinishedListeners.clear();
-    }
+    transitionFinishedListeners.clear();
   }
 
-  final void transitionFinished() {
+  void transitionFinished() {
     isTransitioning = false;
-    while (transitionFinishedListeners != null && transitionFinishedListeners.size() > 0) {
+    while (transitionFinishedListeners.size() > 0) {
       transitionFinishedListeners.remove().onTransitionFinished();
     }
   }
@@ -155,9 +153,6 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
    */
   protected final void whenTransitionFinished(TransitionFinishedListener listener) {
     if (isTransitioning) {
-      if (transitionFinishedListeners == null) {
-        transitionFinishedListeners = new LinkedList<>();
-      }
       transitionFinishedListeners.add(listener);
     } else {
       listener.onTransitionFinished();
