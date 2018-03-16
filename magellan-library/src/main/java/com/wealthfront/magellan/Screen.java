@@ -12,6 +12,9 @@ import android.util.SparseArray;
 import android.view.Menu;
 import android.view.ViewGroup;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import static com.wealthfront.magellan.Preconditions.checkState;
 
 /**
@@ -46,6 +49,8 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
   private boolean dialogIsShowing;
   private Dialog dialog;
   private SparseArray<Parcelable> viewState;
+  private boolean isTransitioning;
+  private Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
 
   /**
    * @return the View associated with this Screen or null if we are not in between {@link #onShow(Context)} and\
@@ -126,6 +131,31 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
       dialog.setOnDismissListener(null);
       dialog.dismiss();
       dialog = null;
+    }
+  }
+
+  void transitionStarted() {
+    isTransitioning = true;
+    transitionFinishedListeners.clear();
+  }
+
+  void transitionFinished() {
+    isTransitioning = false;
+    while (transitionFinishedListeners.size() > 0) {
+      transitionFinishedListeners.remove().onTransitionFinished();
+    }
+  }
+
+  /**
+   * Adds a {@link TransitionFinishedListener} to be called when the navigation transition into the screen is finished,
+   * or immediately if the screen is not currently transitioning.
+   * @param listener The listener to be called when the transition is finished or immediately.
+   */
+  protected final void whenTransitionFinished(TransitionFinishedListener listener) {
+    if (isTransitioning) {
+      transitionFinishedListeners.add(listener);
+    } else {
+      listener.onTransitionFinished();
     }
   }
 
@@ -254,6 +284,18 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
 
   protected final void checkOnCreateNotYetCalled(String reason) {
     checkState(activity == null, reason);
+  }
+
+  /**
+   * A simple interface with a method to be run when the screen's transition is finished.
+   */
+  public interface TransitionFinishedListener {
+
+    /**
+     * The method to run when the screen's transition is finished.
+     */
+    void onTransitionFinished();
+
   }
 
 }
