@@ -12,6 +12,9 @@ import android.util.SparseArray;
 import android.view.Menu;
 import android.view.ViewGroup;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import static com.wealthfront.magellan.Preconditions.checkState;
 
 /**
@@ -51,7 +54,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
    * @return the View associated with this Screen or null if we are not in between {@link #onShow(Context)} and\
    * {@link #onHide(Context)}.
    */
-  public final V getView() {
+  public final @Nullable V getView() {
     return view;
   }
 
@@ -59,7 +62,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
    * @return the Activity associated with this Screen or null if we are not in between {@link #onShow(Context)} and\
    * {@link #onHide(Context)}.
    */
-  public final Activity getActivity() {
+  public final @Nullable Activity getActivity() {
     return activity;
   }
 
@@ -74,7 +77,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     return dialog;
   }
 
-  final void restore(Bundle savedInstanceState) {
+  final void restore(@Nullable Bundle savedInstanceState) {
     if (viewState == null && savedInstanceState != null) {
       viewState = savedInstanceState.getSparseParcelableArray(VIEW_STATE + hashCode());
     }
@@ -143,7 +146,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     return true;
   }
 
-  public String getTitle(Context context) {
+  public String getTitle(@Nonnull Context context) {
     return "";
   }
 
@@ -155,40 +158,40 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     return DEFAULT_ACTION_BAR_COLOR_RES;
   }
 
-  protected void onRestore(Bundle savedInstanceState) {}
+  protected void onRestore(@Nullable Bundle savedInstanceState) {}
 
   /**
    * The only mandatory method to implement in a Screen. <b>Must</b> create and return a new instance of the View
    * to be displayed for this Screen.
    */
-  protected abstract V createView(Context context);
+  protected abstract V createView(@Nonnull Context context);
 
   /**
    * Override this method to dynamically change the menu.
    */
-  protected void onUpdateMenu(Menu menu) {}
+  protected void onUpdateMenu(@Nonnull Menu menu) {}
 
   /**
    * Called when the Activity is resumed and when the Screen is shown.
    */
-  protected void onResume(Context context) {}
+  protected void onResume(@Nonnull Context context) {}
 
   /**
    * Called when the Screen in shown (including on rotation).
    */
-  protected void onShow(Context context) {}
+  protected void onShow(@Nonnull Context context) {}
 
-  protected void onSave(Bundle outState) {}
+  protected void onSave(@Nonnull Bundle outState) {}
 
   /**
    * Called when the Activity is paused and when the Screen is hidden.
    */
-  protected void onPause(Context context) {}
+  protected void onPause(@Nonnull Context context) {}
 
   /**
    * Called when the Screen is hidden (including on rotation).
    */
-  protected void onHide(Context context) {}
+  protected void onHide(@Nonnull Context context) {}
 
   /**
    * Finish the Activity, and therefore quit the app in a Single Activity Architecture.
@@ -212,7 +215,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
    * Display a {@link Dialog} using a {@link DialogCreator}. The dialog will be automatically recreated and redisplayed
    * on rotation.
    */
-  protected final void showDialog(DialogCreator dialogCreator) {
+  protected final void showDialog(@Nonnull DialogCreator dialogCreator) {
     this.dialogCreator = dialogCreator;
     this.dialogIsShowing = true;
     createDialog();
@@ -223,6 +226,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
    *
    * @return true if the method consumed the back event, false otherwise.
    */
+  @Nonnull
   @Override
   public boolean handleBack() {
     return false;

@@ -1,19 +1,21 @@
 package com.wealthfront.magellan;
 
+import javax.annotation.Nullable;
+
 final class Preconditions {
 
   private Preconditions() {
     throw new AssertionError();
   }
 
-  static <T> T checkNotNull(T reference) {
+  static <T> T checkNotNull(@Nullable T reference) {
     if (reference == null) {
       throw new NullPointerException();
     }
     return reference;
   }
 
-  static <T> T checkNotNull(T reference, String message) {
+  static <T> T checkNotNull(@Nullable T reference, String message) {
     if (reference == null) {
       throw new NullPointerException(message);
     }

@@ -4,6 +4,8 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
 
+import javax.annotation.Nonnull;
+
 class EvictingQueue<E> implements Iterable<E> {
 
   private final Deque<E> queue;
@@ -21,6 +23,7 @@ class EvictingQueue<E> implements Iterable<E> {
     queue.add(e);
   }
 
+  @Nonnull
   @Override
   public Iterator<E> iterator() {
     return queue.iterator();

@@ -17,6 +17,8 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import static android.os.Looper.getMainLooper;
 import static com.wealthfront.magellan.Direction.BACKWARD;
 import static com.wealthfront.magellan.Direction.FORWARD;
@@ -83,7 +85,7 @@ public class Navigator implements BackHandler {
    * @param savedInstanceState  state to restore from previously destroyed activity
    * @throws IllegalStateException when no {@link ScreenContainer} view present in hierarchy with view id of container
    */
-  public void onCreate(Activity activity, Bundle savedInstanceState) {
+  public void onCreate(Activity activity, @Nullable Bundle savedInstanceState) {
     this.activity = activity;
     container = (ScreenContainer) activity.findViewById(R.id.magellan_container);
     checkState(container != null, "There must be a ScreenContainer whose id is R.id.magellan_container in the view hierarchy");

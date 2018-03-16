@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 /**
  * A Screen containing a list of screens. Useful to display reusable Screens that can be either in another one or on
  * it's own.
@@ -45,7 +47,7 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
   }
 
   @Override
-  protected void onRestore(Bundle savedInstanceState) {
+  protected void onRestore(@Nullable Bundle savedInstanceState) {
     for (Screen screen : screens) {
       screen.onRestore(savedInstanceState);
     }
