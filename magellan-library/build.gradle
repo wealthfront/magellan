@@ -40,7 +40,6 @@ dependencies {
     exclude group: 'commons-logging', module: 'commons-logging'
     exclude group: 'org.apache.httpcomponents', module: 'httpclient'
   }
-
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
