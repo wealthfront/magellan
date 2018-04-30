@@ -29,7 +29,7 @@ dependencies {
 
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   implementation project(':magellan-library')
-  implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
+  implementation 'io.reactivex.rxjava2:rxjava:2.1.13'
 
   testImplementation "junit:junit:${JUNIT_VERSION}"
   testImplementation "com.google.truth:truth:${TRUTH_VERSION}"
