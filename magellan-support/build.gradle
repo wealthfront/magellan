@@ -21,6 +21,10 @@ android {
       minifyEnabled false
     }
   }
+
+  lintOptions {
+    disable 'StaticFieldLeak'
+  }
 }
 
 apply from: rootProject.file('checkstyle/checkstyle.gradle')

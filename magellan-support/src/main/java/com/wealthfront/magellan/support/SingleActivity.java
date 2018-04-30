@@ -34,6 +34,7 @@ public abstract class SingleActivity extends AppCompatActivity {
   @Override
   public void onSaveInstanceState(Bundle outState) {
     navigator.onSaveInstanceState(outState);
+    super.onSaveInstanceState(outState);
   }
 
   @Override
