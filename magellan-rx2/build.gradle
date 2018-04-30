@@ -5,7 +5,7 @@ version = VERSION_NAME
 
 android {
   compileSdkVersion 27
-  buildToolsVersion "27.0.2"
+  buildToolsVersion BUILD_TOOLS_VERSION
 
   defaultConfig {
     minSdkVersion 15
@@ -31,9 +31,9 @@ dependencies {
   implementation project(':magellan-library')
   implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
 
-  testImplementation 'junit:junit:4.12'
-  testImplementation 'com.google.truth:truth:0.39'
-  testImplementation 'org.mockito:mockito-core:2.15.0'
+  testImplementation "junit:junit:${JUNIT_VERSION}"
+  testImplementation "com.google.truth:truth:${TRUTH_VERSION}"
+  testImplementation "org.mockito:mockito-core:${MOCKITO_VERSION}"
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

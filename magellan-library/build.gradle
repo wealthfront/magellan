@@ -5,7 +5,7 @@ version = VERSION_NAME
 
 android {
   compileSdkVersion 27
-  buildToolsVersion "27.0.2"
+  buildToolsVersion BUILD_TOOLS_VERSION
 
   resourcePrefix 'magellan_'
 
@@ -30,11 +30,11 @@ apply from: rootProject.file('checkstyle/checkstyle.gradle')
 dependencies {
 
   implementation fileTree(dir: 'libs', include: ['*.jar'])
-  implementation 'com.android.support:support-annotations:27.0.2'
+  implementation "com.android.support:support-annotations:${SUPPORT_LIBRARY_VERSION}"
 
-  testImplementation 'junit:junit:4.12'
-  testImplementation 'com.google.truth:truth:0.39'
-  testImplementation 'org.mockito:mockito-core:2.15.0'
+  testImplementation "junit:junit:${JUNIT_VERSION}"
+  testImplementation "com.google.truth:truth:${TRUTH_VERSION}"
+  testImplementation "org.mockito:mockito-core:${MOCKITO_VERSION}"
   testImplementation('org.robolectric:robolectric:3.7.1') {
 
     exclude group: 'commons-logging', module: 'commons-logging'

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
   compileSdkVersion 27
-  buildToolsVersion "27.0.2"
+  buildToolsVersion BUILD_TOOLS_VERSION
   defaultConfig {
     applicationId "com.wealthfront.magellan.sample"
     minSdkVersion 15
@@ -22,11 +22,11 @@ apply from: rootProject.file('checkstyle/checkstyle.gradle')
 
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
-  implementation 'com.android.support:appcompat-v7:27.0.2'
+  implementation "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
   implementation project(':magellan-library')
   implementation project(':magellan-support')
 
-  testImplementation 'junit:junit:4.12'
+  testImplementation "junit:junit:${JUNIT_VERSION}"
 
   androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
     exclude group: 'com.android.support', module: 'support-annotations'
