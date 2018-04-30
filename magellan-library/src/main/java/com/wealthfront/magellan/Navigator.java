@@ -552,7 +552,6 @@ public class Navigator implements BackHandler {
     whenMeasured(to, new Views.OnMeasured() {
       @Override
       public void onMeasured() {
-        currentScreen().transitionStarted();
         transitionToUse.animate(from, to, navType, direction, new Transition.Callback() {
           @Override
           public void onAnimationEnd() {
@@ -576,6 +575,7 @@ public class Navigator implements BackHandler {
   }
 
   private View showCurrentScreen(Direction direction) {
+    currentScreen().transitionStarted();
     Screen currentScreen = currentScreen();
     View view = currentScreen.recreateView(activity, this);
     container.addView(view, direction == FORWARD ? container.getChildCount() : 0);
