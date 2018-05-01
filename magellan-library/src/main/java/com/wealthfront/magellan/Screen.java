@@ -147,8 +147,8 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
   }
 
   /**
-   * Adds a {@link TransitionFinishedListener} to be called when the navigation transition into the screen is finished,
-   * or immediately if the screen is not currently transitioning.
+   * Adds a {@link TransitionFinishedListener} to be called when the navigation transition into this screen is finished,
+   * or immediately if the transition is already finished.
    * @param listener The listener to be called when the transition is finished or immediately.
    */
   protected final void whenTransitionFinished(TransitionFinishedListener listener) {
@@ -287,12 +287,13 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
   }
 
   /**
-   * A simple interface with a method to be run when the screen's transition is finished.
+   * A simple interface with a method to be run when the transition to this screen is finished, or immediately if it's
+   * already finished.
    */
   public interface TransitionFinishedListener {
 
     /**
-     * The method to run when the screen's transition is finished.
+     * The method to run when the transition to this screen is finished.
      */
     void onTransitionFinished();
 
