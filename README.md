@@ -20,22 +20,23 @@ Add the dependencies you need in your `build.gradle`:
 
 ### Core library
 
-```gradle
-compile 'com.wealthfront:magellan:1.0.0'
+```groovy
+implementation 'com.wealthfront:magellan:1.1.0'
 ```
 ### Optional add-ons
 
-```gradle
-def magellanVersion = '1.0.0'
-compile 'com.wealthfront:magellan:' + magellanVersion
-compile 'com.wealthfront:magellan-support:' + magellanVersion
-compile 'com.wealthfront:magellan-rx:' + magellanVersion
+```groovy
+def magellanVersion = '1.1.0'
+implementation "com.wealthfront:magellan:${magellanVersion}"
+implementation "com.wealthfront:magellan-support:${magellanVersion}"
+implementation "com.wealthfront:magellan-rx:${magellanVersion}"
+implementation "com.wealthfront:magellan-rx2:${magellanVersion}"
 ```
 
-### Add-on coming soon
+### Coming soon
 
-- Rx 2: already merged, will be in the next release (thanks to @FabianTerhorst).
-- Design lib (for tabs), in the meantime, [here is the code to implement tabs](https://github.com/wealthfront/magellan/wiki/Implementing-Tabs-or-other-%22Screens-into-a-Screen%22-UI%2C-using-ScreenGroup).
+- Better Kotlin interoperability
+- Design lib add-on (for tabs), in the meantime, [here is the code to implement tabs](https://github.com/wealthfront/magellan/wiki/Implementing-Tabs-or-other-%22Screens-into-a-Screen%22-UI%2C-using-ScreenGroup).
 
 ## Getting started
 
