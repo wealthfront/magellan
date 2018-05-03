@@ -119,7 +119,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
   }
 
   final void createDialog() {
-    if (dialogCreator != null && dialogIsShowing) {
+    if (dialogCreator != null && dialogIsShowing && activity != null) {
       dialog = dialogCreator.createDialog(activity);
       dialog.show();
     }

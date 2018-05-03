@@ -28,6 +28,7 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.robolectric.Robolectric.setupActivity;
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
@@ -63,6 +64,7 @@ public class ScreenTest {
 
   @Test
   public void createDialog() {
+    screen.setActivity(setupActivity(Activity.class));
     screen.showDialog(new DialogCreator() {
       @Override
       public Dialog createDialog(Activity activity) {
@@ -72,10 +74,16 @@ public class ScreenTest {
     screen.createDialog();
 
     verify(dialog, times(2)).show();
+
+    // No-op interaction between onShow() and onHide()
+    screen.setActivity(null);
+    screen.createDialog();
+    verify(dialog, times(2)).show();
   }
 
   @Test
   public void destroyDialog() {
+    screen.setActivity(setupActivity(Activity.class));
     screen.showDialog(new DialogCreator() {
       @Override
       public Dialog createDialog(Activity activity) {
