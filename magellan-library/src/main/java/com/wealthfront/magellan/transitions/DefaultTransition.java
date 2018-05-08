@@ -8,6 +8,8 @@ import android.animation.TimeInterpolator;
 import android.util.Property;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 
 import com.wealthfront.magellan.Direction;
 import com.wealthfront.magellan.NavigationType;
@@ -18,13 +20,15 @@ import static com.wealthfront.magellan.Direction.FORWARD;
 public class DefaultTransition implements Transition {
 
   private TimeInterpolator customGoInterpolator = new AccelerateDecelerateInterpolator();
-  private TimeInterpolator customShowInterpolator = new AccelerateDecelerateInterpolator();
-  private TimeInterpolator customHideInterpolator = new AccelerateDecelerateInterpolator();
+  private TimeInterpolator customShowInterpolator = new DecelerateInterpolator();
+  private TimeInterpolator customHideInterpolator = new AccelerateInterpolator();
 
   public DefaultTransition() { }
 
   public DefaultTransition(TimeInterpolator customInterpolator) {
     this.customGoInterpolator = customInterpolator;
+    this.customShowInterpolator = customInterpolator;
+    this.customHideInterpolator = customInterpolator;
   }
 
   public DefaultTransition(TimeInterpolator customGoInterpolator, TimeInterpolator customShowInterpolator,
@@ -51,6 +55,7 @@ public class DefaultTransition implements Transition {
     int fromTranslation;
     int toTranslation;
     int sign = direction.sign();
+    TimeInterpolator interpolator = customGoInterpolator;
 
     switch (navType) {
       case GO:
@@ -62,6 +67,7 @@ public class DefaultTransition implements Transition {
         axis = View.TRANSLATION_Y;
         fromTranslation = direction == FORWARD ? 0 : from.getHeight();
         toTranslation = direction == BACKWARD ? 0 : to.getHeight();
+        interpolator = direction == FORWARD ? customShowInterpolator : customHideInterpolator;
         break;
       default:
         axis = View.TRANSLATION_X;
@@ -73,11 +79,11 @@ public class DefaultTransition implements Transition {
     ObjectAnimator animator;
     if (from != null) {
       animator = ObjectAnimator.ofFloat(from, axis, 0, fromTranslation);
-      animator.setInterpolator(customGoInterpolator);
+      animator.setInterpolator(interpolator);
       set.play(animator);
     }
     animator = ObjectAnimator.ofFloat(to, axis, toTranslation, 0);
-    animator.setInterpolator(customGoInterpolator);
+    animator.setInterpolator(interpolator);
     set.play(animator);
     return set;
   }
