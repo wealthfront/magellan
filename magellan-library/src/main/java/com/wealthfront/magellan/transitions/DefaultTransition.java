@@ -4,8 +4,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.TimeInterpolator;
 import android.util.Property;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.wealthfront.magellan.Direction;
 import com.wealthfront.magellan.NavigationType;
@@ -14,6 +16,23 @@ import static com.wealthfront.magellan.Direction.BACKWARD;
 import static com.wealthfront.magellan.Direction.FORWARD;
 
 public class DefaultTransition implements Transition {
+
+  private TimeInterpolator customGoInterpolator = new AccelerateDecelerateInterpolator();
+  private TimeInterpolator customShowInterpolator = new AccelerateDecelerateInterpolator();
+  private TimeInterpolator customHideInterpolator = new AccelerateDecelerateInterpolator();
+
+  public DefaultTransition() { }
+
+  public DefaultTransition(TimeInterpolator customInterpolator) {
+    this.customGoInterpolator = customInterpolator;
+  }
+
+  public DefaultTransition(TimeInterpolator customGoInterpolator, TimeInterpolator customShowInterpolator,
+                           TimeInterpolator customHideInterpolator) {
+    this.customGoInterpolator = customGoInterpolator;
+    this.customShowInterpolator = customShowInterpolator;
+    this.customHideInterpolator = customHideInterpolator;
+  }
 
   @Override
   public final void animate(View from, View to, NavigationType navType, Direction direction, final Callback callback) {
@@ -51,10 +70,15 @@ public class DefaultTransition implements Transition {
         break;
     }
     AnimatorSet set = new AnimatorSet();
+    ObjectAnimator animator;
     if (from != null) {
-      set.play(ObjectAnimator.ofFloat(from, axis, 0, fromTranslation));
+      animator = ObjectAnimator.ofFloat(from, axis, 0, fromTranslation);
+      animator.setInterpolator(customGoInterpolator);
+      set.play(animator);
     }
-    set.play(ObjectAnimator.ofFloat(to, axis, toTranslation, 0));
+    animator = ObjectAnimator.ofFloat(to, axis, toTranslation, 0);
+    animator.setInterpolator(customGoInterpolator);
+    set.play(animator);
     return set;
   }
 }
