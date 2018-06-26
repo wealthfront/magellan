@@ -62,33 +62,6 @@ public class ScreenTest {
   }
 
   @Test
-  public void createDialog() {
-    screen.showDialog(new DialogCreator() {
-      @Override
-      public Dialog createDialog(Activity activity) {
-        return dialog;
-      }
-    });
-    screen.createDialog();
-
-    verify(dialog, times(2)).show();
-  }
-
-  @Test
-  public void destroyDialog() {
-    screen.showDialog(new DialogCreator() {
-      @Override
-      public Dialog createDialog(Activity activity) {
-        return dialog;
-      }
-    });
-    screen.destroyDialog();
-
-    verify(dialog).setOnDismissListener(null);
-    verify(dialog).dismiss();
-  }
-
-  @Test
   public void saveRestore() {
     final Bundle state42 = new Bundle();
     state42.putString("key", "value");
