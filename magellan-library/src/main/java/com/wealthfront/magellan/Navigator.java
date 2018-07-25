@@ -53,6 +53,7 @@ public class Navigator implements BackHandler {
     transition = builder.transition;
     loggingEnabled = builder.loggingEnabled;
     eventTracker = new EventTracker(builder.maxEventsTracked);
+    container = builder.container;
   }
 
   /**
@@ -85,7 +86,7 @@ public class Navigator implements BackHandler {
    */
   public void onCreate(Activity activity, Bundle savedInstanceState) {
     this.activity = activity;
-    container = (ScreenContainer) activity.findViewById(R.id.magellan_container);
+    container = container == null ? (ScreenContainer) activity.findViewById(R.id.magellan_container) : container;
     checkState(container != null, "There must be a ScreenContainer whose id is R.id.magellan_container in the view hierarchy");
     for (Screen screen : backStack) {
       screen.restore(savedInstanceState);
@@ -704,6 +705,7 @@ public class Navigator implements BackHandler {
     private Transition transition = new DefaultTransition();
     private boolean loggingEnabled;
     private int maxEventsTracked = 50;
+    private ScreenContainer container;
 
     Builder(Screen root) {
       this.root = root;
@@ -721,6 +723,11 @@ public class Navigator implements BackHandler {
 
     public Builder maxEventsTracked(int maxEventsTracked) {
       this.maxEventsTracked = maxEventsTracked;
+      return this;
+    }
+
+    public Builder container(ScreenContainer container) {
+      this.container = container;
       return this;
     }
 
