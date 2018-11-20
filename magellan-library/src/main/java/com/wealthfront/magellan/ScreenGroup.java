@@ -2,6 +2,7 @@ package com.wealthfront.magellan;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
   }
 
   @Override
+  @CallSuper
   protected void onShow(Context context) {
     for (Screen screen : screens) {
       screen.recreateView(getActivity(), getNavigator());
@@ -45,6 +47,7 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
   }
 
   @Override
+  @CallSuper
   protected void onRestore(Bundle savedInstanceState) {
     for (Screen screen : screens) {
       screen.onRestore(savedInstanceState);
@@ -52,6 +55,7 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
   }
 
   @Override
+  @CallSuper
   protected void onResume(Context context) {
     for (Screen screen : screens) {
       screen.onResume(context);
@@ -59,6 +63,7 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
   }
 
   @Override
+  @CallSuper
   protected void onPause(Context context) {
     for (Screen screen : screens) {
       screen.onPause(context);
@@ -66,6 +71,7 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
   }
 
   @Override
+  @CallSuper
   protected void onSave(Bundle outState) {
     for (Screen screen : screens) {
       screen.onSave(outState);
@@ -73,6 +79,7 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
   }
 
   @Override
+  @CallSuper
   protected void onHide(Context context) {
     for (Screen screen : screens) {
       screen.onHide(context);
