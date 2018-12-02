@@ -92,6 +92,7 @@ public class Navigator implements BackHandler {
       screen.onRestore(savedInstanceState);
     }
     showCurrentScreen(FORWARD);
+    currentScreen().transitionFinished();
   }
 
   /**

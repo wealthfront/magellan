@@ -423,6 +423,28 @@ public class NavigatorTest {
   }
 
   @Test
+  public void navigateCallsTransitionFinished() {
+    when(screen.shouldShowActionBar()).thenReturn(false);
+    when(screen2.shouldShowActionBar()).thenReturn(true);
+
+    navigator.onCreate(activity, null);
+    navigator.goTo(screen);
+
+    navigator.navigate(new HistoryRewriter() {
+      @Override
+      public void rewriteHistory(Deque<Screen> history) {
+        history.clear();
+        history.push(root);
+        history.push(screen2);
+      }
+    });
+
+    verify(screen).onHide(activity);
+    verify(screen2).onShow(activity);
+    assertThat(navigator.currentScreen()).isEqualTo(screen2);
+  }
+
+  @Test
   public void consumeTouchEventsDuringNavigate() {
     Robolectric.getForegroundThreadScheduler().pause();
     navigator.onCreate(activity, null);
