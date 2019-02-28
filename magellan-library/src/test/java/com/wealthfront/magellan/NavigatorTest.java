@@ -184,19 +184,45 @@ public class NavigatorTest {
     RoboMenu menu = new RoboMenu();
     navigator.onCreate(activity, null);
     navigator.onCreateOptionsMenu(menu);
-    navigator.show(screen);
+    boolean didNavigate = navigator.show(screen);
+    assertThat(didNavigate).isTrue();
 
     verify(root).onHide(activity);
     verify(activity, times(2)).onNavigate(isA(ActionBarConfig.class));
     assertThat(navigator.currentScreen()).isEqualTo(screen);
     reset(activity);
 
-    navigator.hide(screen);
+    didNavigate = navigator.hide(screen);
+    assertThat(didNavigate).isTrue();
 
     assertThat(navigator.currentScreen()).isEqualTo(root);
     verify(screen).onHide(activity);
     verify(root, times(2)).onShow(activity);
     verify(activity).onNavigate(isA(ActionBarConfig.class));
+  }
+
+  @Test
+  public void show_alreadyShown() {
+    RoboMenu menu = new RoboMenu();
+    navigator.onCreate(activity, null);
+    navigator.onCreateOptionsMenu(menu);
+    boolean didNavigate = navigator.show(screen);
+    assertThat(didNavigate).isTrue();
+    didNavigate = navigator.show(screen);
+    assertThat(didNavigate).isFalse();
+  }
+
+  @Test
+  public void hide_alreadyHidden() {
+    RoboMenu menu = new RoboMenu();
+    navigator.onCreate(activity, null);
+    navigator.onCreateOptionsMenu(menu);
+    navigator.show(screen);
+
+    boolean didNavigate = navigator.hide(screen);
+    assertThat(didNavigate).isTrue();
+    didNavigate = navigator.hide(screen);
+    assertThat(didNavigate).isFalse();
   }
 
   @Test
