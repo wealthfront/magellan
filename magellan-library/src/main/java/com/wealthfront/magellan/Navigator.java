@@ -349,8 +349,8 @@ public class Navigator implements BackHandler {
    *
    * @param screen  new top screen on back stack
    */
-  public void show(Screen screen) {
-    show(screen, SHOW);
+  public boolean show(Screen screen) {
+    return show(screen, SHOW);
   }
 
   /**
@@ -361,14 +361,17 @@ public class Navigator implements BackHandler {
    *
    * @param screen  new top screen on back stack
    */
-  public void showNow(Screen screen) {
-    show(screen, NO_ANIM);
+  public boolean showNow(Screen screen) {
+    return show(screen, NO_ANIM);
   }
 
-  private void show(Screen screen, NavigationType navType) {
+  private boolean show(Screen screen, NavigationType navType) {
     if (!isCurrentScreen(screen)) {
       navigateTo(screen, navType);
+      return true;
     }
+
+    return false;
   }
 
   /**
@@ -377,10 +380,13 @@ public class Navigator implements BackHandler {
    *
    * @param screen  screen to hide
    */
-  public void hide(Screen screen) {
+  public boolean hide(Screen screen) {
     if (isCurrentScreen(screen)) {
       navigateBack(SHOW);
+      return true;
     }
+
+    return false;
   }
 
   /**
