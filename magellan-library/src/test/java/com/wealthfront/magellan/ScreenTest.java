@@ -2,7 +2,6 @@ package com.wealthfront.magellan;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.SparseArray;
@@ -149,20 +148,4 @@ public class ScreenTest {
     screen.whenTransitionFinished(listener);
     verify(listener).onTransitionFinished();
   }
-
-  private static class DummyScreen extends Screen<BaseScreenView<DummyScreen>> {
-
-    private BaseScreenView<DummyScreen> view;
-
-    DummyScreen(BaseScreenView<DummyScreen> view) {
-      this.view = view;
-    }
-
-    @Override
-    protected BaseScreenView<DummyScreen> createView(Context context) {
-      return view;
-    }
-
-  }
-
 }

@@ -44,6 +44,8 @@ public class NavigatorTest {
   NavigatorActivity activity;
   Navigator navigator;
   ScreenContainer container;
+  @Mock BaseScreenView<DummyScreen> view;
+  DummyScreen dummyScreen;
 
   @Before
   public void setUp() {
@@ -58,6 +60,7 @@ public class NavigatorTest {
     container = new ScreenContainer(application);
     container.setId(R.id.magellan_container);
     activity.setContentView(container);
+    dummyScreen = new DummyScreen(view);
 
     when(root.createView(activity)).thenAnswer(
         new Answer<View>() {
@@ -243,11 +246,14 @@ public class NavigatorTest {
     assertThat(navigator.currentScreen()).isEqualTo(root);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void goBackTo_screenNotInHistory() {
     navigator.onCreate(activity, null);
-
-    navigator.goBackTo(screen);
+    try {
+      navigator.goBackTo(dummyScreen);
+    } catch (IllegalArgumentException exception) {
+      assertThat(exception.getMessage()).contains("Can't go back to a screen (com.wealthfront.magellan.DummyScreen) that isn't in history.");
+    }
   }
 
   @Test
