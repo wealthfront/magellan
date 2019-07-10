@@ -103,6 +103,8 @@ public class ScreenGroupTest {
     screenGroup.onShow(context);
     verify(screen1).onShow(context);
     verify(screen2).onShow(context);
+    assertThat(screen1.getView()).isNotNull();
+    assertThat(screen2.getView()).isNotNull();
   }
 
   @Test
