@@ -252,7 +252,8 @@ public class NavigatorTest {
     try {
       navigator.goBackTo(dummyScreen);
     } catch (IllegalArgumentException exception) {
-      assertThat(exception.getMessage()).contains("Can't go back to a screen (com.wealthfront.magellan.DummyScreen) that isn't in history.");
+      assertThat(exception.getMessage()).contains("Can't go back to a screen (com.wealthfront.magellan.DummyScreen) that isn't in history. \n" +
+          "History: ([root])");
     }
   }
 

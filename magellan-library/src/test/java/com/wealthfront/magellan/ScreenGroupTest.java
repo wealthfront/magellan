@@ -143,21 +143,4 @@ public class ScreenGroupTest {
     assertThat(screen2.getDialog()).isNull();
     assertThat(screen2.getView()).isNull();
   }
-
-  private static class DummyScreen extends Screen<BaseScreenView<DummyScreen>> {
-
-    private BaseScreenView<DummyScreen> view;
-
-    DummyScreen(BaseScreenView<DummyScreen> view) {
-      this.view = view;
-      setView(view);
-    }
-
-    @Override
-    protected BaseScreenView<DummyScreen> createView(Context context) {
-      return view;
-    }
-
-  }
-
 }
