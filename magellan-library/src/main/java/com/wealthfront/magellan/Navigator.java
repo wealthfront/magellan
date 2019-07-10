@@ -459,7 +459,7 @@ public class Navigator implements BackHandler {
     navigate(new HistoryRewriter() {
       @Override
       public void rewriteHistory(Deque<Screen> history) {
-        checkArgument(history.contains(screen), "Can't go back to a screen that isn't in history.");
+        checkArgument(history.contains(screen), String.format("Can't go back to a screen (%s) that isn't in history. \nHistory: (%s)", screen.getClass().getName(), history));
         while (history.size() > 1) {
           if (history.peek() == screen) {
             break;
