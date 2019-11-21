@@ -164,8 +164,8 @@ public class Navigator implements BackHandler {
    * activity provided to this Navigator in {@link #onCreate(Activity, Bundle) onCreate}.
    *
    * @param requestCode  the request code originally supplied to startActivityForResult()
-   * @param resultCode	the result code returned by the child activity through its setResult()
-   * @param data	result data for the caller
+   * @param resultCode  the result code returned by the child activity through its setResult()
+   * @param data  result data for the caller
    *
    */
   public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
