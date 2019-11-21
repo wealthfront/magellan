@@ -1,8 +1,10 @@
 package com.wealthfront.magellan;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -23,10 +25,10 @@ import static com.wealthfront.magellan.Direction.FORWARD;
 import static com.wealthfront.magellan.NavigationType.GO;
 import static com.wealthfront.magellan.NavigationType.NO_ANIM;
 import static com.wealthfront.magellan.NavigationType.SHOW;
-import static com.wealthfront.magellan.Views.whenMeasured;
 import static com.wealthfront.magellan.Preconditions.checkArgument;
 import static com.wealthfront.magellan.Preconditions.checkNotNull;
 import static com.wealthfront.magellan.Preconditions.checkState;
+import static com.wealthfront.magellan.Views.whenMeasured;
 
 /**
  * Class responsible for navigating between screens and maintaining collection of screens in a back stack.
@@ -151,6 +153,24 @@ public class Navigator implements BackHandler {
   public void onResume(Activity activity) {
     if (sameActivity(activity)) {
       currentScreen().onResume(activity);
+    }
+  }
+
+  /**
+   * Notifies Navigator that the activity's onActivityResult callback has been hit. Call this method from
+   * {@code onActivityResult} of the Activity associated with this Navigator.
+   *
+   * This method will notify the current screen of the event if the activity parameter is the same as the
+   * activity provided to this Navigator in {@link #onCreate(Activity, Bundle) onCreate}.
+   *
+   * @param requestCode  the request code originally supplied to startActivityForResult()
+   * @param resultCode	the result code returned by the child activity through its setResult()
+   * @param data	result data for the caller
+   *
+   */
+  public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    if (sameActivity(activity)) {
+      currentScreen().onActivityResult(requestCode, resultCode, data);
     }
   }
 

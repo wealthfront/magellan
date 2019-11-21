@@ -3,9 +3,11 @@ package com.wealthfront.magellan;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.ColorRes;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.VisibleForTesting;
 import android.util.SparseArray;
@@ -197,6 +199,11 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
    * Override this method to dynamically change the menu.
    */
   protected void onUpdateMenu(Menu menu) {}
+
+  /**
+   * Called when the Activity receives a result from a startActivityForResult call
+   */
+  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {}
 
   /**
    * Called when the Activity is resumed and when the Screen is shown.

@@ -149,6 +149,23 @@ public class NavigatorTest {
   }
 
   @Test
+  public void onActivityResult() {
+    navigator.onCreate(activity, null);
+    reset(root);
+    navigator.onActivityResult(1138, Activity.RESULT_OK, null);
+
+    verify(root).onActivityResult(1138, Activity.RESULT_OK, null);
+  }
+
+  @Test
+  public void onActivityResult_differentActivity() {
+    navigator.onCreate(activity, null);
+    reset(root);
+    verifyNoMoreInteractions(root);
+    navigator.onActivityResult(1138, Activity.RESULT_OK, null);
+  }
+
+  @Test
   public void lifecycleListener() {
     navigator.addLifecycleListener(lifecycleListener);
     navigator.onCreate(activity, null);
