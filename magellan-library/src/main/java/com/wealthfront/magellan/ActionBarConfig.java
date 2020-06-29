@@ -1,7 +1,7 @@
 package com.wealthfront.magellan;
 
 import android.app.ActionBar;
-import android.support.annotation.ColorRes;
+import androidx.annotation.ColorRes;
 import android.widget.Toolbar;
 
 /**

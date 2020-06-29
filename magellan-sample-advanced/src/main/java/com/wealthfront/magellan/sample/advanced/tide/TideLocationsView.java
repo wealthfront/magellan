@@ -1,8 +1,6 @@
 package com.wealthfront.magellan.sample.advanced.tide;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -13,8 +11,9 @@ import android.widget.TextView;
 import com.wealthfront.magellan.BaseScreenView;
 import com.wealthfront.magellan.sample.advanced.R;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static butterknife.ButterKnife.bind;
 
@@ -44,8 +43,8 @@ class TideLocationsView extends BaseScreenView<TideLocationsScreen> {
         convertView = inflate(getContext(), R.layout.tide_location_grid_item, null);
       }
       final TideLocationsScreen.TideLocations tideLocation = getItem(position);
-      ImageView tideLocationImageView = ButterKnife.findById(convertView, R.id.tideLocationImage);
-      TextView tideLocationTextView = ButterKnife.findById(convertView, R.id.tideLocationName);
+      ImageView tideLocationImageView = convertView.findViewById(R.id.tideLocationImage);
+      TextView tideLocationTextView = convertView.findViewById(R.id.tideLocationName);
 
       tideLocationImageView.setImageResource(tideLocation.getImageId());
       tideLocationTextView.setText(tideLocation.getName());

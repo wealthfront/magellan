@@ -4,12 +4,12 @@ android:
   components:
     - tools
     - platform-tools
-    - build-tools-27.0.3
-    - android-27
+    - build-tools-29.0.2
+    - android-30
     - extra
 
 before_install:
-  - yes | sdkmanager "platforms;android-27"
+  - yes | sdkmanager "platforms;android-30"
 
 jdk:
   - oraclejdk8
