@@ -5,7 +5,6 @@ version = VERSION_NAME
 
 android {
   compileSdkVersion 27
-  buildToolsVersion BUILD_TOOLS_VERSION
 
   resourcePrefix 'magellan_'
 
