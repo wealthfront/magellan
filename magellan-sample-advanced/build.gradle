@@ -37,6 +37,7 @@ apply from: rootProject.file('checkstyle/checkstyle.gradle')
 
 dependencies {
   implementation project(':magellan-library')
+  implementation project(':magellan-rx')
 
   implementation "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
   implementation 'com.jakewharton:butterknife:10.0.0'
@@ -44,8 +45,6 @@ dependencies {
 
   implementation 'com.google.dagger:dagger:2.24'
   annotationProcessor 'com.google.dagger:dagger-compiler:2.24'
-
-  implementation project(path: ':magellan-rx')
 
   implementation 'com.squareup.retrofit2:retrofit:2.9.0'
   implementation 'com.squareup.retrofit2:adapter-rxjava:2.3.0'

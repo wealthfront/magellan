@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 group = GROUP
 version = VERSION_NAME
@@ -33,6 +34,7 @@ android {
 apply from: rootProject.file('checkstyle/checkstyle.gradle')
 
 dependencies {
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
   implementation "androidx.appcompat:appcompat:${SUPPORT_LIBRARY_VERSION}"
 
   testImplementation "junit:junit:${JUNIT_VERSION}"
