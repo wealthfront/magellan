@@ -5,14 +5,14 @@ group = GROUP
 version = VERSION_NAME
 
 android {
-  compileSdkVersion COMPILE_SDK_VERSION
+  compileSdkVersion 30
   buildToolsVersion BUILD_TOOLS_VERSION
 
   resourcePrefix 'magellan_'
 
   defaultConfig {
-    minSdkVersion MIN_SDK_VERSION
-    targetSdkVersion TARGET_SDK_VERSION
+    minSdkVersion 15
+    targetSdkVersion 30
     versionCode 1
     versionName "1.0"
 
@@ -34,6 +34,7 @@ android {
 apply from: rootProject.file('checkstyle/checkstyle.gradle')
 
 dependencies {
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
   implementation "androidx.appcompat:appcompat:${SUPPORT_LIBRARY_VERSION}"
 
   testImplementation "junit:junit:${JUNIT_VERSION}"

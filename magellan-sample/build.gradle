@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion COMPILE_SDK_VERSION
+  compileSdkVersion 30
   buildToolsVersion BUILD_TOOLS_VERSION
 
   defaultConfig {
     applicationId "com.wealthfront.magellan.sample"
-    minSdkVersion MIN_SDK_VERSION
-    targetSdkVersion TARGET_SDK_VERSION
+    minSdkVersion 15
+    targetSdkVersion 30
     versionCode 1
     versionName "1.0"
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

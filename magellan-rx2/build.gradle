@@ -4,12 +4,12 @@ group = GROUP
 version = VERSION_NAME
 
 android {
-  compileSdkVersion COMPILE_SDK_VERSION
+  compileSdkVersion 30
   buildToolsVersion BUILD_TOOLS_VERSION
 
   defaultConfig {
-    minSdkVersion MIN_SDK_VERSION
-    targetSdkVersion TARGET_SDK_VERSION
+    minSdkVersion 15
+    targetSdkVersion 30
     versionCode 1
     versionName "1.0"
 
