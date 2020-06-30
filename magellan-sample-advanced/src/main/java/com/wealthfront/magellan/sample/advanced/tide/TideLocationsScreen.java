@@ -1,7 +1,7 @@
 package com.wealthfront.magellan.sample.advanced.tide;
 
 import android.content.Context;
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 
 import com.wealthfront.magellan.Screen;
 import com.wealthfront.magellan.sample.advanced.R;

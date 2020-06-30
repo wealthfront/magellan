@@ -1,6 +1,6 @@
 package com.wealthfront.magellan.sample.advanced;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.wealthfront.magellan.Navigator;

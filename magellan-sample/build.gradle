@@ -1,16 +1,23 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion 27
+  compileSdkVersion 30
   buildToolsVersion BUILD_TOOLS_VERSION
+
   defaultConfig {
     applicationId "com.wealthfront.magellan.sample"
     minSdkVersion 15
-    targetSdkVersion 27
+    targetSdkVersion 30
     versionCode 1
     versionName "1.0"
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
+
+  compileOptions {
+    setSourceCompatibility(JavaVersion.VERSION_1_8)
+    setTargetCompatibility(JavaVersion.VERSION_1_8)
+  }
+
   buildTypes {
     release {
       minifyEnabled false
@@ -21,14 +28,13 @@ android {
 apply from: rootProject.file('checkstyle/checkstyle.gradle')
 
 dependencies {
-  implementation fileTree(dir: 'libs', include: ['*.jar'])
-  implementation "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
   implementation project(':magellan-library')
   implementation project(':magellan-support')
 
+  implementation "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
+
   testImplementation "junit:junit:${JUNIT_VERSION}"
 
-  androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-    exclude group: 'com.android.support', module: 'support-annotations'
-  })
+  androidTestImplementation "androidx.test.ext:junit:1.1.1"
+  androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
 }

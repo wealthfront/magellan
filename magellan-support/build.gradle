@@ -4,18 +4,23 @@ group = GROUP
 version = VERSION_NAME
 
 android {
-  compileSdkVersion 27
+  compileSdkVersion 30
   buildToolsVersion BUILD_TOOLS_VERSION
 
   defaultConfig {
     minSdkVersion 15
-    targetSdkVersion 27
+    targetSdkVersion 30
     versionCode 1
     versionName "1.0"
 
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
+
+  compileOptions {
+    setSourceCompatibility(JavaVersion.VERSION_1_8)
+    setTargetCompatibility(JavaVersion.VERSION_1_8)
+  }
+
   buildTypes {
     release {
       minifyEnabled false
@@ -30,18 +35,13 @@ android {
 apply from: rootProject.file('checkstyle/checkstyle.gradle')
 
 dependencies {
-
-  implementation fileTree(dir: 'libs', include: ['*.jar'])
   implementation project(':magellan-library')
   implementation "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
 
   testImplementation "junit:junit:${JUNIT_VERSION}"
   testImplementation "com.google.truth:truth:${TRUTH_VERSION}"
   testImplementation "org.mockito:mockito-core:${MOCKITO_VERSION}"
-  testImplementation('org.robolectric:robolectric:3.7.1') {
-    exclude group: 'commons-logging', module: 'commons-logging'
-    exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-  }
+  testImplementation "org.robolectric:robolectric:${ROBOLECTRIC_VERSION}"
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
