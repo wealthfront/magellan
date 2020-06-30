@@ -65,13 +65,13 @@ public class ScreenGroupTest {
 
   @Test(expected = IllegalStateException.class)
   public void addScreen_onCreateCalled() {
-    screen3.recreateView(new Activity(), navigator);
+    screen3.recreateView(new Activity());
     screenGroup.addScreen(screen3);
   }
 
   @Test(expected = IllegalStateException.class)
   public void addScreen_thisOnCreateCalled() {
-    screenGroup.recreateView(new Activity(), navigator);
+    screenGroup.recreateView(new Activity());
     screenGroup.addScreen(screen3);
   }
 
@@ -88,13 +88,13 @@ public class ScreenGroupTest {
 
   @Test(expected = IllegalStateException.class)
   public void addScreens_thisOnCreateCalled() {
-    screenGroup.recreateView(new Activity(), navigator);
+    screenGroup.recreateView(new Activity());
     screenGroup.addScreens(asList(screen3));
   }
 
   @Test(expected = IllegalStateException.class)
   public void addScreens_onCreateCalled() {
-    screen3.recreateView(new Activity(), navigator);
+    screen3.recreateView(new Activity());
     screenGroup.addScreens(asList(screen3));
   }
 

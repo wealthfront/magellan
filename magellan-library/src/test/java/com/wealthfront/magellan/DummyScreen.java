@@ -2,7 +2,7 @@ package com.wealthfront.magellan;
 
 import android.content.Context;
 
-class DummyScreen extends Screen<BaseScreenView<DummyScreen>> {
+class DummyScreen extends LegacyScreen<BaseScreenView<DummyScreen>> {
 
   private BaseScreenView<DummyScreen> view;
 

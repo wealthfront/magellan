@@ -17,8 +17,6 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.fakes.RoboMenu;
 
-import java.util.Deque;
-
 import static com.google.common.truth.Truth.assertThat;
 import static com.wealthfront.magellan.NavigationType.NO_ANIM;
 import static org.mockito.Matchers.isA;
@@ -38,8 +36,8 @@ public class NavigatorTest {
 
   @Mock Screen root;
   @Mock Screen screen;
-  @Mock Screen screen2;
-  @Mock Screen screen3;
+  @Mock LegacyScreen screen2;
+  @Mock LegacyScreen screen3;
   @Mock ScreenLifecycleListener lifecycleListener;
   NavigatorActivity activity;
   Navigator navigator;
@@ -358,12 +356,7 @@ public class NavigatorTest {
 
     navigator.onDestroy(activity);
 
-    navigator.rewriteHistory(activity, new HistoryRewriter() {
-      @Override
-      public void rewriteHistory(Deque<Screen> history) {
-        history.pop();
-      }
-    });
+    navigator.rewriteHistory(activity, history -> history.pop());
 
     assertThat(navigator.currentScreen()).isEqualTo(root);
   }
@@ -372,22 +365,14 @@ public class NavigatorTest {
   public void rewriteHistory_differentActivity() {
     navigator.onCreate(activity, null);
 
-    navigator.rewriteHistory(new Activity(), new HistoryRewriter() {
-      @Override
-      public void rewriteHistory(Deque<Screen> history) {
-      }
-    });
+    navigator.rewriteHistory(new Activity(), history -> { });
   }
 
   @Test(expected = IllegalStateException.class)
   public void rewriteHistory_afterOnCreate() {
     navigator.onCreate(activity, null);
 
-    navigator.rewriteHistory(activity, new HistoryRewriter() {
-      @Override
-      public void rewriteHistory(Deque<Screen> history) {
-      }
-    });
+    navigator.rewriteHistory(activity, history -> { });
   }
 
   @Test
@@ -415,13 +400,10 @@ public class NavigatorTest {
     navigator.onCreate(activity, null);
     navigator.goTo(screen);
 
-    navigator.navigate(new HistoryRewriter() {
-      @Override
-      public void rewriteHistory(Deque<Screen> history) {
-        history.clear();
-        history.push(root);
-        history.push(screen2);
-      }
+    navigator.navigate(history -> {
+      history.clear();
+      history.push(root);
+      history.push(screen2);
     });
 
     verify(screen).onHide(activity);

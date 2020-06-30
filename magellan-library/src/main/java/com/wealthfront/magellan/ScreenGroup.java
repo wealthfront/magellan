@@ -38,7 +38,7 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
   @Override
   protected void onShow(Context context) {
     for (Screen screen : screens) {
-      screen.recreateView(getActivity(), getNavigator());
+      screen.recreateView(getActivity());
       screen.createDialog();
       screen.onShow(context);
     }

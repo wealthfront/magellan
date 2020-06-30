@@ -3,10 +3,10 @@ package com.wealthfront.magellan.sample;
 import android.content.Context;
 import android.view.View;
 
-import com.wealthfront.magellan.Screen;
+import com.wealthfront.magellan.LegacyScreen;
 import com.wealthfront.magellan.transitions.CircularRevealTransition;
 
-class HomeScreen extends Screen<HomeView> {
+class HomeScreen extends LegacyScreen<HomeView> {
 
   @Override
   protected HomeView createView(Context context) {

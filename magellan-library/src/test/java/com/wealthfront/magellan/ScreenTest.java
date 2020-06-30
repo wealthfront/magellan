@@ -45,7 +45,7 @@ public class ScreenTest {
 
   @Test
   public void recreateView() {
-    View v = screen.recreateView(null, null);
+    View v = screen.recreateView(null);
 
     assertThat(screen.getView()).isEqualTo(v);
     assertThat(view).isEqualTo(v);
@@ -54,7 +54,7 @@ public class ScreenTest {
 
   @Test
   public void destroyView() {
-    screen.recreateView(null, null);
+    screen.recreateView(null);
     screen.destroyView();
 
     verify(view).saveHierarchyState(isA(SparseArray.class));
@@ -99,11 +99,11 @@ public class ScreenTest {
       }
     }).when(view).saveHierarchyState(sparseArrayCaptor.capture());
 
-    screen.recreateView(null, null);
+    screen.recreateView(null);
     Bundle bundle = new Bundle();
     screen.save(bundle);
     screen.restore(bundle);
-    screen.recreateView(null, null);
+    screen.recreateView(null);
 
     verify(view).saveHierarchyState(isA(SparseArray.class));
     verify(view).restoreHierarchyState(sparseArrayCaptor.capture());
