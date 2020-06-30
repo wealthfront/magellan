@@ -1,17 +1,18 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 group = GROUP
 version = VERSION_NAME
 
 android {
-  compileSdkVersion 30
+  compileSdkVersion COMPILE_SDK_VERSION
   buildToolsVersion BUILD_TOOLS_VERSION
 
   resourcePrefix 'magellan_'
 
   defaultConfig {
-    minSdkVersion 15
-    targetSdkVersion 30
+    minSdkVersion MIN_SDK_VERSION
+    targetSdkVersion TARGET_SDK_VERSION
     versionCode 1
     versionName "1.0"
 
