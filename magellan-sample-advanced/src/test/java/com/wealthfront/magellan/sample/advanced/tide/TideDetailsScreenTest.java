@@ -1,5 +1,7 @@
 package com.wealthfront.magellan.sample.advanced.tide;
 
+import android.view.View;
+
 import com.wealthfront.magellan.sample.advanced.NoaaApi;
 import com.wealthfront.magellan.sample.advanced.model.Observation;
 import com.wealthfront.magellan.sample.advanced.model.TideInfo;
@@ -19,6 +21,7 @@ import rx.Observable;
 import static java.util.Arrays.asList;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -32,15 +35,14 @@ public class TideDetailsScreenTest {
   private static final int FAKE_NOAA_API_ID = 1;
 
   @Mock NoaaApi noaaApi;
-  @Mock TideDetailsView view;
+  @Mock View view;
   TideDetailsScreen screen;
 
   @Before
   public void setUp() {
     initMocks(this);
-    screen = new TideDetailsScreen(FAKE_NOAA_API_ID, "San Francisco");
+    screen = spy(new TideDetailsScreen(FAKE_NOAA_API_ID));
     screen.noaaApi = noaaApi;
-    screen.setView(view);
   }
 
   @Test
@@ -48,10 +50,10 @@ public class TideDetailsScreenTest {
     when(noaaApi.getTideInfo(FAKE_NOAA_API_ID)).thenReturn(Observable.just(
         TideInfo.with()
             .build()));
-    screen.onSubscribe(application);
+    screen.onShow(application, view);
 
     verify(noaaApi).getTideInfo(FAKE_NOAA_API_ID);
-    verify(view, never()).setTideHeights(any(BigDecimal.class), any(BigDecimal.class), any(BigDecimal.class));
+    verify(screen, never()).setTideHeights(any(View.class), any(BigDecimal.class), any(BigDecimal.class), any(BigDecimal.class));
   }
 
   @Test
@@ -60,10 +62,10 @@ public class TideDetailsScreenTest {
         TideInfo.with()
             .data(Collections.<Observation>emptyList())
             .build()));
-    screen.onSubscribe(application);
+    screen.onShow(application, view);
 
     verify(noaaApi).getTideInfo(FAKE_NOAA_API_ID);
-    verify(view, never()).setTideHeights(any(BigDecimal.class), any(BigDecimal.class), any(BigDecimal.class));
+    verify(screen, never()).setTideHeights(any(View.class), any(BigDecimal.class), any(BigDecimal.class), any(BigDecimal.class));
   }
 
   @Test
@@ -76,10 +78,10 @@ public class TideDetailsScreenTest {
         ))
         .build();
     when(noaaApi.getTideInfo(FAKE_NOAA_API_ID)).thenReturn(Observable.just(tideInfo));
-    screen.onSubscribe(application);
+    screen.onShow(application, view);
 
     verify(noaaApi).getTideInfo(FAKE_NOAA_API_ID);
-    verify(view).setTideHeights(BigDecimal.ONE, BigDecimal.ZERO, BigDecimal.TEN);
+    verify(screen).setTideHeights(view, BigDecimal.ONE, BigDecimal.ZERO, BigDecimal.TEN);
   }
 
 }

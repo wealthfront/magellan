@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
   compileSdkVersion 30
@@ -39,12 +41,13 @@ dependencies {
   implementation project(':magellan-library')
   implementation project(':magellan-rx')
 
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
   implementation "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
   implementation 'com.jakewharton:butterknife:10.0.0'
-  annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+  kapt 'com.jakewharton:butterknife-compiler:10.0.0'
 
-  implementation 'com.google.dagger:dagger:2.24'
-  annotationProcessor 'com.google.dagger:dagger-compiler:2.24'
+  implementation 'com.google.dagger:dagger:2.27'
+  kapt "com.google.dagger:dagger-compiler:2.27"
 
   implementation 'com.squareup.retrofit2:retrofit:2.9.0'
   implementation 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
