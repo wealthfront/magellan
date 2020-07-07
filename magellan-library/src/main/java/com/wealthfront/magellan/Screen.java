@@ -18,6 +18,7 @@ import java.util.Queue;
 import java.util.function.Consumer;
 
 import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
 
@@ -315,12 +316,12 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     checkState(activity == null, reason);
   }
 
-  public final void addLifecycleListener(LifecycleListener LifecycleListener) {
-    lifecycleListeners.add(LifecycleListener);
+  public final void addLifecycleListener(@NonNull LifecycleListener lifecycleListener) {
+    lifecycleListeners.add(lifecycleListener);
   }
 
-  public final void removeLifecycleListener(LifecycleListener LifecycleListener) {
-    lifecycleListeners.remove(lifecycleListeners);
+  public final void removeLifecycleListener(@NonNull LifecycleListener lifecycleListener) {
+    lifecycleListeners.remove(lifecycleListener);
   }
 
   public final void clearLifecycleListeners() {

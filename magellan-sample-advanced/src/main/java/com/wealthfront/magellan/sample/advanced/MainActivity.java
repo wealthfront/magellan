@@ -1,13 +1,14 @@
 package com.wealthfront.magellan.sample.advanced;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.wealthfront.magellan.Navigator;
 
 import javax.inject.Inject;
 
-import static com.wealthfront.magellan.sample.advanced.SampleApplication.app;
+import androidx.appcompat.app.AppCompatActivity;
+
+import static com.wealthfront.magellan.sample.advanced.SampleApplication.injector;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,8 +18,9 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    app(this).injector().inject(this);
+    injector().inject(this);
     navigator.onCreate(this, savedInstanceState);
+    getLifecycle().addObserver(navigator);
   }
 
   @Override

@@ -6,6 +6,7 @@ import android.widget.Toast;
 import com.wealthfront.magellan.rx.RxScreen;
 import com.wealthfront.magellan.sample.advanced.NoaaApi;
 import com.wealthfront.magellan.sample.advanced.R;
+import com.wealthfront.magellan.sample.advanced.lifecycle.LifecycleLogger;
 import com.wealthfront.magellan.sample.advanced.model.Observation;
 import com.wealthfront.magellan.sample.advanced.model.TideInfo;
 
@@ -19,7 +20,7 @@ import javax.inject.Inject;
 
 import rx.functions.Action1;
 
-import static com.wealthfront.magellan.sample.advanced.SampleApplication.app;
+import static com.wealthfront.magellan.sample.advanced.SampleApplication.injector;
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
 public class TideDetailsScreen extends RxScreen<TideDetailsView> {
@@ -32,17 +33,20 @@ public class TideDetailsScreen extends RxScreen<TideDetailsView> {
   };
 
   @Inject NoaaApi noaaApi;
+  @Inject LifecycleLogger lifecycleLogger;
+
   private final String tideLocationName;
   int noaaApiId;
 
   TideDetailsScreen(int noaaApiId, String tideLocationName) {
     this.noaaApiId = noaaApiId;
     this.tideLocationName = tideLocationName;
+    injector().inject(this);
+    addLifecycleListener(lifecycleLogger);
   }
 
   @Override
   protected TideDetailsView createView(Context context) {
-    app(context).injector().inject(this);
     return new TideDetailsView(context);
   }
 

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
   compileSdkVersion 30
@@ -39,7 +40,10 @@ dependencies {
   implementation project(':magellan-library')
   implementation project(':magellan-rx')
 
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
   implementation "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
+  implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
+  implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
   implementation 'com.jakewharton:butterknife:10.0.0'
   annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
 

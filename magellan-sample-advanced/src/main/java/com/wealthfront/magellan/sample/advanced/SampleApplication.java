@@ -5,11 +5,7 @@ import android.content.Context;
 
 public class SampleApplication extends Application {
 
-  private AppComponent appComponent;
-
-  public static SampleApplication app(Context context) {
-    return (SampleApplication) context.getApplicationContext();
-  }
+  private static AppComponent appComponent;
 
   @Override
   public void onCreate() {
@@ -17,7 +13,7 @@ public class SampleApplication extends Application {
     appComponent = DaggerAppComponent.builder().appModule(new AppModule()).build();
   }
 
-  public AppComponent injector() {
+  public static AppComponent injector() {
     return appComponent;
   }
 

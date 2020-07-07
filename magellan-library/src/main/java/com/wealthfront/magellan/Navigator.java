@@ -17,6 +17,11 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 
+import androidx.activity.ComponentActivity;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+
 import static android.os.Looper.getMainLooper;
 import static com.wealthfront.magellan.Direction.BACKWARD;
 import static com.wealthfront.magellan.Direction.FORWARD;
@@ -31,10 +36,10 @@ import static com.wealthfront.magellan.Preconditions.checkState;
 /**
  * Class responsible for navigating between screens and maintaining collection of screens in a back stack.
  */
-public class Navigator implements BackHandler {
+public class Navigator implements BackHandler, DefaultLifecycleObserver {
 
   private final Deque<Screen> backStack = new ArrayDeque<>();
-  private Activity activity;
+  private ComponentActivity activity;
   private Menu menu;
   private ScreenContainer container;
   private final Transition transition;
@@ -83,7 +88,7 @@ public class Navigator implements BackHandler {
    * @param savedInstanceState  state to restore from previously destroyed activity
    * @throws IllegalStateException when no {@link ScreenContainer} view present in hierarchy with view id of container
    */
-  public void onCreate(Activity activity, Bundle savedInstanceState) {
+  public void onCreate(ComponentActivity activity, Bundle savedInstanceState) {
     this.activity = activity;
     container = (ScreenContainer) activity.findViewById(R.id.magellan_container);
     checkState(container != null, "There must be a ScreenContainer whose id is R.id.magellan_container in the view hierarchy");
@@ -142,12 +147,13 @@ public class Navigator implements BackHandler {
    * {@code onResume} of the Activity associated with this Navigator.
    *
    * This method will notify the current screen of the lifecycle event if the activity parameter is the same as the
-   * activity provided to this Navigator in {@link #onCreate(Activity, Bundle) onCreate}.
+   * activity provided to this Navigator in {@link #onCreate(ComponentActivity, Bundle)}.
    *
-   * @param activity  activity that received onResume callback
+   * @param owner activity owner that received onResume callback
    */
-  public void onResume(Activity activity) {
-    if (sameActivity(activity)) {
+  @Override
+  public void onResume(@NonNull LifecycleOwner owner) {
+    if (sameActivity(owner)) {
       currentScreen().resume(activity);
     }
   }
@@ -157,12 +163,13 @@ public class Navigator implements BackHandler {
    * {@link Activity#onPause() onPause} of the Activity associated with this Navigator.
    *
    * This method will notify the current screen of the lifecycle event if the activity parameter is the same as the
-   * activity provided to this Navigator in {@link #onCreate(Activity, Bundle) onCreate}.
+   * activity provided to this Navigator in {@link #onCreate(ComponentActivity, Bundle)}.
    *
-   * @param activity  activity that received onPause callback
+   * @param owner activity that received onPause callback
    */
-  public void onPause(Activity activity) {
-    if (sameActivity(activity)) {
+  @Override
+  public void onPause(@NonNull LifecycleOwner owner) {
+    if (sameActivity(owner)) {
       currentScreen().pause(activity);
     }
   }
@@ -173,12 +180,13 @@ public class Navigator implements BackHandler {
    *
    * This method will hid the current screen, and clear references to this Navigators associated activity, menu, and
    * container view, if the activity parameter is the same as the activity provided to this Navigator in
-   * {@link #onCreate(Activity, Bundle) onCreate}.
+   * {@link #onCreate(ComponentActivity, Bundle)} onCreate}.
    *
-   * @param activity  activity that received onDestroy callback
+   * @param owner  that received onDestroy callback
    */
-  public void onDestroy(Activity activity) {
-    if (sameActivity(activity)) {
+  @Override
+  public void onDestroy(@NonNull LifecycleOwner owner) {
+    if (sameActivity(owner)) {
       hideCurrentScreen();
       this.activity = null;
       container = null;
@@ -246,7 +254,7 @@ public class Navigator implements BackHandler {
    *
    * @param activity  activity used to verify this Navigator is in an acceptable state when resetWithRoot is called
    * @param root  new root screen for this Navigator
-   * @throws IllegalStateException if {@link #onCreate(Activity, Bundle)} has already been called on this Navigator
+   * @throws IllegalStateException if {@link #onCreate(ComponentActivity, Bundle)} has already been called on this Navigator
    */
   public void resetWithRoot(Activity activity, final Screen root) {
     checkOnCreateNotYetCalled(activity, "resetWithRoot() must be called before onCreate()");
@@ -256,14 +264,14 @@ public class Navigator implements BackHandler {
 
   /**
    * Change the elements of the back stack according to the implementation of the HistoryRewriter parameter.
-   * <b>Note, this method cannot be called after calling {@link #onCreate(Activity, Bundle)} on this Navigator.</b> The
+   * <b>Note, this method cannot be called after calling {@link #onCreate(ComponentActivity, Bundle)} on this Navigator.</b> The
    * primary use case for this method is to change the back stack before the navigator is fully initialized (e.g.
    * showing a login screen if necessary). It is possible to manipulate the back stack with a {@link HistoryRewriter},
    * {@link #navigate(HistoryRewriter)}.
    *
    * @param activity  activity used to verify this Navigator is in an acceptable state when resetWithRoot is called
    * @param historyRewriter  rewrites back stack to desired state
-   * @throws IllegalStateException if {@link #onCreate(Activity, Bundle)} has already been called on this Navigator
+   * @throws IllegalStateException if {@link #onCreate(ComponentActivity, Bundle)} has already been called on this Navigator
    */
   public void rewriteHistory(Activity activity, HistoryRewriter historyRewriter) {
     checkOnCreateNotYetCalled(activity, "rewriteHistory() must be called before onCreate()");
@@ -635,6 +643,10 @@ public class Navigator implements BackHandler {
       }
       currentScreen().onUpdateMenu(menu);
     }
+  }
+
+  private boolean sameActivity(LifecycleOwner owner) {
+    return this.activity.getLifecycle() == owner.getLifecycle();
   }
 
   private boolean sameActivity(Activity activity) {
