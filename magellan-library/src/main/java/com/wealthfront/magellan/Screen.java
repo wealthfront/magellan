@@ -9,8 +9,13 @@ import android.util.SparseArray;
 import android.view.Menu;
 import android.view.ViewGroup;
 
+import com.wealthfront.magellan.lifecycle.LifecycleListener;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
+import java.util.function.Consumer;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.StringRes;
@@ -51,6 +56,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
   private SparseArray<Parcelable> viewState;
   private boolean isTransitioning;
   private Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
+  private List<LifecycleListener> lifecycleListeners = new ArrayList<>();
 
   /**
    * @return the View associated with this Screen or null if we are not in between {@link #onShow(Context)} and\
@@ -76,6 +82,10 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     if (viewState == null && savedInstanceState != null) {
       viewState = savedInstanceState.getSparseParcelableArray(VIEW_STATE + hashCode());
     }
+    onRestore(savedInstanceState);
+    for (LifecycleListener lifecycleListener : lifecycleListeners) {
+      lifecycleListener.onRestore(savedInstanceState);
+    }
   }
 
   final V recreateView(Activity activity) {
@@ -93,6 +103,10 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     saveViewState();
     if (viewState != null) {
       outState.putSparseParcelableArray(VIEW_STATE + hashCode(), viewState);
+    }
+    onSave(outState);
+    for (LifecycleListener lifecycleListener : lifecycleListeners) {
+      lifecycleListener.onSave(outState);
     }
     viewState = null;
   }
@@ -177,7 +191,33 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     return DEFAULT_ACTION_BAR_COLOR_RES;
   }
 
-  protected void onRestore(Bundle savedInstanceState) {}
+  final void show(Context context) {
+    for (LifecycleListener lifecycleListener: lifecycleListeners) {
+      lifecycleListener.onShow(context);
+    }
+    onShow(context);
+  }
+
+  final void resume(Context context) {
+    for (LifecycleListener lifecycleListener: lifecycleListeners) {
+      lifecycleListener.onResume(context);
+    }
+    onResume(context);
+  }
+
+  final void pause(Context context) {
+    onPause(context);
+    for (LifecycleListener lifecycleListener: lifecycleListeners) {
+      lifecycleListener.onPause(context);
+    }
+  }
+  
+  final void hide(Context context) {
+    onHide(context);
+    for (LifecycleListener lifecycleListener: lifecycleListeners) {
+      lifecycleListener.onHide(context);
+    }
+  }
 
   /**
    * The only mandatory method to implement in a Screen. <b>Must</b> create and return a new instance of the View
@@ -200,8 +240,6 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
    */
   protected void onShow(Context context) {}
 
-  protected void onSave(Bundle outState) {}
-
   /**
    * Called when the Activity is paused and when the Screen is hidden.
    */
@@ -211,6 +249,10 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
    * Called when the Screen is hidden (including on rotation).
    */
   protected void onHide(Context context) {}
+
+  protected void onRestore(Bundle savedInstanceState) {}
+
+  protected void onSave(Bundle outState) {}
 
   /**
    * Finish the Activity, and therefore quit the app in a Single Activity Architecture.
@@ -271,6 +313,18 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
 
   protected final void checkOnCreateNotYetCalled(String reason) {
     checkState(activity == null, reason);
+  }
+
+  public final void addLifecycleListener(LifecycleListener LifecycleListener) {
+    lifecycleListeners.add(LifecycleListener);
+  }
+
+  public final void removeLifecycleListener(LifecycleListener LifecycleListener) {
+    lifecycleListeners.remove(lifecycleListeners);
+  }
+
+  public final void clearLifecycleListeners() {
+    lifecycleListeners.clear();
   }
 
   /**

@@ -40,7 +40,7 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
     for (Screen screen : screens) {
       screen.recreateView(getActivity());
       screen.createDialog();
-      screen.onShow(context);
+      screen.show(context);
     }
   }
 
@@ -54,14 +54,14 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
   @Override
   protected void onResume(Context context) {
     for (Screen screen : screens) {
-      screen.onResume(context);
+      screen.resume(context);
     }
   }
 
   @Override
   protected void onPause(Context context) {
     for (Screen screen : screens) {
-      screen.onPause(context);
+      screen.pause(context);
     }
   }
 
@@ -75,7 +75,7 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
   @Override
   protected void onHide(Context context) {
     for (Screen screen : screens) {
-      screen.onHide(context);
+      screen.hide(context);
       screen.destroyDialog();
       screen.destroyView();
     }

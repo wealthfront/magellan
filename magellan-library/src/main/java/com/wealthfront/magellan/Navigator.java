@@ -89,7 +89,6 @@ public class Navigator implements BackHandler {
     checkState(container != null, "There must be a ScreenContainer whose id is R.id.magellan_container in the view hierarchy");
     for (Screen screen : backStack) {
       screen.restore(savedInstanceState);
-      screen.onRestore(savedInstanceState);
     }
     showCurrentScreen(FORWARD);
   }
@@ -105,7 +104,6 @@ public class Navigator implements BackHandler {
   public void onSaveInstanceState(Bundle outState) {
     for (Screen screen : backStack) {
       screen.save(outState);
-      screen.onSave(outState);
     }
   }
 
@@ -150,7 +148,7 @@ public class Navigator implements BackHandler {
    */
   public void onResume(Activity activity) {
     if (sameActivity(activity)) {
-      currentScreen().onResume(activity);
+      currentScreen().resume(activity);
     }
   }
 
@@ -165,7 +163,7 @@ public class Navigator implements BackHandler {
    */
   public void onPause(Activity activity) {
     if (sameActivity(activity)) {
-      currentScreen().onPause(activity);
+      currentScreen().pause(activity);
     }
   }
 
@@ -584,7 +582,7 @@ public class Navigator implements BackHandler {
     container.addView(view, direction == FORWARD ? container.getChildCount() : 0);
     currentScreen.createDialog();
     activity.setTitle(currentScreen.getTitle(activity));
-    currentScreen.onShow(activity);
+    currentScreen.show(activity);
     for (ScreenLifecycleListener lifecycleListener : lifecycleListeners) {
       lifecycleListener.onShow(currentScreen);
     }
@@ -611,7 +609,8 @@ public class Navigator implements BackHandler {
     for (ScreenLifecycleListener lifecycleListener : lifecycleListeners) {
       lifecycleListener.onHide(currentScreen);
     }
-    currentScreen.onHide(activity);
+    currentScreen.hide(activity);
+    currentScreen.clearLifecycleListeners();
     currentScreen.destroyDialog();
     currentScreen.destroyView();
     View view = container.getChildAt(0); // will be removed at the end of the animation
