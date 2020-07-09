@@ -7,8 +7,7 @@ import android.widget.ArrayAdapter
 import android.widget.GridView
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.DrawableRes
-import com.wealthfront.magellan.core.Screen
+import com.wealthfront.magellan.compose.core.Screen
 import com.wealthfront.magellan.sample.advanced.R
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.advanced.model.TideLocations

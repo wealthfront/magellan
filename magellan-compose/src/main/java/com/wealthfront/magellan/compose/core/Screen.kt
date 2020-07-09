@@ -1,10 +1,11 @@
-package com.wealthfront.magellan.core
+package com.wealthfront.magellan.compose.core
 
 import android.content.Context
 import android.view.View
 import androidx.annotation.LayoutRes
-import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
-import com.wealthfront.magellan.lifecycle.lifecycleView
+import com.wealthfront.magellan.compose.lifecycle.LifecycleAwareComponent
+import com.wealthfront.magellan.compose.view.lifecycleView
+import com.wealthfront.magellan.compose.view.Displayable
 
 abstract class Screen(
   @LayoutRes val layoutRes: Int

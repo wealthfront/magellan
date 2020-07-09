@@ -1,16 +1,15 @@
-package com.wealthfront.magellan.lifecycle
+package com.wealthfront.magellan.compose.lifecycle
 
 import android.content.Context
-import com.wealthfront.magellan.core.Screen
-import com.wealthfront.magellan.lifecycle.LifecycleState.Created
-import com.wealthfront.magellan.lifecycle.LifecycleState.Destroyed
-import com.wealthfront.magellan.lifecycle.LifecycleState.Resumed
-import com.wealthfront.magellan.lifecycle.LifecycleState.Shown
-import com.wealthfront.magellan.lifecycle.LifecycleStateDirection.BACKWARDS
-import com.wealthfront.magellan.lifecycle.LifecycleStateDirection.FORWARD
-import com.wealthfront.magellan.lifecycle.LifecycleStateDirection.NO_MOVEMENT
+import com.wealthfront.magellan.compose.lifecycle.LifecycleState.Created
+import com.wealthfront.magellan.compose.lifecycle.LifecycleState.Destroyed
+import com.wealthfront.magellan.compose.lifecycle.LifecycleState.Resumed
+import com.wealthfront.magellan.compose.lifecycle.LifecycleState.Shown
+import com.wealthfront.magellan.compose.lifecycle.LifecycleStateDirection.BACKWARDS
+import com.wealthfront.magellan.compose.lifecycle.LifecycleStateDirection.FORWARD
+import com.wealthfront.magellan.compose.lifecycle.LifecycleStateDirection.NO_MOVEMENT
 
-class LifecycleStateMachine {
+internal class LifecycleStateMachine {
 
   fun transitionBetweenLifecycleStates(
     lifecycleAware: LifecycleAware,

@@ -1,9 +1,12 @@
-package com.wealthfront.magellan.lifecycle
+package com.wealthfront.magellan.compose.view
 
 import android.content.Context
 import android.view.View
+import com.wealthfront.magellan.compose.lifecycle.LifecycleAware
+import com.wealthfront.magellan.compose.lifecycle.LifecycleOwner
+import com.wealthfront.magellan.compose.lifecycle.lifecycle
 
-class LifecycleView<CustomView : View>(
+open class LifecycleView<CustomView : View>(
   val createView: (Context) -> CustomView
 ) : LifecycleAware {
   var view: CustomView? = null

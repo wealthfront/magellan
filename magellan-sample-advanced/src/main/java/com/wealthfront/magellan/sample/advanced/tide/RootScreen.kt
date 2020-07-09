@@ -2,11 +2,9 @@ package com.wealthfront.magellan.sample.advanced.tide
 
 import android.content.Context
 import android.view.ViewGroup
-import com.wealthfront.magellan.core.Screen
-import com.wealthfront.magellan.core.NavigationDirection
-import com.wealthfront.magellan.core.Navigator
-import com.wealthfront.magellan.lifecycle.lifecycle
-import com.wealthfront.magellan.lifecycle.lifecycleView
+import com.wealthfront.magellan.compose.core.Screen
+import com.wealthfront.magellan.compose.core.Navigator
+import com.wealthfront.magellan.compose.lifecycle.lifecycle
 import com.wealthfront.magellan.sample.advanced.R
 
 class RootScreen : Screen(R.layout.base) {
@@ -19,7 +17,7 @@ class RootScreen : Screen(R.layout.base) {
 
   private fun goToTideLocationScreen() {
     val onLocationSelected: (Int) -> Unit = { noaaApiId ->
-      navigator.goTo(TideDetailsScreen(noaaApiId), NavigationDirection.FORWARD)
+      navigator.goTo(TideDetailsScreen(noaaApiId))
     }
 
     navigator.goTo(TideLocationsScreen(onLocationSelected))

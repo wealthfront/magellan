@@ -11,7 +11,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.VisibleForTesting
-import com.wealthfront.magellan.core.Screen
+import com.wealthfront.magellan.compose.core.Screen
 import com.wealthfront.magellan.sample.advanced.NoaaApi
 import com.wealthfront.magellan.sample.advanced.R
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app

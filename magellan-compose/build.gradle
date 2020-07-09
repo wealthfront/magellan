@@ -34,12 +34,16 @@ android {
 apply from: rootProject.file('checkstyle/checkstyle.gradle')
 
 dependencies {
+  implementation project(':magellan-library')
+
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+  implementation "androidx.lifecycle:lifecycle-common-java8:${LIFECYCLE_VERSION}"
   implementation "androidx.appcompat:appcompat:${SUPPORT_LIBRARY_VERSION}"
 
   testImplementation "junit:junit:${JUNIT_VERSION}"
   testImplementation "com.google.truth:truth:${TRUTH_VERSION}"
   testImplementation "org.mockito:mockito-core:${MOCKITO_VERSION}"
+  testImplementation "androidx.arch.core:core-testing:${ARCH_VERSION}"
   testImplementation "org.robolectric:robolectric:${ROBOLECTRIC_VERSION}"
 }
 

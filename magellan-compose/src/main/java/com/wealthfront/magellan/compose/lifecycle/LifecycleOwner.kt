@@ -1,4 +1,4 @@
-package com.wealthfront.magellan.lifecycle
+package com.wealthfront.magellan.compose.lifecycle
 
 interface LifecycleOwner {
 

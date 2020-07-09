@@ -1,17 +1,17 @@
-package com.wealthfront.magellan.lifecycle
+package com.wealthfront.magellan.compose.lifecycle
 
 import android.content.Context
-import com.wealthfront.magellan.lifecycle.LifecycleState.Created
-import com.wealthfront.magellan.lifecycle.LifecycleState.Destroyed
-import com.wealthfront.magellan.lifecycle.LifecycleState.Resumed
-import com.wealthfront.magellan.lifecycle.LifecycleState.Shown
+import com.wealthfront.magellan.compose.lifecycle.LifecycleState.Created
+import com.wealthfront.magellan.compose.lifecycle.LifecycleState.Destroyed
+import com.wealthfront.magellan.compose.lifecycle.LifecycleState.Resumed
+import com.wealthfront.magellan.compose.lifecycle.LifecycleState.Shown
 
-class LifecycleRegistry : LifecycleAware {
+internal class LifecycleRegistry : LifecycleAware {
 
   private var listeners: List<LifecycleAware> = emptyList()
   private val lifecycleStateMachine = LifecycleStateMachine()
 
-  var currentState: LifecycleState = Destroyed
+  internal var currentState: LifecycleState = Destroyed
     private set(newState) {
       val oldState = field
       field = newState

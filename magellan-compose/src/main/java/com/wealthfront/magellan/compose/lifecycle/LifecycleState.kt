@@ -1,9 +1,9 @@
-package com.wealthfront.magellan.lifecycle
+package com.wealthfront.magellan.compose.lifecycle
 
 import android.content.Context
-import com.wealthfront.magellan.lifecycle.LifecycleStateDirection.BACKWARDS
-import com.wealthfront.magellan.lifecycle.LifecycleStateDirection.FORWARD
-import com.wealthfront.magellan.lifecycle.LifecycleStateDirection.NO_MOVEMENT
+import com.wealthfront.magellan.compose.lifecycle.LifecycleStateDirection.BACKWARDS
+import com.wealthfront.magellan.compose.lifecycle.LifecycleStateDirection.FORWARD
+import com.wealthfront.magellan.compose.lifecycle.LifecycleStateDirection.NO_MOVEMENT
 
 sealed class LifecycleState(open val context: Context? = null, private val order: Int) {
 

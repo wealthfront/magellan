@@ -2,7 +2,7 @@ package com.wealthfront.magellan.sample.advanced
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.wealthfront.magellan.lifecycle.setContentScreen
+import com.wealthfront.magellan.compose.lifecycle.setContentScreen
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.advanced.tide.RootScreen
 
@@ -15,5 +15,11 @@ class MainActivity : AppCompatActivity() {
     setContentView(R.layout.activity_main)
     app(this).injector().inject(this)
     setContentScreen(rootScreen, R.id.magellan_container)
+  }
+
+  override fun onBackPressed() {
+    if (!rootScreen.backPressed()) {
+      super.onBackPressed()
+    }
   }
 }
