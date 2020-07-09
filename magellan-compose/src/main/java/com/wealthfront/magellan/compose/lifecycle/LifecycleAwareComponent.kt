@@ -1,7 +1,6 @@
 package com.wealthfront.magellan.compose.lifecycle
 
 import android.content.Context
-import android.view.Menu
 
 abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
 
@@ -39,11 +38,6 @@ abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
     lifecycleRegistry.destroy(context)
   }
 
-  final override fun updateMenu(menu: Menu) {
-    onUpdateMenu(menu)
-    lifecycleRegistry.updateMenu(menu)
-  }
-
   final override fun backPressed(): Boolean {
     return lifecycleRegistry.backPressed() || onBackPressed()
   }
@@ -67,8 +61,6 @@ abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
   protected open fun onHide(context: Context) {}
 
   protected open fun onDestroy(context: Context) {}
-
-  protected open fun onUpdateMenu(menu: Menu) {}
 
   protected open fun onBackPressed(): Boolean = false
 }

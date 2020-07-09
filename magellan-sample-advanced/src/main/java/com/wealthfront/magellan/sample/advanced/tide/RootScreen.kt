@@ -1,14 +1,14 @@
 package com.wealthfront.magellan.sample.advanced.tide
 
 import android.content.Context
-import android.view.ViewGroup
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.compose.core.Screen
 import com.wealthfront.magellan.compose.core.Navigator
 import com.wealthfront.magellan.compose.lifecycle.lifecycle
 import com.wealthfront.magellan.sample.advanced.R
+import com.wealthfront.magellan.sample.advanced.databinding.BaseBinding
 
-class RootScreen : Screen(R.layout.base) {
+class RootScreen : Screen<BaseBinding>(BaseBinding::inflate) {
 
   var navigator by lifecycle(Navigator { view as ScreenContainer })
 

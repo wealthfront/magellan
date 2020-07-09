@@ -1,15 +1,10 @@
 package com.wealthfront.magellan.compose.core
 
 import android.content.Context
-import android.view.Menu
 import android.view.View
-import android.view.ViewGroup
-import androidx.activity.ComponentActivity
-import com.wealthfront.magellan.ActionBarConfig
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
-import com.wealthfront.magellan.NavigationListener
 import com.wealthfront.magellan.NavigationType
 import com.wealthfront.magellan.NavigationType.GO
 import com.wealthfront.magellan.ScreenContainer
@@ -26,7 +21,7 @@ import java.util.LinkedList
 
 class Navigator(private val container: (Context) -> ScreenContainer?) : LifecycleAwareComponent() {
 
-  private val backStack: Deque<Screen> = LinkedList()
+  private val backStack: Deque<Navigable> = LinkedList()
   private var ghostView: View? = null
   private var containerView: ScreenContainer? = null
 
@@ -35,12 +30,12 @@ class Navigator(private val container: (Context) -> ScreenContainer?) : Lifecycl
 
   private val lifecycleStateMachine = LifecycleStateMachine()
 
-  private fun currentScreen(): Screen? {
+  private fun currentNavigable(): Navigable? {
     return backStack.peek()
   }
 
   override fun onCreate(context: Context) {
-    currentScreen()?.let {
+    currentNavigable()?.let {
       lifecycleStateMachine.transitionBetweenLifecycleStates(it, Destroyed, Created(context))
     }
     lifecycleStateMachine.transitionBetweenLifecycleStates(backStack, Destroyed, Created(context))
@@ -48,31 +43,25 @@ class Navigator(private val container: (Context) -> ScreenContainer?) : Lifecycl
 
   override fun onShow(context: Context) {
     containerView = container(context)
-    currentScreen()?.let {
+    currentNavigable()?.let {
       containerView!!.addView(it.view!!)
     }
   }
 
   override fun onDestroy(context: Context) {
-    currentScreen()?.let {
+    currentNavigable()?.let {
       lifecycleStateMachine.transitionBetweenLifecycleStates(it, Created(context), Destroyed)
     }
     lifecycleStateMachine.transitionBetweenLifecycleStates(backStack, Created(context), Destroyed)
     containerView = null
   }
 
-  override fun onUpdateMenu(menu: Menu) {
-    for (i in 0 until menu.size()) {
-      menu.getItem(i).isVisible = false
-    }
-  }
-
-  fun goTo(nextScreen: Screen) {
+  fun goTo(nextScreen: Navigable) {
     navigateTo(nextScreen, GO)
 
   }
 
-  private fun navigateTo(nextScreen: Screen, navType: NavigationType) {
+  private fun navigateTo(nextScreen: Navigable, navType: NavigationType) {
     navigate(FORWARD, navType) { backStack ->
       backStack.push(nextScreen)
     }
@@ -84,7 +73,7 @@ class Navigator(private val container: (Context) -> ScreenContainer?) : Lifecycl
     }
   }
 
-  private fun navigate(direction: Direction, navigationType: NavigationType, backstackOperation: (Deque<Screen>) -> Unit) {
+  private fun navigate(direction: Direction, navigationType: NavigationType, backstackOperation: (Deque<Navigable>) -> Unit) {
     containerView?.setInterceptTouchEvents(true)
     val from = hideCurrentScreen(direction)
     backstackOperation.invoke(backStack)
@@ -103,7 +92,7 @@ class Navigator(private val container: (Context) -> ScreenContainer?) : Lifecycl
             // Only clear the ghost if it's the same as the view we just removed
             ghostView = null
           }
-          currentScreen()!!.transitionFinished()
+          currentNavigable()!!.transitionFinished()
           containerView!!.setInterceptTouchEvents(false)
         }
       }
@@ -111,7 +100,7 @@ class Navigator(private val container: (Context) -> ScreenContainer?) : Lifecycl
   }
 
   private fun showCurrentScreen(direction: Direction): View? {
-    val currentScreen = currentScreen()!!
+    val currentScreen = currentNavigable()!!
     currentScreen.transitionStarted()
     attachToLifecycle(currentScreen, detachedState = when (direction) {
       FORWARD -> Destroyed
@@ -132,29 +121,17 @@ class Navigator(private val container: (Context) -> ScreenContainer?) : Lifecycl
   }
 
   private fun hideCurrentScreen(direction: Direction): View? {
-    return currentScreen()?.let { currentNavigable ->
+    return currentNavigable()?.let { currentNavigable ->
       val currentView = currentNavigable.view
       removeFromLifecycle(currentNavigable, detachedState = when (direction) {
         FORWARD -> currentState.getEarlierOfCurrentState()
         BACKWARD -> Destroyed
       })
-      callOnNavigate(context as ComponentActivity)
       currentView
     }
   }
 
-  private fun callOnNavigate(activity: ComponentActivity) {
-    if (activity is NavigationListener) {
-      activity.onNavigate(
-        ActionBarConfig.with()
-          .visible(currentScreen()!!.shouldShowActionBar())
-          .animated(currentScreen()!!.shouldAnimateActionBar())
-          .colorRes(currentScreen()!!.getActionBarColorRes())
-          .build());
-    }
-  }
-
-  override fun onBackPressed(): Boolean = currentScreen()?.backPressed() ?: false || goBack()
+  override fun onBackPressed(): Boolean = currentNavigable()?.backPressed() ?: false || goBack()
 
   fun goBack(): Boolean {
     return if (!atRoot()) {

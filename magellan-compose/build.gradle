@@ -24,6 +24,10 @@ android {
     setTargetCompatibility(JavaVersion.VERSION_1_8)
   }
 
+  buildFeatures {
+    viewBinding = true
+  }
+
   buildTypes {
     release {
       minifyEnabled false

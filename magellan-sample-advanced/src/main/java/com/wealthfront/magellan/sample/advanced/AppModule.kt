@@ -23,7 +23,7 @@ internal class AppModule(private val context: Context) {
 
   @Provides
   @Singleton
-  fun provideRootScreen(): Screen {
+  fun provideRootScreen(): Screen<*> {
     return RootScreen()
   }
 

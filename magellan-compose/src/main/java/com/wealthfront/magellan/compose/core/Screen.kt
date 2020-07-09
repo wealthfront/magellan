@@ -3,39 +3,40 @@ package com.wealthfront.magellan.compose.core
 import android.content.Context
 import android.os.Parcelable
 import android.util.SparseArray
+import android.view.LayoutInflater
 import android.view.View
-import androidx.annotation.ColorRes
-import androidx.annotation.LayoutRes
+import androidx.viewbinding.ViewBinding
 import com.wealthfront.magellan.compose.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.compose.view.Displayable
+import com.wealthfront.magellan.compose.view.lifecycleBinding
 import com.wealthfront.magellan.compose.view.lifecycleView
 
-private const val DEFAULT_ACTION_BAR_COLOR_RES = 0
-
-abstract class Screen(
-  @LayoutRes val layoutRes: Int
-) : Displayable, LifecycleAwareComponent() {
+abstract class Screen<V: ViewBinding>(
+  createBinding: (LayoutInflater) -> V
+) : Navigable, LifecycleAwareComponent() {
 
   private var viewState: SparseArray<Parcelable>? = null
 
-  final override var view: View? by lifecycleView { context -> View.inflate(context, layoutRes, null) }
+  private val viewBinding: V? by lifecycleBinding { context ->  createBinding.invoke(LayoutInflater.from(context)) }
+
+  final override var view: View? by lifecycleView { viewBinding!!.root }
     private set
 
   final override fun onShow(context: Context) {
     restoreViewState()
-    onShow(context, view!!)
+    onShow(context, viewBinding!!)
   }
 
   final override fun onResume(context: Context) {
-    onResume(context, view!!)
+    onResume(context, viewBinding!!)
   }
 
   final override fun onPause(context: Context) {
-    onPause(context, view!!)
+    onPause(context, viewBinding!!)
   }
 
   final override fun onHide(context: Context) {
-    onHide(context, view!!)
+    onHide(context, viewBinding!!)
     saveViewState()
   }
 
@@ -51,19 +52,12 @@ abstract class Screen(
     viewState = null
   }
 
-  open fun shouldShowActionBar(): Boolean = true
+  protected open fun onShow(context: Context, binding: V) {}
 
-  open fun shouldAnimateActionBar(): Boolean = true
+  protected open fun onResume(context: Context, binding: V) {}
 
-  @ColorRes
-  open fun getActionBarColorRes(): Int = DEFAULT_ACTION_BAR_COLOR_RES
+  protected open fun onPause(context: Context, binding: V) {}
 
-  protected open fun onShow(context: Context, view: View) {}
-
-  protected open fun onResume(context: Context, view: View) {}
-
-  protected open fun onPause(context: Context, view: View) {}
-
-  protected open fun onHide(context: Context, view: View) {}
+  protected open fun onHide(context: Context, binding: V) {}
 
 }

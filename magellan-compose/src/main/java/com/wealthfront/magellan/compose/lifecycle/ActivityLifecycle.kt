@@ -1,7 +1,6 @@
 package com.wealthfront.magellan.compose.lifecycle
 
 import android.app.Activity
-import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
 import androidx.annotation.IdRes
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -10,14 +9,14 @@ import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.compose.core.Screen
 
 fun ComponentActivity.setContentScreen(
-  screen: Screen,
+  screen: Screen<*>,
   @IdRes containerRes: Int
 ) {
   lifecycle.addObserver(ActivityLifecycleAdapter(screen, this, containerRes))
 }
 
 internal class ActivityLifecycleAdapter(
-  private val screen: Screen,
+  private val screen: Screen<*>,
   private val context: Activity,
   private val containerRes: Int
 ) : DefaultLifecycleObserver {

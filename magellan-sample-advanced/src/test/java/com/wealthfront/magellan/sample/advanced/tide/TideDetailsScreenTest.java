@@ -1,8 +1,10 @@
 package com.wealthfront.magellan.sample.advanced.tide;
 
-import android.view.View;
+import android.content.Context;
+import android.view.LayoutInflater;
 
 import com.wealthfront.magellan.sample.advanced.NoaaApi;
+import com.wealthfront.magellan.sample.advanced.databinding.TideDetailBinding;
 import com.wealthfront.magellan.sample.advanced.model.Observation;
 import com.wealthfront.magellan.sample.advanced.model.TideInfo;
 
@@ -18,10 +20,10 @@ import java.util.Collections;
 
 import rx.Observable;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -35,13 +37,16 @@ public class TideDetailsScreenTest {
   private static final int FAKE_NOAA_API_ID = 1;
 
   @Mock NoaaApi noaaApi;
-  @Mock View view;
+  @Mock Context context;
   TideDetailsScreen screen;
+  TideDetailBinding binding;
 
   @Before
   public void setUp() {
     initMocks(this);
-    screen = spy(new TideDetailsScreen(FAKE_NOAA_API_ID));
+    screen = new TideDetailsScreen(FAKE_NOAA_API_ID);
+
+    binding = TideDetailBinding.inflate(LayoutInflater.from(application));
     screen.noaaApi = noaaApi;
   }
 
@@ -50,10 +55,11 @@ public class TideDetailsScreenTest {
     when(noaaApi.getTideInfo(FAKE_NOAA_API_ID)).thenReturn(Observable.just(
         TideInfo.with()
             .build()));
-    screen.onShow(application, view);
+    screen.onShow(context, binding);
 
     verify(noaaApi).getTideInfo(FAKE_NOAA_API_ID);
-    verify(screen, never()).setTideHeights(any(View.class), any(BigDecimal.class), any(BigDecimal.class), any(BigDecimal.class));
+    assertThat(binding.tideDetailsContent.getVisibility()).isEqualTo(GONE);
+    assertThat(binding.loading.getVisibility()).isEqualTo(VISIBLE);
   }
 
   @Test
@@ -62,10 +68,11 @@ public class TideDetailsScreenTest {
         TideInfo.with()
             .data(Collections.<Observation>emptyList())
             .build()));
-    screen.onShow(application, view);
+    screen.onShow(context, binding);
 
     verify(noaaApi).getTideInfo(FAKE_NOAA_API_ID);
-    verify(screen, never()).setTideHeights(any(View.class), any(BigDecimal.class), any(BigDecimal.class), any(BigDecimal.class));
+    assertThat(binding.tideDetailsContent.getVisibility()).isEqualTo(GONE);
+    assertThat(binding.loading.getVisibility()).isEqualTo(VISIBLE);
   }
 
   @Test
@@ -77,11 +84,16 @@ public class TideDetailsScreenTest {
             Observation.with().verifiedWaterLevel(BigDecimal.ONE).build()
         ))
         .build();
+
     when(noaaApi.getTideInfo(FAKE_NOAA_API_ID)).thenReturn(Observable.just(tideInfo));
-    screen.onShow(application, view);
+    screen.onShow(context, binding);
 
     verify(noaaApi).getTideInfo(FAKE_NOAA_API_ID);
-    verify(screen).setTideHeights(view, BigDecimal.ONE, BigDecimal.ZERO, BigDecimal.TEN);
+    assertThat(binding.tideDetailsContent.getVisibility()).isEqualTo(VISIBLE);
+    assertThat(binding.loading.getVisibility()).isEqualTo(GONE);
+    assertThat(binding.currentWaterLevel.getText()).isEqualTo("Current Water Level: 1.00 ft");
+    assertThat(binding.highestWaterLevel.getText()).isEqualTo("Today's Highest Water Level: 10.00 ft");
+    assertThat(binding.lowestWaterLevel.getText()).isEqualTo("Today's Lowest Water Level: 0.00 ft");
   }
 
 }

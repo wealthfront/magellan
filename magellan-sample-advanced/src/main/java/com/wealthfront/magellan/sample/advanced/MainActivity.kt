@@ -1,7 +1,6 @@
 package com.wealthfront.magellan.sample.advanced
 
 import android.os.Bundle
-import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import com.wealthfront.magellan.ActionBarConfig
 import com.wealthfront.magellan.NavigationListener
@@ -18,16 +17,6 @@ class MainActivity : AppCompatActivity(), NavigationListener {
     setContentView(R.layout.activity_main)
     app(this).injector().inject(this)
     setContentScreen(rootScreen, R.id.magellan_container)
-  }
-
-  override fun onCreateOptionsMenu(menu: Menu): Boolean {
-    rootScreen.updateMenu(menu)
-    return super.onCreateOptionsMenu(menu)
-  }
-
-  override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-    rootScreen.updateMenu(menu)
-    return super.onPrepareOptionsMenu(menu)
   }
 
   override fun onBackPressed() {

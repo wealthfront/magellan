@@ -1,7 +1,6 @@
 package com.wealthfront.magellan.compose.lifecycle
 
 import android.content.Context
-import android.view.Menu
 import com.wealthfront.magellan.compose.lifecycle.LifecycleState.Created
 import com.wealthfront.magellan.compose.lifecycle.LifecycleState.Destroyed
 import com.wealthfront.magellan.compose.lifecycle.LifecycleState.Resumed
@@ -57,11 +56,7 @@ internal class LifecycleRegistry : LifecycleAware {
   override fun destroy(context: Context) {
     currentState = Destroyed
   }
-
-  override fun updateMenu(menu: Menu) {
-    listeners.asSequence().forEach { it.updateMenu(menu) }
-  }
-
+  
   override fun backPressed(): Boolean = onAllListenersUntilTrue { it.backPressed() }
 
   private fun onAllListenersUntilTrue(action: (LifecycleAware) -> Boolean): Boolean =
