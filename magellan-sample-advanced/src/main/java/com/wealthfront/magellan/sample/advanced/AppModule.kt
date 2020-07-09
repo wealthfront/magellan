@@ -1,6 +1,8 @@
 package com.wealthfront.magellan.sample.advanced
 
 import android.content.Context
+import com.wealthfront.magellan.compose.core.Screen
+import com.wealthfront.magellan.sample.advanced.tide.RootScreen
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -17,6 +19,12 @@ internal class AppModule(private val context: Context) {
   @Provides
   fun provideContext(): Context {
     return context
+  }
+
+  @Provides
+  @Singleton
+  fun provideRootScreen(): Screen {
+    return RootScreen()
   }
 
   @Provides

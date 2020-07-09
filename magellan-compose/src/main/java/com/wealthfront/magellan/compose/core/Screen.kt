@@ -1,20 +1,25 @@
 package com.wealthfront.magellan.compose.core
 
 import android.content.Context
+import android.os.Parcelable
+import android.util.SparseArray
 import android.view.View
 import androidx.annotation.LayoutRes
 import com.wealthfront.magellan.compose.lifecycle.LifecycleAwareComponent
-import com.wealthfront.magellan.compose.view.lifecycleView
 import com.wealthfront.magellan.compose.view.Displayable
+import com.wealthfront.magellan.compose.view.lifecycleView
 
 abstract class Screen(
   @LayoutRes val layoutRes: Int
 ) : Displayable, LifecycleAwareComponent() {
 
+  private var viewState: SparseArray<Parcelable>? = null
+
   final override var view: View? by lifecycleView { context -> View.inflate(context, layoutRes, null) }
     private set
 
   final override fun onShow(context: Context) {
+    restoreViewState()
     onShow(context, view!!)
   }
 
@@ -28,6 +33,19 @@ abstract class Screen(
 
   final override fun onHide(context: Context) {
     onHide(context, view!!)
+    saveViewState()
+  }
+
+  private fun restoreViewState() {
+    if (viewState != null) {
+      view!!.restoreHierarchyState(viewState)
+    }
+  }
+
+  private fun saveViewState() {
+    viewState = SparseArray()
+    view!!.saveHierarchyState(viewState)
+    viewState = null
   }
 
   protected open fun onShow(context: Context, view: View) {}
