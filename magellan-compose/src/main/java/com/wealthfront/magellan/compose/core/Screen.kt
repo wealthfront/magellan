@@ -4,10 +4,13 @@ import android.content.Context
 import android.os.Parcelable
 import android.util.SparseArray
 import android.view.View
+import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
 import com.wealthfront.magellan.compose.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.compose.view.Displayable
 import com.wealthfront.magellan.compose.view.lifecycleView
+
+private const val DEFAULT_ACTION_BAR_COLOR_RES = 0
 
 abstract class Screen(
   @LayoutRes val layoutRes: Int
@@ -47,6 +50,13 @@ abstract class Screen(
     view!!.saveHierarchyState(viewState)
     viewState = null
   }
+
+  open fun shouldShowActionBar(): Boolean = true
+
+  open fun shouldAnimateActionBar(): Boolean = true
+
+  @ColorRes
+  open fun getActionBarColorRes(): Int = DEFAULT_ACTION_BAR_COLOR_RES
 
   protected open fun onShow(context: Context, view: View) {}
 

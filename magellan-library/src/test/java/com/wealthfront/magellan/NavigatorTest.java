@@ -19,6 +19,8 @@ import org.robolectric.fakes.RoboMenu;
 
 import java.util.Deque;
 
+import androidx.annotation.NonNull;
+
 import static com.google.common.truth.Truth.assertThat;
 import static com.wealthfront.magellan.NavigationType.NO_ANIM;
 import static org.mockito.Matchers.isA;
@@ -502,7 +504,7 @@ public class NavigatorTest {
     ActionBarConfig actionBarConfig;
 
     @Override
-    public void onNavigate(ActionBarConfig actionBarConfig) {
+    public void onNavigate(@NonNull ActionBarConfig actionBarConfig) {
       this.actionBarConfig = actionBarConfig;
     }
 

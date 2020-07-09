@@ -1,11 +1,15 @@
 package com.wealthfront.magellan.compose.core
 
 import android.content.Context
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.ComponentActivity
+import com.wealthfront.magellan.ActionBarConfig
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
+import com.wealthfront.magellan.NavigationListener
 import com.wealthfront.magellan.NavigationType
 import com.wealthfront.magellan.NavigationType.GO
 import com.wealthfront.magellan.compose.lifecycle.LifecycleAwareComponent
@@ -51,6 +55,12 @@ class Navigator(private val container: (Context) -> ViewGroup) : LifecycleAwareC
       lifecycleStateMachine.transitionBetweenLifecycleStates(it, Created(context), Destroyed)
     }
     lifecycleStateMachine.transitionBetweenLifecycleStates(backStack, Created(context), Destroyed)
+  }
+
+  override fun onUpdateMenu(menu: Menu) {
+    for (i in 0 until menu.size()) {
+      menu.getItem(i).isVisible = false
+    }
   }
 
   fun goTo(nextScreen: Screen) {
@@ -123,7 +133,19 @@ class Navigator(private val container: (Context) -> ViewGroup) : LifecycleAwareC
         FORWARD -> currentState.getEarlierOfCurrentState()
         BACKWARD -> Destroyed
       })
+      callOnNavigate(context as ComponentActivity)
       currentView
+    }
+  }
+
+  private fun callOnNavigate(activity: ComponentActivity) {
+    if (activity is NavigationListener) {
+      activity.onNavigate(
+        ActionBarConfig.with()
+          .visible(currentScreen()!!.shouldShowActionBar())
+          .animated(currentScreen()!!.shouldAnimateActionBar())
+          .colorRes(currentScreen()!!.getActionBarColorRes())
+          .build());
     }
   }
 

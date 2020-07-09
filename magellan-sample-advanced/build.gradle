@@ -39,6 +39,7 @@ apply from: rootProject.file('checkstyle/checkstyle.gradle')
 
 dependencies {
   implementation project(':magellan-compose')
+  implementation project(':magellan-library')
 
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
   implementation "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"

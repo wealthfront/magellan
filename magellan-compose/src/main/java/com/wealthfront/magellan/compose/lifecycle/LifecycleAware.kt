@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.compose.lifecycle
 
 import android.content.Context
+import android.view.Menu
 
 interface LifecycleAware {
 
@@ -15,6 +16,8 @@ interface LifecycleAware {
   fun hide(context: Context) {}
 
   fun destroy(context: Context) {}
+
+  fun updateMenu(menu: Menu) {}
 
   fun backPressed(): Boolean = false
 }

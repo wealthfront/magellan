@@ -1,7 +1,9 @@
 package com.wealthfront.magellan;
 
+import androidx.annotation.NonNull;
+
 public interface NavigationListener {
 
-  void onNavigate(ActionBarConfig actionBarConfig);
+  void onNavigate(@NonNull ActionBarConfig actionBarConfig);
 
 }
