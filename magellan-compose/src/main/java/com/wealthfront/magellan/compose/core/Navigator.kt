@@ -14,14 +14,14 @@ import com.wealthfront.magellan.compose.lifecycle.LifecycleState.Destroyed
 import com.wealthfront.magellan.compose.lifecycle.LifecycleState.Resumed
 import com.wealthfront.magellan.compose.lifecycle.LifecycleState.Shown
 import com.wealthfront.magellan.compose.lifecycle.LifecycleStateMachine
-import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.compose.view.whenMeasured
+import com.wealthfront.magellan.transitions.DefaultTransition
 import java.util.Deque
 import java.util.LinkedList
 
 class Navigator(private val container: (Context) -> ViewGroup) : LifecycleAwareComponent() {
 
-  private val backstack: Deque<Screen> = LinkedList()
+  private val backStack: Deque<Screen> = LinkedList()
   private var ghostView: View? = null
 
   val context: Context?
@@ -30,14 +30,14 @@ class Navigator(private val container: (Context) -> ViewGroup) : LifecycleAwareC
   private val lifecycleStateMachine = LifecycleStateMachine()
 
   private fun currentScreen(): Screen? {
-    return backstack.peek()
+    return backStack.peek()
   }
 
   override fun onCreate(context: Context) {
     currentScreen()?.let {
       lifecycleStateMachine.transitionBetweenLifecycleStates(it, Destroyed, Created(context))
     }
-    lifecycleStateMachine.transitionBetweenLifecycleStates(backstack, Destroyed, Created(context))
+    lifecycleStateMachine.transitionBetweenLifecycleStates(backStack, Destroyed, Created(context))
   }
 
   override fun onShow(context: Context) {
@@ -50,7 +50,7 @@ class Navigator(private val container: (Context) -> ViewGroup) : LifecycleAwareC
     currentScreen()?.let {
       lifecycleStateMachine.transitionBetweenLifecycleStates(it, Created(context), Destroyed)
     }
-    lifecycleStateMachine.transitionBetweenLifecycleStates(backstack, Created(context), Destroyed)
+    lifecycleStateMachine.transitionBetweenLifecycleStates(backStack, Created(context), Destroyed)
   }
 
   fun goTo(nextScreen: Screen) {
@@ -72,7 +72,7 @@ class Navigator(private val container: (Context) -> ViewGroup) : LifecycleAwareC
 
   private fun navigate(direction: Direction, navigationType: NavigationType, backstackOperation: (Deque<Screen>) -> Unit) {
     val from = hideCurrentScreen(direction)
-    backstackOperation.invoke(backstack)
+    backstackOperation.invoke(backStack)
     val to = showCurrentScreen(direction)
     animateAndRemove(from, to, navigationType, direction)
   }
@@ -95,7 +95,8 @@ class Navigator(private val container: (Context) -> ViewGroup) : LifecycleAwareC
   }
 
   private fun showCurrentScreen(direction: Direction): View? {
-    val currentScreen = backstack.peek()!!
+    val currentScreen = currentScreen()!!
+    currentScreen.transitionStarted()
     attachToLifecycle(currentScreen, detachedState = when (direction) {
       FORWARD -> Destroyed
       BACKWARD -> currentState.getEarlierOfCurrentState()
@@ -137,6 +138,6 @@ class Navigator(private val container: (Context) -> ViewGroup) : LifecycleAwareC
     }
   }
 
-  private fun atRoot() = backstack.size == 1
+  private fun atRoot() = backStack.size == 1
 
 }
