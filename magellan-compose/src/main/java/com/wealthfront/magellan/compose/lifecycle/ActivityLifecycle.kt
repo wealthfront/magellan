@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.annotation.IdRes
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.compose.core.Screen
 
 fun ComponentActivity.setContentScreen(
@@ -27,7 +28,7 @@ internal class ActivityLifecycleAdapter(
 
   override fun onStart(owner: LifecycleOwner) {
     screen.show(context)
-    context.findViewById<FrameLayout>(containerRes).addView(screen.view!!)
+    context.findViewById<ScreenContainer>(containerRes).addView(screen.view!!)
   }
 
   override fun onResume(owner: LifecycleOwner) {
@@ -40,7 +41,7 @@ internal class ActivityLifecycleAdapter(
 
   override fun onStop(owner: LifecycleOwner) {
     screen.hide(context)
-    context.findViewById<FrameLayout>(containerRes).removeAllViews()
+    context.findViewById<ScreenContainer>(containerRes).removeAllViews()
   }
 
   override fun onDestroy(owner: LifecycleOwner) {
