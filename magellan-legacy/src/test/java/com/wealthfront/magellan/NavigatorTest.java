@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.wealthfront.magellan.legacy.R;
 import com.wealthfront.magellan.transitions.NoAnimationTransition;
 
 import org.junit.Before;
