@@ -23,6 +23,12 @@ android {
     setSourceCompatibility(JavaVersion.VERSION_1_8)
     setTargetCompatibility(JavaVersion.VERSION_1_8)
   }
+  
+  testOptions {
+    unitTests {
+      includeAndroidResources = true
+    }
+  }
 
   buildTypes {
     release {
