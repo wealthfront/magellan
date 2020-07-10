@@ -23,16 +23,35 @@ class LifecycleViewTest {
   }
 
   @Test
+  fun wholeLifecycle() {
+    lifecycleView.create(context)
+    assertThat(lifecycleView.view).isEqualTo(null)
+
+    lifecycleView.show(context)
+    assertThat(lifecycleView.view).isEqualTo(frameLayout)
+
+    lifecycleView.resume(context)
+    assertThat(lifecycleView.view).isEqualTo(frameLayout)
+
+    lifecycleView.pause(context)
+    assertThat(lifecycleView.view).isEqualTo(frameLayout)
+
+    lifecycleView.hide(context)
+    assertThat(lifecycleView.view).isEqualTo(null)
+
+    lifecycleView.destroy(context)
+    assertThat(lifecycleView.view).isEqualTo(null)
+  }
+
+  @Test
   fun onCreateView() {
     lifecycleView.show(context)
-
     assertThat(lifecycleView.view).isEqualTo(frameLayout)
   }
 
   @Test
   fun onDestroyView() {
     lifecycleView.hide(context)
-
     assertThat(lifecycleView.view).isEqualTo(null)
   }
 
