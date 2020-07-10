@@ -7,6 +7,8 @@ android {
   compileSdkVersion 30
   buildToolsVersion BUILD_TOOLS_VERSION
 
+  resourcePrefix 'magellan_'
+
   defaultConfig {
     minSdkVersion 15
     targetSdkVersion 30
@@ -31,12 +33,12 @@ android {
 apply from: rootProject.file('checkstyle/checkstyle.gradle')
 
 dependencies {
-  implementation project(':magellan-legacy')
-  implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
+  implementation "androidx.appcompat:appcompat:${SUPPORT_LIBRARY_VERSION}"
 
   testImplementation "junit:junit:${JUNIT_VERSION}"
   testImplementation "com.google.truth:truth:${TRUTH_VERSION}"
   testImplementation "org.mockito:mockito-core:${MOCKITO_VERSION}"
+  testImplementation "org.robolectric:robolectric:${ROBOLECTRIC_VERSION}"
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
