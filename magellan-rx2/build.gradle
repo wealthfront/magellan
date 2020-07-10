@@ -31,7 +31,7 @@ android {
 apply from: rootProject.file('checkstyle/checkstyle.gradle')
 
 dependencies {
-  implementation project(':magellan-library')
+  implementation project(':magellan-legacy')
   implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
 
   testImplementation "junit:junit:${JUNIT_VERSION}"

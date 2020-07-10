@@ -28,7 +28,7 @@ android {
 apply from: rootProject.file('checkstyle/checkstyle.gradle')
 
 dependencies {
-  implementation project(':magellan-library')
+  implementation project(':magellan-legacy')
   implementation project(':magellan-support')
 
   implementation "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
