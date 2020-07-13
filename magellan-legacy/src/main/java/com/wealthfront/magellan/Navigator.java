@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
+import com.wealthfront.magellan.legacy.R;
 import com.wealthfront.magellan.transitions.DefaultTransition;
 import com.wealthfront.magellan.transitions.Transition;
 
