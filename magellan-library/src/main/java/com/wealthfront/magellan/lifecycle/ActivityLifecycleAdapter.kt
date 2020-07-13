@@ -15,10 +15,6 @@ internal class ActivityLifecycleAdapter(
   private val containerRes: Int
 ) : DefaultLifecycleObserver {
 
-  override fun onCreate(owner: LifecycleOwner) {
-    navigable.create(context)
-  }
-
   override fun onStart(owner: LifecycleOwner) {
     navigable.show(context)
     context.findViewById<ScreenContainer>(containerRes).addView(navigable.view!!)
