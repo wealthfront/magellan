@@ -41,9 +41,7 @@ fun <CustomLifecycleAware : LifecycleAware> LifecycleOwner.lateinitLifecycle(): 
   return LateinitLifecycle(this)
 }
 
-class LateinitLifecycle<CustomLifecycleAware : LifecycleAware>(
-  val parent: LifecycleOwner
-) {
+class LateinitLifecycle<CustomLifecycleAware : LifecycleAware>(val parent: LifecycleOwner) {
 
   lateinit var lifecycleAware: CustomLifecycleAware
     private set
