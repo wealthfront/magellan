@@ -2,6 +2,7 @@ package com.wealthfront.magellan.navigation
 
 import android.content.Context
 import android.view.View
+import androidx.annotation.VisibleForTesting
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
@@ -24,7 +25,9 @@ import java.util.LinkedList
 class Navigator(private val container: (Context) -> ScreenContainer?) : LifecycleAwareComponent() {
 
   private val lifecycleStateMachine = LifecycleStateMachine()
-  private val backStack: Deque<NavigationEvent> = LinkedList()
+
+  @VisibleForTesting
+  internal val backStack: Deque<NavigationEvent> = LinkedList()
 
   private var ghostView: View? = null
   private var containerView: ScreenContainer? = null
@@ -98,13 +101,16 @@ class Navigator(private val container: (Context) -> ScreenContainer?) : Lifecycl
     }
   }
 
-  private fun navigate(
+  fun navigate(
     direction: Direction,
     backstackOperation: (Deque<NavigationEvent>) -> Unit
   ) {
     containerView?.setInterceptTouchEvents(true)
+    val previous = currentNavigable
     val from = hidecurrentNavigable(direction)
     backstackOperation.invoke(backStack)
+    val current = currentNavigable!!
+    current.previousNavigable = previous
     val to = showcurrentNavigable(direction)
     animateAndRemove(from, to)
   }
@@ -177,5 +183,5 @@ class Navigator(private val container: (Context) -> ScreenContainer?) : Lifecycl
     }
   }
 
-  private fun atRoot() = backStack.size == 1
+  private fun atRoot() = backStack.size <= 1
 }

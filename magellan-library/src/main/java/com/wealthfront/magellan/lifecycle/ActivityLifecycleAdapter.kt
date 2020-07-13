@@ -1,7 +1,6 @@
 package com.wealthfront.magellan.lifecycle
 
 import android.app.Activity
-import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
 import androidx.annotation.IdRes
 import androidx.lifecycle.DefaultLifecycleObserver
