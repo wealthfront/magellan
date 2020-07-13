@@ -67,4 +67,4 @@ class ScreenTest {
   }
 }
 
-class DummyScreen: Screen(R.layout.dummy_layout)
+class DummyScreen: Screen(R.layout.magellan_dummy_layout)
