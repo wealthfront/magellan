@@ -3,9 +3,10 @@ package com.wealthfront.magellan.core
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.SparseArray
+import android.view.LayoutInflater.from
 import android.view.View
 import com.google.common.truth.Truth.assertThat
-import com.wealthfront.magellan.R
+import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,6 +35,7 @@ class ScreenTest {
     initMocks(this)
     screen = DummyScreen()
     screen.view = view
+    screen.viewBinding = MagellanDummyLayoutBinding.inflate(from(application))
   }
 
   @Test
@@ -67,4 +69,4 @@ class ScreenTest {
   }
 }
 
-class DummyScreen: Screen(R.layout.magellan_dummy_layout)
+class DummyScreen: Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)

@@ -10,6 +10,7 @@ import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Screen
 import com.wealthfront.magellan.core.getScreenTraversal
 import com.wealthfront.magellan.core.getTraversalDescription
+import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,9 +23,9 @@ class NavigatorTest {
 
   @Mock lateinit var screenContainer: ScreenContainer
 
-  private lateinit var navigable1: Screen
-  private lateinit var navigable2: Screen
-  private lateinit var navigable3: Screen
+  private lateinit var navigable1: Screen<*>
+  private lateinit var navigable2: Screen<*>
+  private lateinit var navigable3: Screen<*>
   private lateinit var navigator : Navigator
 
   @Before
@@ -145,6 +146,6 @@ class NavigatorTest {
   }
 }
 
-class DummyScreen1: Screen(R.layout.magellan_dummy_layout)
-class DummyScreen2: Screen(R.layout.magellan_dummy_layout)
-class DummyScreen3: Screen(R.layout.magellan_dummy_layout)
+class DummyScreen1: Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
+class DummyScreen2: Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
+class DummyScreen3: Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
