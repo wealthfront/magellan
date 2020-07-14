@@ -131,7 +131,7 @@ class NavigatorTest {
     navigator.goTo(navigable2)
     navigator.goTo(navigable3)
 
-    assertThat(navigable3.getScreenTraversal()).isEqualTo(listOf(navigable1, navigable2, navigable3))
+    assertThat(navigable1.getScreenTraversal()).isEqualTo(listOf(navigable1, navigable2, navigable3))
   }
 
   @Test
@@ -140,7 +140,7 @@ class NavigatorTest {
     navigator.goTo(navigable2)
     navigator.goTo(navigable3)
 
-    assertThat(navigable3.getTraversalDescription())
+    assertThat(navigable1.getTraversalDescription())
       .isEqualTo("Backstack : DummyScreen1 -> DummyScreen2 -> DummyScreen3")
   }
 }

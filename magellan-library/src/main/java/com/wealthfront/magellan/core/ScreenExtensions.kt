@@ -6,8 +6,8 @@ fun Navigable.getScreenTraversal(): List<Navigable> {
   val listOfScreens = LinkedList<Navigable>()
   var currentNavigable: Navigable? = this
   while (currentNavigable != null) {
-    listOfScreens.addFirst(currentNavigable)
-    currentNavigable = currentNavigable.previousNavigable
+    listOfScreens.addLast(currentNavigable)
+    currentNavigable = currentNavigable.nextNavigable
   }
   return listOfScreens
 }

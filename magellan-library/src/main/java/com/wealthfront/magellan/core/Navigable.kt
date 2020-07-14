@@ -5,5 +5,5 @@ import com.wealthfront.magellan.view.Displayable
 
 interface Navigable : LifecycleAware, Displayable {
 
-  var previousNavigable: Navigable?
+  var nextNavigable: Navigable?
 }

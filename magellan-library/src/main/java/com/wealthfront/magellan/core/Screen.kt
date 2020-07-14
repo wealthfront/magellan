@@ -15,7 +15,7 @@ abstract class Screen(
 
   private var viewState: SparseArray<Parcelable>? = null
 
-  override var previousNavigable: Navigable? = null
+  override var nextNavigable: Navigable? = null
 
   final override var view: View? by lifecycleView { context ->  View.inflate(context, layoutRes, null) }
     @VisibleForTesting set

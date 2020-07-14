@@ -110,7 +110,7 @@ class Navigator(private val container: (Context) -> ScreenContainer?) : Lifecycl
     val from = hidecurrentNavigable(direction)
     backstackOperation.invoke(backStack)
     val current = currentNavigable!!
-    current.previousNavigable = previous
+    previous?.nextNavigable = current
     val to = showcurrentNavigable(direction)
     animateAndRemove(from, to)
   }
