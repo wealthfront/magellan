@@ -17,8 +17,6 @@ abstract class Screen<V: ViewBinding>(
 
   private var viewState: SparseArray<Parcelable>? = null
 
-  override var previousNavigable: Navigable? = null
-
   internal var viewBinding: V? by lifecycleBinding { context ->  createBinding.invoke(LayoutInflater.from(context)) }
     @VisibleForTesting set
 
