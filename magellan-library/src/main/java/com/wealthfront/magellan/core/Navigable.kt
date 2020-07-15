@@ -1,6 +1,13 @@
 package com.wealthfront.magellan.core
 
+import android.view.View
 import com.wealthfront.magellan.lifecycle.LifecycleAware
-import com.wealthfront.magellan.view.Displayable
 
-interface Navigable : LifecycleAware, Displayable
+interface Navigable : LifecycleAware {
+
+  val view: View?
+
+  fun transitionStarted() {}
+
+  fun transitionFinished() {}
+}
