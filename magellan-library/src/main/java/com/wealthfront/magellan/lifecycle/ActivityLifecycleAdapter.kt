@@ -6,17 +6,17 @@ import androidx.annotation.IdRes
 import androidx.lifecycle.DefaultLifecycleObserver
 import com.wealthfront.magellan.core.Navigable
 import androidx.lifecycle.LifecycleOwner
+import com.wealthfront.magellan.R
 import com.wealthfront.magellan.ScreenContainer
 
 internal class ActivityLifecycleAdapter(
   private val navigable: Navigable,
-  private val context: Activity,
-  private val containerRes: Int
+  private val context: Activity
 ) : DefaultLifecycleObserver {
 
   override fun onStart(owner: LifecycleOwner) {
     navigable.show(context)
-    context.findViewById<ScreenContainer>(containerRes).addView(navigable.view!!)
+    context.findViewById<ScreenContainer>(R.id.magellan_container).addView(navigable.view!!)
   }
 
   override fun onResume(owner: LifecycleOwner) {
@@ -29,7 +29,7 @@ internal class ActivityLifecycleAdapter(
 
   override fun onStop(owner: LifecycleOwner) {
     navigable.hide(context)
-    context.findViewById<ScreenContainer>(containerRes).removeAllViews()
+    context.findViewById<ScreenContainer>(R.id.magellan_container).removeAllViews()
   }
 
   override fun onDestroy(owner: LifecycleOwner) {
@@ -40,8 +40,8 @@ internal class ActivityLifecycleAdapter(
 }
 
 fun ComponentActivity.setContentScreen(
-  navigable: Navigable,
-  @IdRes containerRes: Int
+  navigable: Navigable
 ) {
-  lifecycle.addObserver(ActivityLifecycleAdapter(navigable, this, containerRes))
+  setContentView(R.layout.root)
+  lifecycle.addObserver(ActivityLifecycleAdapter(navigable, this))
 }

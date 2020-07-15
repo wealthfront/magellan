@@ -10,6 +10,7 @@ import com.wealthfront.magellan.NavigationType
 import com.wealthfront.magellan.NavigationType.GO
 import com.wealthfront.magellan.NavigationType.SHOW
 import com.wealthfront.magellan.ScreenContainer
+import com.wealthfront.magellan.core.Flow
 import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.LifecycleState.Created
@@ -94,10 +95,18 @@ class LinearNavigator(
     }
   }
 
-  private fun navigateBack() {
-    navigate(BACKWARD) { backStack ->
-      backStack.pop()
+  private fun navigateBack(): Boolean {
+    while (backStack.isNotEmpty()) {
+      if (backStack.peek()?.navigable is Flow<*>) {
+        backStack.pop()
+      } else {
+        navigate(BACKWARD) { backStack ->
+          backStack.pop()
+        }
+        return true
+      }
     }
+    return false
   }
 
   fun navigate(
@@ -168,7 +177,6 @@ class LinearNavigator(
   fun goBack(): Boolean {
     return if (!atRoot()) {
       navigateBack()
-      true
     } else {
       false
     }
