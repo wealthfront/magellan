@@ -41,9 +41,6 @@ class LinearNavigator(
     get() = currentState.context
 
   override fun onCreate(context: Context) {
-    currentNavigable?.let {
-      lifecycleStateMachine.transitionBetweenLifecycleStates(it, Destroyed, Created(context))
-    }
     lifecycleStateMachine.transitionBetweenLifecycleStates(
       backStack.navigables(),
       Destroyed,
@@ -85,7 +82,7 @@ class LinearNavigator(
   }
 
   private fun replace(nextNavigable: Navigable, navType: NavigationType) {
-    navigate(FORWARD) {
+    navigate(FORWARD) { backStack ->
       backStack.pop()
       backStack.push(NavigationEvent(nextNavigable, navType))
     }
@@ -98,8 +95,8 @@ class LinearNavigator(
   }
 
   private fun navigateBack() {
-    navigate(BACKWARD) { backstack ->
-      backstack.pop()
+    navigate(BACKWARD) { backStack ->
+      backStack.pop()
     }
   }
 
@@ -122,6 +119,7 @@ class LinearNavigator(
     ghostView = from
     val navEvent = backStack.peek()!!
     val transition = DefaultTransition()
+    currentNavigable!!.transitionStarted()
     to?.whenMeasured {
       transition.animate(from, to, navEvent.navigationType, direction) {
         if (context != null) {
@@ -138,26 +136,19 @@ class LinearNavigator(
   }
 
   private fun showCurrentNavigable(direction: Direction): View? {
-    val currentNavigable = currentNavigable!!
-    currentNavigable.transitionStarted()
     attachToLifecycle(
-      currentNavigable, detachedState = when (direction) {
+      currentNavigable!!, detachedState = when (direction) {
       FORWARD -> Destroyed
       BACKWARD -> currentState.getEarlierOfCurrentState()
     })
     when (currentState) {
       is Shown, is Resumed -> {
-        val indexToAdd = if (direction != FORWARD) {
-          0
-        } else {
-          containerView!!.childCount
-        }
-        containerView!!.addView(currentNavigable.view!!, indexToAdd)
+        containerView!!.addView(currentNavigable!!.view!!)
       }
       is Destroyed, is Created -> {
       }
     }
-    return currentNavigable.view
+    return currentNavigable!!.view
   }
 
   private fun hideCurrentNavigable(direction: Direction): View? {
