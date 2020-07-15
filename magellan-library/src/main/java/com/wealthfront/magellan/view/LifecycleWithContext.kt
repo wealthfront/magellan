@@ -1,25 +1,25 @@
 package com.wealthfront.magellan.view
 
 import android.content.Context
-import android.view.View
 import com.wealthfront.magellan.lifecycle.LifecycleAware
 import com.wealthfront.magellan.lifecycle.LifecycleOwner
 import com.wealthfront.magellan.lifecycle.lifecycle
 
-open class LifecycleView<CustomView : View>(
-  val createView: (Context) -> CustomView
+open class LifecycleWithContext<V>(
+  val supplier: (Context) -> V
 ) : LifecycleAware {
-  var view: CustomView? = null
+
+  var data: V? = null
     protected set
 
   override fun show(context: Context) {
-    view = createView(context)
+    data = supplier(context)
   }
 
   override fun hide(context: Context) {
-    view = null
+    data = null
   }
 }
 
-fun <CustomView : View> LifecycleOwner.lifecycleView(createView: (Context) -> CustomView) =
-  lifecycle(LifecycleView(createView), { it.view })
+fun <V> LifecycleOwner.lifecycleWithContext(supplier: (Context) -> V) =
+  lifecycle(LifecycleWithContext(supplier), { it.data })

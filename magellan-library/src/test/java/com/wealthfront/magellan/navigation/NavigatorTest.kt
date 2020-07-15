@@ -4,9 +4,9 @@ import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.NavigationType.GO
 import com.wealthfront.magellan.NavigationType.SHOW
-import com.wealthfront.magellan.R
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Screen
+import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,9 +19,9 @@ class NavigatorTest {
 
   @Mock lateinit var screenContainer: ScreenContainer
 
-  private lateinit var navigable1: Screen
-  private lateinit var navigable2: Screen
-  private lateinit var navigable3: Screen
+  private lateinit var navigable1: Screen<*>
+  private lateinit var navigable2: Screen<*>
+  private lateinit var navigable3: Screen<*>
   private lateinit var linearNavigator : LinearNavigator
 
   @Before
@@ -116,6 +116,6 @@ class NavigatorTest {
   }
 }
 
-class DummyScreen1: Screen(R.layout.magellan_dummy_layout)
-class DummyScreen2: Screen(R.layout.magellan_dummy_layout)
-class DummyScreen3: Screen(R.layout.magellan_dummy_layout)
+class DummyScreen1: Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
+class DummyScreen2: Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
+class DummyScreen3: Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
