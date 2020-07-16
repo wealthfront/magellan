@@ -2,9 +2,8 @@ package com.wealthfront.magellan.view
 
 import android.content.Context
 import android.widget.FrameLayout
-import org.junit.Before
-
 import com.google.common.truth.Truth.assertThat
+import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations.initMocks
@@ -54,5 +53,4 @@ class LifecycleViewTest {
     lifecycleView.hide(context)
     assertThat(lifecycleView.data).isEqualTo(null)
   }
-
 }

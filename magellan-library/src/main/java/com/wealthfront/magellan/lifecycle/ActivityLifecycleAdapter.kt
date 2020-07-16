@@ -2,12 +2,12 @@ package com.wealthfront.magellan.lifecycle
 
 import android.app.Activity
 import androidx.activity.ComponentActivity
-import com.wealthfront.magellan.lifecycle.LifecycleOwner as MagellanLifecycleOwner
-import androidx.lifecycle.LifecycleOwner as ActivityLifecycleOwner
 import androidx.lifecycle.DefaultLifecycleObserver
-import com.wealthfront.magellan.core.Navigable
+import androidx.lifecycle.LifecycleOwner as ActivityLifecycleOwner
 import com.wealthfront.magellan.R
 import com.wealthfront.magellan.ScreenContainer
+import com.wealthfront.magellan.core.Navigable
+import com.wealthfront.magellan.lifecycle.LifecycleOwner as MagellanLifecycleOwner
 
 internal class ActivityLifecycleAdapter(
   private val navigable: Navigable,

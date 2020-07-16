@@ -27,7 +27,7 @@ class LinearNavigatorTest {
   private lateinit var screen3: Screen<*>
   private lateinit var journey2: Journey<*>
   private lateinit var screen4: Screen<*>
-  private lateinit var linearNavigator : LinearNavigator
+  private lateinit var linearNavigator: LinearNavigator
 
   @Before
   fun setUp() {
@@ -126,7 +126,7 @@ class LinearNavigatorTest {
       it.push(NavigationEvent(screen2, GO))
       it.push(NavigationEvent(journey1, SHOW))
     }
-    
+
     linearNavigator.goBack()
     linearNavigator.goBack()
     linearNavigator.destroy(application)
@@ -154,5 +154,5 @@ class LinearNavigatorTest {
   }
 }
 
-class DummyScreen: Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
-class DummyJourney: Journey<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate, MagellanDummyLayoutBinding::container)
+class DummyScreen : Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
+class DummyJourney : Journey<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate, MagellanDummyLayoutBinding::container)

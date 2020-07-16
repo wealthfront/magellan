@@ -1,0 +1,43 @@
+apply plugin: 'io.gitlab.arturbosch.detekt'
+apply plugin: 'org.jmailen.kotlinter'
+apply plugin: 'checkstyle'
+
+checkstyle {
+  toolVersion = "8.23"
+}
+
+task checkstyle(type: Checkstyle) {
+  source("src")
+  include("**/*.java")
+  exclude("**/gen/**")
+  classpath = files()
+  configFile = new File("$rootDir/config/checkstyle/checkstyle.xml")
+
+  tasks.findByName("check")?.dependsOn("checkStyle")
+}
+
+kotlinter {
+  indentSize = 2
+
+  tasks.findByName("lint")?.dependsOn("lintKotlin")
+}
+
+detekt {
+  toolVersion = Versions.detektVersion
+  config = files("$rootDir/config/detekt/detekt-config.yml")
+  parallel = true
+  autoCorrect = true
+  reports {
+    html {
+      enabled = true
+      destination = file("build/reports/detekt.html")
+    }
+  }
+  tasks.findByName("check")?.dependsOn("detekt")
+}
+
+tasks.withType(Test) {
+  reports {
+    html.setEnabled(true)
+  }
+}

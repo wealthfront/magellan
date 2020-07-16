@@ -12,5 +12,4 @@ abstract class Journey<V : ViewBinding>(
 ) : Screen<V>(createBinding) {
 
   protected var navigator by lifecycle(LinearNavigator { viewBinding!!.container() })
-
 } 

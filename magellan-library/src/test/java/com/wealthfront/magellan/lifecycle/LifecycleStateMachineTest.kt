@@ -10,13 +10,13 @@ import org.junit.Test
 import org.mockito.InOrder
 import org.mockito.Mock
 import org.mockito.Mockito.inOrder
-import org.mockito.MockitoAnnotations.initMocks
 import org.mockito.Mockito.verifyNoMoreInteractions
+import org.mockito.MockitoAnnotations.initMocks
 
 class LifecycleStateMachineTest {
 
   private val lifecycleStateMachine = LifecycleStateMachine()
-  
+
   @Mock lateinit var lifecycleAware: LifecycleAware
   @Mock lateinit var context: Context
 
@@ -35,7 +35,6 @@ class LifecycleStateMachineTest {
     created = Created(context)
     shown = Shown(context)
     resumed = Resumed(context)
-
   }
 
   @Test
