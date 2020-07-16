@@ -5,7 +5,7 @@ import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.NavigationType.GO
 import com.wealthfront.magellan.NavigationType.SHOW
 import com.wealthfront.magellan.ScreenContainer
-import com.wealthfront.magellan.core.Flow
+import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.Screen
 import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
 import org.junit.Before
@@ -22,9 +22,9 @@ class LinearNavigatorTest {
 
   private lateinit var screen1: Screen<*>
   private lateinit var screen2: Screen<*>
-  private lateinit var flow1: Flow<*>
+  private lateinit var journey1: Journey<*>
   private lateinit var screen3: Screen<*>
-  private lateinit var flow2: Flow<*>
+  private lateinit var journey2: Journey<*>
   private lateinit var screen4: Screen<*>
   private lateinit var linearNavigator : LinearNavigator
 
@@ -35,9 +35,9 @@ class LinearNavigatorTest {
 
     screen1 = DummyScreen()
     screen2 = DummyScreen()
-    flow1 = DummyFlow()
+    journey1 = DummyJourney()
     screen3 = DummyScreen()
-    flow2 = DummyFlow()
+    journey2 = DummyJourney()
     screen4 = DummyScreen()
   }
 
@@ -46,8 +46,8 @@ class LinearNavigatorTest {
     linearNavigator.goTo(screen1)
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
-    assertThat(linearNavigator.backStack.first.navigable).isEqualTo(screen1)
-    assertThat(linearNavigator.backStack.first.navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(screen1)
+    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
   }
 
   @Test
@@ -55,8 +55,8 @@ class LinearNavigatorTest {
     linearNavigator.show(screen1)
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
-    assertThat(linearNavigator.backStack.first.navigable).isEqualTo(screen1)
-    assertThat(linearNavigator.backStack.first.navigationType).isEqualTo(SHOW)
+    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(screen1)
+    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(SHOW)
   }
 
   @Test
@@ -65,8 +65,8 @@ class LinearNavigatorTest {
     linearNavigator.replaceAndGo(screen2)
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
-    assertThat(linearNavigator.backStack.first.navigable).isEqualTo(screen2)
-    assertThat(linearNavigator.backStack.first.navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(screen2)
+    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
   }
 
   @Test
@@ -75,8 +75,8 @@ class LinearNavigatorTest {
     linearNavigator.replaceAndShow(screen2)
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
-    assertThat(linearNavigator.backStack.first.navigable).isEqualTo(screen2)
-    assertThat(linearNavigator.backStack.first.navigationType).isEqualTo(SHOW)
+    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(screen2)
+    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(SHOW)
   }
 
   @Test
@@ -87,8 +87,8 @@ class LinearNavigatorTest {
 
     assertThat(didNavigate).isTrue()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
-    assertThat(linearNavigator.backStack.first.navigable).isEqualTo(screen1)
-    assertThat(linearNavigator.backStack.first.navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(screen1)
+    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
   }
 
   @Test
@@ -98,8 +98,8 @@ class LinearNavigatorTest {
 
     assertThat(didNavigate).isFalse()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
-    assertThat(linearNavigator.backStack.first.navigable).isEqualTo(screen1)
-    assertThat(linearNavigator.backStack.first.navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(screen1)
+    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
   }
 
   @Test
@@ -107,32 +107,27 @@ class LinearNavigatorTest {
     linearNavigator.navigate(FORWARD) {
       it.push(NavigationEvent(screen1, GO))
       it.push(NavigationEvent(screen2, GO))
-      it.push(NavigationEvent(flow1, SHOW))
-      it.push(NavigationEvent(screen3, GO))
-      it.push(NavigationEvent(flow2, GO))
-      it.push(NavigationEvent(screen4, GO))
+      it.push(NavigationEvent(journey1, SHOW))
     }
 
     val didNavigate = linearNavigator.goBack()
 
     assertThat(didNavigate).isTrue()
-    assertThat(linearNavigator.backStack.size).isEqualTo(5)
-    assertThat(linearNavigator.backStack.first.navigable).isEqualTo(screen1)
-    assertThat(linearNavigator.backStack.first.navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.size).isEqualTo(2)
+    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(screen2)
+    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
   }
 
   @Test
-  fun historyRewriter() {
+  fun goBack_flow_backOutOfFlow() {
     linearNavigator.navigate(FORWARD) {
-      it.push(NavigationEvent(screen1, GO))
-      it.push(NavigationEvent(screen2, GO))
-      it.push(NavigationEvent(flow1, SHOW))
-      it.push(NavigationEvent(screen3, GO))
+      it.push(NavigationEvent(journey1, SHOW))
     }
 
-    assertThat(linearNavigator.backStack.size).isEqualTo(4)
-    assertThat(linearNavigator.backStack.first.navigable).isEqualTo(screen3)
-    assertThat(linearNavigator.backStack.first.navigationType).isEqualTo(SHOW)
+    val didNavigate = linearNavigator.goBack()
+
+    assertThat(didNavigate).isFalse()
+    assertThat(linearNavigator.backStack.size).isEqualTo(1)
   }
 
   @Test
@@ -144,4 +139,4 @@ class LinearNavigatorTest {
 }
 
 class DummyScreen: Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
-class DummyFlow: Flow<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate, MagellanDummyLayoutBinding::container)
+class DummyJourney: Journey<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate, MagellanDummyLayoutBinding::container)

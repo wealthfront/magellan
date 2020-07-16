@@ -2,10 +2,10 @@ package com.wealthfront.magellan.lifecycle
 
 import android.app.Activity
 import androidx.activity.ComponentActivity
-import androidx.annotation.IdRes
+import com.wealthfront.magellan.lifecycle.LifecycleOwner as MagellanLifecycleOwner
+import androidx.lifecycle.LifecycleOwner as ActivityLifecycleOwner
 import androidx.lifecycle.DefaultLifecycleObserver
 import com.wealthfront.magellan.core.Navigable
-import androidx.lifecycle.LifecycleOwner
 import com.wealthfront.magellan.R
 import com.wealthfront.magellan.ScreenContainer
 
@@ -14,25 +14,31 @@ internal class ActivityLifecycleAdapter(
   private val context: Activity
 ) : DefaultLifecycleObserver {
 
-  override fun onStart(owner: LifecycleOwner) {
+  override fun onCreate(owner: ActivityLifecycleOwner) {
+    if (navigable is MagellanLifecycleOwner && navigable.currentState == LifecycleState.Destroyed) {
+      navigable.create(context)
+    }
+  }
+
+  override fun onStart(owner: ActivityLifecycleOwner) {
     navigable.show(context)
     context.findViewById<ScreenContainer>(R.id.magellan_container).addView(navigable.view!!)
   }
 
-  override fun onResume(owner: LifecycleOwner) {
+  override fun onResume(owner: ActivityLifecycleOwner) {
     navigable.resume(context)
   }
 
-  override fun onPause(owner: LifecycleOwner) {
+  override fun onPause(owner: ActivityLifecycleOwner) {
     navigable.pause(context)
   }
 
-  override fun onStop(owner: LifecycleOwner) {
+  override fun onStop(owner: ActivityLifecycleOwner) {
     navigable.hide(context)
     context.findViewById<ScreenContainer>(R.id.magellan_container).removeAllViews()
   }
 
-  override fun onDestroy(owner: LifecycleOwner) {
+  override fun onDestroy(owner: ActivityLifecycleOwner) {
     if (context.isFinishing) {
       navigable.destroy(context)
     }
@@ -42,6 +48,6 @@ internal class ActivityLifecycleAdapter(
 fun ComponentActivity.setContentScreen(
   navigable: Navigable
 ) {
-  setContentView(R.layout.root)
+  setContentView(R.layout.magellan_root)
   lifecycle.addObserver(ActivityLifecycleAdapter(navigable, this))
 }

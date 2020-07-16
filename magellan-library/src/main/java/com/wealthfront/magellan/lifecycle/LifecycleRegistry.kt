@@ -16,12 +16,12 @@ internal class LifecycleRegistry : LifecycleAware {
       val oldState = field
       field = newState
       if (listeners.isNotEmpty()) {
-        lifecycleStateMachine.transitionBetweenLifecycleStates(listeners, oldState, newState)
+        lifecycleStateMachine.transition(listeners, oldState, newState)
       }
     }
 
   fun attachToLifecycle(lifecycleAware: LifecycleAware, detachedState: LifecycleState = Destroyed) {
-    lifecycleStateMachine.transitionBetweenLifecycleStates(lifecycleAware, detachedState, currentState)
+    lifecycleStateMachine.transition(lifecycleAware, detachedState, currentState)
     listeners = listeners + lifecycleAware
   }
 
@@ -30,7 +30,7 @@ internal class LifecycleRegistry : LifecycleAware {
     detachedState: LifecycleState = Destroyed
   ) {
     listeners = listeners - lifecycleAware
-    lifecycleStateMachine.transitionBetweenLifecycleStates(lifecycleAware, currentState, detachedState)
+    lifecycleStateMachine.transition(lifecycleAware, currentState, detachedState)
   }
 
   override fun create(context: Context) {

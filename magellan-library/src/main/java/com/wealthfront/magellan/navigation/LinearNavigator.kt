@@ -10,7 +10,6 @@ import com.wealthfront.magellan.NavigationType
 import com.wealthfront.magellan.NavigationType.GO
 import com.wealthfront.magellan.NavigationType.SHOW
 import com.wealthfront.magellan.ScreenContainer
-import com.wealthfront.magellan.core.Flow
 import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.LifecycleState.Created
@@ -20,8 +19,7 @@ import com.wealthfront.magellan.lifecycle.LifecycleState.Shown
 import com.wealthfront.magellan.lifecycle.LifecycleStateMachine
 import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.view.whenMeasured
-import java.util.Deque
-import java.util.LinkedList
+import java.util.Stack
 
 class LinearNavigator(
   private val container: () -> ScreenContainer
@@ -29,23 +27,26 @@ class LinearNavigator(
 
   private val lifecycleStateMachine = LifecycleStateMachine()
 
-  @VisibleForTesting
-  override val backStack: LinkedList<NavigationEvent> = LinkedList()
-
   private var ghostView: View? = null
   private var containerView: ScreenContainer? = null
 
+  @VisibleForTesting
+  override val backStack: Stack<NavigationEvent> = Stack()
+
   private val currentNavigable: Navigable?
-    get() = backStack.peek()?.navigable
+    get() {
+      return if (backStack.isNotEmpty()) {
+        backStack.peek()?.navigable
+      } else {
+        null
+      }
+    }
 
   private val context: Context?
     get() = currentState.context
 
   override fun onCreate(context: Context) {
-    lifecycleStateMachine.transitionBetweenLifecycleStates(
-      backStack.navigables(),
-      Destroyed,
-      Created(context))
+    lifecycleStateMachine.transition(backStack.navigables(), Destroyed, Created(context))
   }
 
   override fun onShow(context: Context) {
@@ -56,13 +57,9 @@ class LinearNavigator(
   }
 
   override fun onDestroy(context: Context) {
-    currentNavigable?.let {
-      lifecycleStateMachine.transitionBetweenLifecycleStates(it, Created(context), Destroyed)
+    backStack.navigables().forEach {
+      removeFromLifecycle(it, detachedState = Destroyed)
     }
-    lifecycleStateMachine.transitionBetweenLifecycleStates(
-      backStack.navigables(),
-      Created(context),
-      Destroyed)
     containerView = null
   }
 
@@ -95,27 +92,19 @@ class LinearNavigator(
     }
   }
 
-  private fun navigateBack(): Boolean {
-    while (backStack.isNotEmpty()) {
-      if (backStack.peek()?.navigable is Flow<*>) {
-        backStack.pop()
-      } else {
-        navigate(BACKWARD) { backStack ->
-          backStack.pop()
-        }
-        return true
-      }
+  private fun navigateBack() {
+    navigate(BACKWARD) { backStack ->
+      backStack.pop()
     }
-    return false
   }
 
   fun navigate(
     direction: Direction,
-    backstackOperation: (Deque<NavigationEvent>) -> Unit
+    backStackOperation: (Stack<NavigationEvent>) -> Unit
   ) {
     containerView?.setInterceptTouchEvents(true)
     val from = hideCurrentNavigable(direction)
-    backstackOperation.invoke(backStack)
+    backStackOperation.invoke(backStack)
     val to = showCurrentNavigable(direction)
     animateAndRemove(from, to, direction)
   }
@@ -154,8 +143,7 @@ class LinearNavigator(
       is Shown, is Resumed -> {
         containerView!!.addView(currentNavigable!!.view!!)
       }
-      is Destroyed, is Created -> {
-      }
+      is Destroyed, is Created -> {}
     }
     return currentNavigable!!.view
   }
@@ -177,6 +165,7 @@ class LinearNavigator(
   fun goBack(): Boolean {
     return if (!atRoot()) {
       navigateBack()
+      true
     } else {
       false
     }

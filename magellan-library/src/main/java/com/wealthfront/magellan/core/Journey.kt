@@ -6,11 +6,11 @@ import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.lifecycle.lifecycle
 import com.wealthfront.magellan.navigation.LinearNavigator
 
-abstract class Flow<V : ViewBinding>(
+abstract class Journey<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V,
-  getScreenContainer: V.() -> ScreenContainer
+  container: V.() -> ScreenContainer
 ) : Screen<V>(createBinding) {
 
-  protected var navigator by lifecycle(LinearNavigator { viewBinding!!.getScreenContainer() })
+  protected var navigator by lifecycle(LinearNavigator { viewBinding!!.container() })
 
 } 
