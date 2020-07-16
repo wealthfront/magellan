@@ -32,8 +32,6 @@ android {
   }
 }
 
-apply from: rootProject.file('checkstyle/checkstyle.gradle')
-
 dependencies {
   implementation project(':magellan-legacy')
 

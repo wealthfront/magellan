@@ -4,7 +4,9 @@ object Versions {
   const val targetSdkVersion = 30
 
   const val kotlinVersion = "1.3.72"
+  const val kotlinterVersion = "2.3.2"
   const val buildToolsVersion = "29.0.2"
+  const val detektVersion = "1.5.1"
   const val supportLibVersion = "1.1.0"
   const val robolectricVersion = "4.3.1"
   const val archVersion = "2.1.0"

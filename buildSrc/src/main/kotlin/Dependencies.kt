@@ -4,6 +4,7 @@ import Versions.daggerVersion
 import Versions.jacksonVersion
 import Versions.junitVersion
 import Versions.kotlinVersion
+import Versions.kotlinterVersion
 import Versions.lifecycleVersion
 import Versions.mockitoVersion
 import Versions.okhttpVersion
@@ -21,6 +22,9 @@ object Dependencies {
   const val kotlinJdk = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
   const val appCompat = "androidx.appcompat:appcompat:$supportLibVersion"
   const val lifecycle = "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+
+  val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+  val kotlinterGradle = "org.jmailen.gradle:kotlinter-gradle:$kotlinterVersion"
 
   const val junit = "junit:junit:$junitVersion"
   const val truth = "com.google.truth:truth:$truthVersion"
