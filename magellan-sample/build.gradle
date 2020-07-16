@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion 30
-  buildToolsVersion BUILD_TOOLS_VERSION
+  compileSdkVersion Versions.compileSdkVersion
+  buildToolsVersion Versions.buildToolsVersion
 
   defaultConfig {
     applicationId "com.wealthfront.magellan.sample"
-    minSdkVersion 15
-    targetSdkVersion 30
+    minSdkVersion Versions.minSdkVersion
+    targetSdkVersion Versions.targetSdkVersion
     versionCode 1
     versionName "1.0"
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -31,10 +31,10 @@ dependencies {
   implementation project(':magellan-legacy')
   implementation project(':magellan-support')
 
-  implementation "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
+  implementation Dependencies.appCompat
 
-  testImplementation "junit:junit:${JUNIT_VERSION}"
+  testImplementation Dependencies.junit
 
-  androidTestImplementation "androidx.test.ext:junit:1.1.1"
-  androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
+  androidTestImplementation Dependencies.extJunit
+  androidTestImplementation Dependencies.espressoCore
 }

@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion 30
-  buildToolsVersion BUILD_TOOLS_VERSION
+  compileSdkVersion Versions.compileSdkVersion
+  buildToolsVersion Versions.buildToolsVersion
 
   defaultConfig {
     applicationId "com.wealthfront.magellan.sample"
-    minSdkVersion 15
-    targetSdkVersion 30
+    minSdkVersion Versions.minSdkVersion
+    targetSdkVersion Versions.targetSdkVersion
     versionCode 1
     versionName "1.0"
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -39,24 +39,23 @@ dependencies {
   implementation project(':magellan-legacy')
   implementation project(':magellan-rx')
 
-  implementation "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
-  implementation 'com.jakewharton:butterknife:10.0.0'
-  annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+  implementation Dependencies.appCompat
+  implementation Dependencies.butterknife
+  annotationProcessor Dependencies.butterknifeCompiler
 
-  implementation 'com.google.dagger:dagger:2.24'
-  annotationProcessor 'com.google.dagger:dagger-compiler:2.24'
+  implementation Dependencies.dagger
+  annotationProcessor Dependencies.daggerCompiler
 
-  implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-  implementation 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
-  implementation 'com.squareup.retrofit2:converter-jackson:2.7.2'
-  implementation 'com.squareup.okhttp3:logging-interceptor:4.4.0'
+  implementation Dependencies.retrofit
+  implementation Dependencies.rxjavaAdapter
+  implementation Dependencies.rxandroid
+  implementation Dependencies.jackson
+  implementation Dependencies.okhttp
 
-  implementation 'io.reactivex:rxandroid:1.2.1'
+  testImplementation Dependencies.junit
+  testImplementation Dependencies.mockito
+  testImplementation Dependencies.robolectric
 
-  testImplementation "junit:junit:${JUNIT_VERSION}"
-  testImplementation "org.mockito:mockito-core:${MOCKITO_VERSION}"
-  testImplementation "org.robolectric:robolectric:${ROBOLECTRIC_VERSION}"
-
-  androidTestImplementation "androidx.test.ext:junit:1.1.1"
-  androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
+  androidTestImplementation Dependencies.extJunit
+  androidTestImplementation Dependencies.espressoCore
 }

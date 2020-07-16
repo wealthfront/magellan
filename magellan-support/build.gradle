@@ -4,12 +4,12 @@ group = GROUP
 version = VERSION_NAME
 
 android {
-  compileSdkVersion 30
-  buildToolsVersion BUILD_TOOLS_VERSION
+  compileSdkVersion Versions.compileSdkVersion
+  buildToolsVersion Versions.buildToolsVersion
 
   defaultConfig {
-    minSdkVersion 15
-    targetSdkVersion 30
+    minSdkVersion Versions.minSdkVersion
+    targetSdkVersion Versions.targetSdkVersion
     versionCode 1
     versionName "1.0"
 
@@ -37,12 +37,12 @@ apply from: rootProject.file('checkstyle/checkstyle.gradle')
 dependencies {
   implementation project(':magellan-legacy')
 
-  implementation "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
+  implementation Dependencies.appCompat
 
-  testImplementation "junit:junit:${JUNIT_VERSION}"
-  testImplementation "com.google.truth:truth:${TRUTH_VERSION}"
-  testImplementation "org.mockito:mockito-core:${MOCKITO_VERSION}"
-  testImplementation "org.robolectric:robolectric:${ROBOLECTRIC_VERSION}"
+  testImplementation Dependencies.junit
+  testImplementation Dependencies.truth
+  testImplementation Dependencies.mockito
+  testImplementation Dependencies.robolectric
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
