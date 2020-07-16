@@ -45,7 +45,7 @@ dependencies {
 
   implementation project(':magellan-legacy')
 
-  implementation Dependencies.kotlinJdk
+  implementation Dependencies.kotlinStdLib
   implementation Dependencies.appCompat
   implementation Dependencies.lifecycle
 

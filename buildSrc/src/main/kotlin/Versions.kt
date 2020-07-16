@@ -25,4 +25,8 @@ object Versions {
   const val junitVersion = "4.13"
   const val truthVersion = "1.0"
   const val mockitoVersion = "2.23.4"
+  const val testRunnerVersion = "1.0.2"
+  const val uiAutomatorVersion = "2.2.0"
+  const val extVersion = "1.1.1"
+  const val espressoVersion = "3.0.2"
 }

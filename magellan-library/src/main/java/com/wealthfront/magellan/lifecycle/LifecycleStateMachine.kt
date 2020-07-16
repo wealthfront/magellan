@@ -11,19 +11,19 @@ import com.wealthfront.magellan.lifecycle.LifecycleStateDirection.NO_MOVEMENT
 
 internal class LifecycleStateMachine {
 
-  fun transitionBetweenLifecycleStates(
+  fun transition(
     lifecycleAware: LifecycleAware,
     oldState: LifecycleState,
     newState: LifecycleState
   ) {
-    transitionBetweenLifecycleStates(
+    transition(
       listOf(lifecycleAware),
       oldState,
       newState
     )
   }
 
-  fun transitionBetweenLifecycleStates(
+  fun transition(
     subjects: Iterable<LifecycleAware>,
     oldState: LifecycleState,
     newState: LifecycleState
