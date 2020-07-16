@@ -16,7 +16,6 @@ import com.wealthfront.magellan.lifecycle.LifecycleState.Created
 import com.wealthfront.magellan.lifecycle.LifecycleState.Destroyed
 import com.wealthfront.magellan.lifecycle.LifecycleState.Resumed
 import com.wealthfront.magellan.lifecycle.LifecycleState.Shown
-import com.wealthfront.magellan.lifecycle.LifecycleStateMachine
 import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.view.whenMeasured
 import java.util.Stack
@@ -25,9 +24,6 @@ class LinearNavigator(
   private val container: () -> ScreenContainer
 ) : Navigator, LifecycleAwareComponent() {
 
-  private val lifecycleStateMachine = LifecycleStateMachine()
-
-  private var ghostView: View? = null
   private var containerView: ScreenContainer? = null
 
   @VisibleForTesting
@@ -45,10 +41,6 @@ class LinearNavigator(
   private val context: Context?
     get() = currentState.context
 
-  override fun onCreate(context: Context) {
-    lifecycleStateMachine.transition(backStack.navigables(), Destroyed, Created(context))
-  }
-
   override fun onShow(context: Context) {
     containerView = container()
     currentNavigable?.let {
@@ -60,6 +52,7 @@ class LinearNavigator(
     backStack.navigables().forEach {
       removeFromLifecycle(it, detachedState = Destroyed)
     }
+    backStack.clear()
     containerView = null
   }
 
@@ -114,7 +107,6 @@ class LinearNavigator(
     to: View?,
     direction: Direction
   ) {
-    ghostView = from
     val navEvent = backStack.peek()!!
     val transition = DefaultTransition()
     currentNavigable!!.transitionStarted()
@@ -122,10 +114,6 @@ class LinearNavigator(
       transition.animate(from, to, navEvent.navigationType, direction) {
         if (context != null) {
           containerView!!.removeView(from)
-          if (from == ghostView) {
-            // Only clear the ghost if it's the same as the view we just removed
-            ghostView = null
-          }
           currentNavigable!!.transitionFinished()
           containerView!!.setInterceptTouchEvents(false)
         }

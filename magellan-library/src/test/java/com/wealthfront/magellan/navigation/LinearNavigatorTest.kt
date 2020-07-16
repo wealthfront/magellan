@@ -14,6 +14,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations.initMocks
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment.application
 
 @RunWith(RobolectricTestRunner::class)
 class LinearNavigatorTest {
@@ -116,6 +117,21 @@ class LinearNavigatorTest {
     assertThat(linearNavigator.backStack.size).isEqualTo(2)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(screen2)
     assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
+  }
+
+  @Test
+  fun destroy() {
+    linearNavigator.navigate(FORWARD) {
+      it.push(NavigationEvent(screen1, GO))
+      it.push(NavigationEvent(screen2, GO))
+      it.push(NavigationEvent(journey1, SHOW))
+    }
+    
+    linearNavigator.goBack()
+    linearNavigator.goBack()
+    linearNavigator.destroy(application)
+
+    assertThat(linearNavigator.backStack.size).isEqualTo(0)
   }
 
   @Test
