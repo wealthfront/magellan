@@ -1,9 +1,12 @@
 import Versions.archVersion
 import Versions.butterKnifeVersion
 import Versions.daggerVersion
+import Versions.espressoVersion
+import Versions.extVersion
 import Versions.jacksonVersion
 import Versions.junitVersion
 import Versions.kotlinVersion
+import Versions.kotlinterVersion
 import Versions.lifecycleVersion
 import Versions.mockitoVersion
 import Versions.okhttpVersion
@@ -14,13 +17,18 @@ import Versions.rxjava2Version
 import Versions.rxjavaAdapterVersion
 import Versions.rxjavaVersion
 import Versions.supportLibVersion
+import Versions.testRunnerVersion
 import Versions.truthVersion
+import Versions.uiAutomatorVersion
 
 object Dependencies {
 
-  const val kotlinJdk = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+  const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
   const val appCompat = "androidx.appcompat:appcompat:$supportLibVersion"
   const val lifecycle = "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+
+  const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+  const val kotlinterGradle = "org.jmailen.gradle:kotlinter-gradle:$kotlinterVersion"
 
   const val junit = "junit:junit:$junitVersion"
   const val truth = "com.google.truth:truth:$truthVersion"
@@ -39,8 +47,11 @@ object Dependencies {
   const val rxandroid = "io.reactivex:rxandroid:$rxandroidVersion"
   const val jackson = "com.squareup.retrofit2:converter-jackson:$jacksonVersion"
   const val okhttp = "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
-  
-  const val extJunit = "androidx.test.ext:junit:1.1.1"
-  const val espressoCore = "com.android.support.test.espresso:espresso-core:3.0.2"
+
+  const val testRunner = "com.android.support.test:runner:$testRunnerVersion"
+  const val testRules = "com.android.support.test:rules:$testRunnerVersion"
+  const val uiAutomator ="androidx.test.uiautomator:uiautomator:$uiAutomatorVersion"
+  const val extJunit = "androidx.test.ext:junit:$extVersion"
+  const val espressoCore = "com.android.support.test.espresso:espresso-core:$espressoVersion"
 }
 
