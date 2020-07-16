@@ -22,7 +22,7 @@ class NavigatorTest {
   private lateinit var navigable1: Screen<*>
   private lateinit var navigable2: Screen<*>
   private lateinit var navigable3: Screen<*>
-  private lateinit var linearNavigator : LinearNavigator
+  private lateinit var linearNavigator: LinearNavigator
 
   @Before
   fun setUp() {
@@ -116,6 +116,6 @@ class NavigatorTest {
   }
 }
 
-class DummyScreen1: Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
-class DummyScreen2: Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
-class DummyScreen3: Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
+class DummyScreen1 : Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
+class DummyScreen2 : Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
+class DummyScreen3 : Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)

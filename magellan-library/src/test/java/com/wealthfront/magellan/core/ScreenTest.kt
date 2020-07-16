@@ -69,4 +69,4 @@ class ScreenTest {
   }
 }
 
-class DummyScreen: Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
+class DummyScreen : Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)

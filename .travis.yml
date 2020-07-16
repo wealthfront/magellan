@@ -15,7 +15,7 @@ jdk:
   - oraclejdk8
 
 script:
-  - ./gradlew clean build
+  - ./gradlew clean build checkstyle lintkotlin
 
 cache:
   directories:

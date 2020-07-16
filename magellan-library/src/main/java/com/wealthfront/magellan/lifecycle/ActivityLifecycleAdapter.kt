@@ -4,9 +4,9 @@ import android.app.Activity
 import androidx.activity.ComponentActivity
 import androidx.annotation.IdRes
 import androidx.lifecycle.DefaultLifecycleObserver
-import com.wealthfront.magellan.core.Navigable
 import androidx.lifecycle.LifecycleOwner
 import com.wealthfront.magellan.ScreenContainer
+import com.wealthfront.magellan.core.Navigable
 
 internal class ActivityLifecycleAdapter(
   private val navigable: Navigable,
