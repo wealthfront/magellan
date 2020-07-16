@@ -2,37 +2,43 @@ package com.wealthfront.magellan.lifecycle
 
 import android.app.Activity
 import androidx.activity.ComponentActivity
-import androidx.annotation.IdRes
 import androidx.lifecycle.DefaultLifecycleObserver
-import com.wealthfront.magellan.core.Navigable
-import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleOwner as ActivityLifecycleOwner
+import com.wealthfront.magellan.R
 import com.wealthfront.magellan.ScreenContainer
+import com.wealthfront.magellan.core.Navigable
+import com.wealthfront.magellan.lifecycle.LifecycleOwner as MagellanLifecycleOwner
 
 internal class ActivityLifecycleAdapter(
   private val navigable: Navigable,
-  private val context: Activity,
-  private val containerRes: Int
+  private val context: Activity
 ) : DefaultLifecycleObserver {
 
-  override fun onStart(owner: LifecycleOwner) {
-    navigable.show(context)
-    context.findViewById<ScreenContainer>(containerRes).addView(navigable.view!!)
+  override fun onCreate(owner: ActivityLifecycleOwner) {
+    if (navigable is MagellanLifecycleOwner && navigable.currentState == LifecycleState.Destroyed) {
+      navigable.create(context)
+    }
   }
 
-  override fun onResume(owner: LifecycleOwner) {
+  override fun onStart(owner: ActivityLifecycleOwner) {
+    navigable.show(context)
+    context.findViewById<ScreenContainer>(R.id.magellan_container).addView(navigable.view!!)
+  }
+
+  override fun onResume(owner: ActivityLifecycleOwner) {
     navigable.resume(context)
   }
 
-  override fun onPause(owner: LifecycleOwner) {
+  override fun onPause(owner: ActivityLifecycleOwner) {
     navigable.pause(context)
   }
 
-  override fun onStop(owner: LifecycleOwner) {
+  override fun onStop(owner: ActivityLifecycleOwner) {
     navigable.hide(context)
-    context.findViewById<ScreenContainer>(containerRes).removeAllViews()
+    context.findViewById<ScreenContainer>(R.id.magellan_container).removeAllViews()
   }
 
-  override fun onDestroy(owner: LifecycleOwner) {
+  override fun onDestroy(owner: ActivityLifecycleOwner) {
     if (context.isFinishing) {
       navigable.destroy(context)
     }
@@ -40,8 +46,8 @@ internal class ActivityLifecycleAdapter(
 }
 
 fun ComponentActivity.setContentScreen(
-  navigable: Navigable,
-  @IdRes containerRes: Int
+  navigable: Navigable
 ) {
-  lifecycle.addObserver(ActivityLifecycleAdapter(navigable, this, containerRes))
+  setContentView(R.layout.magellan_root)
+  lifecycle.addObserver(ActivityLifecycleAdapter(navigable, this))
 }

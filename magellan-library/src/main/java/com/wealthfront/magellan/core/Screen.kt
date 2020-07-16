@@ -8,21 +8,18 @@ import android.view.View
 import androidx.annotation.VisibleForTesting
 import androidx.viewbinding.ViewBinding
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
-import com.wealthfront.magellan.view.lifecycleBinding
-import com.wealthfront.magellan.view.lifecycleView
+import com.wealthfront.magellan.view.lifecycleWithContext
 
-abstract class Screen<V: ViewBinding>(
+abstract class Screen<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V
 ) : Navigable, LifecycleAwareComponent() {
 
   private var viewState: SparseArray<Parcelable>? = null
 
-  override var previousNavigable: Navigable? = null
-
-  internal var viewBinding: V? by lifecycleBinding { context ->  createBinding.invoke(LayoutInflater.from(context)) }
+  internal var viewBinding: V? by lifecycleWithContext { createBinding.invoke(LayoutInflater.from(it)) }
     @VisibleForTesting set
 
-  final override var view: View? by lifecycleView { viewBinding!!.root }
+  final override var view: View? by lifecycleWithContext { viewBinding!!.root }
     @VisibleForTesting set
 
   final override fun onShow(context: Context) {
