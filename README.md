@@ -8,6 +8,8 @@
 
 The simplest navigation library for Android.
 
+> Note: This library is currently under development for the next major version.
+
 ## Main Features
 
  - Navigation is as simple as calling `goTo(screen)`
