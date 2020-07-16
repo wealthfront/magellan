@@ -6,9 +6,7 @@ import androidx.annotation.VisibleForTesting
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
-import com.wealthfront.magellan.NavigationType
 import com.wealthfront.magellan.NavigationType.GO
-import com.wealthfront.magellan.NavigationType.SHOW
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
@@ -27,12 +25,12 @@ class LinearNavigator(
   private var containerView: ScreenContainer? = null
 
   @VisibleForTesting
-  override val backStack: Stack<NavigationEvent> = Stack()
+  override val backStack: Stack<Navigable> = Stack()
 
   private val currentNavigable: Navigable?
     get() {
       return if (backStack.isNotEmpty()) {
-        backStack.peek()?.navigable
+        backStack.peek()
       } else {
         null
       }
@@ -49,7 +47,7 @@ class LinearNavigator(
   }
 
   override fun onDestroy(context: Context) {
-    backStack.navigables().forEach {
+    backStack.forEach {
       removeFromLifecycle(it, detachedState = Destroyed)
     }
     backStack.clear()
@@ -57,31 +55,39 @@ class LinearNavigator(
   }
 
   fun goTo(nextNavigable: Navigable) {
-    navigateTo(nextNavigable, GO)
+    navigateTo(nextNavigable)
   }
 
   fun show(nextNavigable: Navigable) {
-    navigateTo(nextNavigable, SHOW)
+    navigateTo(nextNavigable)
   }
 
   fun replaceAndGo(nextNavigable: Navigable) {
-    replace(nextNavigable, GO)
+    replace(nextNavigable)
   }
 
   fun replaceAndShow(nextNavigable: Navigable) {
-    replace(nextNavigable, SHOW)
+    replace(nextNavigable)
   }
 
-  private fun replace(nextNavigable: Navigable, navType: NavigationType) {
-    navigate(FORWARD) { backStack ->
-      backStack.pop()
-      backStack.push(NavigationEvent(nextNavigable, navType))
+  fun exit() {
+    navigate(BACKWARD) { backStack ->
+      while (backStack.size > 1) {
+        backStack.pop()
+      }
     }
   }
 
-  private fun navigateTo(nextNavigable: Navigable, navType: NavigationType) {
+  private fun replace(nextNavigable: Navigable) {
     navigate(FORWARD) { backStack ->
-      backStack.push(NavigationEvent(nextNavigable, navType))
+      backStack.pop()
+      backStack.push(nextNavigable)
+    }
+  }
+
+  private fun navigateTo(nextNavigable: Navigable) {
+    navigate(FORWARD) { backStack ->
+      backStack.push(nextNavigable)
     }
   }
 
@@ -93,7 +99,7 @@ class LinearNavigator(
 
   fun navigate(
     direction: Direction,
-    backStackOperation: (Stack<NavigationEvent>) -> Unit
+    backStackOperation: (Stack<Navigable>) -> Unit
   ) {
     containerView?.setInterceptTouchEvents(true)
     val from = hideCurrentNavigable(direction)
@@ -107,11 +113,11 @@ class LinearNavigator(
     to: View?,
     direction: Direction
   ) {
-    val navEvent = backStack.peek()!!
     val transition = DefaultTransition()
     currentNavigable!!.transitionStarted()
     to?.whenMeasured {
-      transition.animate(from, to, navEvent.navigationType, direction) {
+      // Support custom transitions in the future
+      transition.animate(from, to, GO, direction) {
         if (context != null) {
           containerView!!.removeView(from)
           currentNavigable!!.transitionFinished()

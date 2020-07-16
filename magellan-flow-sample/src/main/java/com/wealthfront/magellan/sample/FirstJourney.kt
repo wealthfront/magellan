@@ -19,6 +19,10 @@ class FirstJourney(
   }
 
   private fun goToLearnMore() {
-    navigator.goTo(LearnMoreScreen())
+    navigator.goTo(LearnMoreScreen(::exitFlow))
+  }
+
+  private fun exitFlow() {
+    navigator.exit()
   }
 }
