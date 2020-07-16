@@ -8,6 +8,14 @@
     android:background="@color/colorLimeGreen"
     >
 
+  <Button
+      android:id="@+id/goBackToFirstScreen"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/largePadding"
+      android:text="@string/first_screen"
+      />
+
   <com.wealthfront.magellan.ScreenContainer
       android:id="@+id/container"
       android:layout_width="match_parent"
