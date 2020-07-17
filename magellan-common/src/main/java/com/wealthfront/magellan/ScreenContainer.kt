@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 
+const val SCREENCONTAINER_EXCEPTION = "ScreenContainer cannot have any children added in XML."
+
 /**
  * The container to be used to display the screens using the [Navigator]. Must have the id
  * `magellan_container`. This will also block touch events automatically during navigation to avoid accidental
@@ -45,7 +47,7 @@ class ScreenContainer @JvmOverloads constructor(
     params: ViewGroup.LayoutParams
   ) {
     if (!isChildAddedProgrammatically) {
-      throw UnsupportedOperationException("ScreenContainer cannot have any children added in XML.")
+      throw UnsupportedOperationException(SCREENCONTAINER_EXCEPTION)
     }
     super.addView(child, index, params)
   }

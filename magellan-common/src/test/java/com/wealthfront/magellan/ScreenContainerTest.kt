@@ -20,7 +20,7 @@ class ScreenContainerTest {
     try {
       LayoutInflater.from(application).inflate(R.layout.invalid_screen_container, null)
     } catch (e: InflateException) {
-      assertThat(e.message).contains("ScreenContainer cannot have any children added in Xml")
+      assertThat(e.message).contains(SCREENCONTAINER_EXCEPTION)
     }
   }
 
