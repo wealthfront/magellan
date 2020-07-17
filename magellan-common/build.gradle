@@ -42,6 +42,7 @@ dependencies {
   testImplementation Dependencies.junit
   testImplementation Dependencies.truth
   testImplementation Dependencies.mockito
+  testImplementation Dependencies.robolectric
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
