@@ -104,7 +104,7 @@ class LinearNavigatorTest {
   }
 
   @Test
-  fun goBack_flow_back() {
+  fun goBack_journey_back() {
     linearNavigator.navigate(FORWARD) {
       it.push(NavigationEvent(screen1, GO))
       it.push(NavigationEvent(screen2, GO))
@@ -135,7 +135,7 @@ class LinearNavigatorTest {
   }
 
   @Test
-  fun goBack_flow_backOutOfFlow() {
+  fun goBack_backOutOfJourney() {
     linearNavigator.navigate(FORWARD) {
       it.push(NavigationEvent(journey1, SHOW))
     }

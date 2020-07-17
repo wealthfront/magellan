@@ -9,11 +9,11 @@
     >
 
   <Button
-      android:id="@+id/nextFlow"
+      android:id="@+id/nextJourney"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_margin="@dimen/largePadding"
-      android:text="@string/new_flow_text"
+      android:text="@string/new_journey_text"
       />
 
   <com.wealthfront.magellan.ScreenContainer
