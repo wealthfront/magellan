@@ -9,7 +9,7 @@ class FirstJourney(
 ) : Journey<FirstJourneyBinding>(FirstJourneyBinding::inflate, FirstJourneyBinding::container) {
 
   override fun onCreate(context: Context) {
-    navigator.goTo(IntroScreen(::goToLearnMore))
+    navigator.goTo(IntroStep(::goToLearnMore))
   }
 
   override fun onShow(context: Context, binding: FirstJourneyBinding) {
@@ -19,6 +19,6 @@ class FirstJourney(
   }
 
   private fun goToLearnMore() {
-    navigator.goTo(LearnMoreScreen())
+    navigator.goTo(LearnMoreStep())
   }
 }

@@ -4,8 +4,6 @@ import android.view.View;
 
 import com.wealthfront.magellan.Direction;
 import com.wealthfront.magellan.NavigationType;
-import com.wealthfront.magellan.transitions.DefaultTransition;
-import com.wealthfront.magellan.transitions.Transition;
 
 import org.junit.Before;
 import org.junit.Test;
