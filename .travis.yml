@@ -5,7 +5,7 @@ android:
     - tools
     - platform-tools
     - build-tools-29.0.2
-    - android-30
+    - android-29
     - extra
 
 before_install:
@@ -15,7 +15,7 @@ jdk:
   - oraclejdk8
 
 script:
-  - ./gradlew clean build checkstyle lintkotlin
+  - ./gradlew clean testRelease lintRelease checkstyle lintkotlin
 
 cache:
   directories:
