@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 group = GROUP
 version = VERSION_NAME
@@ -6,8 +7,6 @@ version = VERSION_NAME
 android {
   compileSdkVersion Versions.compileSdkVersion
   buildToolsVersion Versions.buildToolsVersion
-
-  resourcePrefix 'magellan_'
 
   defaultConfig {
     minSdkVersion Versions.minSdkVersion
@@ -22,6 +21,12 @@ android {
     setSourceCompatibility(JavaVersion.VERSION_1_8)
     setTargetCompatibility(JavaVersion.VERSION_1_8)
   }
+  
+  testOptions {
+    unitTests {
+      includeAndroidResources = true
+    }
+  }
 
   buildTypes {
     release {
@@ -31,14 +36,12 @@ android {
 }
 
 dependencies {
-  implementation project(':magellan-common')
-
+  implementation Dependencies.kotlinStdLib
   implementation Dependencies.appCompat
 
   testImplementation Dependencies.junit
   testImplementation Dependencies.truth
   testImplementation Dependencies.mockito
-  testImplementation Dependencies.robolectric
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

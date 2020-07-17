@@ -42,8 +42,7 @@ android {
 }
 
 dependencies {
-
-  implementation project(':magellan-legacy')
+  implementation project(':magellan-common')
 
   implementation Dependencies.kotlinStdLib
   implementation Dependencies.appCompat

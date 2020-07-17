@@ -4,7 +4,6 @@ import android.view.View;
 
 import com.wealthfront.magellan.Direction;
 import com.wealthfront.magellan.NavigationType;
-import com.wealthfront.magellan.Navigator;
 
 /**
  * Define a transition (animation) between two screens. By default, transitions are implemented by

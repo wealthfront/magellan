@@ -1,3 +1,4 @@
+include ':magellan-common'
 include ':magellan-library'
 include ':magellan-legacy'
 include ':magellan-rx'
