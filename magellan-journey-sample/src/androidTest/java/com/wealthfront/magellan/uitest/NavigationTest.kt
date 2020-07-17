@@ -46,13 +46,13 @@ class NavigationTest {
     assertShown { text(R.string.intro_view_text) }
     onView(withId(R.id.learnMore)).perform(click())
     assertShown { text(R.string.learn_more_text) }
-    onView(withId(R.id.nextFlow)).perform(click())
+    onView(withId(R.id.nextJourney)).perform(click())
     assertShown { text(R.string.detail_memo_text) }
     pressBack()
     assertShown { text(R.string.learn_more_text) }
     pressBack()
     assertShown { text(R.string.intro_view_text) }
-    onView(withId(R.id.nextFlow)).perform(click())
+    onView(withId(R.id.nextJourney)).perform(click())
     assertShown { text(R.string.detail_memo_text) }
     pressBack()
     assertShown { text(R.string.intro_view_text) }

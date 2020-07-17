@@ -5,7 +5,7 @@ import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.sample.databinding.FirstJourneyBinding
 
 class FirstJourney(
-  private val secondJourney: () -> Unit
+  private val goToSecondJourney: () -> Unit
 ) : Journey<FirstJourneyBinding>(FirstJourneyBinding::inflate, FirstJourneyBinding::container) {
 
   override fun onCreate(context: Context) {
@@ -13,8 +13,8 @@ class FirstJourney(
   }
 
   override fun onShow(context: Context, binding: FirstJourneyBinding) {
-    binding.nextFlow.setOnClickListener {
-      secondJourney()
+    binding.nextJourney.setOnClickListener {
+      goToSecondJourney()
     }
   }
 
