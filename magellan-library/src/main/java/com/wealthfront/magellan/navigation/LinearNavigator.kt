@@ -44,7 +44,7 @@ class LinearNavigator(
   override fun onShow(context: Context) {
     containerView = container()
     currentNavigable?.let {
-      containerView!!.addView(it.view!!)
+      containerView!!.addView(it.view!!, true)
     }
   }
 
@@ -95,7 +95,7 @@ class LinearNavigator(
     direction: Direction,
     backStackOperation: (Stack<NavigationEvent>) -> Unit
   ) {
-    containerView?.setInterceptTouchEvents(true)
+    containerView?.interceptTouchEvents = true
     val from = hideCurrentNavigable(direction)
     backStackOperation.invoke(backStack)
     val to = showCurrentNavigable(direction)
@@ -115,7 +115,7 @@ class LinearNavigator(
         if (context != null) {
           containerView!!.removeView(from)
           currentNavigable!!.transitionFinished()
-          containerView!!.setInterceptTouchEvents(false)
+          containerView!!.interceptTouchEvents = false
         }
       }
     }
@@ -129,7 +129,7 @@ class LinearNavigator(
     })
     when (currentState) {
       is Shown, is Resumed -> {
-        containerView!!.addView(currentNavigable!!.view!!)
+        containerView!!.addView(currentNavigable!!.view!!, true)
       }
       is Destroyed, is Created -> {}
     }

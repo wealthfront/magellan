@@ -579,7 +579,7 @@ public class Navigator implements BackHandler {
     currentScreen().transitionStarted();
     Screen currentScreen = currentScreen();
     View view = currentScreen.recreateView(activity, this);
-    container.addView(view, direction == FORWARD ? container.getChildCount() : 0);
+    container.addView(view, direction == FORWARD ? container.getChildCount() : 0, true);
     currentScreen.createDialog();
     activity.setTitle(currentScreen.getTitle(activity));
     currentScreen.onShow(activity);

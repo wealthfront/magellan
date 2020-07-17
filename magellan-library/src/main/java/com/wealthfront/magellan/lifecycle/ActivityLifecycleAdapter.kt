@@ -22,7 +22,7 @@ internal class ActivityLifecycleAdapter(
 
   override fun onStart(owner: ActivityLifecycleOwner) {
     navigable.show(context)
-    context.findViewById<ScreenContainer>(R.id.magellan_container).addView(navigable.view!!)
+    context.findViewById<ScreenContainer>(R.id.magellan_container).addView(navigable.view!!, true)
   }
 
   override fun onResume(owner: ActivityLifecycleOwner) {
