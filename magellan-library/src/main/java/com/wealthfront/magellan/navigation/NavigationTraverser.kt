@@ -3,7 +3,7 @@ package com.wealthfront.magellan.navigation
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.Navigable
 
-class NavigationLogger(private val root: Journey<*>) {
+class NavigationTraverser(private val root: Journey<*>) {
 
   fun getGlobalBackStack(): List<Navigable> {
     val backStackList = mutableListOf<Navigable>()
@@ -28,7 +28,7 @@ class NavigationLogger(private val root: Journey<*>) {
     }
   }
 
-  private fun getBackStackForJourney(journey: Journey<*>) =
-    journey.children.mapNotNull { it as? Navigator }.first().backStack
-}
+  private fun getBackStackForJourney(journey: Journey<*>): List<NavigationEvent> {
+    return journey.children.mapNotNull { it as? Navigator }.first().backStack
+  }
 }
