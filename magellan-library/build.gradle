@@ -46,6 +46,7 @@ dependencies {
   implementation Dependencies.appCompat
   implementation Dependencies.lifecycle
 
+  testImplementation Dependencies.testCore
   testImplementation Dependencies.junit
   testImplementation Dependencies.truth
   testImplementation Dependencies.mockito

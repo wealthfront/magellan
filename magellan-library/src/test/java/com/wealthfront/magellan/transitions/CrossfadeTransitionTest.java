@@ -12,6 +12,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static com.google.common.truth.Truth.assertThat;
 import static com.wealthfront.magellan.Direction.BACKWARD;
 import static com.wealthfront.magellan.Direction.FORWARD;
@@ -20,14 +21,13 @@ import static com.wealthfront.magellan.NavigationType.NO_ANIM;
 import static com.wealthfront.magellan.NavigationType.SHOW;
 import static org.robolectric.Robolectric.flushForegroundThreadScheduler;
 import static org.robolectric.Robolectric.getForegroundThreadScheduler;
-import static org.robolectric.RuntimeEnvironment.application;
 
 @RunWith(RobolectricTestRunner.class)
 public class CrossfadeTransitionTest {
 
   boolean onAnimationEndCalled;
-  View from = new View(application);
-  View to = new View(application);
+  View from = new View(getApplicationContext());
+  View to = new View(getApplicationContext());
 
   @Before
   public void setUp() {

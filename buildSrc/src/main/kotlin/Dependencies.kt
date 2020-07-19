@@ -17,6 +17,7 @@ import Versions.rxjava2Version
 import Versions.rxjavaAdapterVersion
 import Versions.rxjavaVersion
 import Versions.supportLibVersion
+import Versions.testCoreVersion
 import Versions.testRunnerVersion
 import Versions.truthVersion
 import Versions.uiAutomatorVersion
@@ -48,6 +49,7 @@ object Dependencies {
   const val jackson = "com.squareup.retrofit2:converter-jackson:$jacksonVersion"
   const val okhttp = "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
 
+  const val testCore = "androidx.test:core:$testCoreVersion"
   const val testRunner = "com.android.support.test:runner:$testRunnerVersion"
   const val testRules = "com.android.support.test:rules:$testRunnerVersion"
   const val uiAutomator ="androidx.test.uiautomator:uiautomator:$uiAutomatorVersion"

@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.navigation
 
 import android.content.Context
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.Step
@@ -9,7 +10,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment.application
 
 @RunWith(RobolectricTestRunner::class)
 class NavigationTraverserTest {
@@ -51,7 +51,17 @@ class NavigationTraverserTest {
   fun globalBackStackWithOneStep() {
     traverser = NavigationTraverser(oneStepRoot)
 
-    oneStepRoot.create(application)
+    oneStepRoot.create(getApplicationContext())
+
+    assertThat(traverser.getGlobalBackStack()).isEqualTo(listOf(journey1, step1))
+  }
+
+  @Test
+  fun visibleNavigablesWithOneStep() {
+    traverser = NavigationTraverser(oneStepRoot)
+
+    oneStepRoot.create(getApplicationContext())
+    oneStepRoot.show(getApplicationContext())
 
     assertThat(traverser.getGlobalBackStack()).isEqualTo(listOf(journey1, step1))
   }
@@ -60,16 +70,26 @@ class NavigationTraverserTest {
   fun globalBackStackWithMultipleStep() {
     traverser = NavigationTraverser(multiStepRoot)
 
-    multiStepRoot.create(application)
+    multiStepRoot.create(getApplicationContext())
 
     assertThat(traverser.getGlobalBackStack()).isEqualTo(listOf(journey2, step1, step2))
+  }
+
+  @Test
+  fun visibleNavigablesWithMultipleStep() {
+    traverser = NavigationTraverser(multiStepRoot)
+
+    multiStepRoot.create(getApplicationContext())
+    multiStepRoot.show(getApplicationContext())
+
+    assertThat(traverser.getVisibleNavigables()).isEqualTo(listOf(journey2, step2))
   }
 
   @Test
   fun globalBackStackWithSiblingJourney() {
     traverser = NavigationTraverser(siblingRoot)
 
-    siblingRoot.create(application)
+    siblingRoot.create(getApplicationContext())
 
     assertThat(traverser.getGlobalBackStack()).isEqualTo(
       listOf(
@@ -78,6 +98,21 @@ class NavigationTraverserTest {
         step4,
         journey2,
         step1,
+        step2))
+  }
+
+  @Test
+  fun visibleNavigablesSiblingJourney() {
+    traverser = NavigationTraverser(siblingRoot)
+
+    siblingRoot.create(getApplicationContext())
+    siblingRoot.show(getApplicationContext())
+
+    assertThat(traverser.getVisibleNavigables()).isEqualTo(
+      listOf(
+        journey3,
+        step4,
+        journey2,
         step2))
   }
 
