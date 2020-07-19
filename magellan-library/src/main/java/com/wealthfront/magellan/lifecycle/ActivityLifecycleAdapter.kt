@@ -2,7 +2,6 @@ package com.wealthfront.magellan.lifecycle
 
 import android.app.Activity
 import androidx.activity.ComponentActivity
-import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner as ActivityLifecycleOwner

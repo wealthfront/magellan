@@ -5,6 +5,7 @@ import android.os.Parcelable
 import android.util.SparseArray
 import android.view.LayoutInflater.from
 import android.view.View
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
 import org.junit.Before
@@ -19,7 +20,6 @@ import org.mockito.Mockito.never
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations.initMocks
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment.application
 import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
@@ -35,19 +35,19 @@ class ScreenTest {
     initMocks(this)
     screen = DummyStep()
     screen.view = view
-    screen.viewBinding = MagellanDummyLayoutBinding.inflate(from(application))
+    screen.viewBinding = MagellanDummyLayoutBinding.inflate(from(getApplicationContext()))
   }
 
   @Test
   fun onShow() {
-    screen.show(application)
+    screen.show(getApplicationContext())
 
     verify(view, never()).restoreHierarchyState(any())
   }
 
   @Test
   fun onHide() {
-    screen.hide(application)
+    screen.hide(getApplicationContext())
 
     verify(view).saveHierarchyState(any())
   }
@@ -58,10 +58,10 @@ class ScreenTest {
     state.putString("key", "value")
     doAnswer { sparseArrayCaptor.value.put(42, state) }.`when`(view).saveHierarchyState(sparseArrayCaptor.capture())
 
-    screen.hide(application)
+    screen.hide(getApplicationContext())
     verify(view).saveHierarchyState(any())
 
-    screen.show(application)
+    screen.show(getApplicationContext())
     verify(view).restoreHierarchyState(sparseArrayCaptor.capture())
 
     val bundle = sparseArrayCaptor.value.get(42) as Bundle

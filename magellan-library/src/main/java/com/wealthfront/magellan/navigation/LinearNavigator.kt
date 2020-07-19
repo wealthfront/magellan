@@ -11,7 +11,6 @@ import com.wealthfront.magellan.NavigationType.GO
 import com.wealthfront.magellan.NavigationType.SHOW
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Navigable
-import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.LifecycleState.Created
 import com.wealthfront.magellan.lifecycle.LifecycleState.Destroyed
@@ -26,6 +25,7 @@ class LinearNavigator(
 ) : Navigator, LifecycleAwareComponent() {
 
   private var containerView: ScreenContainer? = null
+  private val navigationPropagator = NavigationPropagator
 
   @VisibleForTesting
   override val backStack: Stack<NavigationEvent> = Stack()
@@ -123,6 +123,8 @@ class LinearNavigator(
   }
 
   private fun showCurrentNavigable(direction: Direction): View? {
+    navigationPropagator.onNavigate()
+    navigationPropagator.showCurrentNavigable(currentNavigable!!)
     attachToLifecycle(
       currentNavigable!!, detachedState = when (direction) {
       FORWARD -> Destroyed
@@ -134,7 +136,6 @@ class LinearNavigator(
       }
       is Destroyed, is Created -> {}
     }
-    callOnNavigate(currentNavigable)
     return currentNavigable!!.view
   }
 
@@ -146,12 +147,9 @@ class LinearNavigator(
         FORWARD -> currentState.getEarlierOfCurrentState()
         BACKWARD -> Destroyed
       })
+      navigationPropagator.hideCurrentNavigable(currentNavigable)
       currentView
     }
-  }
-
-  private fun callOnNavigate(currentNavigable: Navigable?) {
-    (context as NavListener).onNavigate(currentNavigable)
   }
 
   override fun onBackPressed(): Boolean = currentNavigable?.backPressed() ?: false || goBack()

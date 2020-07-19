@@ -1,13 +1,10 @@
 package com.wealthfront.magellan.sample.menu
 
 import android.content.Context
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import com.wealthfront.magellan.lifecycle.LifecycleAware
 import com.wealthfront.magellan.sample.MainActivity
-import com.wealthfront.magellan.sample.R
 import javax.inject.Inject
 import javax.inject.Singleton
 

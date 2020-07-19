@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.sample
 
 import android.content.Context
+import com.wealthfront.magellan.navigation.NavigationTraverser
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -12,6 +13,12 @@ class AppModule(private val context: Context) {
   @Singleton
   fun provideExpedition(): Expedition {
     return Expedition()
+  }
+
+  @Provides
+  @Singleton
+  fun provideNavigationTraverser(expedition: Expedition): NavigationTraverser {
+    return NavigationTraverser(expedition)
   }
 
   @Provides

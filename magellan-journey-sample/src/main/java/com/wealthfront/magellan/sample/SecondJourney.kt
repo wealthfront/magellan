@@ -16,9 +16,7 @@ class SecondJourney : Journey<SecondJourneyBinding>(SecondJourneyBinding::inflat
 
   override fun onCreate(context: Context) {
     appComponent.inject(this)
-    val menu = menuProvider.findItem(R.id.activities)
-
-      menu
+    menuProvider.findItem(R.id.activities)
       .setVisible(true)
       .setOnMenuItemClickListener {
         toaster.showToast("Menu item activities clicked!")

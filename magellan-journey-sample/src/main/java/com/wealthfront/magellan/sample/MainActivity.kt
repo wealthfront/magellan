@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.lifecycle.setContentScreen
-import com.wealthfront.magellan.navigation.NavListener
 import com.wealthfront.magellan.sample.App.Provider.appComponent
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), NavListener {
+class MainActivity : AppCompatActivity() {
 
   var menu: Menu? = null
 
@@ -58,15 +56,10 @@ class MainActivity : AppCompatActivity(), NavListener {
     return super.onOptionsItemSelected(item)
   }
 
-  override fun onNavigate(navigable: Navigable?) {
-    invalidateOptionsMenu()
-    updateMenu()
-  }
-
   private fun updateMenu() {
     if (menu != null) {
       for (i in 0 until menu!!.size()) {
-//        menu!!.getItem(i).isVisible = false
+        menu!!.getItem(i).isVisible = false
       }
     }
   }

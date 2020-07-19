@@ -9,6 +9,8 @@ interface AppComponent {
 
   fun inject(mainActivity: MainActivity)
 
+  fun inject(expedition: Expedition)
+
   fun inject(detailStep: DetailStep)
 
   fun inject(secondJourney: SecondJourney)
