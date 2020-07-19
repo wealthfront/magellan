@@ -1,5 +1,6 @@
 package com.wealthfront.magellan.navigation
 
+import android.util.Log
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.Navigable
 
@@ -14,6 +15,14 @@ class NavigationTraverser(private val root: Journey<*>) {
   fun getVisibleNavigables(): List<Navigable> {
     val globalBackStack = getGlobalBackStack()
     return globalBackStack.filter { it.view != null }
+  }
+
+  fun logGlobalBackStack() {
+    val navHistory = getGlobalBackStack().joinToString(" -> ") {
+      val type = if (it is Journey<*>) { "(Journey) " } else { "(Step) " }
+      type + it::class.java.simpleName
+    }
+    Log.i(this::class.java.simpleName, navHistory)
   }
 
   private fun exploreBackStack(journey: Journey<*>, backStackList: MutableList<Navigable>) {
