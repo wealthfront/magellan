@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: "org.jetbrains.kotlin.kapt"
 
 android {
   compileSdkVersion Versions.compileSdkVersion
@@ -40,6 +41,10 @@ dependencies {
 
   implementation Dependencies.appCompat
   implementation Dependencies.kotlinStdLib
+  implementation Dependencies.material
+
+  implementation Dependencies.dagger
+  kapt Dependencies.daggerCompiler
 
   testImplementation Dependencies.junit
 

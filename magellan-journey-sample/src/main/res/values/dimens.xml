@@ -1,3 +1,4 @@
 <resources>
   <dimen name="largePadding">25dp</dimen>
+  <dimen name="actionBarDefaultElevation">4dp</dimen>
 </resources>

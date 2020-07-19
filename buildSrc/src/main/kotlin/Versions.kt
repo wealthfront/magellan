@@ -3,6 +3,7 @@ object Versions {
   const val minSdkVersion = 15
   const val targetSdkVersion = 30
 
+  const val materialVersion = "1.1.0"
   const val kotlinVersion = "1.3.72"
   const val kotlinterVersion = "2.3.2"
   const val buildToolsVersion = "29.0.2"
@@ -13,6 +14,7 @@ object Versions {
   const val lifecycleVersion = "2.2.0"
   const val butterKnifeVersion = "10.0.0"
   const val daggerVersion = "2.24"
+  const val javaInject = "1"
   const val retrofitVersion = "2.9.0"
   const val rxjavaVersion = "1.3.8"
   const val rxjava2Version = "2.2.19"
