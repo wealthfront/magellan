@@ -1,12 +1,12 @@
 package com.wealthfront.magellan.sample
 
 import android.content.Context
-import com.wealthfront.magellan.core.Screen
+import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.sample.databinding.IntroBinding
 
-internal class IntroScreen(
+internal class IntroStep(
   private val goToLearnMore: () -> Unit
-) : Screen<IntroBinding>(IntroBinding::inflate) {
+) : Step<IntroBinding>(IntroBinding::inflate) {
 
   override fun onShow(context: Context, binding: IntroBinding) {
     binding.learnMore.setOnClickListener {

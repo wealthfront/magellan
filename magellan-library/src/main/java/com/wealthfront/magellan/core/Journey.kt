@@ -9,7 +9,7 @@ import com.wealthfront.magellan.navigation.LinearNavigator
 abstract class Journey<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V,
   container: V.() -> ScreenContainer
-) : Screen<V>(createBinding) {
+) : Step<V>(createBinding) {
 
   protected var navigator by lifecycle(LinearNavigator { viewBinding!!.container() })
 }

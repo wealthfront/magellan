@@ -10,7 +10,7 @@ import androidx.viewbinding.ViewBinding
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.view.lifecycleWithContext
 
-abstract class Screen<V : ViewBinding>(
+abstract class Step<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V
 ) : Navigable, LifecycleAwareComponent() {
 

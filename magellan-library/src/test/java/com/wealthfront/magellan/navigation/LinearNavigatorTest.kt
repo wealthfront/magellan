@@ -6,7 +6,7 @@ import com.wealthfront.magellan.NavigationType.GO
 import com.wealthfront.magellan.NavigationType.SHOW
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Journey
-import com.wealthfront.magellan.core.Screen
+import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
 import org.junit.Before
 import org.junit.Test
@@ -21,12 +21,12 @@ class LinearNavigatorTest {
 
   @Mock lateinit var screenContainer: ScreenContainer
 
-  private lateinit var screen1: Screen<*>
-  private lateinit var screen2: Screen<*>
+  private lateinit var step1: Step<*>
+  private lateinit var step2: Step<*>
   private lateinit var journey1: Journey<*>
-  private lateinit var screen3: Screen<*>
+  private lateinit var step3: Step<*>
   private lateinit var journey2: Journey<*>
-  private lateinit var screen4: Screen<*>
+  private lateinit var step4: Step<*>
   private lateinit var linearNavigator: LinearNavigator
 
   @Before
@@ -34,80 +34,80 @@ class LinearNavigatorTest {
     initMocks(this)
     linearNavigator = LinearNavigator { screenContainer }
 
-    screen1 = DummyScreen()
-    screen2 = DummyScreen()
+    step1 = DummyStep()
+    step2 = DummyStep()
     journey1 = DummyJourney()
-    screen3 = DummyScreen()
+    step3 = DummyStep()
     journey2 = DummyJourney()
-    screen4 = DummyScreen()
+    step4 = DummyStep()
   }
 
   @Test
   fun goTo() {
-    linearNavigator.goTo(screen1)
+    linearNavigator.goTo(step1)
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
-    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(screen1)
+    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
     assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
   }
 
   @Test
   fun show() {
-    linearNavigator.show(screen1)
+    linearNavigator.show(step1)
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
-    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(screen1)
+    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
     assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(SHOW)
   }
 
   @Test
   fun replaceGo() {
-    linearNavigator.show(screen1)
-    linearNavigator.replaceAndGo(screen2)
+    linearNavigator.show(step1)
+    linearNavigator.replaceAndGo(step2)
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
-    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(screen2)
+    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step2)
     assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
   }
 
   @Test
   fun replaceShow() {
-    linearNavigator.show(screen1)
-    linearNavigator.replaceAndShow(screen2)
+    linearNavigator.show(step1)
+    linearNavigator.replaceAndShow(step2)
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
-    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(screen2)
+    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step2)
     assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(SHOW)
   }
 
   @Test
   fun goBack_multipleScreen_removeScreenFromBackstack() {
-    linearNavigator.goTo(screen1)
-    linearNavigator.goTo(screen2)
+    linearNavigator.goTo(step1)
+    linearNavigator.goTo(step2)
     val didNavigate = linearNavigator.goBack()
 
     assertThat(didNavigate).isTrue()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
-    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(screen1)
+    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
     assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
   }
 
   @Test
   fun goBack_oneScreen_backOutOfApp() {
-    linearNavigator.goTo(screen1)
+    linearNavigator.goTo(step1)
     val didNavigate = linearNavigator.goBack()
 
     assertThat(didNavigate).isFalse()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
-    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(screen1)
+    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
     assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
   }
 
   @Test
   fun goBack_journey_back() {
     linearNavigator.navigate(FORWARD) {
-      it.push(NavigationEvent(screen1, GO))
-      it.push(NavigationEvent(screen2, GO))
+      it.push(NavigationEvent(step1, GO))
+      it.push(NavigationEvent(step2, GO))
       it.push(NavigationEvent(journey1, SHOW))
     }
 
@@ -115,15 +115,15 @@ class LinearNavigatorTest {
 
     assertThat(didNavigate).isTrue()
     assertThat(linearNavigator.backStack.size).isEqualTo(2)
-    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(screen2)
+    assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step2)
     assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
   }
 
   @Test
   fun destroy() {
     linearNavigator.navigate(FORWARD) {
-      it.push(NavigationEvent(screen1, GO))
-      it.push(NavigationEvent(screen2, GO))
+      it.push(NavigationEvent(step1, GO))
+      it.push(NavigationEvent(step2, GO))
       it.push(NavigationEvent(journey1, SHOW))
     }
 
@@ -154,5 +154,5 @@ class LinearNavigatorTest {
   }
 }
 
-class DummyScreen : Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
+class DummyStep : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
 class DummyJourney : Journey<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate, MagellanDummyLayoutBinding::container)

@@ -26,14 +26,14 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 class ScreenTest {
 
-  private lateinit var screen: DummyScreen
+  private lateinit var screen: DummyStep
   @Captor lateinit var sparseArrayCaptor: ArgumentCaptor<SparseArray<Parcelable>>
   @Mock lateinit var view: View
 
   @Before
   fun setUp() {
     initMocks(this)
-    screen = DummyScreen()
+    screen = DummyStep()
     screen.view = view
     screen.viewBinding = MagellanDummyLayoutBinding.inflate(from(application))
   }
@@ -69,4 +69,4 @@ class ScreenTest {
   }
 }
 
-class DummyScreen : Screen<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
+class DummyStep : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
