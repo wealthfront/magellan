@@ -1,8 +1,8 @@
 package com.wealthfront.magellan.sample
 
 import android.content.Context
+import android.util.Log
 import com.wealthfront.magellan.core.Step
-import com.wealthfront.magellan.lifecycle.lateinitLifecycle
 import com.wealthfront.magellan.sample.App.Provider.appComponent
 import com.wealthfront.magellan.sample.databinding.DetailBinding
 import com.wealthfront.magellan.sample.menu.MenuProvider
@@ -13,15 +13,18 @@ class DetailStep(
   private val startSecondJourney: () -> Unit
 ) : Step<DetailBinding>(DetailBinding::inflate) {
 
-  @set:Inject var menuProvider: MenuProvider by lateinitLifecycle()
+  @Inject lateinit var menuProvider: MenuProvider
   @Inject lateinit var toaster: Toaster
 
   override fun onCreate(context: Context) {
     appComponent.inject(this)
+  }
+
+  override fun onShow(context: Context, binding: DetailBinding) {
     menuProvider.findItem(R.id.activities)
       .setVisible(true)
       .setOnMenuItemClickListener {
-        toaster.showToast("Menu item activities clicked!")
+        Log.i(this::class.java.simpleName, "Menu item activities clicked!")
         startSecondJourney()
         return@setOnMenuItemClickListener true
       }

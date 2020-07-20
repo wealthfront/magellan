@@ -1,27 +1,33 @@
 package com.wealthfront.magellan.sample.menu
 
-import android.content.Context
 import android.view.Menu
 import android.view.MenuItem
-import com.wealthfront.magellan.lifecycle.LifecycleAware
-import com.wealthfront.magellan.sample.MainActivity
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MenuProvider @Inject constructor() : LifecycleAware {
+class MenuProvider @Inject constructor() {
 
   private var menu: Menu? = null
 
-  override fun create(context: Context) {
-    menu = (context as MainActivity).menu
+  fun setMenu(menu: Menu?) {
+    this.menu = menu
+    updateMenu()
   }
 
-  override fun destroy(context: Context) {
+  fun clearMenu() {
     menu = null
   }
 
   fun findItem(item: Int): MenuItem {
     return menu!!.findItem(item)
+  }
+
+  fun updateMenu() {
+    if (menu != null) {
+      for (i in 0 until menu!!.size()) {
+        menu!!.getItem(i).isVisible = false
+      }
+    }
   }
 }

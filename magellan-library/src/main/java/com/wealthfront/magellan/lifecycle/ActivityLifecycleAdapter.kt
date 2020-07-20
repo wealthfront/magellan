@@ -48,12 +48,8 @@ internal class ActivityLifecycleAdapter(
 
 fun ComponentActivity.setContentScreen(
   navigable: Navigable,
-  @LayoutRes root: Int? = null
+  @LayoutRes root: Int = R.layout.magellan_root
 ) {
-  if (root == null) {
-    setContentView(R.layout.magellan_root)
-  } else {
-    setContentView(root)
-  }
+  setContentView(root)
   lifecycle.addObserver(ActivityLifecycleAdapter(navigable, this))
 }

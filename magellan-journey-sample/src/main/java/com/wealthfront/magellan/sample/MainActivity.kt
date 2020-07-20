@@ -6,13 +6,13 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.wealthfront.magellan.lifecycle.setContentScreen
 import com.wealthfront.magellan.sample.App.Provider.appComponent
+import com.wealthfront.magellan.sample.menu.MenuProvider
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-  var menu: Menu? = null
-
   @Inject lateinit var expedition: Expedition
+  @Inject lateinit var menuProvider: MenuProvider
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -29,14 +29,12 @@ class MainActivity : AppCompatActivity() {
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
     menuInflater.inflate(R.menu.menu, menu)
-    this.menu = menu
-    updateMenu()
+    menuProvider.setMenu(menu)
     return super.onCreateOptionsMenu(menu)
   }
 
   override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-    this.menu = menu
-    updateMenu()
+    menuProvider.setMenu(menu)
     return super.onPrepareOptionsMenu(menu)
   }
 
@@ -44,6 +42,11 @@ class MainActivity : AppCompatActivity() {
     if (!expedition.backPressed()) {
       super.onBackPressed()
     }
+  }
+
+  override fun onDestroy() {
+    menuProvider.clearMenu()
+    super.onDestroy()
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -54,13 +57,5 @@ class MainActivity : AppCompatActivity() {
       }
     }
     return super.onOptionsItemSelected(item)
-  }
-
-  private fun updateMenu() {
-    if (menu != null) {
-      for (i in 0 until menu!!.size()) {
-        menu!!.getItem(i).isVisible = false
-      }
-    }
   }
 }
