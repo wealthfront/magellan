@@ -1,9 +1,9 @@
-package com.wealthfront.magellan;
+package com.wealthfront.magellan.transitions;
 
 import android.view.View;
 
-import com.wealthfront.magellan.transitions.CrossfadeTransition;
-import com.wealthfront.magellan.transitions.Transition;
+import com.wealthfront.magellan.Direction;
+import com.wealthfront.magellan.NavigationType;
 
 import org.junit.Before;
 import org.junit.Test;

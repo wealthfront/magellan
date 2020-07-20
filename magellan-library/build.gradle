@@ -42,9 +42,6 @@ android {
 }
 
 dependencies {
-
-  implementation project(':magellan-legacy')
-
   implementation Dependencies.kotlinStdLib
   implementation Dependencies.appCompat
   implementation Dependencies.lifecycle
