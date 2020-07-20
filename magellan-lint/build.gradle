@@ -1,0 +1,36 @@
+apply plugin: "java-library"
+apply plugin: "kotlin"
+apply plugin: 'com.android.lint'
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_1_8
+  targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+lintOptions {
+  htmlReport true
+  htmlOutput file("lint-report.html")
+  textReport true
+  absolutePaths false
+  ignoreTestSources true
+}
+
+dependencies {
+  compileOnly Dependencies.lintApi
+  compileOnly Dependencies.lintChecks
+
+  testImplementation Dependencies.junit
+  testImplementation Dependencies.truth
+  testImplementation Dependencies.lint
+  testImplementation Dependencies.lintTests
+  testImplementation Dependencies.testUtils
+  testImplementation(Dependencies.truth) {
+    exclude group: 'com.google.guava', module: 'guava'
+  }
+}
+
+jar {
+  manifest {
+    attributes("Lint-Registry-v2": "com.wealthfront.magellan.LintRegistry")
+  }
+}
