@@ -4,14 +4,14 @@ import com.wealthfront.magellan.core.Navigable
 
 object NavigationPropagator {
 
-  private var listeners: List<StepNavigationListener> = mutableListOf()
+  private var listeners: List<NavigableListener> = mutableListOf()
 
-  fun addStepNavigationListener(stepNavigationListener: StepNavigationListener) {
+  fun addNavigableListener(stepNavigationListener: NavigableListener) {
     listeners = listeners + stepNavigationListener
   }
 
-  fun removeStepNavigationListener(stepNavigationListener: StepNavigationListener) {
-    listeners = listeners - stepNavigationListener
+  fun removeNavigableListener(navigableListener: NavigableListener) {
+    listeners = listeners - navigableListener
   }
 
   fun onNavigate() {

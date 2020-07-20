@@ -4,11 +4,10 @@ import android.content.Context
 import android.util.Log
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.Navigable
-import com.wealthfront.magellan.navigation.NavigationPropagator.addStepNavigationListener
-import com.wealthfront.magellan.navigation.NavigationPropagator.removeStepNavigationListener
+import com.wealthfront.magellan.navigation.NavigableListener
+import com.wealthfront.magellan.navigation.NavigationPropagator.addNavigableListener
+import com.wealthfront.magellan.navigation.NavigationPropagator.removeNavigableListener
 import com.wealthfront.magellan.navigation.NavigationTraverser
-import com.wealthfront.magellan.navigation.StepNavigationListener
-import com.wealthfront.magellan.sample.App.Provider.appComponent
 import com.wealthfront.magellan.sample.databinding.ExpeditionBinding
 import com.wealthfront.magellan.sample.menu.MenuProvider
 import javax.inject.Inject
@@ -18,19 +17,18 @@ import javax.inject.Singleton
 class Expedition : Journey<ExpeditionBinding>(
   ExpeditionBinding::inflate,
   ExpeditionBinding::container
-), StepNavigationListener {
+), NavigableListener {
 
   @Inject lateinit var navigationTraverser: NavigationTraverser
   @Inject lateinit var menuProvider: MenuProvider
 
   override fun onCreate(context: Context) {
-    appComponent.inject(this)
-    addStepNavigationListener(this)
+    addNavigableListener(this)
     navigator.goTo(FirstJourney(::goToSecondJourney))
   }
 
   override fun onDestroy(context: Context) {
-    removeStepNavigationListener(this)
+    removeNavigableListener(this)
   }
 
   private fun goToSecondJourney() {
