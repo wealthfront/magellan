@@ -31,4 +31,6 @@ object Versions {
   const val uiAutomatorVersion = "2.2.0"
   const val extVersion = "1.1.1"
   const val espressoVersion = "3.0.2"
+
+  const val lintVersion = "26.5.2"
 }

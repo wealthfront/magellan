@@ -52,6 +52,8 @@ dependencies {
   testImplementation Dependencies.mockito
   testImplementation Dependencies.archTesting
   testImplementation Dependencies.robolectric
+
+  lintPublish project(':magellan-lint')
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
