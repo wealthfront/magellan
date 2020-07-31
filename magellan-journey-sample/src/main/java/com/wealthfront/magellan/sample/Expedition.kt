@@ -4,7 +4,6 @@ import android.content.Context
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.lifecycle.lateinitLifecycle
 import com.wealthfront.magellan.navigation.LoggingNavigableListener
-import com.wealthfront.magellan.navigation.NavigationTraverser
 import com.wealthfront.magellan.sample.App.Provider.appComponent
 import com.wealthfront.magellan.sample.databinding.ExpeditionBinding
 import com.wealthfront.magellan.sample.menu.MenuProvider
@@ -16,8 +15,6 @@ class Expedition : Journey<ExpeditionBinding>(
   ExpeditionBinding::inflate,
   ExpeditionBinding::container
 ) {
-
-  @Inject lateinit var navigationTraverser: NavigationTraverser
 
   @set:Inject var navListener: LoggingNavigableListener by lateinitLifecycle()
   @set:Inject var menuProvider: MenuProvider by lateinitLifecycle()
