@@ -11,10 +11,7 @@ internal const val PRIORITY_MAX = 10
 class LintRegistry : IssueRegistry() {
 
   override val issues: List<Issue>
-    get() = listOf(
-      INVALID_CHILD_IN_SCREEN_CONTAINER,
-      INVALID_NAVIGATOR_CREATION
-    )
+    get() = listOf(INVALID_CHILD_IN_SCREEN_CONTAINER)
 
   override val api: Int
     get() = CURRENT_API
