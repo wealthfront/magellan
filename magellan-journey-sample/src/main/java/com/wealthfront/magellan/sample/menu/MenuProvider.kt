@@ -21,14 +21,6 @@ class MenuProvider @Inject constructor() : NavigableListener {
     hideAllMenuItems()
   }
 
-  override fun destroy(context: Context) {
-    clearMenu()
-  }
-
-  private fun clearMenu() {
-    menu = null
-  }
-
   fun findItem(item: Int): MenuItem {
     return menu!!.findItem(item)
   }

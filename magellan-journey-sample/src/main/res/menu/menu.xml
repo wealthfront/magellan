@@ -9,4 +9,11 @@
       android:title="@string/notifications"
       app:showAsAction="ifRoom"
       />
+  <item
+      android:id="@+id/why"
+      android:orderInCategory="10"
+      android:icon="@drawable/help"
+      android:title="@string/why"
+      app:showAsAction="ifRoom"
+      />
 </menu>
