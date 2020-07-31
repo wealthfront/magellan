@@ -18,7 +18,6 @@ class DetailStep(
 
   @Inject lateinit var toaster: Toaster
 
-  @set:Inject var menuProvider: MenuProvider by lateinitLifecycle()
   @set:Inject var dialogComponent: DialogComponent by lateinitLifecycle()
 
   override fun onCreate(context: Context) {
@@ -33,7 +32,7 @@ class DetailStep(
         startSecondJourney()
         return@setOnMenuItemClickListener true
       }
-    menuProvider.findItem(R.id.why)
+    menu.findItem(R.id.why)
       .setVisible(true)
       .setOnMenuItemClickListener {
         dialogComponent.showDialog(::getDialog)
@@ -42,10 +41,9 @@ class DetailStep(
   }
 
   private fun getDialog(context: Context): AlertDialog {
-    val dialog = AlertDialog.Builder(context)
+    return AlertDialog.Builder(context)
       .setTitle("Hello")
       .setMessage("Are you sure about this?")
       .create()
-    return dialog
   }
 }
