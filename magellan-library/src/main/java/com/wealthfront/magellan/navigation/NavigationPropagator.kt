@@ -6,8 +6,8 @@ object NavigationPropagator {
 
   private var listeners: List<NavigableListener> = mutableListOf()
 
-  fun addNavigableListener(stepNavigationListener: NavigableListener) {
-    listeners = listeners + stepNavigationListener
+  fun addNavigableListener(navigableListener: NavigableListener) {
+    listeners = listeners + navigableListener
   }
 
   fun removeNavigableListener(navigableListener: NavigableListener) {

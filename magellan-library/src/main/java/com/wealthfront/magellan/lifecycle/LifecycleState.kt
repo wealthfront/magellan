@@ -1,5 +1,6 @@
 package com.wealthfront.magellan.lifecycle
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.wealthfront.magellan.lifecycle.LifecycleStateDirection.BACKWARDS
 import com.wealthfront.magellan.lifecycle.LifecycleStateDirection.FORWARD
@@ -7,6 +8,7 @@ import com.wealthfront.magellan.lifecycle.LifecycleStateDirection.NO_MOVEMENT
 
 sealed class LifecycleState(open val context: Context? = null, private val order: Int) {
 
+  @SuppressLint("StaticFieldLeak")
   object Destroyed : LifecycleState(null, 0)
   data class Created(override val context: Context) : LifecycleState(context, 1)
   data class Shown(override val context: Context) : LifecycleState(context, 2)

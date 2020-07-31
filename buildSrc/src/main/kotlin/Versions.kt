@@ -32,5 +32,5 @@ object Versions {
   const val extVersion = "1.1.1"
   const val espressoVersion = "3.0.2"
 
-  const val lintVersion = "26.5.2"
+  const val lintVersion = "27.0.1"
 }

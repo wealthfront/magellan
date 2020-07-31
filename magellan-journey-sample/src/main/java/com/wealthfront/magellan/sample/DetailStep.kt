@@ -21,10 +21,10 @@ class DetailStep(
   }
 
   override fun onShow(context: Context, binding: DetailBinding) {
-    menuProvider.findItem(R.id.activities)
+    menuProvider.findItem(R.id.notifications)
       .setVisible(true)
       .setOnMenuItemClickListener {
-        Log.i(this::class.java.simpleName, "Menu item activities clicked!")
+        Log.i(this::class.java.simpleName, "Menu item notifications clicked!")
         startSecondJourney()
         return@setOnMenuItemClickListener true
       }

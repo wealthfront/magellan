@@ -41,29 +41,17 @@ class NavigationTraverserTest {
   }
 
   @Test
-  fun globalBackStackWithoutAnyNavigation() {
-    traverser = NavigationTraverser(oneStepRoot)
-
-    assertThat(traverser.getGlobalBackStack()).isEmpty()
-  }
-
-  @Test
   fun globalBackStackWithOneStep() {
     traverser = NavigationTraverser(oneStepRoot)
 
     oneStepRoot.create(getApplicationContext())
 
-    assertThat(traverser.getGlobalBackStack()).isEqualTo(listOf(journey1, step1))
-  }
-
-  @Test
-  fun visibleNavigablesWithOneStep() {
-    traverser = NavigationTraverser(oneStepRoot)
-
-    oneStepRoot.create(getApplicationContext())
-    oneStepRoot.show(getApplicationContext())
-
-    assertThat(traverser.getGlobalBackStack()).isEqualTo(listOf(journey1, step1))
+    assertThat(traverser.printGlobalBackstack()).isEqualTo("""
+      
+      RootJourney
+      	DummyJourney1
+      		DummyStep1
+    """.trimIndent())
   }
 
   @Test
@@ -72,17 +60,13 @@ class NavigationTraverserTest {
 
     multiStepRoot.create(getApplicationContext())
 
-    assertThat(traverser.getGlobalBackStack()).isEqualTo(listOf(journey2, step1, step2))
-  }
-
-  @Test
-  fun visibleNavigablesWithMultipleStep() {
-    traverser = NavigationTraverser(multiStepRoot)
-
-    multiStepRoot.create(getApplicationContext())
-    multiStepRoot.show(getApplicationContext())
-
-    assertThat(traverser.getVisibleNavigables()).isEqualTo(listOf(journey2, step2))
+    assertThat(traverser.printGlobalBackstack()).isEqualTo("""
+      
+      MultiStepJourney
+      	DummyJourney2
+      		DummyStep1
+      		DummyStep2
+    """.trimIndent())
   }
 
   @Test
@@ -91,29 +75,16 @@ class NavigationTraverserTest {
 
     siblingRoot.create(getApplicationContext())
 
-    assertThat(traverser.getGlobalBackStack()).isEqualTo(
-      listOf(
-        journey3,
-        step3,
-        step4,
-        journey2,
-        step1,
-        step2))
-  }
-
-  @Test
-  fun visibleNavigablesSiblingJourney() {
-    traverser = NavigationTraverser(siblingRoot)
-
-    siblingRoot.create(getApplicationContext())
-    siblingRoot.show(getApplicationContext())
-
-    assertThat(traverser.getVisibleNavigables()).isEqualTo(
-      listOf(
-        journey3,
-        step4,
-        journey2,
-        step2))
+    assertThat(traverser.printGlobalBackstack()).isEqualTo("""
+      
+      SiblingJourney
+      	DummyJourney3
+      		DummyStep3
+      		DummyStep4
+      	DummyJourney2
+      		DummyStep1
+      		DummyStep2
+    """.trimIndent())
   }
 
   private inner class RootJourney : Journey<MagellanDummyLayoutBinding>(

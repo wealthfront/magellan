@@ -26,6 +26,7 @@ android {
 
   lintOptions {
     disable 'UnusedResources'
+    disable 'IconLocation'
   }
 
   buildTypes {
