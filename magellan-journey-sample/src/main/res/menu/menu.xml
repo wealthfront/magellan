@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
   <item
-      android:id="@+id/activities"
+      android:id="@+id/notifications"
       android:icon="@drawable/clock_white"
       android:orderInCategory="1"
-      android:title="@string/activities"
+      android:title="@string/notifications"
       app:showAsAction="ifRoom"
       />
 </menu>

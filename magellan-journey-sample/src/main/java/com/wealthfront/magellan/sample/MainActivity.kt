@@ -44,11 +44,6 @@ class MainActivity : AppCompatActivity() {
     }
   }
 
-  override fun onDestroy() {
-    menuProvider.clearMenu()
-    super.onDestroy()
-  }
-
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     when (item.itemId) {
       android.R.id.home -> {
