@@ -3,11 +3,11 @@ package com.wealthfront.magellan.sample
 import android.app.AlertDialog
 import android.content.Context
 import android.util.Log
+import android.view.Menu
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.lifecycle.lateinitLifecycle
 import com.wealthfront.magellan.sample.App.Provider.appComponent
 import com.wealthfront.magellan.sample.databinding.DetailBinding
-import com.wealthfront.magellan.sample.menu.MenuProvider
 import com.wealthfront.magellan.sample.tools.Toaster
 import com.wealthfront.magellan.view.DialogComponent
 import javax.inject.Inject
@@ -25,8 +25,8 @@ class DetailStep(
     appComponent.inject(this)
   }
 
-  override fun onShow(context: Context, binding: DetailBinding) {
-    menuProvider.findItem(R.id.notifications)
+  override fun onUpdateMenu(menu: Menu) {
+    menu.findItem(R.id.notifications)
       .setVisible(true)
       .setOnMenuItemClickListener {
         Log.i(this::class.java.simpleName, "Menu item notifications clicked!")
