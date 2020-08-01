@@ -25,6 +25,7 @@ class LinearNavigator(
 ) : Navigator, LifecycleAwareComponent() {
 
   private var containerView: ScreenContainer? = null
+  private val navigationPropagator = NavigationPropagator
 
   @VisibleForTesting
   override val backStack: Stack<NavigationEvent> = Stack()
@@ -122,6 +123,8 @@ class LinearNavigator(
   }
 
   private fun showCurrentNavigable(direction: Direction): View? {
+    navigationPropagator.onNavigate()
+    navigationPropagator.showCurrentNavigable(currentNavigable!!)
     attachToLifecycle(
       currentNavigable!!, detachedState = when (direction) {
       FORWARD -> Destroyed
@@ -144,6 +147,7 @@ class LinearNavigator(
         FORWARD -> currentState.getEarlierOfCurrentState()
         BACKWARD -> Destroyed
       })
+      navigationPropagator.hideCurrentNavigable(currentNavigable)
       currentView
     }
   }

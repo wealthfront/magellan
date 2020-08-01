@@ -1,5 +1,6 @@
 package com.wealthfront.magellan.navigation
 
+import android.util.Log
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.lifecycle.LifecycleOwner
@@ -26,6 +27,10 @@ class NavigationTraverser(private val root: Journey<*>) {
     val sb = StringBuilder()
     getPrintableGlobalBackstack(rootNode, 0, sb)
     return sb.toString()
+  }
+
+  fun logGlobalBackStack() {
+    Log.i(this::class.java.simpleName, printGlobalBackstack())
   }
 
   private fun getPrintableGlobalBackstack(navNode: NavigationNode, depth: Int, sb: StringBuilder) {
