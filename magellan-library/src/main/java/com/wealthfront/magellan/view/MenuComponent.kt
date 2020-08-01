@@ -2,6 +2,7 @@ package com.wealthfront.magellan.view
 
 import android.content.Context
 import android.view.Menu
+import androidx.annotation.VisibleForTesting
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.core.Step
@@ -11,11 +12,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MenuProvider @Inject constructor() : NavigableListener {
+open class MenuComponent @Inject constructor() : NavigableListener {
 
-  private var menu: Menu? = null
-  private var currentJourney: Journey<*>? = null
-  private var currentStep: Step<*>? = null
+  @VisibleForTesting internal var menu: Menu? = null
+  @VisibleForTesting internal var currentJourney: Journey<*>? = null
+  @VisibleForTesting internal var currentStep: Step<*>? = null
 
   fun setMenu(menu: Menu?) {
     this.menu = menu

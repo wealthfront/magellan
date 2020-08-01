@@ -6,13 +6,13 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.wealthfront.magellan.lifecycle.setContentScreen
 import com.wealthfront.magellan.sample.App.Provider.appComponent
-import com.wealthfront.magellan.view.MenuProvider
+import com.wealthfront.magellan.view.MenuComponent
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
   @Inject lateinit var expedition: Expedition
-  @Inject lateinit var menuProvider: MenuProvider
+  @Inject lateinit var menuComponent: MenuComponent
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -29,12 +29,12 @@ class MainActivity : AppCompatActivity() {
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
     menuInflater.inflate(R.menu.menu, menu)
-    menuProvider.setMenu(menu)
+    menuComponent.setMenu(menu)
     return super.onCreateOptionsMenu(menu)
   }
 
   override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-    menuProvider.setMenu(menu)
+    menuComponent.setMenu(menu)
     return super.onPrepareOptionsMenu(menu)
   }
 

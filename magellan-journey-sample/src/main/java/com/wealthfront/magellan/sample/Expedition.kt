@@ -6,7 +6,7 @@ import com.wealthfront.magellan.lifecycle.lateinitLifecycle
 import com.wealthfront.magellan.navigation.LoggingNavigableListener
 import com.wealthfront.magellan.sample.App.Provider.appComponent
 import com.wealthfront.magellan.sample.databinding.ExpeditionBinding
-import com.wealthfront.magellan.view.MenuProvider
+import com.wealthfront.magellan.view.MenuComponent
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,7 +17,7 @@ class Expedition : Journey<ExpeditionBinding>(
 ) {
 
   @set:Inject var navListener: LoggingNavigableListener by lateinitLifecycle()
-  @set:Inject var menuProvider: MenuProvider by lateinitLifecycle()
+  @set:Inject var menuComponent: MenuComponent by lateinitLifecycle()
 
   override fun onCreate(context: Context) {
     appComponent.inject(this)
