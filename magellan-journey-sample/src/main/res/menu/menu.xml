@@ -9,4 +9,11 @@
       android:title="@string/notifications"
       app:showAsAction="ifRoom"
       />
+  <item
+      android:id="@+id/reset"
+      android:title="@string/reset"
+      android:icon="@drawable/reset"
+      android:orderInCategory="10"
+      app:showAsAction="ifRoom"
+      />
 </menu>

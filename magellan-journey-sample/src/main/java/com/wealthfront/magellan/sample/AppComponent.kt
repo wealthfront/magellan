@@ -13,5 +13,7 @@ interface AppComponent {
 
   fun inject(detailStep: DetailStep)
 
+  fun inject(firstJourney: FirstJourney)
+
   fun inject(secondJourney: SecondJourney)
 }
