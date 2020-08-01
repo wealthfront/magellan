@@ -2,18 +2,19 @@ package com.wealthfront.magellan.view
 
 import android.app.Dialog
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import com.wealthfront.magellan.lifecycle.LifecycleAware
 import javax.inject.Inject
 
 class DialogComponent @Inject constructor() : LifecycleAware {
 
-  private var dialogCreator: ((Context) -> Dialog)? = null
+  private var dialogCreator: DialogCreator? = null
   private var dialog: Dialog? = null
   private var context: Context? = null
 
-  private var dialogIsShowing: Boolean = false
+  @VisibleForTesting internal var dialogIsShowing: Boolean = false
 
-  fun showDialog(dialogCreator: (Context) -> Dialog) {
+  fun showDialog(dialogCreator: DialogCreator) {
     this.dialogCreator = dialogCreator
     this.dialogIsShowing = true
     createDialog()
@@ -27,9 +28,12 @@ class DialogComponent @Inject constructor() : LifecycleAware {
     createDialog()
   }
 
+  override fun hide(context: Context) {
+    destroyDialog()
+  }
+
   override fun destroy(context: Context) {
     this.context = null
-    destroyDialog()
   }
 
   private fun createDialog() {
@@ -48,3 +52,5 @@ class DialogComponent @Inject constructor() : LifecycleAware {
     }
   }
 }
+
+typealias DialogCreator = (Context) -> Dialog
