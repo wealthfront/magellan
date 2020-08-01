@@ -6,6 +6,8 @@ import androidx.annotation.VisibleForTesting
 import com.wealthfront.magellan.lifecycle.LifecycleAware
 import javax.inject.Inject
 
+typealias DialogCreator = (Context) -> Dialog
+
 class DialogComponent @Inject constructor() : LifecycleAware {
 
   private var dialogCreator: DialogCreator? = null
@@ -45,12 +47,10 @@ class DialogComponent @Inject constructor() : LifecycleAware {
 
   private fun destroyDialog() {
     if (dialog != null) {
-      dialogIsShowing = dialog!!.isShowing
       dialog!!.setOnDismissListener(null)
       dialog!!.dismiss()
+      dialogIsShowing = false
       dialog = null
     }
   }
 }
-
-typealias DialogCreator = (Context) -> Dialog

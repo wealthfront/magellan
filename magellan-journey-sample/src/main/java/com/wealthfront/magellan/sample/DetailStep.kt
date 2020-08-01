@@ -2,7 +2,6 @@ package com.wealthfront.magellan.sample
 
 import android.app.AlertDialog
 import android.content.Context
-import android.util.Log
 import android.view.Menu
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.lifecycle.lateinitLifecycle
@@ -25,10 +24,9 @@ class DetailStep(
   }
 
   override fun onUpdateMenu(menu: Menu) {
-    menu.findItem(R.id.notifications)
+    menu.findItem(R.id.reset)
       .setVisible(true)
       .setOnMenuItemClickListener {
-        Log.i(this::class.java.simpleName, "Menu item notifications clicked!")
         startSecondJourney()
         return@setOnMenuItemClickListener true
       }
