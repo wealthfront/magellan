@@ -23,7 +23,7 @@ class MenuTest {
   fun navigationTest() {
     onView(withId(R.id.nextJourney)).perform(click())
 
-    onView(withId(R.id.notifications)).perform(click())
+    onView(withId(R.id.reset)).perform(click())
     assertShown { text(R.string.learn_more_text) }
     pressBack()
 
