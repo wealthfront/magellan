@@ -20,7 +20,7 @@ class MenuTest {
   var activityRule = ActivityTestRule(MainActivity::class.java)
 
   @Test
-  fun navigationTest() {
+  fun menuTest() {
     onView(withId(R.id.nextJourney)).perform(click())
 
     onView(withId(R.id.reset)).perform(click())
@@ -29,6 +29,6 @@ class MenuTest {
 
     activityRule.activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
-    onView(withId(R.id.notifications)).check(matches(isDisplayed()))
+    onView(withId(R.id.reset)).check(matches(isDisplayed()))
   }
 }
