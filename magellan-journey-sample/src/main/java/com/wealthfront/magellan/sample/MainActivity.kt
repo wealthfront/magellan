@@ -6,7 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.wealthfront.magellan.lifecycle.setContentScreen
 import com.wealthfront.magellan.sample.App.Provider.appComponent
-import com.wealthfront.magellan.sample.menu.MenuProvider
+import com.wealthfront.magellan.view.MenuProvider
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {

@@ -6,7 +6,7 @@ import com.wealthfront.magellan.lifecycle.lateinitLifecycle
 import com.wealthfront.magellan.navigation.LoggingNavigableListener
 import com.wealthfront.magellan.sample.App.Provider.appComponent
 import com.wealthfront.magellan.sample.databinding.ExpeditionBinding
-import com.wealthfront.magellan.sample.menu.MenuProvider
+import com.wealthfront.magellan.view.MenuProvider
 import javax.inject.Inject
 import javax.inject.Singleton
 

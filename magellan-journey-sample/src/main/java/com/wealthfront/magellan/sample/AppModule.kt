@@ -3,7 +3,7 @@ package com.wealthfront.magellan.sample
 import android.content.Context
 import com.wealthfront.magellan.navigation.LoggingNavigableListener
 import com.wealthfront.magellan.navigation.NavigationTraverser
-import com.wealthfront.magellan.sample.menu.MenuProvider
+import com.wealthfront.magellan.view.MenuProvider
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
