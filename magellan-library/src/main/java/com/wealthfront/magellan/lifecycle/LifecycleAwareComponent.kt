@@ -6,6 +6,8 @@ abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
 
   private val lifecycleRegistry = LifecycleRegistry()
 
+  override val children get() = lifecycleRegistry.listeners.toList()
+
   override val currentState get() = lifecycleRegistry.currentState
 
   final override fun create(context: Context) {

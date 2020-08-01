@@ -21,7 +21,7 @@ object Versions {
   const val jacksonVersion = "2.7.2"
   const val okhttpVersion = "4.4.0"
 
-
+  const val testCoreVersion = "1.2.0"
   const val junitVersion = "4.13"
   const val truthVersion = "1.0"
   const val mockitoVersion = "2.23.4"

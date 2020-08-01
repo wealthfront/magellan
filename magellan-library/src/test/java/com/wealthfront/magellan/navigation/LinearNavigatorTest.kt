@@ -1,5 +1,6 @@
 package com.wealthfront.magellan.navigation
 
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.NavigationType.GO
@@ -14,7 +15,6 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations.initMocks
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment.application
 
 @RunWith(RobolectricTestRunner::class)
 class LinearNavigatorTest {
@@ -129,7 +129,7 @@ class LinearNavigatorTest {
 
     linearNavigator.goBack()
     linearNavigator.goBack()
-    linearNavigator.destroy(application)
+    linearNavigator.destroy(getApplicationContext())
 
     assertThat(linearNavigator.backStack.size).isEqualTo(0)
   }
@@ -154,5 +154,5 @@ class LinearNavigatorTest {
   }
 }
 
-class DummyStep : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
-class DummyJourney : Journey<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate, MagellanDummyLayoutBinding::container)
+private class DummyStep : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
+private class DummyJourney : Journey<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate, MagellanDummyLayoutBinding::container)
