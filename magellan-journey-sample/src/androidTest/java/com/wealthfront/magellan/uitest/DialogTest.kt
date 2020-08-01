@@ -2,7 +2,6 @@ package com.wealthfront.magellan.uitest
 
 import android.content.pm.ActivityInfo
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.ActivityTestRule
@@ -24,7 +23,6 @@ class DialogTest {
     onView(withId(R.id.why)).perform(click())
     assertShown { text("Hello") }
     assertShown { text("Are you sure about this?") }
-    pressBack()
 
     activityRule.activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
