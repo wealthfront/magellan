@@ -26,6 +26,7 @@ android {
 
   lintOptions {
     disable 'UnusedResources'
+    disable 'IconLocation'
   }
 
   buildTypes {
@@ -53,4 +54,6 @@ dependencies {
   androidTestImplementation Dependencies.uiAutomator
   androidTestImplementation Dependencies.extJunit
   androidTestImplementation Dependencies.espressoCore
+
+  lintChecks project(':magellan-lint')
 }

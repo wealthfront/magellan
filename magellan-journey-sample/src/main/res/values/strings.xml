@@ -2,6 +2,7 @@
   <string name="app_name">Magellan Journey Sample</string>
   <string name="intro_view_text">This is the start of your journey!</string>
   <string name="new_journey_text">Start next journey</string>
+  <string name="dialog">Show a dialog</string>
   <string name="exit">Exit</string>
   <string name="learn_more">Learn more</string>
   <string name="detail_memo_text">This is detailed memo of your journey!!</string>
