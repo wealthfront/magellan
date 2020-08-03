@@ -38,7 +38,7 @@ class DialogComponent @Inject constructor() : LifecycleAware {
   }
 
   private fun createDialog() {
-    if (dialogCreator != null && context != null) {
+    if (dialogCreator != null && context != null && !dialogIsShowing) {
       dialog = dialogCreator!!.invoke(context!!)
       dialog!!.show()
       dialogIsShowing = true

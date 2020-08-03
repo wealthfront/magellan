@@ -13,8 +13,6 @@ class DetailStep(
   private val startSecondJourney: () -> Unit
 ) : Step<DetailBinding>(DetailBinding::inflate) {
 
-  @Inject lateinit var toaster: Toaster
-
   @set:Inject var dialogComponent: DialogComponent by lateinitLifecycle()
 
   override fun onCreate(context: Context) {
