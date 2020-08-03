@@ -4,10 +4,12 @@ import Versions.daggerVersion
 import Versions.espressoVersion
 import Versions.extVersion
 import Versions.jacksonVersion
+import Versions.javaInjectVersion
 import Versions.junitVersion
 import Versions.kotlinVersion
 import Versions.kotlinterVersion
 import Versions.lifecycleVersion
+import Versions.materialVersion
 import Versions.mockitoVersion
 import Versions.okhttpVersion
 import Versions.retrofitVersion
@@ -31,6 +33,7 @@ object Dependencies {
   const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   const val kotlinterGradle = "org.jmailen.gradle:kotlinter-gradle:$kotlinterVersion"
 
+  const val material = "com.google.android.material:material:$materialVersion"
   const val junit = "junit:junit:$junitVersion"
   const val truth = "com.google.truth:truth:$truthVersion"
   const val mockito = "org.mockito:mockito-core:$mockitoVersion"
@@ -40,6 +43,7 @@ object Dependencies {
   const val butterknifeCompiler = "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
   const val dagger = "com.google.dagger:dagger:$daggerVersion"
   const val daggerCompiler = "com.google.dagger:dagger-compiler:$daggerVersion"
+  const val inject = "javax.inject:javax.inject:$javaInjectVersion"
 
   const val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
   const val rxjava = "io.reactivex:rxjava:$rxjavaVersion"
