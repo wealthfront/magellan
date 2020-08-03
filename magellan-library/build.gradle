@@ -45,6 +45,7 @@ dependencies {
   implementation Dependencies.kotlinStdLib
   implementation Dependencies.appCompat
   implementation Dependencies.lifecycle
+  implementation Dependencies.inject
 
   testImplementation Dependencies.testCore
   testImplementation Dependencies.junit

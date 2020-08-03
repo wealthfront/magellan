@@ -3,18 +3,21 @@ package com.wealthfront.magellan.sample
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.wealthfront.magellan.lifecycle.setContentScreen
+import com.wealthfront.magellan.sample.App.Provider.appComponent
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-  private val expeditionProvider = ExpeditionProvider
+  @Inject lateinit var expedition: Expedition
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentScreen(expeditionProvider.expedition)
+    appComponent.inject(this)
+    setContentScreen(expedition)
   }
 
   override fun onBackPressed() {
-    if (!expeditionProvider.expedition.backPressed()) {
+    if (!expedition.backPressed()) {
       super.onBackPressed()
     }
   }
