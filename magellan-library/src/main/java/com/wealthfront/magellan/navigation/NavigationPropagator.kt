@@ -4,7 +4,7 @@ import com.wealthfront.magellan.core.Navigable
 
 object NavigationPropagator {
 
-  private var listeners: Set<NavigableListener> = mutableSetOf()
+  private var listeners: Set<NavigableListener> = emptySet()
 
   fun addNavigableListener(navigableListener: NavigableListener) {
     listeners = listeners + navigableListener
