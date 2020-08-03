@@ -1,4 +1,4 @@
-package com.wealthfront.magellan.sample.tools
+package com.wealthfront.magellan.sample
 
 import android.content.Context
 import android.widget.Toast

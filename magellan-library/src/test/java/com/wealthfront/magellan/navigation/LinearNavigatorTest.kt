@@ -6,7 +6,6 @@ import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.NavigationType.GO
 import com.wealthfront.magellan.NavigationType.SHOW
 import com.wealthfront.magellan.ScreenContainer
-import com.wealthfront.magellan.core.DummyJourney
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
@@ -156,3 +155,4 @@ class LinearNavigatorTest {
 }
 
 private class DummyStep : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
+private class DummyJourney : Journey<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate, MagellanDummyLayoutBinding::container)

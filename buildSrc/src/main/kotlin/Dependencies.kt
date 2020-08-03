@@ -4,7 +4,7 @@ import Versions.daggerVersion
 import Versions.espressoVersion
 import Versions.extVersion
 import Versions.jacksonVersion
-import Versions.javaInject
+import Versions.javaInjectVersion
 import Versions.junitVersion
 import Versions.kotlinVersion
 import Versions.kotlinterVersion
@@ -44,7 +44,7 @@ object Dependencies {
   const val butterknifeCompiler = "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
   const val dagger = "com.google.dagger:dagger:$daggerVersion"
   const val daggerCompiler = "com.google.dagger:dagger-compiler:$daggerVersion"
-  const val inject = "javax.inject:javax.inject:$javaInject"
+  const val inject = "javax.inject:javax.inject:$javaInjectVersion"
 
   const val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
   const val rxjava = "io.reactivex:rxjava:$rxjavaVersion"

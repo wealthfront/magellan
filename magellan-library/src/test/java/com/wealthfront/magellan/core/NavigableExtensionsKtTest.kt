@@ -7,27 +7,34 @@ import org.junit.Test
 
 class NavigableExtensionsKtTest {
 
-  private val dummyStep1 = DummyStep1()
+  private val childDummyStep1 = ChildDummyStep1()
+  private val childDummyStep2 = ChildDummyStep2()
+  private val childDummyStep3 = ChildDummyStep3()
+  private val dummyStep1 = DummyStep1(childDummyStep1, childDummyStep2, childDummyStep3)
 
   @Test
   fun childNavigables() {
     assertThat(dummyStep1.childNavigables().size).isEqualTo(3)
-    assertThat(dummyStep1.childNavigables()[0]).isInstanceOf(ChildDummyStep1::class.java)
-    assertThat(dummyStep1.childNavigables()[1]).isInstanceOf(ChildDummyStep2::class.java)
-    assertThat(dummyStep1.childNavigables()[2]).isInstanceOf(ChildDummyStep3::class.java)
+    assertThat(dummyStep1.childNavigables()).containsExactlyElementsIn(setOf(childDummyStep1, childDummyStep2, childDummyStep3))
+  }
+
+  open class DummyStep1(
+    step1: Step<*>,
+    step2: Step<*>,
+    step3: Step<*>
+  ) : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate) {
+
+    private val childDummyStep1 by lifecycle(step1)
+    private val childDummyStep2 by lifecycle(step2)
+    private val childDummyStep3 by lifecycle(step3)
   }
 }
 
-open class DummyJourney : Journey<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate, MagellanDummyLayoutBinding::container)
+private class ChildDummyStep1 :
+  Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
 
-open class DummyStep1 : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate) {
-  private val childDummyStep1 by lifecycle(ChildDummyStep1())
-  private val childDummyStep2 by lifecycle(ChildDummyStep2())
-  private val childDummyStep3 by lifecycle(ChildDummyStep3())
-}
+private class ChildDummyStep2 :
+  Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
 
-open class DummyStep2 : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
-
-private class ChildDummyStep1 : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
-private class ChildDummyStep2 : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
-private class ChildDummyStep3 : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
+private class ChildDummyStep3 :
+  Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)

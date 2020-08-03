@@ -2,12 +2,10 @@ package com.wealthfront.magellan.sample
 
 import android.app.AlertDialog
 import android.content.Context
-import android.view.Menu
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.lifecycle.lateinitLifecycle
 import com.wealthfront.magellan.sample.App.Provider.appComponent
 import com.wealthfront.magellan.sample.databinding.DetailBinding
-import com.wealthfront.magellan.sample.tools.Toaster
 import com.wealthfront.magellan.view.DialogComponent
 import javax.inject.Inject
 
@@ -23,19 +21,13 @@ class DetailStep(
     appComponent.inject(this)
   }
 
-  override fun onUpdateMenu(menu: Menu) {
-    menu.findItem(R.id.reset)
-      .setVisible(true)
-      .setOnMenuItemClickListener {
-        startSecondJourney()
-        return@setOnMenuItemClickListener true
-      }
-    menu.findItem(R.id.why)
-      .setVisible(true)
-      .setOnMenuItemClickListener {
-        dialogComponent.showDialog(::getDialog)
-        return@setOnMenuItemClickListener true
-      }
+  override fun onShow(context: Context, binding: DetailBinding) {
+    binding.dialog.setOnClickListener {
+      dialogComponent.showDialog { getDialog(context) }
+    }
+    binding.nextJourney.setOnClickListener {
+      startSecondJourney()
+    }
   }
 
   private fun getDialog(context: Context): AlertDialog {

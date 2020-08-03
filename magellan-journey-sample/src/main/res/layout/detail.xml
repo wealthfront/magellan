@@ -5,16 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorGold"
+    android:gravity="center"
     android:orientation="vertical"
     tools:ignore="Overdraw"
     >
 
   <TextView
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
+      android:layout_height="wrap_content"
       android:gravity="center"
       android:text="@string/detail_memo_text"
       android:textSize="20sp"
+      />
+
+  <Button
+      android:id="@+id/dialog"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/largePadding"
+      android:text="@string/dialog"
+      />
+
+  <Button
+      android:id="@+id/nextJourney"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="@dimen/largePadding"
+      android:layout_marginRight="@dimen/largePadding"
+      android:text="@string/new_journey_text"
       />
 
 </LinearLayout>

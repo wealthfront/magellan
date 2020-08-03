@@ -3,7 +3,6 @@ object Versions {
   const val minSdkVersion = 15
   const val targetSdkVersion = 30
 
-  const val materialVersion = "1.1.0"
   const val kotlinVersion = "1.3.72"
   const val kotlinterVersion = "2.3.2"
   const val buildToolsVersion = "29.0.2"
@@ -22,6 +21,8 @@ object Versions {
   const val rxandroidVersion = "1.2.1"
   const val jacksonVersion = "2.7.2"
   const val okhttpVersion = "4.4.0"
+  const val javaInjectVersion = "1"
+  const val materialVersion = "1.1.0"
 
   const val testCoreVersion = "1.2.0"
   const val junitVersion = "4.13"
