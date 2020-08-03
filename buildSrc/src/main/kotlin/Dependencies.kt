@@ -9,6 +9,7 @@ import Versions.junitVersion
 import Versions.kotlinVersion
 import Versions.kotlinterVersion
 import Versions.lifecycleVersion
+import Versions.lintVersion
 import Versions.materialVersion
 import Versions.mockitoVersion
 import Versions.okhttpVersion
@@ -59,5 +60,11 @@ object Dependencies {
   const val uiAutomator ="androidx.test.uiautomator:uiautomator:$uiAutomatorVersion"
   const val extJunit = "androidx.test.ext:junit:$extVersion"
   const val espressoCore = "com.android.support.test.espresso:espresso-core:$espressoVersion"
+
+  const val lintApi = "com.android.tools.lint:lint-api:$lintVersion"
+  const val lintChecks = "com.android.tools.lint:lint-checks:$lintVersion"
+  const val lint = "com.android.tools.lint:lint:$lintVersion"
+  const val lintTests = "com.android.tools.lint:lint-tests:$lintVersion"
+  const val testUtils = "com.android.tools:testutils:$lintVersion"
 }
 

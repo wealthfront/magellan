@@ -2,6 +2,7 @@ package com.wealthfront.magellan.lifecycle
 
 import android.app.Activity
 import androidx.activity.ComponentActivity
+import androidx.annotation.LayoutRes
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner as ActivityLifecycleOwner
 import com.wealthfront.magellan.R
@@ -46,8 +47,9 @@ internal class ActivityLifecycleAdapter(
 }
 
 fun ComponentActivity.setContentScreen(
-  navigable: Navigable
+  navigable: Navigable,
+  @LayoutRes root: Int = R.layout.magellan_root
 ) {
-  setContentView(R.layout.magellan_root)
+  setContentView(root)
   lifecycle.addObserver(ActivityLifecycleAdapter(navigable, this))
 }

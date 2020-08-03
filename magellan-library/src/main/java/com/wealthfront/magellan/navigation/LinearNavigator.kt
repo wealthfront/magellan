@@ -20,7 +20,7 @@ import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.view.whenMeasured
 import java.util.Stack
 
-class LinearNavigator(
+class LinearNavigator internal constructor(
   private val container: () -> ScreenContainer
 ) : Navigator, LifecycleAwareComponent() {
 

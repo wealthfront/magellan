@@ -7,7 +7,9 @@ import com.wealthfront.magellan.navigation.LoggingNavigableListener
 import com.wealthfront.magellan.sample.App.Provider.appComponent
 import com.wealthfront.magellan.sample.databinding.ExpeditionBinding
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class Expedition : Journey<ExpeditionBinding>(
   ExpeditionBinding::inflate,
   ExpeditionBinding::container
