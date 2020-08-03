@@ -8,7 +8,7 @@ import com.wealthfront.magellan.lifecycle.LifecycleState.Shown
 
 internal class LifecycleRegistry : LifecycleAware {
 
-  var listeners: List<LifecycleAware> = emptyList()
+  var listeners: Set<LifecycleAware> = emptySet()
     private set
   private val lifecycleStateMachine = LifecycleStateMachine()
 

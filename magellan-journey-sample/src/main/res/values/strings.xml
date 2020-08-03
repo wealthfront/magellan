@@ -7,6 +7,4 @@
   <string name="detail_memo_text">This is detailed memo of your journey!!</string>
   <string name="learn_more_text">Here you will learn more about the expedition!</string>
   <string name="icon">icon</string>
-  <string name="notifications">Notifications</string>
-  <string name="reset">Reset</string>
 </resources>
