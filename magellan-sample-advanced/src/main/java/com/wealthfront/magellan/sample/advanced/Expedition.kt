@@ -7,8 +7,8 @@ import com.wealthfront.magellan.navigation.LinearNavigator
 import com.wealthfront.magellan.navigation.LoggingNavigableListener
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.advanced.databinding.ExpeditionBinding
-import com.wealthfront.magellan.sample.advanced.tide.TideDetailsScreen
-import com.wealthfront.magellan.sample.advanced.tide.TideLocationsScreen
+import com.wealthfront.magellan.sample.advanced.tide.DashboardStep
+import com.wealthfront.magellan.sample.advanced.tide.DogDetailsScreen
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,10 +26,10 @@ class Expedition @Inject constructor() : Journey<ExpeditionBinding>(
 
   override fun onCreate(context: Context) {
     app(context).injector().inject(this)
-    navigator.goTo(TideLocationsScreen(::goToDetailsScreen))
+    navigator.goTo(DashboardStep(::goToDetailsScreen))
   }
 
-  private fun goToDetailsScreen(noaaApiId: Int, tideLocationName: String) {
-    navigator.goTo(TideDetailsScreen(noaaApiId, tideLocationName))
+  private fun goToDetailsScreen(name: String) {
+    navigator.goTo(DogDetailsScreen(name))
   }
 }

@@ -51,6 +51,7 @@ dependencies {
   implementation Dependencies.dagger
   kapt Dependencies.daggerCompiler
 
+  implementation 'com.github.bumptech.glide:glide:4.11.0'
   implementation Dependencies.retrofit
   implementation Dependencies.rxjavaAdapter
   implementation Dependencies.rxandroid

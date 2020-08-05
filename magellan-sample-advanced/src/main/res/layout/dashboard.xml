@@ -6,8 +6,8 @@
     android:orientation="vertical"
     >
 
-  <GridView
-      android:id="@+id/tideLocationsGrid"
+  <ListView
+      android:id="@+id/catItems"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:numColumns="2"

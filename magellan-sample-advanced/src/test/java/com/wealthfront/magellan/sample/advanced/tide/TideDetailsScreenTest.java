@@ -1,6 +1,6 @@
 package com.wealthfront.magellan.sample.advanced.tide;
 
-import com.wealthfront.magellan.sample.advanced.NoaaApi;
+import com.wealthfront.magellan.sample.advanced.DogApi;
 import com.wealthfront.magellan.sample.advanced.model.Observation;
 import com.wealthfront.magellan.sample.advanced.model.TideInfo;
 
@@ -31,7 +31,7 @@ public class TideDetailsScreenTest {
 
   private static final int FAKE_NOAA_API_ID = 1;
 
-  @Mock NoaaApi noaaApi;
+  @Mock DogApi noaaApi;
   @Mock TideDetailsView view;
   TideDetailsScreen screen;
 

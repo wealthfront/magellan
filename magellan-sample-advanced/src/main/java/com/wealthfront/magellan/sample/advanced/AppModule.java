@@ -1,5 +1,9 @@
 package com.wealthfront.magellan.sample.advanced;
 
+import android.content.Context;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.wealthfront.magellan.navigation.NavigationTraverser;
 import com.wealthfront.magellan.navigation.Navigator;
 
@@ -18,7 +22,7 @@ import rx.schedulers.Schedulers;
 @Module
 final class AppModule {
 
-  private static final String NOAA_API_BASE_URL = "https://tidesandcurrents.noaa.gov/";
+  private static final String CAT_BASE_URL = "https://http.cat/";
 
   @Provides
   @Singleton
@@ -40,15 +44,15 @@ final class AppModule {
 
   @Provides
   @Singleton
-  NoaaApi provideNoaaApi(Retrofit retrofit) {
-    return retrofit.create(NoaaApi.class);
+  DogApi provideNoaaApi(Retrofit retrofit) {
+    return retrofit.create(DogApi.class);
   }
 
   @Provides
   @Singleton
   Retrofit provideRetrofit(OkHttpClient httpClient) {
     return new Retrofit.Builder()
-        .baseUrl(NOAA_API_BASE_URL)
+        .baseUrl(CAT_BASE_URL)
         .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
         .addConverterFactory(JacksonConverterFactory.create())
         .client(httpClient)
