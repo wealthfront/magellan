@@ -1,17 +1,19 @@
 package com.wealthfront.magellan.sample.advanced.tide
 
-import android.app.AlertDialog
 import android.content.Context
 import com.wealthfront.magellan.Screen
+import com.wealthfront.magellan.navigation.Navigator
 import com.wealthfront.magellan.sample.advanced.DogApi
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
 import javax.inject.Inject
+import javax.inject.Named
 import rx.android.schedulers.AndroidSchedulers.mainThread
 import rx.schedulers.Schedulers
 
-class DogDetailsScreen(val breed: String) : Screen<DogDetailsView>() {
+class DogDetailsScreen(private val breed: String) : Screen<DogDetailsView>() {
 
   @Inject lateinit var api: DogApi
+  @field:[Inject Named("LegacyNavigator")] lateinit var navigator: Navigator
 
   override fun createView(context: Context): DogDetailsView {
     app(context).injector().inject(this)
@@ -23,21 +25,12 @@ class DogDetailsScreen(val breed: String) : Screen<DogDetailsView>() {
     api.getRandomImageForBreed(breed)
       .subscribeOn(Schedulers.io())
       .observeOn(mainThread())
-      .subscribe({
+      .subscribe {
         view!!.setDogPic(it.message)
-      }, {
-        throw it
-      })
+      }
   }
 
-  fun showHelpDialog() {
-    showDialog(::getDialog)
-  }
-
-  private fun getDialog(context: Context): AlertDialog {
-    return AlertDialog.Builder(context)
-      .setTitle("Hello")
-      .setMessage("Did you find what you were looking for?")
-      .create()
+  fun goToHelpScreen() {
+    navigator.goTo(HelpScreen())
   }
 }

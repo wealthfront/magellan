@@ -1,9 +1,5 @@
 package com.wealthfront.magellan.sample.advanced;
 
-import android.content.Context;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.wealthfront.magellan.navigation.NavigationTraverser;
 import com.wealthfront.magellan.navigation.Navigator;
 
@@ -26,25 +22,26 @@ final class AppModule {
 
   @Provides
   @Singleton
+  Expedition provideExpedition() {
+    return new Expedition();
+  }
+
+  @Provides
+  @Singleton
+  @Named("LegacyNavigator")
+  Navigator provideLinearNavigator(Expedition root) {
+    return root.provideNavigator();
+  }
+
+  @Provides
+  @Singleton
   NavigationTraverser provideNavigationTraverser(Expedition root) {
     return new NavigationTraverser(root);
   }
 
   @Provides
   @Singleton
-  Expedition provideExpedition() {
-    return new Expedition();
-  }
-
-  @Provides
-  @Named("LegacyNavigator")
-  Navigator provideLinearNavigator(Expedition expedition) {
-    return expedition.provideNavigator();
-  }
-
-  @Provides
-  @Singleton
-  DogApi provideNoaaApi(Retrofit retrofit) {
+  DogApi provideDogApi(Retrofit retrofit) {
     return retrofit.create(DogApi.class);
   }
 

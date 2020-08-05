@@ -27,6 +27,7 @@ class DashboardStep(private val goToDogDetails: (name: String) -> Unit) : Step<D
     MIX,
     LABRADOR,
     SHIBA,
+    HUSKY,
     SHIHTZU;
 
     fun getName(): String {
