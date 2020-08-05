@@ -1,7 +1,7 @@
 package com.wealthfront.magellan;
 
 import android.app.Activity;
-import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.SparseArray;
@@ -13,8 +13,6 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
@@ -24,7 +22,6 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -33,9 +30,9 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class ScreenTest {
 
   @Mock BaseScreenView<DummyScreen> view;
-  @Mock Dialog dialog;
   @Captor ArgumentCaptor<SparseArray<Parcelable>> sparseArrayCaptor;
   private DummyScreen screen;
+  private Context context = new Activity();
 
   @Before
   public void setUp() {
@@ -45,7 +42,7 @@ public class ScreenTest {
 
   @Test
   public void recreateView() {
-    View v = screen.recreateView(null, null);
+    View v = screen.recreateView(null);
 
     assertThat(screen.getView()).isEqualTo(v);
     assertThat(view).isEqualTo(v);
@@ -53,57 +50,49 @@ public class ScreenTest {
   }
 
   @Test
+  public void showScreen() {
+    screen.onCreate(context);
+    screen.onShow(context);
+    screen.onResume(context);
+
+    assertThat(screen.getActivity()).isEqualTo(context);
+    assertThat(screen.getView()).isEqualTo(view);
+  }
+
+  @Test
+  public void hideScreen() {
+    screen.onCreate(context);
+    screen.onShow(context);
+    screen.onResume(context);
+    screen.onPause(context);
+    screen.onHide(context);
+
+    assertThat(screen.getActivity()).isEqualTo(null);
+    assertThat(screen.getView()).isEqualTo(null);
+  }
+
+  @Test
   public void destroyView() {
-    screen.recreateView(null, null);
+    screen.recreateView(null);
     screen.destroyView();
 
     verify(view).saveHierarchyState(isA(SparseArray.class));
   }
 
   @Test
-  public void createDialog() {
-    screen.showDialog(new DialogCreator() {
-      @Override
-      public Dialog createDialog(Activity activity) {
-        return dialog;
-      }
-    });
-    screen.createDialog();
-
-    verify(dialog, times(2)).show();
-  }
-
-  @Test
-  public void destroyDialog() {
-    screen.showDialog(new DialogCreator() {
-      @Override
-      public Dialog createDialog(Activity activity) {
-        return dialog;
-      }
-    });
-    screen.destroyDialog();
-
-    verify(dialog).setOnDismissListener(null);
-    verify(dialog).dismiss();
-  }
-
-  @Test
   public void saveRestore() {
     final Bundle state42 = new Bundle();
     state42.putString("key", "value");
-    doAnswer(new Answer() {
-      @Override
-      public Object answer(InvocationOnMock invocation) throws Throwable {
-        sparseArrayCaptor.getValue().put(42, state42);
-        return null;
-      }
+    doAnswer(invocation -> {
+      sparseArrayCaptor.getValue().put(42, state42);
+      return null;
     }).when(view).saveHierarchyState(sparseArrayCaptor.capture());
 
-    screen.recreateView(null, null);
+    screen.recreateView(null);
     Bundle bundle = new Bundle();
-    screen.save(bundle);
+    screen.onSaveInstanceState(bundle);
     screen.restore(bundle);
-    screen.recreateView(null, null);
+    screen.recreateView(null);
 
     verify(view).saveHierarchyState(isA(SparseArray.class));
     verify(view).restoreHierarchyState(sparseArrayCaptor.capture());

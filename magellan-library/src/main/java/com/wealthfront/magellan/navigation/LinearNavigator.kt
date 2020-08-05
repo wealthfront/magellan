@@ -57,19 +57,19 @@ class LinearNavigator internal constructor(
     containerView = null
   }
 
-  fun goTo(nextNavigable: Navigable) {
+  override fun goTo(nextNavigable: Navigable) {
     navigateTo(nextNavigable, GO)
   }
 
-  fun show(nextNavigable: Navigable) {
+  override fun show(nextNavigable: Navigable) {
     navigateTo(nextNavigable, SHOW)
   }
 
-  fun replaceAndGo(nextNavigable: Navigable) {
+  override fun replaceAndGo(nextNavigable: Navigable) {
     replace(nextNavigable, GO)
   }
 
-  fun replaceAndShow(nextNavigable: Navigable) {
+  override fun replaceAndShow(nextNavigable: Navigable) {
     replace(nextNavigable, SHOW)
   }
 
@@ -92,7 +92,7 @@ class LinearNavigator internal constructor(
     }
   }
 
-  fun navigate(
+  override fun navigate(
     direction: Direction,
     backStackOperation: (Stack<NavigationEvent>) -> Unit
   ) {
@@ -154,7 +154,7 @@ class LinearNavigator internal constructor(
 
   override fun onBackPressed(): Boolean = currentNavigable?.backPressed() ?: false || goBack()
 
-  fun goBack(): Boolean {
+  override fun goBack(): Boolean {
     return if (!atRoot()) {
       navigateBack()
       true

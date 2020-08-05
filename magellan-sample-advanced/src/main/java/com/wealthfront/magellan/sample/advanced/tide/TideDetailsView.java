@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import static butterknife.ButterKnife.bind;
 
 class TideDetailsView extends BaseScreenView<TideDetailsScreen> {
 
+  @BindView(R.id.help) Button help;
   @BindView(R.id.loading) ProgressBar loading;
   @BindView(R.id.tideDetailsContent) View content;
   @BindView(R.id.currentWaterLevel) TextView currentWaterLevel;
@@ -34,6 +36,7 @@ class TideDetailsView extends BaseScreenView<TideDetailsScreen> {
     super(context);
     inflate(context, R.layout.tide_detail, this);
     bind(this);
+    help.setOnClickListener(view -> getScreen().goToHelpScreen());
   }
 
   public void setTideHeights(

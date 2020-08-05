@@ -5,15 +5,24 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
-import androidx.annotation.ColorRes;
-import androidx.annotation.StringRes;
-import androidx.annotation.VisibleForTesting;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.ViewGroup;
 
+import com.wealthfront.magellan.core.Navigable;
+import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent;
+import com.wealthfront.magellan.lifecycle.LifecycleState;
+import com.wealthfront.magellan.view.DialogComponent;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.LinkedList;
 import java.util.Queue;
+
+import androidx.annotation.CallSuper;
+import androidx.annotation.ColorRes;
+import androidx.annotation.StringRes;
+import androidx.annotation.VisibleForTesting;
 
 import static com.wealthfront.magellan.Preconditions.checkState;
 
@@ -37,20 +46,22 @@ import static com.wealthfront.magellan.Preconditions.checkState;
  * }
  * </code> </pre>
  */
-public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHandler {
+public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements Navigable {
 
   public static final int DEFAULT_ACTION_BAR_COLOR_RES = 0;
   private static final String VIEW_STATE = "com.wealthfront.navigation.Screen.viewState";
 
+  private final DialogComponent dialogComponent = new DialogComponent();
+
   private Activity activity;
-  private Navigator navigator;
   private V view;
-  private DialogCreator dialogCreator;
-  private boolean dialogIsShowing;
-  private Dialog dialog;
   private SparseArray<Parcelable> viewState;
   private boolean isTransitioning;
   private Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
+
+  public Screen() {
+    attachToLifecycle(dialogComponent, LifecycleState.Destroyed.INSTANCE);
+  }
 
   /**
    * @return the View associated with this Screen or null if we are not in between {@link #onShow(Context)} and\
@@ -68,26 +79,14 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     return activity;
   }
 
-  /**
-   * @return the Navigator associated with this Screen.
-   */
-  public final Navigator getNavigator() {
-    return navigator;
-  }
-
-  public final Dialog getDialog() {
-    return dialog;
-  }
-
   final void restore(Bundle savedInstanceState) {
     if (viewState == null && savedInstanceState != null) {
       viewState = savedInstanceState.getSparseParcelableArray(VIEW_STATE + hashCode());
     }
   }
 
-  final V recreateView(Activity activity, Navigator navigator) {
-    this.activity = activity;
-    this.navigator = navigator;
+  final V recreateView(Context context) {
+    this.activity = (Activity) context;
     view = createView(activity);
     // noinspection unchecked
     view.setScreen(this);
@@ -97,7 +96,9 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     return view;
   }
 
-  final void save(Bundle outState) {
+  @Override
+  @CallSuper
+  public void onSaveInstanceState(@NotNull Bundle outState) {
     saveViewState();
     if (viewState != null) {
       outState.putSparseParcelableArray(VIEW_STATE + hashCode(), viewState);
@@ -118,28 +119,16 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     }
   }
 
-  final void createDialog() {
-    if (dialogCreator != null && dialogIsShowing) {
-      dialog = dialogCreator.createDialog(activity);
-      dialog.show();
-    }
-  }
-
-  final void destroyDialog() {
-    if (dialog != null) {
-      dialogIsShowing = dialog.isShowing();
-      dialog.setOnDismissListener(null);
-      dialog.dismiss();
-      dialog = null;
-    }
-  }
-
-  void transitionStarted() {
+  @Override
+  @CallSuper
+  public void transitionStarted() {
     isTransitioning = true;
     transitionFinishedListeners.clear();
   }
 
-  void transitionFinished() {
+  @Override
+  @CallSuper
+  public void transitionFinished() {
     isTransitioning = false;
     while (transitionFinishedListeners.size() > 0) {
       transitionFinishedListeners.remove().onTransitionFinished();
@@ -199,26 +188,41 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
   protected void onUpdateMenu(Menu menu) {}
 
   /**
-   * Called when the Activity is resumed and when the Screen is shown.
-   */
-  protected void onResume(Context context) {}
-
-  /**
    * Called when the Screen in shown (including on rotation).
    */
-  protected void onShow(Context context) {}
-
-  protected void onSave(Bundle outState) {}
+  @Override
+  @CallSuper
+  protected void onShow(@NotNull Context context) {
+    recreateView(context);
+  }
 
   /**
-   * Called when the Activity is paused and when the Screen is hidden.
+   * Called when the activity is resumed and when the Screen is shown.
    */
-  protected void onPause(Context context) {}
+  @Override
+  protected void onResume(@NotNull Context context) { }
+
+  /**
+   * Called when the activity is paused and when the Screen is hidden.
+   */
+  @Override
+  protected void onPause(@NotNull Context context) { }
 
   /**
    * Called when the Screen is hidden (including on rotation).
    */
-  protected void onHide(Context context) {}
+  @Override
+  @CallSuper
+  protected void onHide(@NotNull Context context) {
+    destroyView();
+  }
+
+  /**
+   * Called when the activity is killed.
+   */
+  @Override
+  @CallSuper
+  protected void onDestroy(@NotNull Context context) { }
 
   /**
    * Finish the Activity, and therefore quit the app in a Single Activity Architecture.
@@ -243,19 +247,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
    * on rotation.
    */
   protected final void showDialog(DialogCreator dialogCreator) {
-    this.dialogCreator = dialogCreator;
-    this.dialogIsShowing = true;
-    createDialog();
-  }
-
-  /**
-   * Override this method to implement a custom behavior one back pressed.
-   *
-   * @return true if the method consumed the back event, false otherwise.
-   */
-  @Override
-  public boolean handleBack() {
-    return false;
+    dialogComponent.showDialog(dialogCreator);
   }
 
   /**
@@ -277,13 +269,14 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     this.activity = activity;
   }
 
-  @VisibleForTesting
-  public final void setNavigator(Navigator navigator) {
-    this.navigator = navigator;
-  }
-
   protected final void checkOnCreateNotYetCalled(String reason) {
     checkState(activity == null, reason);
+  }
+
+  @Override
+  @CallSuper
+  protected void onCreate(@NotNull Context context) {
+    this.activity = (Activity) context;
   }
 
   /**

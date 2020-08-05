@@ -37,9 +37,9 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
 
   @Override
   protected void onShow(Context context) {
+    super.onShow(context);
     for (Screen screen : screens) {
-      screen.recreateView(getActivity(), getNavigator());
-      screen.createDialog();
+      screen.recreateView(context);
       screen.onShow(context);
     }
   }
@@ -66,17 +66,10 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
   }
 
   @Override
-  protected void onSave(Bundle outState) {
-    for (Screen screen : screens) {
-      screen.onSave(outState);
-    }
-  }
-
-  @Override
   protected void onHide(Context context) {
+    super.onHide(context);
     for (Screen screen : screens) {
       screen.onHide(context);
-      screen.destroyDialog();
       screen.destroyView();
     }
   }

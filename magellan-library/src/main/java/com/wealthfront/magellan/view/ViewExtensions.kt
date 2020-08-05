@@ -3,7 +3,7 @@ package com.wealthfront.magellan.view
 import android.view.View
 import android.view.ViewTreeObserver
 
-internal fun View.whenMeasured(onMeasured: () -> Unit) {
+fun View.whenMeasured(onMeasured: () -> Unit) {
   val width = width
   val height = height
   if (width > 0 && height > 0) {

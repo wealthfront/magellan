@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 group = GROUP
 version = VERSION_NAME
@@ -34,7 +35,10 @@ dependencies {
   implementation project(':magellan-library')
 
   implementation Dependencies.appCompat
+  implementation Dependencies.kotlinStdLib
+  implementation Dependencies.inject
 
+  testImplementation Dependencies.testCore
   testImplementation Dependencies.junit
   testImplementation Dependencies.truth
   testImplementation Dependencies.mockito

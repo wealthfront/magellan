@@ -27,8 +27,7 @@ public class ScreenGroupTest {
   @Mock BaseScreenView<ScreenGroup> screenGroupView;
 
   @Mock Bundle bundle;
-  @Mock Context context;
-  @Mock Navigator navigator;
+  private Context context = new Activity();
 
   private ScreenGroup screenGroup;
 
@@ -65,13 +64,13 @@ public class ScreenGroupTest {
 
   @Test(expected = IllegalStateException.class)
   public void addScreen_onCreateCalled() {
-    screen3.recreateView(new Activity(), navigator);
+    screen3.recreateView(new Activity());
     screenGroup.addScreen(screen3);
   }
 
   @Test(expected = IllegalStateException.class)
   public void addScreen_thisOnCreateCalled() {
-    screenGroup.recreateView(new Activity(), navigator);
+    screenGroup.recreateView(new Activity());
     screenGroup.addScreen(screen3);
   }
 
@@ -88,13 +87,13 @@ public class ScreenGroupTest {
 
   @Test(expected = IllegalStateException.class)
   public void addScreens_thisOnCreateCalled() {
-    screenGroup.recreateView(new Activity(), navigator);
+    screenGroup.recreateView(new Activity());
     screenGroup.addScreens(asList(screen3));
   }
 
   @Test(expected = IllegalStateException.class)
   public void addScreens_onCreateCalled() {
-    screen3.recreateView(new Activity(), navigator);
+    screen3.recreateView(new Activity());
     screenGroup.addScreens(asList(screen3));
   }
 
@@ -129,20 +128,11 @@ public class ScreenGroupTest {
   }
 
   @Test
-  public void onSave() {
-    screenGroup.onSave(bundle);
-    verify(screen1).onSave(bundle);
-    verify(screen2).onSave(bundle);
-  }
-
-  @Test
   public void onHide() {
     screenGroup.onHide(context);
     verify(screen1).onHide(context);
     verify(screen2).onHide(context);
-    assertThat(screen1.getDialog()).isNull();
     assertThat(screen1.getView()).isNull();
-    assertThat(screen2.getDialog()).isNull();
     assertThat(screen2.getView()).isNull();
   }
 }

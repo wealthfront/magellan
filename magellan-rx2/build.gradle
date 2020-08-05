@@ -30,6 +30,8 @@ android {
 
 dependencies {
   implementation project(':magellan-legacy')
+  implementation project(':magellan-library')
+
   implementation Dependencies.rxjava2
 
   testImplementation Dependencies.junit

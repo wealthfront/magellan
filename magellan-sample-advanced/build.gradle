@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: "org.jetbrains.kotlin.kapt"
 
 android {
   compileSdkVersion Versions.compileSdkVersion
@@ -16,6 +18,10 @@ android {
   compileOptions {
     setSourceCompatibility(JavaVersion.VERSION_1_8)
     setTargetCompatibility(JavaVersion.VERSION_1_8)
+  }
+
+  buildFeatures {
+    viewBinding = true
   }
 
   buildTypes {
@@ -40,10 +46,10 @@ dependencies {
 
   implementation Dependencies.appCompat
   implementation Dependencies.butterknife
-  annotationProcessor Dependencies.butterknifeCompiler
+  kapt Dependencies.butterknifeCompiler
 
   implementation Dependencies.dagger
-  annotationProcessor Dependencies.daggerCompiler
+  kapt Dependencies.daggerCompiler
 
   implementation Dependencies.retrofit
   implementation Dependencies.rxjavaAdapter

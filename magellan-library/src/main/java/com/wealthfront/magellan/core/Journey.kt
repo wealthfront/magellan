@@ -12,4 +12,6 @@ abstract class Journey<V : ViewBinding>(
 ) : Step<V>(createBinding) {
 
   protected var navigator by lifecycle(LinearNavigator { viewBinding!!.container() })
+
+  override fun toString(): String = this.javaClass.simpleName
 }

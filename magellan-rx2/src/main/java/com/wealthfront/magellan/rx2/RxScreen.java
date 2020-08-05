@@ -15,6 +15,7 @@ public abstract class RxScreen<V extends ViewGroup & ScreenView> extends Screen<
 
   @Override
   protected final void onShow(Context context) {
+    super.onShow(context);
     disposables = new CompositeDisposable();
     onSubscribe(context);
   }
@@ -29,6 +30,7 @@ public abstract class RxScreen<V extends ViewGroup & ScreenView> extends Screen<
 
   @Override
   protected final void onHide(Context context) {
+    super.onHide(context);
     onDispose(context);
     disposables.dispose();
   }

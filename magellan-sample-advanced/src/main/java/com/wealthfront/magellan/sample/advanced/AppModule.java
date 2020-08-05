@@ -1,8 +1,9 @@
 package com.wealthfront.magellan.sample.advanced;
 
-import com.wealthfront.magellan.Navigator;
-import com.wealthfront.magellan.sample.advanced.tide.TideLocationsScreen;
+import com.wealthfront.magellan.navigation.NavigationTraverser;
+import com.wealthfront.magellan.navigation.Navigator;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -21,8 +22,20 @@ final class AppModule {
 
   @Provides
   @Singleton
-  Navigator provideNavigator() {
-    return Navigator.withRoot(new TideLocationsScreen()).build();
+  NavigationTraverser provideNavigationTraverser(Expedition root) {
+    return new NavigationTraverser(root);
+  }
+
+  @Provides
+  @Singleton
+  Expedition provideExpedition() {
+    return new Expedition();
+  }
+
+  @Provides
+  @Named("LegacyNavigator")
+  Navigator provideLinearNavigator(Expedition expedition) {
+    return expedition.provideNavigator();
   }
 
   @Provides

@@ -3,6 +3,7 @@ package com.wealthfront.magellan.sample.advanced.tide;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.wealthfront.magellan.navigation.Navigator;
 import com.wealthfront.magellan.rx.RxScreen;
 import com.wealthfront.magellan.sample.advanced.NoaaApi;
 import com.wealthfront.magellan.sample.advanced.R;
@@ -16,6 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import rx.functions.Action1;
 
@@ -32,10 +34,12 @@ public class TideDetailsScreen extends RxScreen<TideDetailsView> {
   };
 
   @Inject NoaaApi noaaApi;
+  @Inject @Named("LegacyNavigator") Navigator navigator;
+
   private final String tideLocationName;
   int noaaApiId;
 
-  TideDetailsScreen(int noaaApiId, String tideLocationName) {
+  public TideDetailsScreen(int noaaApiId, String tideLocationName) {
     this.noaaApiId = noaaApiId;
     this.tideLocationName = tideLocationName;
   }
@@ -88,5 +92,9 @@ public class TideDetailsScreen extends RxScreen<TideDetailsView> {
       }
     }
     return result;
+  }
+
+  public void goToHelpScreen() {
+    navigator.goTo(new HelpScreen());
   }
 }
