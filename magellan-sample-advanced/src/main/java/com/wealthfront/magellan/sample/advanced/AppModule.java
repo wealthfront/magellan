@@ -1,9 +1,7 @@
 package com.wealthfront.magellan.sample.advanced;
 
 import com.wealthfront.magellan.navigation.NavigationTraverser;
-import com.wealthfront.magellan.navigation.Navigator;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -30,12 +28,6 @@ final class AppModule {
   @Singleton
   Expedition provideExpedition() {
     return new Expedition();
-  }
-
-  @Provides
-  @Named("LegacyNavigator")
-  Navigator provideLinearNavigator(Expedition expedition) {
-    return expedition.provideNavigator();
   }
 
   @Provides

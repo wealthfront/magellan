@@ -4,23 +4,17 @@ import android.content.Context
 import android.view.View
 import androidx.annotation.VisibleForTesting
 import com.wealthfront.magellan.Direction
-import com.wealthfront.magellan.Direction.BACKWARD
-import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.NavigationType
 import com.wealthfront.magellan.NavigationType.GO
 import com.wealthfront.magellan.NavigationType.SHOW
 import com.wealthfront.magellan.ScreenContainer
-import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
-import com.wealthfront.magellan.lifecycle.LifecycleState.Created
-import com.wealthfront.magellan.lifecycle.LifecycleState.Destroyed
-import com.wealthfront.magellan.lifecycle.LifecycleState.Resumed
-import com.wealthfront.magellan.lifecycle.LifecycleState.Shown
+import com.wealthfront.magellan.lifecycle.LifecycleState
 import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.view.whenMeasured
 import java.util.Stack
 
-class LinearNavigator internal constructor(
+open class LinearNavigator(
   private val container: () -> ScreenContainer
 ) : Navigator, LifecycleAwareComponent() {
 
@@ -28,12 +22,12 @@ class LinearNavigator internal constructor(
   private val navigationPropagator = NavigationPropagator
 
   @VisibleForTesting
-  override val backStack: Stack<NavigationEvent> = Stack()
+  override val backStack: Stack<NavigationItem> = Stack()
 
-  private val currentNavigable: Navigable?
+  protected val currentNavigable: NavigationItem?
     get() {
       return if (backStack.isNotEmpty()) {
-        backStack.peek()?.navigable
+        backStack.peek()
       } else {
         null
       }
@@ -50,69 +44,75 @@ class LinearNavigator internal constructor(
   }
 
   override fun onDestroy(context: Context) {
-    backStack.navigables().forEach {
-      removeFromLifecycle(it, detachedState = Destroyed)
+    backStack.map { it }.forEach {
+      removeFromLifecycle(it, detachedState = LifecycleState.Destroyed)
     }
     backStack.clear()
     containerView = null
   }
 
-  override fun goTo(nextNavigable: Navigable) {
-    navigateTo(nextNavigable, GO)
+  fun goTo(nextNavigationItem: NavigationItem) {
+    navigateTo(nextNavigationItem, GO)
   }
 
-  override fun show(nextNavigable: Navigable) {
-    navigateTo(nextNavigable, SHOW)
+  fun show(nextNavigationItem: NavigationItem) {
+    navigateTo(nextNavigationItem, NavigationType.SHOW)
   }
 
-  override fun replaceAndGo(nextNavigable: Navigable) {
-    replace(nextNavigable, GO)
+  fun hide() {
+    navigateBack(SHOW)
   }
 
-  override fun replaceAndShow(nextNavigable: Navigable) {
-    replace(nextNavigable, SHOW)
+  fun replaceAndGo(nextNavigationItem: NavigationItem) {
+    replace(nextNavigationItem, GO)
   }
 
-  private fun replace(nextNavigable: Navigable, navType: NavigationType) {
-    navigate(FORWARD) { backStack ->
+  fun replaceAndShow(nextNavigationItem: NavigationItem) {
+    replace(nextNavigationItem, NavigationType.SHOW)
+  }
+
+  private fun replace(nextNavigationItem: NavigationItem, navType: NavigationType) {
+    navigate(Direction.FORWARD, navType) { backStack ->
       backStack.pop()
-      backStack.push(NavigationEvent(nextNavigable, navType))
+      backStack.push(nextNavigationItem)
     }
   }
 
-  private fun navigateTo(nextNavigable: Navigable, navType: NavigationType) {
-    navigate(FORWARD) { backStack ->
-      backStack.push(NavigationEvent(nextNavigable, navType))
+  private fun navigateTo(nextNavigationItem: NavigationItem, navType: NavigationType) {
+    navigate(Direction.FORWARD, navType) { backStack ->
+      backStack.push(nextNavigationItem)
     }
   }
 
-  private fun navigateBack() {
-    navigate(BACKWARD) { backStack ->
+  private fun navigateBack(navType: NavigationType) {
+    navigate(Direction.BACKWARD, navType) { backStack ->
       backStack.pop()
     }
   }
 
-  override fun navigate(
+  fun navigate(
     direction: Direction,
-    backStackOperation: (Stack<NavigationEvent>) -> Unit
+    navType: NavigationType,
+    backStackOperation: (Stack<NavigationItem>) -> Unit
   ) {
     containerView?.setInterceptTouchEvents(true)
     val from = hideCurrentNavigable(direction)
     backStackOperation.invoke(backStack)
     val to = showCurrentNavigable(direction)
-    animateAndRemove(from, to, direction)
+    animateAndRemove(from, to, direction, navType)
   }
 
   private fun animateAndRemove(
     from: View?,
     to: View?,
-    direction: Direction
+    direction: Direction,
+    navType: NavigationType
   ) {
     val navEvent = backStack.peek()!!
     val transition = DefaultTransition()
     currentNavigable!!.transitionStarted()
     to?.whenMeasured {
-      transition.animate(from, to, navEvent.navigationType, direction) {
+      transition.animate(from, to, navType, direction) {
         if (context != null) {
           containerView!!.removeView(from)
           currentNavigable!!.transitionFinished()
@@ -125,27 +125,31 @@ class LinearNavigator internal constructor(
   private fun showCurrentNavigable(direction: Direction): View? {
     navigationPropagator.onNavigate()
     navigationPropagator.showCurrentNavigable(currentNavigable!!)
+    maybeAttachNavigator()
     attachToLifecycle(
       currentNavigable!!, detachedState = when (direction) {
-      FORWARD -> Destroyed
-      BACKWARD -> currentState.getEarlierOfCurrentState()
+      Direction.FORWARD -> LifecycleState.Destroyed
+      Direction.BACKWARD -> currentState.getEarlierOfCurrentState()
     })
     when (currentState) {
-      is Shown, is Resumed -> {
+      is LifecycleState.Shown, is LifecycleState.Resumed -> {
         containerView!!.addView(currentNavigable!!.view!!)
       }
-      is Destroyed, is Created -> {}
+      is LifecycleState.Destroyed, is LifecycleState.Created -> {
+      }
     }
     return currentNavigable!!.view
   }
+
+  protected open fun maybeAttachNavigator() {}
 
   private fun hideCurrentNavigable(direction: Direction): View? {
     return currentNavigable?.let { currentNavigable ->
       val currentView = currentNavigable.view
       removeFromLifecycle(
         currentNavigable, detachedState = when (direction) {
-        FORWARD -> currentState.getEarlierOfCurrentState()
-        BACKWARD -> Destroyed
+        Direction.FORWARD -> currentState.getEarlierOfCurrentState()
+        Direction.BACKWARD -> LifecycleState.Destroyed
       })
       navigationPropagator.hideCurrentNavigable(currentNavigable)
       currentView
@@ -154,9 +158,9 @@ class LinearNavigator internal constructor(
 
   override fun onBackPressed(): Boolean = currentNavigable?.backPressed() ?: false || goBack()
 
-  override fun goBack(): Boolean {
+  fun goBack(): Boolean {
     return if (!atRoot()) {
-      navigateBack()
+      navigateBack(GO)
       true
     } else {
       false

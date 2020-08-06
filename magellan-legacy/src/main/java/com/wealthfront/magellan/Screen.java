@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent;
 import com.wealthfront.magellan.lifecycle.LifecycleState;
+import com.wealthfront.magellan.navigation.NavigationItem;
 import com.wealthfront.magellan.view.DialogComponent;
 
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import androidx.annotation.CallSuper;
 import androidx.annotation.ColorRes;
 import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
@@ -43,7 +43,7 @@ import static com.wealthfront.magellan.Preconditions.checkState;
  * }
  * </code> </pre>
  */
-public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent {
+public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements NavigationItem {
 
   public static final int DEFAULT_ACTION_BAR_COLOR_RES = 0;
 
@@ -52,6 +52,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
 
   private boolean isTransitioning;
   private final Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
+  private LegacyNavigator navigator;
 
   public Screen() {
     attachToLifecycle(viewComponent, LifecycleState.Destroyed.INSTANCE);
@@ -72,6 +73,17 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    */
   public final Activity getActivity() {
     return viewComponent.getActivity();
+  }
+
+  /**
+   * @return the Navigator associated with this Screen.
+   */
+  public final LegacyNavigator getNavigator() {
+    return navigator;
+  }
+
+  public void setNavigator(@NotNull LegacyNavigator navigator) {
+    this.navigator = navigator;
   }
 
   public void transitionStarted() {
@@ -127,11 +139,13 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
 
   protected void onRestore(Bundle savedInstanceState) {}
 
+  protected void onSave(Bundle outState) {}
+
   /**
    * The only mandatory method to implement in a Screen. <b>Must</b> create and return a new instance of the View
    * to be displayed for this Screen.
    */
-  abstract V createView(Context context);
+  protected abstract V createView(Context context);
 
   /**
    * Override this method to dynamically change the menu.

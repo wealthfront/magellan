@@ -1,7 +1,6 @@
 package com.wealthfront.magellan.lifecycle
 
 import android.content.Context
-import android.os.Bundle
 
 interface LifecycleAware {
 
