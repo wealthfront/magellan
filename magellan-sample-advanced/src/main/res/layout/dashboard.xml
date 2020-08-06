@@ -7,7 +7,7 @@
     >
 
   <ListView
-      android:id="@+id/catItems"
+      android:id="@+id/dogItems"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:numColumns="2"

@@ -1,9 +1,7 @@
 package com.wealthfront.magellan.sample.advanced;
 
 import com.wealthfront.magellan.navigation.NavigationTraverser;
-import com.wealthfront.magellan.navigation.Navigator;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -18,19 +16,12 @@ import rx.schedulers.Schedulers;
 @Module
 final class AppModule {
 
-  private static final String CAT_BASE_URL = "https://http.cat/";
+  private static final String DOG_BASE_URL = "https://dog.ceo/api/";
 
   @Provides
   @Singleton
   Expedition provideExpedition() {
     return new Expedition();
-  }
-
-  @Provides
-  @Singleton
-  @Named("LegacyNavigator")
-  Navigator provideLinearNavigator(Expedition root) {
-    return root.provideNavigator();
   }
 
   @Provides
@@ -49,7 +40,7 @@ final class AppModule {
   @Singleton
   Retrofit provideRetrofit(OkHttpClient httpClient) {
     return new Retrofit.Builder()
-        .baseUrl(CAT_BASE_URL)
+        .baseUrl(DOG_BASE_URL)
         .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
         .addConverterFactory(JacksonConverterFactory.create())
         .client(httpClient)

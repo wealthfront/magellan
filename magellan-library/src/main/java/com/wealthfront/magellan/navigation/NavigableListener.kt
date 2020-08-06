@@ -1,16 +1,15 @@
 package com.wealthfront.magellan.navigation
 
 import android.content.Context
-import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.lifecycle.LifecycleAware
 
 interface NavigableListener : LifecycleAware {
 
   fun onNavigate() {}
 
-  fun onNavigableShown(navigable: Navigable) {}
+  fun onNavigableShown(navigationItem: NavigationItem) {}
 
-  fun onNavigableHidden(navigable: Navigable) {}
+  fun onNavigableHidden(navigationItem: NavigationItem) {}
 
   override fun create(context: Context) {
     NavigationPropagator.addNavigableListener(this)

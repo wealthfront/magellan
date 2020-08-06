@@ -3,15 +3,12 @@ package com.wealthfront.magellan;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.SparseArray;
 import android.view.Menu;
 import android.view.ViewGroup;
 
-import com.wealthfront.magellan.core.Navigable;
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent;
 import com.wealthfront.magellan.lifecycle.LifecycleState;
+import com.wealthfront.magellan.navigation.NavigationItem;
 import com.wealthfront.magellan.view.DialogComponent;
 
 import org.jetbrains.annotations.NotNull;
@@ -19,12 +16,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import androidx.annotation.CallSuper;
 import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
-import androidx.annotation.VisibleForTesting;
-
-import static com.wealthfront.magellan.Preconditions.checkState;
 
 /**
  * Screens are where your logic lives (you can think of it as a Presenter in the MVP pattern, or a Controller
@@ -46,20 +40,21 @@ import static com.wealthfront.magellan.Preconditions.checkState;
  * }
  * </code> </pre>
  */
-public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements Navigable {
+public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements NavigationItem {
 
   public static final int DEFAULT_ACTION_BAR_COLOR_RES = 0;
-  private static final String VIEW_STATE = "com.wealthfront.navigation.Screen.viewState";
 
+  private final LegacyViewComponent<V> viewComponent = new LegacyViewComponent<>(this);
   private final DialogComponent dialogComponent = new DialogComponent();
 
   private Activity activity;
   private V view;
-  private SparseArray<Parcelable> viewState;
   private boolean isTransitioning;
-  private Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
+  private final Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
+  private LegacyNavigator navigator;
 
   public Screen() {
+    attachToLifecycle(viewComponent, LifecycleState.Destroyed.INSTANCE);
     attachToLifecycle(dialogComponent, LifecycleState.Destroyed.INSTANCE);
   }
 
@@ -79,55 +74,20 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
     return activity;
   }
 
-  final void restore(Bundle savedInstanceState) {
-    if (viewState == null && savedInstanceState != null) {
-      viewState = savedInstanceState.getSparseParcelableArray(VIEW_STATE + hashCode());
-    }
-  }
-
-  final V recreateView(Context context) {
-    this.activity = (Activity) context;
-    view = createView(activity);
-    // noinspection unchecked
-    view.setScreen(this);
-    if (viewState != null) {
-      view.restoreHierarchyState(viewState);
-    }
-    return view;
+  /**
+   * @return the Navigator associated with this Screen.
+   */
+  public final LegacyNavigator getNavigator() {
+    return navigator;
   }
 
   @Override
-  @CallSuper
-  public void onSaveInstanceState(@NotNull Bundle outState) {
-    saveViewState();
-    if (viewState != null) {
-      outState.putSparseParcelableArray(VIEW_STATE + hashCode(), viewState);
-    }
-    viewState = null;
-  }
-
-  final void destroyView() {
-    saveViewState();
-    activity = null;
-    view = null;
-  }
-
-  private void saveViewState() {
-    if (view != null) {
-      viewState = new SparseArray<>();
-      view.saveHierarchyState(viewState);
-    }
-  }
-
-  @Override
-  @CallSuper
   public void transitionStarted() {
     isTransitioning = true;
     transitionFinishedListeners.clear();
   }
 
   @Override
-  @CallSuper
   public void transitionFinished() {
     isTransitioning = false;
     while (transitionFinishedListeners.size() > 0) {
@@ -174,8 +134,6 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
     return DEFAULT_ACTION_BAR_COLOR_RES;
   }
 
-  protected void onRestore(Bundle savedInstanceState) {}
-
   /**
    * The only mandatory method to implement in a Screen. <b>Must</b> create and return a new instance of the View
    * to be displayed for this Screen.
@@ -187,14 +145,14 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    */
   protected void onUpdateMenu(Menu menu) {}
 
+  @Override
+  protected void onCreate(@NotNull Context context) { }
+
   /**
    * Called when the Screen in shown (including on rotation).
    */
   @Override
-  @CallSuper
-  protected void onShow(@NotNull Context context) {
-    recreateView(context);
-  }
+  protected void onShow(@NotNull Context context) { }
 
   /**
    * Called when the activity is resumed and when the Screen is shown.
@@ -212,16 +170,9 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * Called when the Screen is hidden (including on rotation).
    */
   @Override
-  @CallSuper
-  protected void onHide(@NotNull Context context) {
-    destroyView();
-  }
+  protected void onHide(@NotNull Context context) { }
 
-  /**
-   * Called when the activity is killed.
-   */
   @Override
-  @CallSuper
   protected void onDestroy(@NotNull Context context) { }
 
   /**
@@ -254,29 +205,22 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * @return a String representation of the Screen to be used for logging purposes. Return the Simple name of the class
    * by default.
    */
+  @NonNull
   @Override
   public String toString() {
     return getClass().getSimpleName();
   }
 
-  @VisibleForTesting
   public final void setView(V view) {
     this.view = view;
   }
 
-  @VisibleForTesting
   public final void setActivity(Activity activity) {
     this.activity = activity;
   }
 
-  protected final void checkOnCreateNotYetCalled(String reason) {
-    checkState(activity == null, reason);
-  }
-
-  @Override
-  @CallSuper
-  protected void onCreate(@NotNull Context context) {
-    this.activity = (Activity) context;
+  public void setNavigator(@NotNull LegacyNavigator navigator) {
+    this.navigator = navigator;
   }
 
   /**

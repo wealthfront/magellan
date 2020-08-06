@@ -38,7 +38,7 @@ class DialogComponentTest {
     `when`(dialog1.isShowing).thenReturn(true)
 
     dialogComponent.create(context)
-    dialogComponent.showDialog(DialogCreator { context -> dialogCreator1.createDialog(context) })
+    dialogComponent.showDialog { context -> dialogCreator1.createDialog(context) }
 
     verify(dialog1).show()
     assertThat(dialogComponent.dialogIsShowing).isTrue()
@@ -49,7 +49,7 @@ class DialogComponentTest {
     `when`(dialog1.isShowing).thenReturn(true)
 
     dialogComponent.create(context)
-    dialogComponent.showDialog(DialogCreator { context -> dialogCreator1.createDialog(context) })
+    dialogComponent.showDialog { context -> dialogCreator1.createDialog(context) }
 
     verify(dialog1).show()
     assertThat(dialogComponent.dialogIsShowing).isTrue()
@@ -65,7 +65,7 @@ class DialogComponentTest {
   fun showDialog_rotation() {
     `when`(dialog1.isShowing).thenReturn(true)
     dialogComponent.create(context)
-    dialogComponent.showDialog(DialogCreator { context -> dialogCreator1.createDialog(context) })
+    dialogComponent.showDialog { context -> dialogCreator1.createDialog(context) }
 
     verify(dialog1).show()
     assertThat(dialogComponent.dialogIsShowing).isTrue()
@@ -88,7 +88,7 @@ class DialogComponentTest {
     `when`(dialog2.isShowing).thenReturn(true)
 
     dialogComponent.create(context)
-    dialogComponent.showDialog(DialogCreator { context -> dialogCreator1.createDialog(context) })
+    dialogComponent.showDialog { context -> dialogCreator1.createDialog(context) }
 
     verify(dialog1).show()
     assertThat(dialogComponent.dialogIsShowing).isTrue()

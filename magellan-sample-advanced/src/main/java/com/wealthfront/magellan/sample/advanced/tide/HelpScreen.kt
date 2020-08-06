@@ -4,18 +4,15 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import com.wealthfront.magellan.Screen
-import com.wealthfront.magellan.navigation.Navigator
 import com.wealthfront.magellan.sample.advanced.DogApi
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
 import javax.inject.Inject
-import javax.inject.Named
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 class HelpScreen : Screen<HelpView>() {
 
   @Inject lateinit var api: DogApi
-  @field:[Inject Named("LegacyNavigator")] lateinit var navigator: Navigator
 
   override fun createView(context: Context): HelpView {
     app(context).injector().inject(this)

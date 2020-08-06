@@ -10,13 +10,13 @@ import com.wealthfront.magellan.sample.advanced.R
 import com.wealthfront.magellan.sample.advanced.databinding.DashboardBinding
 import java.util.Locale
 
-class DashboardStep(private val goToDogDetails: (name: String) -> Unit) : Step<DashboardBinding>(DashboardBinding::inflate) {
+class DogListStep(private val goToDogDetails: (name: String) -> Unit) : Step<DashboardBinding>(DashboardBinding::inflate) {
 
   override fun onShow(context: Context, binding: DashboardBinding) {
-    binding.catItems.adapter = DogListAdapter(context)
+    binding.dogItems.adapter = DogListAdapter(context)
   }
 
-  fun catDetailsSelected(name: String) {
+  fun onDogSelected(name: String) {
     goToDogDetails(name)
   }
 
@@ -54,7 +54,7 @@ class DashboardStep(private val goToDogDetails: (name: String) -> Unit) : Step<D
       val dogDetailTextView = view!!.findViewById<TextView>(R.id.dogName)
       dogDetailTextView.text = dogDetail.getName()
       view.setOnClickListener {
-        catDetailsSelected(dogDetail.getBreedName())
+        onDogSelected(dogDetail.getBreedName())
       }
       return view
     }

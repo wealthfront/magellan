@@ -21,9 +21,4 @@ class MainActivity : AppCompatActivity() {
       super.onBackPressed()
     }
   }
-
-  override fun onSaveInstanceState(outState: Bundle) {
-    expedition.onSaveInstanceState(outState)
-    super.onSaveInstanceState(outState)
-  }
 }

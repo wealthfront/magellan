@@ -1,7 +1,6 @@
 package com.wealthfront.magellan.lifecycle
 
 import android.content.Context
-import android.os.Bundle
 import com.wealthfront.magellan.lifecycle.LifecycleState.Created
 import com.wealthfront.magellan.lifecycle.LifecycleState.Destroyed
 import com.wealthfront.magellan.lifecycle.LifecycleState.Resumed
@@ -60,10 +59,6 @@ internal class LifecycleRegistry : LifecycleAware {
   }
 
   override fun backPressed(): Boolean = onAllListenersUntilTrue { it.backPressed() }
-
-  override fun onSaveInstanceState(outState: Bundle) {
-    listeners.asSequence().map { it.onSaveInstanceState(outState) }
-  }
 
   private fun onAllListenersUntilTrue(action: (LifecycleAware) -> Boolean): Boolean =
     listeners.asSequence().map(action).any { it }

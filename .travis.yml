@@ -15,7 +15,7 @@ jdk:
   - oraclejdk8
 
 script:
-  - ./gradlew clean test lintRelease checkstyle lintkotlin
+  - ./gradlew clean testDebugUnitTest lintRelease checkstyle lintkotlin
 
 cache:
   directories:

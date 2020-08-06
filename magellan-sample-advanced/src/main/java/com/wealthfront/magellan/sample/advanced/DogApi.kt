@@ -7,10 +7,10 @@ import rx.Single
 
 interface DogApi {
 
-  @GET("https://dog.ceo/api/breed/retriever/list")
+  @GET("breed/retriever/list")
   fun getListOfAllBreedsOfRetriever(): Single<DogBreeds>
 
-  @GET("https://dog.ceo/api/breed/{id}/images/random")
+  @GET("breed/{id}/images/random")
   fun getRandomImageForBreed(@Path("id") breed: String): Single<DogMessage>
 }
 
