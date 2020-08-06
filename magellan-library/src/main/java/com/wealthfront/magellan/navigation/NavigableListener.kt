@@ -7,9 +7,9 @@ interface NavigableListener : LifecycleAware {
 
   fun onNavigate() {}
 
-  fun onNavigableShown(navigationItem: NavigationItem) {}
+  fun onNavigableShown(navigable: NavigableCompat) {}
 
-  fun onNavigableHidden(navigationItem: NavigationItem) {}
+  fun onNavigableHidden(navigable: NavigableCompat) {}
 
   override fun create(context: Context) {
     NavigationPropagator.addNavigableListener(this)

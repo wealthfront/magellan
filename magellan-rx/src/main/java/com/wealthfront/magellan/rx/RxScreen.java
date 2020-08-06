@@ -16,7 +16,6 @@ public abstract class RxScreen<V extends ViewGroup & ScreenView> extends Screen<
 
   @Override
   protected final void onShow(@NonNull Context context) {
-    super.onShow(context);
     subscriptions = new CompositeSubscription();
     onSubscribe(context);
   }
@@ -31,7 +30,6 @@ public abstract class RxScreen<V extends ViewGroup & ScreenView> extends Screen<
 
   @Override
   protected final void onHide(@NonNull Context context) {
-    super.onHide(context);
     onUnsubscribe(context);
     subscriptions.unsubscribe();
   }

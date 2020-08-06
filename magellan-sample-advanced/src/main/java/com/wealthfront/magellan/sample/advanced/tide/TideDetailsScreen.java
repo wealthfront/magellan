@@ -42,12 +42,6 @@ public class TideDetailsScreen extends RxScreen<TideDetailsView> {
   }
 
   @Override
-  protected boolean onBackPressed() {
-    getNavigator().hide();
-    return true;
-  }
-
-  @Override
   protected TideDetailsView createView(Context context) {
     app(context).injector().inject(this);
     return new TideDetailsView(context);

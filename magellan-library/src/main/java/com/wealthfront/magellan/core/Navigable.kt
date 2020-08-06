@@ -1,5 +1,5 @@
 package com.wealthfront.magellan.core
 
-import com.wealthfront.magellan.navigation.NavigationItem
+import com.wealthfront.magellan.navigation.NavigableCompat
 
-interface Navigable : NavigationItem
+interface Navigable : NavigableCompat
