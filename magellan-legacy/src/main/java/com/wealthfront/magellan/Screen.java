@@ -3,7 +3,6 @@ package com.wealthfront.magellan;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.ViewGroup;
 
@@ -18,10 +17,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
-import androidx.annotation.VisibleForTesting;
-
-import static com.wealthfront.magellan.Preconditions.checkState;
 
 /**
  * Screens are where your logic lives (you can think of it as a Presenter in the MVP pattern, or a Controller
@@ -50,6 +47,8 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   private final LegacyViewComponent<V> viewComponent = new LegacyViewComponent<>(this);
   private final DialogComponent dialogComponent = new DialogComponent();
 
+  private Activity activity;
+  private V view;
   private boolean isTransitioning;
   private final Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
   private LegacyNavigator navigator;
@@ -64,7 +63,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * {@link #onHide(Context)}.
    */
   public final V getView() {
-    return viewComponent.getView();
+    return view;
   }
 
   /**
@@ -72,7 +71,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * {@link #onHide(Context)}.
    */
   public final Activity getActivity() {
-    return viewComponent.getActivity();
+    return activity;
   }
 
   /**
@@ -82,15 +81,13 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
     return navigator;
   }
 
-  public void setNavigator(@NotNull LegacyNavigator navigator) {
-    this.navigator = navigator;
-  }
-
+  @Override
   public void transitionStarted() {
     isTransitioning = true;
     transitionFinishedListeners.clear();
   }
 
+  @Override
   public void transitionFinished() {
     isTransitioning = false;
     while (transitionFinishedListeners.size() > 0) {
@@ -136,10 +133,6 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   protected int getActionBarColorRes() {
     return DEFAULT_ACTION_BAR_COLOR_RES;
   }
-
-  protected void onRestore(Bundle savedInstanceState) {}
-
-  protected void onSave(Bundle outState) {}
 
   /**
    * The only mandatory method to implement in a Screen. <b>Must</b> create and return a new instance of the View
@@ -193,11 +186,11 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   }
 
   protected final void setTitle(@StringRes int titleResId) {
-    viewComponent.getActivity().setTitle(titleResId);
+    activity.setTitle(titleResId);
   }
 
   protected final void setTitle(CharSequence title) {
-    viewComponent.getActivity().setTitle(title);
+    activity.setTitle(title);
   }
 
   /**
@@ -212,23 +205,22 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * @return a String representation of the Screen to be used for logging purposes. Return the Simple name of the class
    * by default.
    */
+  @NonNull
   @Override
   public String toString() {
     return getClass().getSimpleName();
   }
 
-  @VisibleForTesting
   public final void setView(V view) {
-    viewComponent.setView(view);
+    this.view = view;
   }
 
-  @VisibleForTesting
   public final void setActivity(Activity activity) {
-    viewComponent.setActivity(activity);
+    this.activity = activity;
   }
 
-  protected final void checkOnCreateNotYetCalled(String reason) {
-    checkState(viewComponent.getActivity() == null, reason);
+  public void setNavigator(@NotNull LegacyNavigator navigator) {
+    this.navigator = navigator;
   }
 
   /**

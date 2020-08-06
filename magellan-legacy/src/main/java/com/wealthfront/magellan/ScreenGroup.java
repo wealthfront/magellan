@@ -2,6 +2,8 @@ package com.wealthfront.magellan;
 
 import android.view.ViewGroup;
 
+import com.wealthfront.magellan.lifecycle.LifecycleState;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +24,7 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
   }
 
   public void addScreen(S screen) {
-    this.checkOnCreateNotYetCalled("Cannot add screen after onCreate is called");
-    screen.checkOnCreateNotYetCalled("Cannot add a screen after onCreate is called on the screen");
+    attachToLifecycle(screen, LifecycleState.Destroyed.INSTANCE);
     screens.add(screen);
   }
 

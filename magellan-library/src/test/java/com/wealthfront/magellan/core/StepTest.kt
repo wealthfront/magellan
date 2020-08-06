@@ -24,7 +24,7 @@ import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
-class ScreenTest {
+class StepTest {
 
   private lateinit var screen: DummyStep
   @Captor lateinit var sparseArrayCaptor: ArgumentCaptor<SparseArray<Parcelable>>

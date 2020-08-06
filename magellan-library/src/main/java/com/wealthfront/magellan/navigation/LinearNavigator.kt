@@ -2,18 +2,26 @@ package com.wealthfront.magellan.navigation
 
 import android.content.Context
 import android.view.View
+import androidx.annotation.RestrictTo
+import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
 import androidx.annotation.VisibleForTesting
 import com.wealthfront.magellan.Direction
+import com.wealthfront.magellan.Direction.BACKWARD
+import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.NavigationType
 import com.wealthfront.magellan.NavigationType.GO
 import com.wealthfront.magellan.NavigationType.SHOW
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
-import com.wealthfront.magellan.lifecycle.LifecycleState
+import com.wealthfront.magellan.lifecycle.LifecycleState.Created
+import com.wealthfront.magellan.lifecycle.LifecycleState.Destroyed
+import com.wealthfront.magellan.lifecycle.LifecycleState.Resumed
+import com.wealthfront.magellan.lifecycle.LifecycleState.Shown
 import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.view.whenMeasured
 import java.util.Stack
 
+@RestrictTo(LIBRARY_GROUP)
 open class LinearNavigator(
   private val container: () -> ScreenContainer
 ) : Navigator, LifecycleAwareComponent() {
@@ -45,7 +53,7 @@ open class LinearNavigator(
 
   override fun onDestroy(context: Context) {
     backStack.map { it }.forEach {
-      removeFromLifecycle(it, detachedState = LifecycleState.Destroyed)
+      removeFromLifecycle(it, detachedState = Destroyed)
     }
     backStack.clear()
     containerView = null
@@ -56,7 +64,7 @@ open class LinearNavigator(
   }
 
   fun show(nextNavigationItem: NavigationItem) {
-    navigateTo(nextNavigationItem, NavigationType.SHOW)
+    navigateTo(nextNavigationItem, SHOW)
   }
 
   fun hide() {
@@ -68,24 +76,24 @@ open class LinearNavigator(
   }
 
   fun replaceAndShow(nextNavigationItem: NavigationItem) {
-    replace(nextNavigationItem, NavigationType.SHOW)
+    replace(nextNavigationItem, SHOW)
   }
 
   private fun replace(nextNavigationItem: NavigationItem, navType: NavigationType) {
-    navigate(Direction.FORWARD, navType) { backStack ->
+    navigate(FORWARD, navType) { backStack ->
       backStack.pop()
       backStack.push(nextNavigationItem)
     }
   }
 
   private fun navigateTo(nextNavigationItem: NavigationItem, navType: NavigationType) {
-    navigate(Direction.FORWARD, navType) { backStack ->
+    navigate(FORWARD, navType) { backStack ->
       backStack.push(nextNavigationItem)
     }
   }
 
   private fun navigateBack(navType: NavigationType) {
-    navigate(Direction.BACKWARD, navType) { backStack ->
+    navigate(BACKWARD, navType) { backStack ->
       backStack.pop()
     }
   }
@@ -128,14 +136,14 @@ open class LinearNavigator(
     maybeAttachNavigator()
     attachToLifecycle(
       currentNavigable!!, detachedState = when (direction) {
-      Direction.FORWARD -> LifecycleState.Destroyed
-      Direction.BACKWARD -> currentState.getEarlierOfCurrentState()
+      FORWARD -> Destroyed
+      BACKWARD -> currentState.getEarlierOfCurrentState()
     })
     when (currentState) {
-      is LifecycleState.Shown, is LifecycleState.Resumed -> {
+      is Shown, is Resumed -> {
         containerView!!.addView(currentNavigable!!.view!!)
       }
-      is LifecycleState.Destroyed, is LifecycleState.Created -> {
+      is Destroyed, is Created -> {
       }
     }
     return currentNavigable!!.view
@@ -148,8 +156,8 @@ open class LinearNavigator(
       val currentView = currentNavigable.view
       removeFromLifecycle(
         currentNavigable, detachedState = when (direction) {
-        Direction.FORWARD -> currentState.getEarlierOfCurrentState()
-        Direction.BACKWARD -> LifecycleState.Destroyed
+        FORWARD -> currentState.getEarlierOfCurrentState()
+        BACKWARD -> Destroyed
       })
       navigationPropagator.hideCurrentNavigable(currentNavigable)
       currentView

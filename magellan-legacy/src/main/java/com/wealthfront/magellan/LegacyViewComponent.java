@@ -10,50 +10,29 @@ import com.wealthfront.magellan.lifecycle.LifecycleAware;
 
 import org.jetbrains.annotations.NotNull;
 
-import androidx.annotation.VisibleForTesting;
-
 public class LegacyViewComponent<V extends ViewGroup & ScreenView> implements LifecycleAware {
 
   private final Screen<V> screen;
-  private V view;
-  private Activity activity;
   private SparseArray<Parcelable> viewState;
 
   public LegacyViewComponent(Screen<V> screen) {
     this.screen = screen;
   }
 
-  public final V getView() {
-    return view;
-  }
-
-  public final Activity getActivity() {
-    return activity;
-  }
-
-  @VisibleForTesting
-  public final void setView(V view) {
-    this.view = view;
-  }
-
-  @VisibleForTesting
-  public final void setActivity(Activity activity) {
-    this.activity = activity;
-  }
-
   @Override
   public void create(@NotNull Context context) {
-    this.activity = (Activity) context;
+    screen.setActivity((Activity) context);
   }
 
   @Override
   public void show(@NotNull Context context) {
-    view = screen.createView(activity);
+    V view = screen.createView(context);
     // noinspection unchecked
     view.setScreen(screen);
     if (viewState != null) {
       view.restoreHierarchyState(viewState);
     }
+    screen.setView(view);
   }
 
   @Override
@@ -64,16 +43,17 @@ public class LegacyViewComponent<V extends ViewGroup & ScreenView> implements Li
 
   @Override
   public void hide(@NotNull Context context) {
+    V view = screen.getView();
     if (view != null) {
       viewState = new SparseArray<>();
       view.saveHierarchyState(viewState);
     }
-    view = null;
+    screen.setView(null);
   }
 
   @Override
   public void destroy(@NotNull Context context) {
-    activity = null;
+    screen.setActivity(null);
   }
 
   @Override

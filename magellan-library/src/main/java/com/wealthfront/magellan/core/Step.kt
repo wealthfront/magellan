@@ -16,7 +16,7 @@ abstract class Step<V : ViewBinding>(
 
   private var viewState: SparseArray<Parcelable>? = null
 
-  protected var viewBinding: V? by lifecycleWithContext { createBinding.invoke(LayoutInflater.from(it)) }
+  var viewBinding: V? by lifecycleWithContext { createBinding.invoke(LayoutInflater.from(it)) }
     @VisibleForTesting set
 
   final override var view: View? by lifecycleWithContext { viewBinding!!.root }

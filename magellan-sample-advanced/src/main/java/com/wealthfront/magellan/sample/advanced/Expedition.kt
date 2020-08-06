@@ -25,6 +25,6 @@ class Expedition @Inject constructor() : LegacyExpedition<ExpeditionBinding>(
   }
 
   private fun goToDetailsScreen(noaaApiId: Int, tideLocationName: String) {
-    navigator.goTo(TideDetailsScreen(noaaApiId, tideLocationName))
+    navigator.show(TideDetailsScreen(noaaApiId, tideLocationName))
   }
 }

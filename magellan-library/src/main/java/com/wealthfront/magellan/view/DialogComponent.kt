@@ -21,6 +21,12 @@ class DialogComponent @Inject constructor() : LifecycleAware {
     createDialog()
   }
 
+  fun showDialog(dialogCreator: (Activity) -> Dialog) {
+    this.dialogCreator = DialogCreator { dialogCreator.invoke(it) }
+    this.dialogIsShowing = true
+    createDialog()
+  }
+
   override fun create(context: Context) {
     this.context = context
   }
