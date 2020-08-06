@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.SparseArray;
 import android.view.Menu;
 import android.view.ViewGroup;
 
-import com.wealthfront.magellan.core.Navigable;
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent;
 import com.wealthfront.magellan.lifecycle.LifecycleState;
 import com.wealthfront.magellan.view.DialogComponent;
@@ -46,20 +43,18 @@ import static com.wealthfront.magellan.Preconditions.checkState;
  * }
  * </code> </pre>
  */
-public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements Navigable {
+public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent {
 
   public static final int DEFAULT_ACTION_BAR_COLOR_RES = 0;
-  private static final String VIEW_STATE = "com.wealthfront.navigation.Screen.viewState";
 
+  private final LegacyViewComponent<V> viewComponent = new LegacyViewComponent<>(this);
   private final DialogComponent dialogComponent = new DialogComponent();
 
-  private Activity activity;
-  private V view;
-  private SparseArray<Parcelable> viewState;
   private boolean isTransitioning;
-  private Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
+  private final Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
 
   public Screen() {
+    attachToLifecycle(viewComponent, LifecycleState.Destroyed.INSTANCE);
     attachToLifecycle(dialogComponent, LifecycleState.Destroyed.INSTANCE);
   }
 
@@ -68,7 +63,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * {@link #onHide(Context)}.
    */
   public final V getView() {
-    return view;
+    return viewComponent.getView();
   }
 
   /**
@@ -76,58 +71,14 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * {@link #onHide(Context)}.
    */
   public final Activity getActivity() {
-    return activity;
+    return viewComponent.getActivity();
   }
 
-  final void restore(Bundle savedInstanceState) {
-    if (viewState == null && savedInstanceState != null) {
-      viewState = savedInstanceState.getSparseParcelableArray(VIEW_STATE + hashCode());
-    }
-  }
-
-  final V recreateView(Context context) {
-    this.activity = (Activity) context;
-    view = createView(activity);
-    // noinspection unchecked
-    view.setScreen(this);
-    if (viewState != null) {
-      view.restoreHierarchyState(viewState);
-    }
-    return view;
-  }
-
-  @Override
-  @CallSuper
-  public void onSaveInstanceState(@NotNull Bundle outState) {
-    saveViewState();
-    if (viewState != null) {
-      outState.putSparseParcelableArray(VIEW_STATE + hashCode(), viewState);
-    }
-    viewState = null;
-  }
-
-  final void destroyView() {
-    saveViewState();
-    activity = null;
-    view = null;
-  }
-
-  private void saveViewState() {
-    if (view != null) {
-      viewState = new SparseArray<>();
-      view.saveHierarchyState(viewState);
-    }
-  }
-
-  @Override
-  @CallSuper
   public void transitionStarted() {
     isTransitioning = true;
     transitionFinishedListeners.clear();
   }
 
-  @Override
-  @CallSuper
   public void transitionFinished() {
     isTransitioning = false;
     while (transitionFinishedListeners.size() > 0) {
@@ -180,21 +131,21 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * The only mandatory method to implement in a Screen. <b>Must</b> create and return a new instance of the View
    * to be displayed for this Screen.
    */
-  protected abstract V createView(Context context);
+  abstract V createView(Context context);
 
   /**
    * Override this method to dynamically change the menu.
    */
   protected void onUpdateMenu(Menu menu) {}
 
+  @Override
+  protected void onCreate(@NotNull Context context) { }
+
   /**
    * Called when the Screen in shown (including on rotation).
    */
   @Override
-  @CallSuper
-  protected void onShow(@NotNull Context context) {
-    recreateView(context);
-  }
+  protected void onShow(@NotNull Context context) { }
 
   /**
    * Called when the activity is resumed and when the Screen is shown.
@@ -212,16 +163,9 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * Called when the Screen is hidden (including on rotation).
    */
   @Override
-  @CallSuper
-  protected void onHide(@NotNull Context context) {
-    destroyView();
-  }
+  protected void onHide(@NotNull Context context) { }
 
-  /**
-   * Called when the activity is killed.
-   */
   @Override
-  @CallSuper
   protected void onDestroy(@NotNull Context context) { }
 
   /**
@@ -235,11 +179,11 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   }
 
   protected final void setTitle(@StringRes int titleResId) {
-    activity.setTitle(titleResId);
+    viewComponent.getActivity().setTitle(titleResId);
   }
 
   protected final void setTitle(CharSequence title) {
-    activity.setTitle(title);
+    viewComponent.getActivity().setTitle(title);
   }
 
   /**
@@ -261,22 +205,16 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
 
   @VisibleForTesting
   public final void setView(V view) {
-    this.view = view;
+    viewComponent.setView(view);
   }
 
   @VisibleForTesting
   public final void setActivity(Activity activity) {
-    this.activity = activity;
+    viewComponent.setActivity(activity);
   }
 
   protected final void checkOnCreateNotYetCalled(String reason) {
-    checkState(activity == null, reason);
-  }
-
-  @Override
-  @CallSuper
-  protected void onCreate(@NotNull Context context) {
-    this.activity = (Activity) context;
+    checkState(viewComponent.getActivity() == null, reason);
   }
 
   /**

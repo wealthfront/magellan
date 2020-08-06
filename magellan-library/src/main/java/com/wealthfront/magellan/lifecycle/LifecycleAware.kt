@@ -17,7 +17,5 @@ interface LifecycleAware {
 
   fun destroy(context: Context) {}
 
-  fun onSaveInstanceState(outState: Bundle) {}
-
   fun backPressed(): Boolean = false
 }

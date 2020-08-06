@@ -90,7 +90,6 @@ public class ScreenTest {
 
     screen.recreateView(null);
     Bundle bundle = new Bundle();
-    screen.onSaveInstanceState(bundle);
     screen.restore(bundle);
     screen.recreateView(null);
 
