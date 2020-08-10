@@ -34,10 +34,10 @@ class DogBreedsStep : Step<DogBreedBinding>(DogBreedBinding::inflate) {
       try {
         val breeds = api.getListOfAllBreedsOfRetriever()
         binding.dogBreeds.adapter = DogBreedListAdapter(context, breeds.message)
-        // hide loading
       } catch (exception: IOException) {
         Toast.makeText(context, "Exception occurred", LENGTH_SHORT).show()
       }
+      // hide loading
     }
   }
 
