@@ -5,30 +5,40 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import com.wealthfront.magellan.core.Step
-import com.wealthfront.magellan.sample.advanced.DogApi
+import com.wealthfront.magellan.coroutines.NavigableScope
+import com.wealthfront.magellan.lifecycle.lifecycle
 import com.wealthfront.magellan.sample.advanced.R
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
+import com.wealthfront.magellan.sample.advanced.api.DogApi
 import com.wealthfront.magellan.sample.advanced.databinding.DogBreedBinding
+import java.io.IOException
 import javax.inject.Inject
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import kotlinx.coroutines.launch
 
 class DogBreedsStep : Step<DogBreedBinding>(DogBreedBinding::inflate) {
 
   @Inject lateinit var api: DogApi
+
+  private val scope by lifecycle(NavigableScope())
 
   override fun onCreate(context: Context) {
     app(context).injector().inject(this)
   }
 
   override fun onShow(context: Context, binding: DogBreedBinding) {
-    api.getListOfAllBreedsOfRetriever()
-      .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread())
-      .subscribe { breeds ->
+    scope.launch {
+      // show loading
+      try {
+        val breeds = api.getListOfAllBreedsOfRetriever()
         binding.dogBreeds.adapter = DogBreedListAdapter(context, breeds.message)
+        // hide loading
+      } catch (exception: IOException) {
+        Toast.makeText(context, "Exception occurred", LENGTH_SHORT).show()
       }
+    }
   }
 
   private inner class DogBreedListAdapter(context: Context, breeds: List<String>) :

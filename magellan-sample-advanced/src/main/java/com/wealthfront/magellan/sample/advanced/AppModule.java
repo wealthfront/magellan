@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.sample.advanced;
 
 import com.wealthfront.magellan.navigation.NavigationTraverser;
+import com.wealthfront.magellan.sample.advanced.api.DogApi;
 
 import javax.inject.Singleton;
 

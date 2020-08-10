@@ -57,6 +57,8 @@ dependencies {
   implementation Dependencies.rxandroid
   implementation Dependencies.jackson
   implementation Dependencies.okhttp
+  implementation Dependencies.coroutines
+  implementation Dependencies.coroutinesAndroid
 
   testImplementation Dependencies.junit
   testImplementation Dependencies.mockito

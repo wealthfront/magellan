@@ -1,17 +1,17 @@
-package com.wealthfront.magellan.sample.advanced
+package com.wealthfront.magellan.sample.advanced.api
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import retrofit2.http.GET
 import retrofit2.http.Path
-import rx.Single
+import rx.Observable
 
 interface DogApi {
 
   @GET("breed/retriever/list")
-  fun getListOfAllBreedsOfRetriever(): Single<DogBreeds>
+  suspend fun getListOfAllBreedsOfRetriever(): DogBreeds
 
   @GET("breed/{id}/images/random")
-  fun getRandomImageForBreed(@Path("id") breed: String): Single<DogMessage>
+  fun getRandomImageForBreed(@Path("id") breed: String): Observable<DogMessage>
 }
 
 data class DogMessage(
