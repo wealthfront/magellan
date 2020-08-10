@@ -127,8 +127,10 @@ class LinearNavigatorTest {
       it.push(NavigationEvent(journey1, SHOW))
     }
 
+    linearNavigator.resume(getApplicationContext())
     linearNavigator.goBack()
     linearNavigator.goBack()
+    linearNavigator.pause(getApplicationContext())
     linearNavigator.destroy(getApplicationContext())
 
     assertThat(linearNavigator.backStack.size).isEqualTo(0)

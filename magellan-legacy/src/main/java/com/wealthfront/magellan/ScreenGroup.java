@@ -1,8 +1,8 @@
 package com.wealthfront.magellan;
 
-import android.content.Context;
-import android.os.Bundle;
 import android.view.ViewGroup;
+
+import com.wealthfront.magellan.lifecycle.LifecycleState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,60 +24,13 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
   }
 
   public void addScreen(S screen) {
-    this.checkOnCreateNotYetCalled("Cannot add screen after onCreate is called");
-    screen.checkOnCreateNotYetCalled("Cannot add a screen after onCreate is called on the screen");
+    attachToLifecycle(screen, LifecycleState.Destroyed.INSTANCE);
     screens.add(screen);
   }
 
   public void addScreens(List<S> screens) {
     for (S screen : screens) {
       addScreen(screen);
-    }
-  }
-
-  @Override
-  protected void onShow(Context context) {
-    for (Screen screen : screens) {
-      screen.recreateView(getActivity(), getNavigator());
-      screen.createDialog();
-      screen.onShow(context);
-    }
-  }
-
-  @Override
-  protected void onRestore(Bundle savedInstanceState) {
-    for (Screen screen : screens) {
-      screen.onRestore(savedInstanceState);
-    }
-  }
-
-  @Override
-  protected void onResume(Context context) {
-    for (Screen screen : screens) {
-      screen.onResume(context);
-    }
-  }
-
-  @Override
-  protected void onPause(Context context) {
-    for (Screen screen : screens) {
-      screen.onPause(context);
-    }
-  }
-
-  @Override
-  protected void onSave(Bundle outState) {
-    for (Screen screen : screens) {
-      screen.onSave(outState);
-    }
-  }
-
-  @Override
-  protected void onHide(Context context) {
-    for (Screen screen : screens) {
-      screen.onHide(context);
-      screen.destroyDialog();
-      screen.destroyView();
     }
   }
 

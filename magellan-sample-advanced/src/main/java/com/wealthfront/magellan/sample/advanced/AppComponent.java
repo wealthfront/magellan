@@ -14,4 +14,6 @@ public interface AppComponent {
 
   void inject(TideDetailsScreen screen);
 
+  void inject(Expedition expedition);
+
 }

@@ -1,9 +1,9 @@
 package com.wealthfront.magellan.view
 
+import android.app.Activity
 import android.app.Dialog
-import android.content.Context
-import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Truth.assertThat
+import com.wealthfront.magellan.DialogCreator
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,7 +20,7 @@ class DialogComponentTest {
   @Mock lateinit var dialog1: Dialog
   @Mock lateinit var dialog2: Dialog
 
-  private val context = ApplicationProvider.getApplicationContext<Context>()
+  private val context = Activity()
   private val dialogComponent = DialogComponent()
 
   private lateinit var dialogCreator1: DialogCreator
@@ -29,8 +29,8 @@ class DialogComponentTest {
   @Before
   fun setUp() {
     initMocks(this)
-    dialogCreator1 = { context -> dialog1 }
-    dialogCreator2 = { context -> dialog2 }
+    dialogCreator1 = DialogCreator { context -> dialog1 }
+    dialogCreator2 = DialogCreator { context -> dialog2 }
   }
 
   @Test
@@ -38,7 +38,7 @@ class DialogComponentTest {
     `when`(dialog1.isShowing).thenReturn(true)
 
     dialogComponent.create(context)
-    dialogComponent.showDialog { dialogCreator1.invoke(context) }
+    dialogComponent.showDialog(dialogCreator1)
 
     verify(dialog1).show()
     assertThat(dialogComponent.dialogIsShowing).isTrue()
@@ -49,7 +49,7 @@ class DialogComponentTest {
     `when`(dialog1.isShowing).thenReturn(true)
 
     dialogComponent.create(context)
-    dialogComponent.showDialog { dialogCreator1.invoke(context) }
+    dialogComponent.showDialog(dialogCreator1)
 
     verify(dialog1).show()
     assertThat(dialogComponent.dialogIsShowing).isTrue()
@@ -65,7 +65,7 @@ class DialogComponentTest {
   fun showDialog_rotation() {
     `when`(dialog1.isShowing).thenReturn(true)
     dialogComponent.create(context)
-    dialogComponent.showDialog { dialogCreator1.invoke(context) }
+    dialogComponent.showDialog(dialogCreator1)
 
     verify(dialog1).show()
     assertThat(dialogComponent.dialogIsShowing).isTrue()
@@ -88,12 +88,12 @@ class DialogComponentTest {
     `when`(dialog2.isShowing).thenReturn(true)
 
     dialogComponent.create(context)
-    dialogComponent.showDialog { dialogCreator1.invoke(context) }
+    dialogComponent.showDialog(dialogCreator1)
 
     verify(dialog1).show()
     assertThat(dialogComponent.dialogIsShowing).isTrue()
 
-    dialogComponent.showDialog { dialogCreator2.invoke(context) }
+    dialogComponent.showDialog(dialogCreator2)
 
     verify(dialog2).show()
     assertThat(dialogComponent.dialogIsShowing).isTrue()

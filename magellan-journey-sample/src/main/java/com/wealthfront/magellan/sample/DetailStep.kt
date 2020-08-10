@@ -2,6 +2,7 @@ package com.wealthfront.magellan.sample
 
 import android.app.AlertDialog
 import android.content.Context
+import com.wealthfront.magellan.DialogCreator
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.lifecycle.lateinitLifecycle
 import com.wealthfront.magellan.sample.App.Provider.appComponent
@@ -21,7 +22,7 @@ class DetailStep(
 
   override fun onShow(context: Context, binding: DetailBinding) {
     binding.dialog.setOnClickListener {
-      dialogComponent.showDialog { getDialog(context) }
+      dialogComponent.showDialog(DialogCreator { activity -> getDialog(activity) })
     }
     binding.nextJourney.setOnClickListener {
       startSecondJourney()

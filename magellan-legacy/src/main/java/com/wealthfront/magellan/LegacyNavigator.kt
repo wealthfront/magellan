@@ -1,13 +1,14 @@
-package com.wealthfront.magellan.navigation
+package com.wealthfront.magellan
 
-import com.wealthfront.magellan.Direction
-import com.wealthfront.magellan.ScreenContainer
-import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.lifecycle
+import com.wealthfront.magellan.navigation.NavigableCompat
+import com.wealthfront.magellan.navigation.NavigationDelegate
+import com.wealthfront.magellan.navigation.NavigationEvent
+import com.wealthfront.magellan.navigation.Navigator
 import java.util.Stack
 
-class LinearNavigator internal constructor(
+class LegacyNavigator internal constructor(
   container: () -> ScreenContainer
 ) : Navigator, LifecycleAwareComponent() {
 
@@ -16,19 +17,27 @@ class LinearNavigator internal constructor(
   override val backStack: Stack<NavigationEvent>
     get() = delegate.backStack
 
-  fun goTo(navigable: Navigable) {
+  init {
+    delegate.currentNavigableSetup = { navItem ->
+      if (navItem is Screen<*>) {
+        navItem.setNavigator(this)
+      }
+    }
+  }
+
+  fun goTo(navigable: NavigableCompat) {
     delegate.goTo(navigable)
   }
 
-  fun show(navigable: Navigable) {
+  fun show(navigable: NavigableCompat) {
     delegate.show(navigable)
   }
 
-  fun replaceAndGo(navigable: Navigable) {
+  fun replaceAndGo(navigable: NavigableCompat) {
     delegate.replaceAndGo(navigable)
   }
 
-  fun replaceAndShow(navigable: Navigable) {
+  fun replaceAndShow(navigable: NavigableCompat) {
     delegate.replaceAndShow(navigable)
   }
 

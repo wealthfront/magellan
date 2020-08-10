@@ -1,7 +1,5 @@
 package com.wealthfront.magellan.navigation
 
-import com.wealthfront.magellan.core.Navigable
-
 object NavigationPropagator {
 
   private var listeners: Set<NavigableListener> = emptySet()
@@ -20,13 +18,13 @@ object NavigationPropagator {
     }
   }
 
-  fun hideCurrentNavigable(currentNavigable: Navigable) {
+  fun hideCurrentNavigable(currentNavigable: NavigableCompat) {
     listeners.forEach {
       it.onNavigableHidden(currentNavigable)
     }
   }
 
-  fun showCurrentNavigable(currentNavigable: Navigable) {
+  fun showCurrentNavigable(currentNavigable: NavigableCompat) {
     listeners.forEach {
       it.onNavigableShown(currentNavigable)
     }

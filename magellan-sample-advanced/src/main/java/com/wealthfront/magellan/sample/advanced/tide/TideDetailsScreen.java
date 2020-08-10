@@ -32,10 +32,11 @@ public class TideDetailsScreen extends RxScreen<TideDetailsView> {
   };
 
   @Inject NoaaApi noaaApi;
+
   private final String tideLocationName;
   int noaaApiId;
 
-  TideDetailsScreen(int noaaApiId, String tideLocationName) {
+  public TideDetailsScreen(int noaaApiId, String tideLocationName) {
     this.noaaApiId = noaaApiId;
     this.tideLocationName = tideLocationName;
   }
@@ -88,5 +89,9 @@ public class TideDetailsScreen extends RxScreen<TideDetailsView> {
       }
     }
     return result;
+  }
+
+  public void goToHelpScreen() {
+    getNavigator().goTo(new HelpScreen());
   }
 }

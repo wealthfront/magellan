@@ -3,19 +3,22 @@ package com.wealthfront.magellan;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Bundle;
-import android.os.Parcelable;
-import androidx.annotation.ColorRes;
-import androidx.annotation.StringRes;
-import androidx.annotation.VisibleForTesting;
-import android.util.SparseArray;
 import android.view.Menu;
 import android.view.ViewGroup;
+
+import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent;
+import com.wealthfront.magellan.lifecycle.LifecycleState;
+import com.wealthfront.magellan.navigation.NavigableCompat;
+import com.wealthfront.magellan.view.DialogComponent;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-import static com.wealthfront.magellan.Preconditions.checkState;
+import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 /**
  * Screens are where your logic lives (you can think of it as a Presenter in the MVP pattern, or a Controller
@@ -37,20 +40,23 @@ import static com.wealthfront.magellan.Preconditions.checkState;
  * }
  * </code> </pre>
  */
-public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHandler {
+public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements
+    NavigableCompat {
 
   public static final int DEFAULT_ACTION_BAR_COLOR_RES = 0;
-  private static final String VIEW_STATE = "com.wealthfront.navigation.Screen.viewState";
+
+  private final DialogComponent dialogComponent = new DialogComponent();
 
   private Activity activity;
-  private Navigator navigator;
   private V view;
-  private DialogCreator dialogCreator;
-  private boolean dialogIsShowing;
-  private Dialog dialog;
-  private SparseArray<Parcelable> viewState;
   private boolean isTransitioning;
-  private Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
+  private final Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
+  private LegacyNavigator navigator;
+
+  public Screen() {
+    attachToLifecycle(new LegacyViewComponent<>(this), LifecycleState.Destroyed.INSTANCE);
+    attachToLifecycle(dialogComponent, LifecycleState.Destroyed.INSTANCE);
+  }
 
   /**
    * @return the View associated with this Screen or null if we are not in between {@link #onShow(Context)} and\
@@ -71,75 +77,22 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
   /**
    * @return the Navigator associated with this Screen.
    */
-  public final Navigator getNavigator() {
+  public final LegacyNavigator getNavigator() {
     return navigator;
   }
 
   public final Dialog getDialog() {
-    return dialog;
+    return dialogComponent.getDialog();
   }
 
-  final void restore(Bundle savedInstanceState) {
-    if (viewState == null && savedInstanceState != null) {
-      viewState = savedInstanceState.getSparseParcelableArray(VIEW_STATE + hashCode());
-    }
-  }
-
-  final V recreateView(Activity activity, Navigator navigator) {
-    this.activity = activity;
-    this.navigator = navigator;
-    view = createView(activity);
-    // noinspection unchecked
-    view.setScreen(this);
-    if (viewState != null) {
-      view.restoreHierarchyState(viewState);
-    }
-    return view;
-  }
-
-  final void save(Bundle outState) {
-    saveViewState();
-    if (viewState != null) {
-      outState.putSparseParcelableArray(VIEW_STATE + hashCode(), viewState);
-    }
-    viewState = null;
-  }
-
-  final void destroyView() {
-    saveViewState();
-    activity = null;
-    view = null;
-  }
-
-  private void saveViewState() {
-    if (view != null) {
-      viewState = new SparseArray<>();
-      view.saveHierarchyState(viewState);
-    }
-  }
-
-  final void createDialog() {
-    if (dialogCreator != null && dialogIsShowing) {
-      dialog = dialogCreator.createDialog(activity);
-      dialog.show();
-    }
-  }
-
-  final void destroyDialog() {
-    if (dialog != null) {
-      dialogIsShowing = dialog.isShowing();
-      dialog.setOnDismissListener(null);
-      dialog.dismiss();
-      dialog = null;
-    }
-  }
-
-  void transitionStarted() {
+  @Override
+  public final void transitionStarted() {
     isTransitioning = true;
     transitionFinishedListeners.clear();
   }
 
-  void transitionFinished() {
+  @Override
+  public final void transitionFinished() {
     isTransitioning = false;
     while (transitionFinishedListeners.size() > 0) {
       transitionFinishedListeners.remove().onTransitionFinished();
@@ -185,8 +138,6 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     return DEFAULT_ACTION_BAR_COLOR_RES;
   }
 
-  protected void onRestore(Bundle savedInstanceState) {}
-
   /**
    * The only mandatory method to implement in a Screen. <b>Must</b> create and return a new instance of the View
    * to be displayed for this Screen.
@@ -199,26 +150,49 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
   protected void onUpdateMenu(Menu menu) {}
 
   /**
-   * Called when the Activity is resumed and when the Screen is shown.
+   * Called when the Screen is navigated to from before the screen is shown (not triggered on rotation).
    */
-  protected void onResume(Context context) {}
+  @Override
+  protected void onCreate(@NotNull Context context) { }
 
   /**
    * Called when the Screen in shown (including on rotation).
    */
-  protected void onShow(Context context) {}
-
-  protected void onSave(Bundle outState) {}
+  @Override
+  protected void onShow(@NotNull Context context) { }
 
   /**
-   * Called when the Activity is paused and when the Screen is hidden.
+   * Called when the activity is resumed and when the Screen is shown.
    */
-  protected void onPause(Context context) {}
+  @Override
+  protected void onResume(@NotNull Context context) { }
+
+  /**
+   * Called when the activity is paused and when the Screen is hidden.
+   */
+  @Override
+  protected void onPause(@NotNull Context context) { }
 
   /**
    * Called when the Screen is hidden (including on rotation).
    */
-  protected void onHide(Context context) {}
+  @Override
+  protected void onHide(@NotNull Context context) { }
+
+  /**
+   * Called when the Screen is navigated away from after the screen is hidden (not triggered on rotation).
+   */
+  @Override
+  protected void onDestroy(@NotNull Context context) { }
+
+  /**
+   * Override this method to implement a custom behavior one back pressed.
+   *
+   * @return true if the method consumed the back event, false otherwise.
+   */
+  public boolean handleBack() {
+    return backPressed();
+  }
 
   /**
    * Finish the Activity, and therefore quit the app in a Single Activity Architecture.
@@ -243,47 +217,29 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
    * on rotation.
    */
   protected final void showDialog(DialogCreator dialogCreator) {
-    this.dialogCreator = dialogCreator;
-    this.dialogIsShowing = true;
-    createDialog();
-  }
-
-  /**
-   * Override this method to implement a custom behavior one back pressed.
-   *
-   * @return true if the method consumed the back event, false otherwise.
-   */
-  @Override
-  public boolean handleBack() {
-    return false;
+    dialogComponent.showDialog(dialogCreator);
   }
 
   /**
    * @return a String representation of the Screen to be used for logging purposes. Return the Simple name of the class
    * by default.
    */
+  @NonNull
   @Override
   public String toString() {
     return getClass().getSimpleName();
   }
 
-  @VisibleForTesting
   public final void setView(V view) {
     this.view = view;
   }
 
-  @VisibleForTesting
   public final void setActivity(Activity activity) {
     this.activity = activity;
   }
 
-  @VisibleForTesting
-  public final void setNavigator(Navigator navigator) {
+  void setNavigator(@NotNull LegacyNavigator navigator) {
     this.navigator = navigator;
-  }
-
-  protected final void checkOnCreateNotYetCalled(String reason) {
-    checkState(activity == null, reason);
   }
 
   /**

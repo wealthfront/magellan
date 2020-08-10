@@ -1,17 +1,16 @@
-package com.wealthfront.magellan.core
+package com.wealthfront.magellan
 
 import android.view.LayoutInflater
 import androidx.viewbinding.ViewBinding
-import com.wealthfront.magellan.ScreenContainer
+import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.lifecycle.lifecycle
-import com.wealthfront.magellan.navigation.LinearNavigator
 
-abstract class Journey<V : ViewBinding>(
+abstract class LegacyExpedition<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V,
   container: V.() -> ScreenContainer
 ) : Step<V>(createBinding) {
 
-  protected var navigator by lifecycle(LinearNavigator { viewBinding!!.container() })
+  protected var navigator by lifecycle(LegacyNavigator { viewBinding!!.container() })
 
   override fun toString(): String = this.javaClass.simpleName
 }

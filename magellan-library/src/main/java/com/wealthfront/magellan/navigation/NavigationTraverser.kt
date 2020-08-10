@@ -1,17 +1,15 @@
 package com.wealthfront.magellan.navigation
 
 import android.util.Log
-import com.wealthfront.magellan.core.Journey
-import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.lifecycle.LifecycleOwner
 
-class NavigationTraverser(private val root: Journey<*>) {
+class NavigationTraverser(private val root: NavigableCompat) {
 
   fun getGlobalBackStack(): NavigationNode {
     return constructTree(root)
   }
 
-  private fun constructTree(navigable: Navigable): NavigationNode {
+  private fun constructTree(navigable: NavigableCompat): NavigationNode {
     val navNode = NavigationNode(navigable, mutableListOf())
     if (navNode.hasBackstack) {
       navNode.backStack.forEach { navEvent ->
@@ -46,7 +44,7 @@ class NavigationTraverser(private val root: Journey<*>) {
 }
 
 data class NavigationNode(
-  val value: Navigable,
+  val value: NavigableCompat,
   var children: List<NavigationNode>
 ) {
 
