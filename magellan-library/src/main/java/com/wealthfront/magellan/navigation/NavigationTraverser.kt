@@ -1,20 +1,19 @@
 package com.wealthfront.magellan.navigation
 
 import android.util.Log
-import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.lifecycle.LifecycleOwner
 
-class NavigationTraverser(private val root: Step<*>) {
+class NavigationTraverser(private val root: NavigableCompat) {
 
   fun getGlobalBackStack(): NavigationNode {
     return constructTree(root)
   }
 
-  private fun constructTree(navigationItem: NavigationItem): NavigationNode {
-    val navNode = NavigationNode(navigationItem, mutableListOf())
+  private fun constructTree(navigable: NavigableCompat): NavigationNode {
+    val navNode = NavigationNode(navigable, mutableListOf())
     if (navNode.hasBackstack) {
-      navNode.backStack.forEach { navItem ->
-        val childNavNode = constructTree(navItem)
+      navNode.backStack.forEach { navEvent ->
+        val childNavNode = constructTree(navEvent.navigable)
         navNode.addChild(childNavNode)
       }
     }
@@ -45,7 +44,7 @@ class NavigationTraverser(private val root: Step<*>) {
 }
 
 data class NavigationNode(
-  val value: NavigationItem,
+  val value: NavigableCompat,
   var children: List<NavigationNode>
 ) {
 
@@ -53,7 +52,7 @@ data class NavigationNode(
     get() = (value as? LifecycleOwner)?.children?.mapNotNull { it as? Navigator }?.isNotEmpty()
       ?: false
 
-  val backStack: List<NavigationItem>
+  val backStack: List<NavigationEvent>
     get() = (value as LifecycleOwner).children.mapNotNull { it as? Navigator }.first().backStack
 
   fun addChild(child: NavigationNode) {

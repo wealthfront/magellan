@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent;
 import com.wealthfront.magellan.lifecycle.LifecycleState;
-import com.wealthfront.magellan.navigation.NavigationItem;
+import com.wealthfront.magellan.navigation.NavigableCompat;
 import com.wealthfront.magellan.view.DialogComponent;
 
 import org.jetbrains.annotations.NotNull;
@@ -40,11 +40,11 @@ import androidx.annotation.StringRes;
  * }
  * </code> </pre>
  */
-public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements NavigationItem {
+public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements
+    NavigableCompat {
 
   public static final int DEFAULT_ACTION_BAR_COLOR_RES = 0;
 
-  private final LegacyViewComponent<V> viewComponent = new LegacyViewComponent<>(this);
   private final DialogComponent dialogComponent = new DialogComponent();
 
   private Activity activity;
@@ -54,7 +54,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   private LegacyNavigator navigator;
 
   public Screen() {
-    attachToLifecycle(viewComponent, LifecycleState.Destroyed.INSTANCE);
+    attachToLifecycle(new LegacyViewComponent<>(this), LifecycleState.Destroyed.INSTANCE);
     attachToLifecycle(dialogComponent, LifecycleState.Destroyed.INSTANCE);
   }
 
@@ -79,6 +79,10 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    */
   public final LegacyNavigator getNavigator() {
     return navigator;
+  }
+
+  public final Dialog getDialog() {
+    return dialogComponent.getDialog();
   }
 
   @Override
@@ -145,6 +149,9 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    */
   protected void onUpdateMenu(Menu menu) {}
 
+  /**
+   * Called when the Screen is navigated to from before the screen is shown (not triggered on rotation).
+   */
   @Override
   protected void onCreate(@NotNull Context context) { }
 
@@ -172,8 +179,20 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   @Override
   protected void onHide(@NotNull Context context) { }
 
+  /**
+   * Called when the Screen is navigated away from after the screen is hidden (not triggered on rotation).
+   */
   @Override
   protected void onDestroy(@NotNull Context context) { }
+
+  /**
+   * Override this method to implement a custom behavior one back pressed.
+   *
+   * @return true if the method consumed the back event, false otherwise.
+   */
+  public boolean handleBack() {
+    return backPressed();
+  }
 
   /**
    * Finish the Activity, and therefore quit the app in a Single Activity Architecture.

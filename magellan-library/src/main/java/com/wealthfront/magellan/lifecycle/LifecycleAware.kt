@@ -4,17 +4,17 @@ import android.content.Context
 
 interface LifecycleAware {
 
-  fun create(context: Context) {}
+  @JvmDefault fun create(context: Context) {}
 
-  fun show(context: Context) {}
+  @JvmDefault fun show(context: Context) {}
 
-  fun resume(context: Context) {}
+  @JvmDefault fun resume(context: Context) {}
 
-  fun pause(context: Context) {}
+  @JvmDefault fun pause(context: Context) {}
 
-  fun hide(context: Context) {}
+  @JvmDefault fun hide(context: Context) {}
 
-  fun destroy(context: Context) {}
+  @JvmDefault fun destroy(context: Context) {}
 
-  fun backPressed(): Boolean = false
+  @JvmDefault fun backPressed() = false
 }

@@ -10,7 +10,8 @@ import javax.inject.Inject
 class DialogComponent @Inject constructor() : LifecycleAware {
 
   private var dialogCreator: DialogCreator? = null
-  private var dialog: Dialog? = null
+  var dialog: Dialog? = null
+    private set
   private var context: Context? = null
 
   var dialogIsShowing: Boolean = false

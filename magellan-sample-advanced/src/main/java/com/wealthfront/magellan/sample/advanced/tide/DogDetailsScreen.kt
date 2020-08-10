@@ -17,11 +17,6 @@ class DogDetailsScreen(private val breed: String) : Screen<DogDetailsView>() {
     return DogDetailsView(context)
   }
 
-  override fun onBackPressed(): Boolean {
-    navigator.hide()
-    return true
-  }
-
   override fun onShow(context: Context) {
     api.getRandomImageForBreed(breed)
       .subscribeOn(Schedulers.io())

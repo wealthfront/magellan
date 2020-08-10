@@ -6,8 +6,8 @@ import com.wealthfront.magellan.lifecycle.lateinitLifecycle
 import com.wealthfront.magellan.navigation.LoggingNavigableListener
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.advanced.databinding.ExpeditionBinding
-import com.wealthfront.magellan.sample.advanced.tide.DogListStep
 import com.wealthfront.magellan.sample.advanced.tide.DogDetailsScreen
+import com.wealthfront.magellan.sample.advanced.tide.DogListStep
 import javax.inject.Inject
 import javax.inject.Singleton
 

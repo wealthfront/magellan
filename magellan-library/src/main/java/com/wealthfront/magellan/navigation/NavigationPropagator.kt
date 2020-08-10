@@ -18,13 +18,13 @@ object NavigationPropagator {
     }
   }
 
-  fun hideCurrentNavigable(currentNavigable: NavigationItem) {
+  fun hideCurrentNavigable(currentNavigable: NavigableCompat) {
     listeners.forEach {
       it.onNavigableHidden(currentNavigable)
     }
   }
 
-  fun showCurrentNavigable(currentNavigable: NavigationItem) {
+  fun showCurrentNavigable(currentNavigable: NavigableCompat) {
     listeners.forEach {
       it.onNavigableShown(currentNavigable)
     }

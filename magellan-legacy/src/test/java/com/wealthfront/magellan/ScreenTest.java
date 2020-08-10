@@ -41,6 +41,9 @@ public class ScreenTest {
 
   @Test
   public void shown() {
+    assertThat(screen.getActivity()).isEqualTo(null);
+    assertThat(screen.getView()).isEqualTo(null);
+
     screen.create(context);
     screen.show(context);
     screen.resume(context);
@@ -51,18 +54,24 @@ public class ScreenTest {
 
   @Test
   public void hidden() {
+    assertThat(screen.getActivity()).isEqualTo(null);
+    assertThat(screen.getView()).isEqualTo(null);
+
     screen.create(context);
     screen.show(context);
     screen.resume(context);
     screen.pause(context);
     screen.hide(context);
 
-    assertThat(screen.getActivity()).isEqualTo(context);
+    assertThat(screen.getActivity()).isEqualTo(null);
     assertThat(screen.getView()).isEqualTo(null);
   }
 
   @Test
   public void destroyedActivity() {
+    assertThat(screen.getActivity()).isEqualTo(null);
+    assertThat(screen.getView()).isEqualTo(null);
+
     screen.create(context);
     screen.show(context);
     screen.resume(context);
@@ -72,6 +81,32 @@ public class ScreenTest {
 
     assertThat(screen.getActivity()).isEqualTo(null);
     assertThat(screen.getView()).isEqualTo(null);
+  }
+
+
+  @Test
+  public void configChange() {
+    assertThat(screen.getActivity()).isEqualTo(null);
+    assertThat(screen.getView()).isEqualTo(null);
+
+    screen.create(context);
+    screen.show(context);
+    screen.resume(context);
+
+    assertThat(screen.getActivity()).isEqualTo(context);
+    assertThat(screen.getView()).isEqualTo(view);
+
+    screen.pause(context);
+    screen.hide(context);
+
+    assertThat(screen.getActivity()).isEqualTo(null);
+    assertThat(screen.getView()).isEqualTo(null);
+
+    screen.show(context);
+    screen.resume(context);
+
+    assertThat(screen.getActivity()).isEqualTo(context);
+    assertThat(screen.getView()).isEqualTo(view);
   }
 
   @Test

@@ -3,6 +3,7 @@ import Versions.butterKnifeVersion
 import Versions.daggerVersion
 import Versions.espressoVersion
 import Versions.extVersion
+import Versions.glideVersion
 import Versions.jacksonVersion
 import Versions.javaInjectVersion
 import Versions.junitVersion
@@ -46,6 +47,7 @@ object Dependencies {
   const val daggerCompiler = "com.google.dagger:dagger-compiler:$daggerVersion"
   const val inject = "javax.inject:javax.inject:$javaInjectVersion"
 
+  const val glide = "com.github.bumptech.glide:glide:$glideVersion"
   const val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
   const val rxjava = "io.reactivex:rxjava:$rxjavaVersion"
   const val rxjava2 = "io.reactivex.rxjava2:rxjava:$rxjava2Version"

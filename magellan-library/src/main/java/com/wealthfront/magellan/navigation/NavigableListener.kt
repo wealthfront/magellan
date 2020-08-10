@@ -7,14 +7,16 @@ interface NavigableListener : LifecycleAware {
 
   fun onNavigate() {}
 
-  fun onNavigableShown(navigationItem: NavigationItem) {}
+  fun onNavigableShown(navigable: NavigableCompat) {}
 
-  fun onNavigableHidden(navigationItem: NavigationItem) {}
+  fun onNavigableHidden(navigable: NavigableCompat) {}
 
+  @JvmDefault
   override fun create(context: Context) {
     NavigationPropagator.addNavigableListener(this)
   }
 
+  @JvmDefault
   override fun destroy(context: Context) {
     NavigationPropagator.removeNavigableListener(this)
   }

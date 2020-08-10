@@ -15,6 +15,7 @@ object Versions {
   const val daggerVersion = "2.24"
   const val javaInject = "1"
   const val retrofitVersion = "2.9.0"
+  const val glideVersion = "4.11.0"
   const val rxjavaVersion = "1.3.8"
   const val rxjava2Version = "2.2.19"
   const val rxjavaAdapterVersion = "2.3.0"

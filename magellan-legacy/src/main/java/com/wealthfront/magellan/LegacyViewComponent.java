@@ -21,11 +21,12 @@ public class LegacyViewComponent<V extends ViewGroup & ScreenView> implements Li
 
   @Override
   public void create(@NotNull Context context) {
-    screen.setActivity((Activity) context);
+    setActivity(context);
   }
 
   @Override
   public void show(@NotNull Context context) {
+    setActivity(context);
     V view = screen.createView(context);
     // noinspection unchecked
     view.setScreen(screen);
@@ -36,12 +37,6 @@ public class LegacyViewComponent<V extends ViewGroup & ScreenView> implements Li
   }
 
   @Override
-  public void resume(@NotNull Context context) { }
-
-  @Override
-  public void pause(@NotNull Context context) { }
-
-  @Override
   public void hide(@NotNull Context context) {
     V view = screen.getView();
     if (view != null) {
@@ -49,15 +44,10 @@ public class LegacyViewComponent<V extends ViewGroup & ScreenView> implements Li
       view.saveHierarchyState(viewState);
     }
     screen.setView(null);
-  }
-
-  @Override
-  public void destroy(@NotNull Context context) {
     screen.setActivity(null);
   }
 
-  @Override
-  public boolean backPressed() {
-    return false;
+  private void setActivity(Context context) {
+    screen.setActivity((Activity) context);
   }
 }
