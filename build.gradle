@@ -19,6 +19,9 @@ plugins {
 allprojects {
   apply from: "$rootDir/gradle/static-analysis.gradle"
 
+  group = GROUP
+  version = VERSION_NAME
+
   repositories {
     jcenter()
     mavenCentral()
