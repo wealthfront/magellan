@@ -10,7 +10,8 @@ import javax.inject.Inject
 class DialogComponent @Inject constructor() : LifecycleAware {
 
   private var dialogCreator: DialogCreator? = null
-  private var dialog: Dialog? = null
+  var dialog: Dialog? = null
+    private set
   private var context: Context? = null
 
   var dialogIsShowing: Boolean = false
@@ -41,10 +42,6 @@ class DialogComponent @Inject constructor() : LifecycleAware {
 
   override fun destroy(context: Context) {
     this.context = null
-  }
-
-  fun getDialog(): Dialog? {
-    return dialog
   }
 
   private fun createDialog() {

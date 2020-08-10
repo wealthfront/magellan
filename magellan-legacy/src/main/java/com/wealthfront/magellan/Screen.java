@@ -86,13 +86,13 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   }
 
   @Override
-  public void transitionStarted() {
+  public final void transitionStarted() {
     isTransitioning = true;
     transitionFinishedListeners.clear();
   }
 
   @Override
-  public void transitionFinished() {
+  public final void transitionFinished() {
     isTransitioning = false;
     while (transitionFinishedListeners.size() > 0) {
       transitionFinishedListeners.remove().onTransitionFinished();
@@ -149,6 +149,9 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    */
   protected void onUpdateMenu(Menu menu) {}
 
+  /**
+   * Called when the Screen is navigated to from before the screen is shown (not triggered on rotation).
+   */
   @Override
   protected void onCreate(@NotNull Context context) { }
 
@@ -176,6 +179,9 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   @Override
   protected void onHide(@NotNull Context context) { }
 
+  /**
+   * Called when the Screen is navigated away from after the screen is hidden (not triggered on rotation).
+   */
   @Override
   protected void onDestroy(@NotNull Context context) { }
 
@@ -232,7 +238,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
     this.activity = activity;
   }
 
-  public void setNavigator(@NotNull LegacyNavigator navigator) {
+  void setNavigator(@NotNull LegacyNavigator navigator) {
     this.navigator = navigator;
   }
 
