@@ -86,13 +86,13 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   }
 
   @Override
-  public void transitionStarted() {
+  public final void transitionStarted() {
     isTransitioning = true;
     transitionFinishedListeners.clear();
   }
 
   @Override
-  public void transitionFinished() {
+  public final void transitionFinished() {
     isTransitioning = false;
     while (transitionFinishedListeners.size() > 0) {
       transitionFinishedListeners.remove().onTransitionFinished();
@@ -238,7 +238,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
     this.activity = activity;
   }
 
-  public void setNavigator(@NotNull LegacyNavigator navigator) {
+  void setNavigator(@NotNull LegacyNavigator navigator) {
     this.navigator = navigator;
   }
 

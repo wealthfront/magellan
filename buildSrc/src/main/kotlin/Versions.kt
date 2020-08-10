@@ -24,6 +24,7 @@ object Versions {
   const val okhttpVersion = "4.4.0"
   const val javaInjectVersion = "1"
   const val materialVersion = "1.1.0"
+  const val coroutinesVersion = "1.3.6"
 
   const val testCoreVersion = "1.2.0"
   const val junitVersion = "4.13"
