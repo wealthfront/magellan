@@ -149,6 +149,9 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    */
   protected void onUpdateMenu(Menu menu) {}
 
+  /**
+   * Called when the Screen is navigated to from before the screen is shown (not triggered on rotation).
+   */
   @Override
   protected void onCreate(@NotNull Context context) { }
 
@@ -176,6 +179,9 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   @Override
   protected void onHide(@NotNull Context context) { }
 
+  /**
+   * Called when the Screen is navigated away from after the screen is hidden (not triggered on rotation).
+   */
   @Override
   protected void onDestroy(@NotNull Context context) { }
 

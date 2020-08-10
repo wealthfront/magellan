@@ -35,7 +35,15 @@ public class LegacyViewComponentTest {
     assertThat(screen.getActivity()).isEqualTo(null);
 
     legacyViewComponent.create(context);
+
+    assertThat(screen.getView()).isEqualTo(null);
+    assertThat(screen.getActivity()).isEqualTo(context);
+
     legacyViewComponent.show(context);
+
+    assertThat(screen.getView()).isEqualTo(view);
+    assertThat(screen.getActivity()).isEqualTo(context);
+
     legacyViewComponent.resume(context);
 
     assertThat(screen.getView()).isEqualTo(view);
@@ -43,12 +51,38 @@ public class LegacyViewComponentTest {
     assertThat(screen.getActivity()).isEqualTo(context);
 
     legacyViewComponent.pause(context);
+
+    assertThat(screen.getView()).isEqualTo(view);
+    assertThat(screen.getActivity()).isEqualTo(context);
+
     legacyViewComponent.hide(context);
-    legacyViewComponent.destroy(context);
 
     assertThat(screen.getView()).isEqualTo(null);
     verify(view).saveHierarchyState(isA(SparseArray.class));
     assertThat(screen.getActivity()).isEqualTo(null);
+  }
+
+
+  @Test
+  public void viewComponentLifecycleConfigChange() {
+    legacyViewComponent.create(context);
+    legacyViewComponent.show(context);
+    legacyViewComponent.resume(context);
+
+    assertThat(screen.getView()).isEqualTo(view);
+    assertThat(screen.getActivity()).isEqualTo(context);
+
+    legacyViewComponent.pause(context);
+    legacyViewComponent.hide(context);
+
+    assertThat(screen.getView()).isEqualTo(null);
+    assertThat(screen.getActivity()).isEqualTo(null);
+
+    legacyViewComponent.show(context);
+    legacyViewComponent.resume(context);
+
+    assertThat(screen.getView()).isEqualTo(view);
+    assertThat(screen.getActivity()).isEqualTo(context);
   }
 
   @Test
