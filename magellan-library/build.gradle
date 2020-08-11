@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: "kotlin-allopen"
 
 group = GROUP
 version = VERSION_NAME
@@ -44,6 +45,10 @@ android {
       minifyEnabled false
     }
   }
+}
+
+allOpen {
+  annotation("com.wealthfront.magellan.Mockable")
 }
 
 dependencies {

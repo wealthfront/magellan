@@ -2,6 +2,8 @@ package com.wealthfront.magellan.navigation
 
 import android.content.Context
 import android.view.View
+import androidx.annotation.RestrictTo
+import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
@@ -15,6 +17,7 @@ import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.view.whenMeasured
 import java.util.Stack
 
+@RestrictTo(LIBRARY_GROUP)
 class NavigationDelegate(
   private val container: () -> ScreenContainer
 ) : LifecycleAwareComponent() {

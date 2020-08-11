@@ -32,6 +32,7 @@ object Dependencies {
   const val appCompat = "androidx.appcompat:appcompat:$supportLibVersion"
   const val lifecycle = "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
 
+  const val kotlinAllOpenGradle = "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
   const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   const val kotlinterGradle = "org.jmailen.gradle:kotlinter-gradle:$kotlinterVersion"
 

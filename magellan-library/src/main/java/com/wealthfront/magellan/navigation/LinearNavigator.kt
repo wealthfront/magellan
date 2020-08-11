@@ -1,12 +1,14 @@
 package com.wealthfront.magellan.navigation
 
 import com.wealthfront.magellan.Direction
+import com.wealthfront.magellan.Mockable
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.lifecycle
 import java.util.Stack
 
+@Mockable
 class LinearNavigator internal constructor(
   container: () -> ScreenContainer
 ) : Navigator, LifecycleAwareComponent() {

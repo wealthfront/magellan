@@ -1,8 +1,10 @@
 package com.wealthfront.magellan.navigation
 
 import android.util.Log
+import com.wealthfront.magellan.Mockable
 import javax.inject.Inject
 
+@Mockable
 class LoggingNavigableListener @Inject constructor(private val navigationTraverser: NavigationTraverser) : NavigableListener {
 
   override fun onNavigableShown(navigable: NavigableCompat) {

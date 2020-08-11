@@ -1,11 +1,13 @@
 package com.wealthfront.magellan.view
 
 import android.content.Context
+import com.wealthfront.magellan.Mockable
 import com.wealthfront.magellan.lifecycle.LifecycleAware
 import com.wealthfront.magellan.lifecycle.LifecycleOwner
 import com.wealthfront.magellan.lifecycle.lifecycle
 
-open class LifecycleWithContext<V>(
+@Mockable
+class LifecycleWithContext<V>(
   val supplier: (Context) -> V
 ) : LifecycleAware {
 

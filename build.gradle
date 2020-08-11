@@ -9,6 +9,7 @@ buildscript {
   dependencies {
     classpath(Dependencies.kotlinGradle)
     classpath(Dependencies.kotlinterGradle)
+    classpath(Dependencies.kotlinAllOpenGradle)
   }
 }
 

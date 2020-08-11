@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.coroutines
 
 import android.content.Context
+import com.wealthfront.magellan.Mockable
 import com.wealthfront.magellan.lifecycle.LifecycleAware
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
@@ -9,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
+@Mockable
 class NavigableScope @Inject constructor() : LifecycleAware, CoroutineScope {
 
   private var job = SupervisorJob().apply { cancel(CancellationException("Not created yet")) }

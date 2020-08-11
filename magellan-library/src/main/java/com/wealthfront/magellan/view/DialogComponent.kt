@@ -4,13 +4,15 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import com.wealthfront.magellan.DialogCreator
+import com.wealthfront.magellan.Mockable
 import com.wealthfront.magellan.lifecycle.LifecycleAware
 import javax.inject.Inject
 
+@Mockable
 class DialogComponent @Inject constructor() : LifecycleAware {
 
   private var dialogCreator: DialogCreator? = null
-  var dialog: Dialog? = null
+  final var dialog: Dialog? = null
     private set
   private var context: Context? = null
 

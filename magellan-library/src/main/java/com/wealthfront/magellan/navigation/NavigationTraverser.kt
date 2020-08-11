@@ -1,9 +1,12 @@
 package com.wealthfront.magellan.navigation
 
 import android.util.Log
+import com.wealthfront.magellan.Mockable
 import com.wealthfront.magellan.lifecycle.LifecycleOwner
+import javax.inject.Inject
 
-class NavigationTraverser(private val root: NavigableCompat) {
+@Mockable
+class NavigationTraverser @Inject constructor(private val root: NavigableCompat) {
 
   fun getGlobalBackStack(): NavigationNode {
     return constructTree(root)
