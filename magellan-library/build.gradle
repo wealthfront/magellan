@@ -26,7 +26,7 @@ android {
 
   kotlinOptions {
     jvmTarget = "1.8"
-    freeCompilerArgs = ['-Xjvm-default=compatibility']
+    freeCompilerArgs = ["-Xjvm-default=compatibility", "-Xopt-in=kotlin.RequiresOptIn"]
   }
   
   testOptions {
@@ -51,6 +51,8 @@ dependencies {
   implementation Dependencies.appCompat
   implementation Dependencies.lifecycle
   implementation Dependencies.inject
+  implementation Dependencies.coroutines
+  implementation Dependencies.coroutinesAndroid
 
   testImplementation Dependencies.testCore
   testImplementation Dependencies.junit
@@ -58,6 +60,7 @@ dependencies {
   testImplementation Dependencies.mockito
   testImplementation Dependencies.archTesting
   testImplementation Dependencies.robolectric
+  testImplementation Dependencies.coroutinesTest
 
   lintPublish project(':magellan-lint')
 }

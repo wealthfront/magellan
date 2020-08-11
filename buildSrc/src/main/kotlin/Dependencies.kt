@@ -1,5 +1,6 @@
 import Versions.archVersion
 import Versions.butterKnifeVersion
+import Versions.coroutinesVersion
 import Versions.daggerVersion
 import Versions.espressoVersion
 import Versions.extVersion
@@ -45,6 +46,9 @@ object Dependencies {
   const val dagger = "com.google.dagger:dagger:$daggerVersion"
   const val daggerCompiler = "com.google.dagger:dagger-compiler:$daggerVersion"
   const val inject = "javax.inject:javax.inject:$javaInjectVersion"
+  const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+  const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+  const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
 
   const val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
   const val rxjava = "io.reactivex:rxjava:$rxjavaVersion"
