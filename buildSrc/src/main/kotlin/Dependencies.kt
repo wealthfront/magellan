@@ -4,6 +4,7 @@ import Versions.coroutinesVersion
 import Versions.daggerVersion
 import Versions.espressoVersion
 import Versions.extVersion
+import Versions.glideVersion
 import Versions.jacksonVersion
 import Versions.javaInjectVersion
 import Versions.junitVersion
@@ -50,6 +51,7 @@ object Dependencies {
   const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
   const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
 
+  const val glide = "com.github.bumptech.glide:glide:$glideVersion"
   const val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
   const val rxjava = "io.reactivex:rxjava:$rxjavaVersion"
   const val rxjava2 = "io.reactivex.rxjava2:rxjava:$rxjava2Version"

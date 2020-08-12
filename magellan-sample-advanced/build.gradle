@@ -51,11 +51,14 @@ dependencies {
   implementation Dependencies.dagger
   kapt Dependencies.daggerCompiler
 
+  implementation Dependencies.glide
   implementation Dependencies.retrofit
   implementation Dependencies.rxjavaAdapter
   implementation Dependencies.rxandroid
   implementation Dependencies.jackson
   implementation Dependencies.okhttp
+  implementation Dependencies.coroutines
+  implementation Dependencies.coroutinesAndroid
 
   testImplementation Dependencies.junit
   testImplementation Dependencies.mockito

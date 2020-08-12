@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.sample.advanced;
 
 import com.wealthfront.magellan.navigation.NavigationTraverser;
+import com.wealthfront.magellan.sample.advanced.api.DogApi;
 
 import javax.inject.Singleton;
 
@@ -16,13 +17,7 @@ import rx.schedulers.Schedulers;
 @Module
 final class AppModule {
 
-  private static final String NOAA_API_BASE_URL = "https://tidesandcurrents.noaa.gov/";
-
-  @Provides
-  @Singleton
-  NavigationTraverser provideNavigationTraverser(Expedition root) {
-    return new NavigationTraverser(root);
-  }
+  private static final String DOG_BASE_URL = "https://dog.ceo/api/";
 
   @Provides
   @Singleton
@@ -32,15 +27,21 @@ final class AppModule {
 
   @Provides
   @Singleton
-  NoaaApi provideNoaaApi(Retrofit retrofit) {
-    return retrofit.create(NoaaApi.class);
+  NavigationTraverser provideNavigationTraverser(Expedition root) {
+    return new NavigationTraverser(root);
+  }
+
+  @Provides
+  @Singleton
+  DogApi provideDogApi(Retrofit retrofit) {
+    return retrofit.create(DogApi.class);
   }
 
   @Provides
   @Singleton
   Retrofit provideRetrofit(OkHttpClient httpClient) {
     return new Retrofit.Builder()
-        .baseUrl(NOAA_API_BASE_URL)
+        .baseUrl(DOG_BASE_URL)
         .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
         .addConverterFactory(JacksonConverterFactory.create())
         .client(httpClient)

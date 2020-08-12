@@ -67,7 +67,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   }
 
   /**
-   * @return the Activity associated with this Screen or null if we are not in between {@link #onShow(Context)} and\
+   * @return the Activity associated with this Screen or null if we are not in between {@link #onShow(Context)} and
    * {@link #onHide(Context)}.
    */
   public final Activity getActivity() {
