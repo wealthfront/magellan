@@ -14,7 +14,6 @@ import com.wealthfront.magellan.sample.advanced.R
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.advanced.api.DogApi
 import com.wealthfront.magellan.sample.advanced.databinding.DogBreedBinding
-import java.io.IOException
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
@@ -31,11 +30,11 @@ class DogBreedsStep : Step<DogBreedBinding>(DogBreedBinding::inflate) {
   override fun onShow(context: Context, binding: DogBreedBinding) {
     scope.launch {
       // show loading
-      try {
-        val breeds = api.getListOfAllBreedsOfRetriever()
-        binding.dogBreeds.adapter = DogBreedListAdapter(context, breeds.message)
-      } catch (exception: IOException) {
-        Toast.makeText(context, "Exception occurred", LENGTH_SHORT).show()
+      val breeds = runCatching { api.getListOfAllBreedsOfRetriever() }
+      breeds.onSuccess {
+        binding.dogBreeds.adapter = DogBreedListAdapter(context, it.message)
+      }.onFailure {
+        Toast.makeText(context, it.message, LENGTH_SHORT).show()
       }
       // hide loading
     }
