@@ -8,7 +8,7 @@ android {
 
   defaultConfig {
     applicationId "com.wealthfront.magellan.sample"
-    minSdkVersion Versions.minSdkVersion
+    minSdkVersion 21
     targetSdkVersion Versions.targetSdkVersion
     versionCode 1
     versionName "1.0"

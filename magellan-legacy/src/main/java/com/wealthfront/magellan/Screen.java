@@ -126,7 +126,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
     return true;
   }
 
-  public String getTitle(Context context) {
+  public String getTitle(@NotNull Context context) {
     return "";
   }
 
@@ -147,7 +147,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   /**
    * Override this method to dynamically change the menu.
    */
-  protected void onUpdateMenu(Menu menu) {}
+  protected void onUpdateMenu(@NotNull Menu menu) { }
 
   /**
    * Called when the Screen is navigated to from before the screen is shown (not triggered on rotation).
