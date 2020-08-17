@@ -1,7 +1,7 @@
 package com.wealthfront.magellan.navigation
 
+import android.app.Activity
 import android.content.Context
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.Step
@@ -9,6 +9,7 @@ import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Robolectric.buildActivity
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
@@ -25,9 +26,11 @@ class NavigationTraverserTest {
   private lateinit var journey2: Journey<*>
   private lateinit var step4: Step<*>
   private lateinit var journey3: Journey<*>
+  private lateinit var context: Activity
 
   @Before
   fun setUp() {
+    context = buildActivity(Activity::class.java).get()
     oneStepRoot = RootJourney()
     multiStepRoot = MultiStepJourney()
     siblingRoot = SiblingJourney()
@@ -44,7 +47,7 @@ class NavigationTraverserTest {
   fun globalBackStackWithOneStep() {
     traverser = NavigationTraverser(oneStepRoot)
 
-    oneStepRoot.create(getApplicationContext())
+    oneStepRoot.create(context)
 
     assertThat(traverser.printGlobalBackstack()).isEqualTo("""
       
@@ -58,7 +61,7 @@ class NavigationTraverserTest {
   fun globalBackStackWithMultipleStep() {
     traverser = NavigationTraverser(multiStepRoot)
 
-    multiStepRoot.create(getApplicationContext())
+    multiStepRoot.create(context)
 
     assertThat(traverser.printGlobalBackstack()).isEqualTo("""
       
@@ -73,7 +76,7 @@ class NavigationTraverserTest {
   fun globalBackStackWithSiblingJourney() {
     traverser = NavigationTraverser(siblingRoot)
 
-    siblingRoot.create(getApplicationContext())
+    siblingRoot.create(context)
 
     assertThat(traverser.printGlobalBackstack()).isEqualTo("""
       

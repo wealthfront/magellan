@@ -27,6 +27,8 @@ class DogBreedsStep : Step<DogBreedBinding>(DogBreedBinding::inflate) {
     app(context).injector().inject(this)
   }
 
+  override fun getActionBarColorRes() = R.color.water
+
   override fun onShow(context: Context, binding: DogBreedBinding) {
     scope.launch {
       // show loading

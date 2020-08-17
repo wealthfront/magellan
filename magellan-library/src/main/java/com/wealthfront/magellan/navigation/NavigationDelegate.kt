@@ -1,6 +1,10 @@
 package com.wealthfront.magellan.navigation
 
+import android.app.Activity
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import android.view.Menu
 import android.view.View
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.Direction.BACKWARD
@@ -9,18 +13,28 @@ import com.wealthfront.magellan.NavigationType
 import com.wealthfront.magellan.NavigationType.GO
 import com.wealthfront.magellan.NavigationType.SHOW
 import com.wealthfront.magellan.ScreenContainer
+import com.wealthfront.magellan.core.Journey
+import com.wealthfront.magellan.core.childNavigables
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.LifecycleState
 import com.wealthfront.magellan.transitions.DefaultTransition
+import com.wealthfront.magellan.view.ActionBarConfig
 import com.wealthfront.magellan.view.whenMeasured
 import java.util.Stack
 
 class NavigationDelegate(
+  private val rootNavigable: NavigableCompat,
   private val container: () -> ScreenContainer
 ) : LifecycleAwareComponent() {
 
   private var containerView: ScreenContainer? = null
   private val navigationPropagator = NavigationPropagator
+  private var activity: Activity? = null
+  var menu: Menu? = null
+    set(value) {
+      field = value
+      updateMenu(menu)
+    }
 
   val backStack: Stack<NavigationEvent> = Stack()
   var currentNavigableSetup: ((NavigableCompat) -> Unit)? = null
@@ -37,6 +51,10 @@ class NavigationDelegate(
   private val context: Context?
     get() = currentState.context
 
+  override fun onCreate(context: Context) {
+    activity = context as Activity
+  }
+
   override fun onShow(context: Context) {
     containerView = container()
     currentNavigable?.let {
@@ -50,6 +68,8 @@ class NavigationDelegate(
     }
     backStack.clear()
     containerView = null
+    menu = null
+    activity = null
   }
 
   fun goTo(nextNavigableCompat: NavigableCompat) {
@@ -126,6 +146,7 @@ class NavigationDelegate(
       FORWARD -> LifecycleState.Destroyed
       BACKWARD -> currentState.getEarlierOfCurrentState()
     })
+    setupCurrentScreenToBeShown(currentNavigable!!)
     when (currentState) {
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
         containerView!!.addView(currentNavigable!!.view!!)
@@ -160,4 +181,37 @@ class NavigationDelegate(
   }
 
   private fun atRoot() = backStack.size <= 1
+
+  private fun setupCurrentScreenToBeShown(currentNavigable: NavigableCompat) {
+    if (currentNavigable is Journey<*>) {
+      menu?.let { currentNavigable.setMenu(it) }
+    }
+    currentNavigable.setTitle(currentNavigable.getTitle(activity!!))
+    updateMenu(menu, currentNavigable)
+    callOnNavigate(currentNavigable)
+  }
+
+  private fun updateMenu(menu: Menu?, navItem: NavigableCompat? = null) {
+    // Need to post to avoid animation bug on disappearing menu
+    Handler(Looper.getMainLooper()).post {
+      menu?.let {
+        for (i in 0 until menu.size()) {
+          menu.getItem(i).isVisible = false
+          rootNavigable.onUpdateMenu(menu)
+          rootNavigable.childNavigables().forEach { it.onUpdateMenu(menu) }
+          navItem?.onUpdateMenu(menu)
+          navItem?.childNavigables()?.forEach { it.onUpdateMenu(menu) }
+        }
+      }
+    }
+  }
+
+  private fun callOnNavigate(navItem: NavigableCompat) {
+    (activity as? ActionBarConfigListener)?.onNavigate(
+      ActionBarConfig.with()
+        .visible(navItem.shouldShowActionBar())
+        .animated(navItem.shouldAnimateActionBar())
+        .colorRes(navItem.getActionBarColorRes())
+        .build())
+  }
 }

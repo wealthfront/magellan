@@ -42,6 +42,7 @@ class DogDetailsScreen(private val breed: String) : Screen<DogDetailsView>() {
       .observeOn(mainThread())
       .subscribe {
         view!!.setDogPic(it.message)
+        setTitle(breed)
       })
   }
 

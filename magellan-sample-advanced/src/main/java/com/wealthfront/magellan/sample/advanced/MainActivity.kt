@@ -5,20 +5,19 @@ import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.Menu
 import android.view.Window
-import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.wealthfront.magellan.ActionBarConfig
-import com.wealthfront.magellan.NavigationListener
-import com.wealthfront.magellan.Screen.DEFAULT_ACTION_BAR_COLOR_RES
 import com.wealthfront.magellan.lifecycle.setContentScreen
+import com.wealthfront.magellan.navigation.ActionBarConfigListener
+import com.wealthfront.magellan.navigation.DEFAULT_ACTION_BAR_COLOR_RES
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
+import com.wealthfront.magellan.view.ActionBarConfig
 import javax.inject.Inject
 
 private const val DEFAULT_ANIM_DURATION_MS = 300L
 
-class MainActivity : AppCompatActivity(), NavigationListener {
+class MainActivity : AppCompatActivity(), ActionBarConfigListener {
 
   @Inject lateinit var expedition: Expedition
 

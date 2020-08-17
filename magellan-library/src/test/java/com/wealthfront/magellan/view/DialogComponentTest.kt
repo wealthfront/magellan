@@ -29,8 +29,8 @@ class DialogComponentTest {
   @Before
   fun setUp() {
     initMocks(this)
-    dialogCreator1 = DialogCreator { context -> dialog1 }
-    dialogCreator2 = DialogCreator { context -> dialog2 }
+    dialogCreator1 = DialogCreator { dialog1 }
+    dialogCreator2 = DialogCreator { dialog2 }
   }
 
   @Test
