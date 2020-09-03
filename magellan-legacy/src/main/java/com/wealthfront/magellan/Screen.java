@@ -9,6 +9,7 @@ import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent;
 import com.wealthfront.magellan.lifecycle.LifecycleState;
 import com.wealthfront.magellan.navigation.NavigableCompat;
 import com.wealthfront.magellan.view.DialogComponent;
+import com.wealthfront.magellan.view.ActionBarModifier;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,8 +38,7 @@ import androidx.annotation.NonNull;
  * }
  * </code> </pre>
  */
-public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements
-    NavigableCompat {
+public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements NavigableCompat, ActionBarModifier {
 
   private final DialogComponent dialogComponent = new DialogComponent();
 
@@ -156,6 +156,14 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    */
   public boolean handleBack() {
     return backPressed();
+  }
+
+  /**
+   * Finish the Activity, and therefore quit the app in a Single Activity Architecture.
+   */
+  public boolean quit() {
+    activity.finish();
+    return true;
   }
 
   /**

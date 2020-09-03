@@ -9,7 +9,7 @@ import android.view.View
 import androidx.annotation.VisibleForTesting
 import androidx.viewbinding.ViewBinding
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
-import com.wealthfront.magellan.view.lifecycleWithContext
+import com.wealthfront.magellan.lifecycle.lifecycleWithContext
 
 abstract class Step<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V

@@ -19,6 +19,7 @@ import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.LifecycleState
 import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.view.ActionBarConfig
+import com.wealthfront.magellan.view.ActionBarModifier
 import com.wealthfront.magellan.view.whenMeasured
 import java.util.Stack
 
@@ -197,21 +198,23 @@ class NavigationDelegate(
       menu?.let {
         for (i in 0 until menu.size()) {
           menu.getItem(i).isVisible = false
-          rootNavigable.onUpdateMenu(menu)
-          rootNavigable.childNavigables().forEach { it.onUpdateMenu(menu) }
-          navItem?.onUpdateMenu(menu)
-          navItem?.childNavigables()?.forEach { it.onUpdateMenu(menu) }
+          (rootNavigable as? ActionBarModifier)?.onUpdateMenu(menu)
+          rootNavigable.childNavigables().filterIsInstance(ActionBarModifier::class.java).forEach { it.onUpdateMenu(menu) }
+          (navItem as? ActionBarModifier)?.onUpdateMenu(menu)
+          navItem?.childNavigables()?.filterIsInstance(ActionBarModifier::class.java)?.forEach { it.onUpdateMenu(menu) }
         }
       }
     }
   }
 
   private fun callOnNavigate(navItem: NavigableCompat) {
-    (activity as? ActionBarConfigListener)?.onNavigate(
-      ActionBarConfig.with()
-        .visible(navItem.shouldShowActionBar())
-        .animated(navItem.shouldAnimateActionBar())
-        .colorRes(navItem.getActionBarColorRes())
-        .build())
+    if (navItem is ActionBarModifier) {
+      (activity as? ActionBarConfigListener)?.onNavigate(
+        ActionBarConfig.with()
+          .visible(navItem.shouldShowActionBar())
+          .animated(navItem.shouldAnimateActionBar())
+          .colorRes(navItem.getActionBarColorRes())
+          .build())
+    }
   }
 }

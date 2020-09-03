@@ -12,6 +12,7 @@ import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
 import com.wealthfront.magellan.view.ActionBarConfig
+import com.wealthfront.magellan.view.ActionBarModifier
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -67,13 +68,13 @@ class LinearNavigatorTest {
   fun goTo() {
     linearNavigator.menu = menu
 
-    verify(journey1).onUpdateMenu(menu)
+    verify(journey1 as ActionBarModifier).onUpdateMenu(menu)
 
     linearNavigator.goTo(step1)
 
     verify(step1).setTitle(anyString())
-    verify(journey1, times(2)).onUpdateMenu(menu)
-    verify(step1).onUpdateMenu(menu)
+    verify(journey1 as ActionBarModifier, times(2)).onUpdateMenu(menu)
+    verify(step1 as ActionBarModifier).onUpdateMenu(menu)
     verify(context as ActionBarConfigListener).onNavigate(any())
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
@@ -191,7 +192,7 @@ private open class FakeActivity : AppCompatActivity(), ActionBarConfigListener {
   override fun onNavigate(actionBarConfig: ActionBarConfig) {}
 }
 
-private open class DummyStep : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
+private open class DummyStep : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate), ActionBarModifier
 private open class DummyJourney : Journey<MagellanDummyLayoutBinding>(
   MagellanDummyLayoutBinding::inflate,
-  MagellanDummyLayoutBinding::container)
+  MagellanDummyLayoutBinding::container), ActionBarModifier
