@@ -13,7 +13,7 @@ internal val INVALID_CHILD_IN_SCREEN_CONTAINER = Issue.create(
   id = InvalidChildInScreenContainer::class.simpleName!!,
   briefDescription = "ScreenContainer should not have child declared in XML.",
   explanation = "ScreenContainers are used to inflate the view's associated with steps/journey's internally." +
-    "If you declare child views in the XML, it may result in expected results.",
+    "If you declare child views in the XML, it may result in unexpected results.",
   category = Category.CORRECTNESS,
   priority = PRIORITY_HIGH,
   severity = ERROR,
