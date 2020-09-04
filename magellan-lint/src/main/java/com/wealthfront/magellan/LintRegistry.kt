@@ -13,7 +13,8 @@ class LintRegistry : IssueRegistry() {
   override val issues: List<Issue>
     get() = listOf(
       INVALID_CHILD_IN_SCREEN_CONTAINER,
-      ENFORCE_LIFECYCLE_AWARE_ATTACHMENT
+      ENFORCE_LIFECYCLE_AWARE_ATTACHMENT,
+      AVOID_USING_ACTIVITY
     )
 
   override val api: Int
