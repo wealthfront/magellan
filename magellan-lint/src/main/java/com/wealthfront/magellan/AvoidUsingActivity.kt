@@ -14,7 +14,7 @@ import org.jetbrains.uast.getContainingUClass
 internal val AVOID_USING_ACTIVITY = Issue.create(
   id = AvoidUsingActivity::class.simpleName!!,
   briefDescription = "Use the context provided in the lifecycle objects instead.",
-  explanation = "Activity is available here only for use to set the title through the navigable compat.",
+  explanation = "Activity is available here only for use to set the title of the navigable.",
   category = Category.CORRECTNESS,
   priority = PRIORITY_MED,
   severity = Severity.WARNING,
