@@ -3,7 +3,7 @@ package com.wealthfront.magellan.view
 import android.content.Context
 import android.widget.FrameLayout
 import com.google.common.truth.Truth.assertThat
-import com.wealthfront.magellan.lifecycle.LifecycleWithContext
+import com.wealthfront.magellan.lifecycle.LifecycleShownWithContext
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
@@ -11,7 +11,7 @@ import org.mockito.MockitoAnnotations.initMocks
 
 class LifecycleViewTest {
 
-  private lateinit var lifecycleView: LifecycleWithContext<FrameLayout>
+  private lateinit var lifecycleView: LifecycleShownWithContext<FrameLayout>
 
   @Mock lateinit var frameLayout: FrameLayout
   @Mock lateinit var context: Context
@@ -19,7 +19,7 @@ class LifecycleViewTest {
   @Before
   fun setUp() {
     initMocks(this)
-    lifecycleView = LifecycleWithContext { frameLayout }
+    lifecycleView = LifecycleShownWithContext { frameLayout }
   }
 
   @Test

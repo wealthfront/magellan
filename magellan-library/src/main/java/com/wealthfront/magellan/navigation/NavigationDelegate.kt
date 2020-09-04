@@ -198,11 +198,11 @@ class NavigationDelegate(
       menu?.let {
         for (i in 0 until menu.size()) {
           menu.getItem(i).isVisible = false
-          (rootNavigable as? ActionBarModifier)?.onUpdateMenu(menu)
-          rootNavigable.childNavigables().filterIsInstance(ActionBarModifier::class.java).forEach { it.onUpdateMenu(menu) }
-          (navItem as? ActionBarModifier)?.onUpdateMenu(menu)
-          navItem?.childNavigables()?.filterIsInstance(ActionBarModifier::class.java)?.forEach { it.onUpdateMenu(menu) }
         }
+        (rootNavigable as? ActionBarModifier)?.onUpdateMenu(menu)
+        rootNavigable.childNavigables().filterIsInstance(ActionBarModifier::class.java).forEach { it.onUpdateMenu(menu) }
+        (navItem as? ActionBarModifier)?.onUpdateMenu(menu)
+        navItem?.childNavigables()?.filterIsInstance(ActionBarModifier::class.java)?.forEach { it.onUpdateMenu(menu) }
       }
     }
   }

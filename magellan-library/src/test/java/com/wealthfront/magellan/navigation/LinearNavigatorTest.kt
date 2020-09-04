@@ -163,6 +163,7 @@ class LinearNavigatorTest {
 
     linearNavigator.goBack()
     linearNavigator.goBack()
+    linearNavigator.pause(context)
     linearNavigator.destroy(context)
 
     assertThat(linearNavigator.backStack.size).isEqualTo(0)
