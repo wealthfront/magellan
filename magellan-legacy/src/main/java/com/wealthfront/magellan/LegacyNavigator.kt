@@ -10,7 +10,7 @@ import com.wealthfront.magellan.navigation.NavigationEvent
 import com.wealthfront.magellan.navigation.Navigator
 import java.util.Stack
 
-class LegacyNavigator internal constructor(
+open class LegacyNavigator internal constructor(
   override val journey: Step<*>,
   container: () -> ScreenContainer
 ) : Navigator, LifecycleAwareComponent() {
@@ -43,6 +43,18 @@ class LegacyNavigator internal constructor(
   }
 
   fun currentScreen() = backStack.peek().navigable
+
+  fun isCurrentScreen(navigable: NavigableCompat) = currentScreen() == navigable
+
+  fun goBackToRoot(navType: NavigationType) {
+    navigate(Direction.BACKWARD) { history ->
+      var navigable: NavigableCompat? = null
+      while (history.size > 1) {
+        navigable = history.pop().navigable
+      }
+      NavigationEvent(navigable!!, NavigationType.GO)
+    }
+  }
 
   fun atRoot() = backStack.size == 1
 

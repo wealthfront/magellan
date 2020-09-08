@@ -14,6 +14,13 @@ public interface ActionBarModifier {
   default void onUpdateMenu(@NotNull Menu menu) {}
 
   /**
+   * @return true if we need to pass the onUpdateMenu calls to the navigables children, false otherwise (false by default).
+   */
+  default boolean shouldShowChildNavigablesMenu() {
+    return false;
+  }
+
+  /**
    * @return true if we should show the ActionBar, false otherwise (true by default).
    */
   default boolean shouldShowActionBar() {
