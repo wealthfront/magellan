@@ -49,7 +49,7 @@ class NavigationTraverserTest {
 
     oneStepRoot.create(context)
 
-    assertThat(traverser.printGlobalBackstack()).isEqualTo("""
+    assertThat(traverser.getGlobalBackstackDescription()).isEqualTo("""
       
       RootJourney
       	DummyJourney1
@@ -63,7 +63,7 @@ class NavigationTraverserTest {
 
     multiStepRoot.create(context)
 
-    assertThat(traverser.printGlobalBackstack()).isEqualTo("""
+    assertThat(traverser.getGlobalBackstackDescription()).isEqualTo("""
       
       MultiStepJourney
       	DummyJourney2
@@ -78,7 +78,7 @@ class NavigationTraverserTest {
 
     siblingRoot.create(context)
 
-    assertThat(traverser.printGlobalBackstack()).isEqualTo("""
+    assertThat(traverser.getGlobalBackstackDescription()).isEqualTo("""
       
       SiblingJourney
       	DummyJourney3

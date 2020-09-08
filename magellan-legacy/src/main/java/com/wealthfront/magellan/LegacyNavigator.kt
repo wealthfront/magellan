@@ -34,6 +34,18 @@ class LegacyNavigator internal constructor(
     }
   }
 
+  fun replaceNow(navigable: NavigableCompat) {
+    delegate.replaceNow(navigable)
+  }
+
+  fun hide(navigable: NavigableCompat) {
+    delegate.hide(navigable)
+  }
+
+  fun currentScreen() = backStack.peek().navigable
+
+  fun atRoot() = backStack.size == 1
+
   fun goTo(navigable: NavigableCompat) {
     delegate.goTo(navigable)
   }
@@ -57,7 +69,5 @@ class LegacyNavigator internal constructor(
     delegate.navigate(direction, backStackOperation)
   }
 
-  fun goBack(): Boolean {
-    return delegate.goBack()
-  }
+  fun goBack() = delegate.goBack()
 }

@@ -20,7 +20,7 @@ class NavigationTraverser(private val root: NavigableCompat) {
     return navNode
   }
 
-  fun printGlobalBackstack(): String {
+  fun getGlobalBackstackDescription(): String {
     val rootNode = getGlobalBackStack()
     val sb = StringBuilder()
     getPrintableGlobalBackstack(rootNode, 0, sb)
@@ -28,7 +28,7 @@ class NavigationTraverser(private val root: NavigableCompat) {
   }
 
   fun logGlobalBackStack() {
-    Log.i(this::class.java.simpleName, printGlobalBackstack())
+    Log.i(this::class.java.simpleName, getGlobalBackstackDescription())
   }
 
   private fun getPrintableGlobalBackstack(navNode: NavigationNode, depth: Int, sb: StringBuilder) {

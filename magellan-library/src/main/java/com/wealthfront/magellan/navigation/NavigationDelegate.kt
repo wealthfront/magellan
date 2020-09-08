@@ -11,6 +11,7 @@ import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.NavigationType
 import com.wealthfront.magellan.NavigationType.GO
+import com.wealthfront.magellan.NavigationType.NO_ANIM
 import com.wealthfront.magellan.NavigationType.SHOW
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Journey
@@ -93,6 +94,19 @@ class NavigationDelegate(
     navigate(FORWARD) { backStack ->
       backStack.pop()
       backStack.push(NavigationEvent(nextNavigableCompat, navType))
+    }
+  }
+
+  fun replaceNow(nextNavigableCompat: NavigableCompat) {
+    navigate(FORWARD) { backStack ->
+      backStack.pop()
+      backStack.push(NavigationEvent(nextNavigableCompat, NO_ANIM))
+    }
+  }
+
+  fun hide(navigableCompat: NavigableCompat) {
+    if (backStack.peek().navigable == navigableCompat) {
+      goBack()
     }
   }
 
@@ -213,7 +227,7 @@ class NavigationDelegate(
         ActionBarConfig.with()
           .visible(navItem.shouldShowActionBar())
           .animated(navItem.shouldAnimateActionBar())
-          .colorRes(navItem.getActionBarColorRes())
+          .colorRes(navItem.actionBarColorRes)
           .build())
     }
   }
