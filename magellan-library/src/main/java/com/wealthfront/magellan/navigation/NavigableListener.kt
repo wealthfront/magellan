@@ -5,8 +5,10 @@ import com.wealthfront.magellan.lifecycle.LifecycleAware
 
 interface NavigableListener : LifecycleAware {
 
+  @JvmDefault
   fun onNavigableShown(navigable: NavigableCompat) {}
 
+  @JvmDefault
   fun onNavigableHidden(navigable: NavigableCompat) {}
 
   @JvmDefault
