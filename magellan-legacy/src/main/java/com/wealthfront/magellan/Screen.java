@@ -162,7 +162,9 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * Finish the Activity, and therefore quit the app in a Single Activity Architecture.
    */
   public boolean quit() {
-    activity.finish();
+    if (activity != null) {
+      activity.finish();
+    }
     return true;
   }
 
