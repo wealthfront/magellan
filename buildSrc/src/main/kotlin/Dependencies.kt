@@ -1,4 +1,5 @@
 import Versions.archVersion
+import Versions.blendVersion
 import Versions.butterKnifeVersion
 import Versions.coroutinesVersion
 import Versions.daggerVersion
@@ -36,6 +37,7 @@ object Dependencies {
   const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   const val kotlinterGradle = "org.jmailen.gradle:kotlinter-gradle:$kotlinterVersion"
 
+  const val blend = "com.wealthfront:blend:$blendVersion"
   const val material = "com.google.android.material:material:$materialVersion"
   const val junit = "junit:junit:$junitVersion"
   const val truth = "com.google.truth:truth:$truthVersion"

@@ -5,6 +5,7 @@ object Versions {
 
   const val kotlinVersion = "1.3.72"
   const val kotlinterVersion = "2.3.2"
+  const val blendVersion = "0.1.0"
   const val buildToolsVersion = "29.0.2"
   const val detektVersion = "1.5.1"
   const val supportLibVersion = "1.1.0"

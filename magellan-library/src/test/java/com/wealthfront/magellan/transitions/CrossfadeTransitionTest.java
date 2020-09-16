@@ -63,7 +63,7 @@ public class CrossfadeTransitionTest {
   }
 
   private void checkAnimate(NavigationType navType, Direction direction) {
-    new CrossfadeTransition().animate(from, to, navType, direction, new Transition.Callback() {
+    new CrossfadeTransition().animate(from, to, direction, new Transition.Callback() {
       @Override
       public void onAnimationEnd() {
         onAnimationEndCalled = true;

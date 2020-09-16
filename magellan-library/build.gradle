@@ -48,6 +48,7 @@ android {
 
 dependencies {
   implementation Dependencies.kotlinStdLib
+  implementation Dependencies.blend
   implementation Dependencies.appCompat
   implementation Dependencies.lifecycle
   implementation Dependencies.inject

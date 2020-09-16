@@ -107,7 +107,7 @@ class NavigationDelegate(
     val transition = DefaultTransition()
     currentNavigable!!.transitionStarted()
     to?.whenMeasured {
-      transition.animate(from, to, navType, direction) {
+      transition.animate(from, to, direction) {
         if (context != null) {
           containerView!!.removeView(from)
           currentNavigable!!.transitionFinished()

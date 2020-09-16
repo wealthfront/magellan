@@ -59,7 +59,8 @@ public class DefaultTransitionTest {
   }
 
   private void checkAnimate(NavigationType navigationType, Direction direction) {
-    new DefaultTransition().animate(new View(getApplicationContext()), new View(getApplicationContext()), navigationType, direction,
+    new DefaultTransition().animate(new View(getApplicationContext()), new View(getApplicationContext()),
+        direction,
         new Transition.Callback() {
           @Override
           public void onAnimationEnd() {
