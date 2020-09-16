@@ -57,7 +57,5 @@ class LegacyNavigator internal constructor(
     delegate.navigate(direction, backStackOperation)
   }
 
-  fun goBack(): Boolean {
-    return delegate.goBack()
-  }
+  fun goBack() = delegate.goBack()
 }
