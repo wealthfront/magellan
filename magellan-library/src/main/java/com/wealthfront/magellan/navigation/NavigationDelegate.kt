@@ -139,15 +139,16 @@ class NavigationDelegate(
   }
 
   private fun showCurrentNavigable(direction: Direction): View? {
-    navigationPropagator.onNavigate()
     currentNavigableSetup?.invoke(currentNavigable!!)
-    navigationPropagator.showCurrentNavigable(currentNavigable!!)
     attachToLifecycle(
       currentNavigable!!, detachedState = when (direction) {
       FORWARD -> LifecycleState.Destroyed
       BACKWARD -> currentState.getEarlierOfCurrentState()
     })
     setupCurrentScreenToBeShown(currentNavigable!!)
+    navigationPropagator.onNavigate()
+    navigationPropagator.showCurrentNavigable(currentNavigable!!)
+    callOnNavigate(currentNavigable!!)
     when (currentState) {
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
         containerView!!.addView(currentNavigable!!.view!!)
@@ -189,11 +190,11 @@ class NavigationDelegate(
     }
     currentNavigable.setTitle(currentNavigable.getTitle(activity!!))
     updateMenu(menu, currentNavigable)
-    callOnNavigate(currentNavigable)
   }
 
   private fun updateMenu(menu: Menu?, navItem: NavigableCompat? = null) {
     // Need to post to avoid animation bug on disappearing menu
+    val updateMenuForNavigable = navItem ?: currentNavigable
     Handler(Looper.getMainLooper()).post {
       menu?.let {
         for (i in 0 until menu.size()) {
@@ -201,8 +202,8 @@ class NavigationDelegate(
         }
         (rootNavigable as? ActionBarModifier)?.onUpdateMenu(menu)
         rootNavigable.childNavigables().filterIsInstance(ActionBarModifier::class.java).forEach { it.onUpdateMenu(menu) }
-        (navItem as? ActionBarModifier)?.onUpdateMenu(menu)
-        navItem?.childNavigables()?.filterIsInstance(ActionBarModifier::class.java)?.forEach { it.onUpdateMenu(menu) }
+        (updateMenuForNavigable as? ActionBarModifier)?.onUpdateMenu(menu)
+        updateMenuForNavigable?.childNavigables()?.filterIsInstance(ActionBarModifier::class.java)?.forEach { it.onUpdateMenu(menu) }
       }
     }
   }
@@ -213,7 +214,7 @@ class NavigationDelegate(
         ActionBarConfig.with()
           .visible(navItem.shouldShowActionBar())
           .animated(navItem.shouldAnimateActionBar())
-          .colorRes(navItem.getActionBarColorRes())
+          .colorRes(navItem.actionBarColorRes)
           .build())
     }
   }
