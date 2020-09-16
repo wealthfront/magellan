@@ -5,13 +5,13 @@ import android.view.View
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
-import com.wealthfront.magellan.NavigationType
-import com.wealthfront.magellan.NavigationType.GO
-import com.wealthfront.magellan.NavigationType.SHOW
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.LifecycleState
 import com.wealthfront.magellan.transitions.DefaultTransition
+import com.wealthfront.magellan.transitions.NoAnimationTransition
+import com.wealthfront.magellan.transitions.ShowTransition
+import com.wealthfront.magellan.transitions.Transition
 import com.wealthfront.magellan.view.whenMeasured
 import java.util.Stack
 
@@ -52,32 +52,32 @@ class NavigationDelegate(
     containerView = null
   }
 
-  fun goTo(nextNavigableCompat: NavigableCompat) {
-    navigateTo(nextNavigableCompat, GO)
+  fun goTo(nextNavigableCompat: NavigableCompat, overrideTransition: Transition? = null) {
+    navigateTo(nextNavigableCompat, overrideTransition ?: DefaultTransition())
   }
 
-  fun show(nextNavigableCompat: NavigableCompat) {
-    navigateTo(nextNavigableCompat, SHOW)
+  fun show(nextNavigableCompat: NavigableCompat, overrideTransition: Transition? = null) {
+    navigateTo(nextNavigableCompat, overrideTransition ?: ShowTransition())
   }
 
-  fun replaceAndGo(nextNavigableCompat: NavigableCompat) {
-    replace(nextNavigableCompat, GO)
+  fun replaceAndGo(nextNavigableCompat: NavigableCompat, overrideTransition: Transition? = null) {
+    replace(nextNavigableCompat, overrideTransition ?: DefaultTransition())
   }
 
-  fun replaceAndShow(nextNavigableCompat: NavigableCompat) {
-    replace(nextNavigableCompat, SHOW)
+  fun replaceAndShow(nextNavigableCompat: NavigableCompat, overrideTransition: Transition? = null) {
+    replace(nextNavigableCompat, overrideTransition ?: ShowTransition())
   }
 
-  private fun replace(nextNavigableCompat: NavigableCompat, navType: NavigationType) {
+  private fun replace(nextNavigableCompat: NavigableCompat, overrideTransition: Transition? = null) {
     navigate(FORWARD) { backStack ->
       backStack.pop()
-      backStack.push(NavigationEvent(nextNavigableCompat, navType))
+      backStack.push(NavigationEvent(nextNavigableCompat, overrideTransition ?: ShowTransition()))
     }
   }
 
-  private fun navigateTo(nextNavigableCompat: NavigableCompat, navType: NavigationType) {
+  private fun navigateTo(nextNavigableCompat: NavigableCompat, overrideTransition: Transition? = null) {
     navigate(FORWARD) { backStack ->
-      backStack.push(NavigationEvent(nextNavigableCompat, navType))
+      backStack.push(NavigationEvent(nextNavigableCompat, overrideTransition ?: DefaultTransition()))
     }
   }
 
@@ -89,22 +89,22 @@ class NavigationDelegate(
 
   fun navigate(
     direction: Direction,
-    backStackOperation: (Stack<NavigationEvent>) -> NavigationEvent
+    backStackOperation: (Stack<NavigationEvent>) -> Unit
   ) {
     containerView?.setInterceptTouchEvents(true)
     val from = hideCurrentNavigable(direction)
-    val navType = backStackOperation.invoke(backStack).navigationType
+    backStackOperation.invoke(backStack)
+    val transition = backStack.peek().transition
     val to = showCurrentNavigable(direction)
-    animateAndRemove(from, to, direction, navType)
+    animateAndRemove(from, to, direction, transition)
   }
 
   private fun animateAndRemove(
     from: View?,
     to: View?,
     direction: Direction,
-    navType: NavigationType
+    transition: Transition
   ) {
-    val transition = DefaultTransition()
     currentNavigable!!.transitionStarted()
     to?.whenMeasured {
       transition.animate(from, to, direction) {

@@ -3,12 +3,12 @@ package com.wealthfront.magellan.navigation
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.Direction.FORWARD
-import com.wealthfront.magellan.NavigationType.GO
-import com.wealthfront.magellan.NavigationType.SHOW
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
+import com.wealthfront.magellan.transitions.DefaultTransition
+import com.wealthfront.magellan.transitions.ShowTransition
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -48,7 +48,7 @@ class LinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().transition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
@@ -57,7 +57,7 @@ class LinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(SHOW)
+    assertThat(linearNavigator.backStack.peek().transition.javaClass).isEqualTo(ShowTransition::class.java)
   }
 
   @Test
@@ -67,7 +67,7 @@ class LinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().transition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
@@ -77,7 +77,7 @@ class LinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(SHOW)
+    assertThat(linearNavigator.backStack.peek().transition.javaClass).isEqualTo(ShowTransition::class.java)
   }
 
   @Test
@@ -89,7 +89,7 @@ class LinearNavigatorTest {
     assertThat(didNavigate).isTrue()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().transition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
@@ -100,15 +100,15 @@ class LinearNavigatorTest {
     assertThat(didNavigate).isFalse()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().transition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
   fun goBack_journey_back() {
     linearNavigator.navigate(FORWARD) {
-      it.push(NavigationEvent(step1, GO))
-      it.push(NavigationEvent(step2, GO))
-      it.push(NavigationEvent(journey1, SHOW))
+      it.push(NavigationEvent(step1, DefaultTransition()))
+      it.push(NavigationEvent(step2, DefaultTransition()))
+      it.push(NavigationEvent(journey1, ShowTransition()))
     }
 
     val didNavigate = linearNavigator.goBack()
@@ -116,15 +116,15 @@ class LinearNavigatorTest {
     assertThat(didNavigate).isTrue()
     assertThat(linearNavigator.backStack.size).isEqualTo(2)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().transition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
   fun destroy() {
     linearNavigator.navigate(FORWARD) {
-      it.push(NavigationEvent(step1, GO))
-      it.push(NavigationEvent(step2, GO))
-      it.push(NavigationEvent(journey1, SHOW))
+      it.push(NavigationEvent(step1, DefaultTransition()))
+      it.push(NavigationEvent(step2, DefaultTransition()))
+      it.push(NavigationEvent(journey1, ShowTransition()))
     }
 
     linearNavigator.resume(getApplicationContext())
@@ -139,7 +139,7 @@ class LinearNavigatorTest {
   @Test
   fun goBack_backOutOfJourney() {
     linearNavigator.navigate(FORWARD) {
-      it.push(NavigationEvent(journey1, SHOW))
+      it.push(NavigationEvent(journey1, ShowTransition()))
     }
 
     val didNavigate = linearNavigator.goBack()

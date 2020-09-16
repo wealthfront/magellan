@@ -1,11 +1,11 @@
 package com.wealthfront.magellan.navigation
 
-import com.wealthfront.magellan.NavigationType
+import com.wealthfront.magellan.transitions.Transition
 import java.util.Stack
 
 data class NavigationEvent(
   val navigable: NavigableCompat,
-  val navigationType: NavigationType
+  val transition: Transition
 )
 
 internal fun Stack<NavigationEvent>.navigables(): List<NavigableCompat> {
