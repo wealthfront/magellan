@@ -1,11 +1,8 @@
-package com.wealthfront.magellan.view
+package com.wealthfront.magellan.lifecycle
 
 import android.content.Context
-import com.wealthfront.magellan.lifecycle.LifecycleAware
-import com.wealthfront.magellan.lifecycle.LifecycleOwner
-import com.wealthfront.magellan.lifecycle.lifecycle
 
-open class LifecycleWithContext<V>(
+class LifecycleWithContext<V>(
   val supplier: (Context) -> V
 ) : LifecycleAware {
 

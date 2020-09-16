@@ -3,22 +3,20 @@ package com.wealthfront.magellan;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.view.Menu;
 import android.view.ViewGroup;
 
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent;
 import com.wealthfront.magellan.lifecycle.LifecycleState;
 import com.wealthfront.magellan.navigation.NavigableCompat;
 import com.wealthfront.magellan.view.DialogComponent;
+import com.wealthfront.magellan.view.ActionBarModifier;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
 
 /**
  * Screens are where your logic lives (you can think of it as a Presenter in the MVP pattern, or a Controller
@@ -40,10 +38,7 @@ import androidx.annotation.StringRes;
  * }
  * </code> </pre>
  */
-public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements
-    NavigableCompat {
-
-  public static final int DEFAULT_ACTION_BAR_COLOR_RES = 0;
+public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements NavigableCompat, ActionBarModifier {
 
   private final DialogComponent dialogComponent = new DialogComponent();
 
@@ -113,41 +108,10 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   }
 
   /**
-   * @return true if we should show the ActionBar, false otherwise (true by default).
-   */
-  protected boolean shouldShowActionBar() {
-    return true;
-  }
-
-  /**
-   * @return true if we should animate the ActionBar, false otherwise (true by default).
-   */
-  protected boolean shouldAnimateActionBar() {
-    return true;
-  }
-
-  public String getTitle(Context context) {
-    return "";
-  }
-
-  /**
-   * @return the color of the ActionBar (invalid by default).
-   */
-  @ColorRes
-  protected int getActionBarColorRes() {
-    return DEFAULT_ACTION_BAR_COLOR_RES;
-  }
-
-  /**
    * The only mandatory method to implement in a Screen. <b>Must</b> create and return a new instance of the View
    * to be displayed for this Screen.
    */
   protected abstract V createView(Context context);
-
-  /**
-   * Override this method to dynamically change the menu.
-   */
-  protected void onUpdateMenu(Menu menu) {}
 
   /**
    * Called when the Screen is navigated to from before the screen is shown (not triggered on rotation).
@@ -197,19 +161,11 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   /**
    * Finish the Activity, and therefore quit the app in a Single Activity Architecture.
    */
-  protected final boolean quit() {
-    if (getActivity() != null) {
-      getActivity().finish();
+  public boolean quit() {
+    if (activity != null) {
+      activity.finish();
     }
     return true;
-  }
-
-  protected final void setTitle(@StringRes int titleResId) {
-    activity.setTitle(titleResId);
-  }
-
-  protected final void setTitle(CharSequence title) {
-    activity.setTitle(title);
   }
 
   /**

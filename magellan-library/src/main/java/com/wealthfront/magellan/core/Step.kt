@@ -1,5 +1,6 @@
 package com.wealthfront.magellan.core
 
+import android.app.Activity
 import android.content.Context
 import android.os.Parcelable
 import android.util.SparseArray
@@ -8,13 +9,15 @@ import android.view.View
 import androidx.annotation.VisibleForTesting
 import androidx.viewbinding.ViewBinding
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
-import com.wealthfront.magellan.view.lifecycleWithContext
+import com.wealthfront.magellan.lifecycle.lifecycleWithContext
 
 abstract class Step<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V
 ) : Navigable, LifecycleAwareComponent() {
 
   private var viewState: SparseArray<Parcelable>? = null
+
+  final override var activity: Activity? by lifecycleWithContext { it as Activity }
 
   var viewBinding: V? by lifecycleWithContext { createBinding.invoke(LayoutInflater.from(it)) }
     @VisibleForTesting set

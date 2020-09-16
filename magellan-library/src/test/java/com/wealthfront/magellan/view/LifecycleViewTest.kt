@@ -3,6 +3,7 @@ package com.wealthfront.magellan.view
 import android.content.Context
 import android.widget.FrameLayout
 import com.google.common.truth.Truth.assertThat
+import com.wealthfront.magellan.lifecycle.LifecycleWithContext
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock

@@ -1,5 +1,7 @@
 package com.wealthfront.magellan
 
+import android.view.Menu
+import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.lifecycle
 import com.wealthfront.magellan.navigation.NavigableCompat
@@ -9,13 +11,20 @@ import com.wealthfront.magellan.navigation.Navigator
 import java.util.Stack
 
 class LegacyNavigator internal constructor(
+  override val journey: Step<*>,
   container: () -> ScreenContainer
 ) : Navigator, LifecycleAwareComponent() {
 
-  private val delegate by lifecycle(NavigationDelegate(container))
+  private val delegate by lifecycle(NavigationDelegate(journey, container))
 
   override val backStack: Stack<NavigationEvent>
     get() = delegate.backStack
+
+  internal var menu: Menu? = null
+    set(value) {
+      field = value
+      delegate.menu = value
+    }
 
   init {
     delegate.currentNavigableSetup = { navItem ->
