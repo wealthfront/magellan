@@ -31,6 +31,9 @@ class LegacyNavigator internal constructor(
       if (navItem is Screen<*>) {
         navItem.setNavigator(this)
       }
+      if (navItem is MultiScreen<*>) {
+        navItem.screens.forEach { it.setNavigator(this) }
+      }
     }
   }
 
@@ -57,7 +60,5 @@ class LegacyNavigator internal constructor(
     delegate.navigate(direction, backStackOperation)
   }
 
-  fun goBack(): Boolean {
-    return delegate.goBack()
-  }
+  fun goBack() = delegate.goBack()
 }
