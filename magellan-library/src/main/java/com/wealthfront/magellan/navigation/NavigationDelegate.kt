@@ -153,7 +153,6 @@ class NavigationDelegate(
   }
 
   private fun showCurrentNavigable(direction: Direction): View? {
-    navigationPropagator.onNavigate()
     currentNavigableSetup?.invoke(currentNavigable!!)
     attachToLifecycle(
       currentNavigable!!, detachedState = when (direction) {
@@ -161,6 +160,7 @@ class NavigationDelegate(
       BACKWARD -> currentState.getEarlierOfCurrentState()
     })
     setupCurrentScreenToBeShown(currentNavigable!!)
+    navigationPropagator.onNavigate()
     navigationPropagator.showCurrentNavigable(currentNavigable!!)
     callOnNavigate(currentNavigable!!)
     when (currentState) {

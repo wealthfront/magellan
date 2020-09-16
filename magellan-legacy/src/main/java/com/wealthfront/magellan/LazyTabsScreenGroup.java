@@ -17,8 +17,8 @@ import androidx.annotation.VisibleForTesting;
 
 public abstract class LazyTabsScreenGroup<S extends Screen, V extends ViewGroup & ScreenView> extends Screen<V> {
 
-  @VisibleForTesting List<LazyScreen<S>> lazyScreens;
-  @VisibleForTesting LazyScreen<S> selectedLazyScreen;
+  @VisibleForTesting List<S> lazyScreens;
+  @VisibleForTesting S selectedLazyScreen;
 
   public LazyTabsScreenGroup() {
     this(new ArrayList<>());
@@ -31,7 +31,7 @@ public abstract class LazyTabsScreenGroup<S extends Screen, V extends ViewGroup 
 
   public void addScreen(S screen) {
     attachToLifecycleWithNavigator(screen);
-    lazyScreens.add(new LazyScreen<>(screen));
+    lazyScreens.add(screen);
     if (selectedLazyScreen == null) {
       selectedLazyScreen = lazyScreens.get(0);
     }
@@ -54,9 +54,9 @@ public abstract class LazyTabsScreenGroup<S extends Screen, V extends ViewGroup 
     }, Destroyed.INSTANCE);
   }
 
-  private LazyScreen<S> findLazyScreen(S screen) {
-    for (LazyScreen<S> lazyScreen : lazyScreens) {
-      if (lazyScreen.getScreen() == screen) {
+  private S findLazyScreen(S screen) {
+    for (S lazyScreen : lazyScreens) {
+      if (lazyScreen == screen) {
         return lazyScreen;
       }
     }
@@ -64,7 +64,7 @@ public abstract class LazyTabsScreenGroup<S extends Screen, V extends ViewGroup 
   }
 
   public void setSelectedScreen(S screen) {
-    LazyScreen<S> lazyScreen = findLazyScreen(screen);
+    S lazyScreen = findLazyScreen(screen);
     if (selectedLazyScreen == lazyScreen || getActivity() == null) {
       return;
     }
@@ -75,29 +75,25 @@ public abstract class LazyTabsScreenGroup<S extends Screen, V extends ViewGroup 
   }
 
   public S getSelectedScreen() {
-    return selectedLazyScreen.getScreen();
+    return selectedLazyScreen;
   }
 
   @Override
   public void onUpdateMenu(@NotNull Menu menu) {
-    selectedLazyScreen.getScreen().onUpdateMenu(menu);
+    selectedLazyScreen.onUpdateMenu(menu);
   }
 
   @Override
   protected void onShow(@NotNull Context context) {
-    for (LazyScreen<S> screen : lazyScreens) {
-      screen.setLoaded(false);
-    }
     showSelectedScreen();
   }
 
   @VisibleForTesting
   protected void showSelectedScreen() {
-    if (!selectedLazyScreen.isLoaded()) {
-      selectedLazyScreen.setLoaded(true);
-      attachToLifecycle(selectedLazyScreen.getScreen(), Destroyed.INSTANCE);
+    if (selectedLazyScreen.getCurrentState() == Destroyed.INSTANCE) {
+      attachToLifecycle(selectedLazyScreen, Destroyed.INSTANCE);
     }
-    onScreenDisplayed(selectedLazyScreen.getScreen());
+    onScreenDisplayed(selectedLazyScreen);
   }
 
   public abstract void onScreenDisplayed(S screen);
@@ -105,26 +101,19 @@ public abstract class LazyTabsScreenGroup<S extends Screen, V extends ViewGroup 
   @NotNull
   @Override
   public String getTitle(@NotNull Context context) {
-    return selectedLazyScreen.getScreen().getTitle(context);
+    return selectedLazyScreen.getTitle(context);
   }
 
   @Override
   protected void onHide(@NotNull Context context) {
-    for (LazyScreen<S> screen : lazyScreens) {
-      if (screen.isLoaded()) {
-        screen.setLoaded(false);
-        removeFromLifecycle(screen.getScreen(), Destroyed.INSTANCE);
+    for (S screen : lazyScreens) {
+      if (screen.getCurrentState() != Destroyed.INSTANCE) {
+        removeFromLifecycle(screen, Destroyed.INSTANCE);
       }
     }
   }
 
   protected final List<S> getScreens() {
-    List<S> screens = new ArrayList<>();
-
-    for (LazyScreen<S> screen : lazyScreens) {
-      screens.add(screen.getScreen());
-    }
-
-    return screens;
+    return lazyScreens;
   }
 }

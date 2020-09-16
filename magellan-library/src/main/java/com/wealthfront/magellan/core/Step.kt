@@ -9,8 +9,7 @@ import android.view.View
 import androidx.annotation.VisibleForTesting
 import androidx.viewbinding.ViewBinding
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
-import com.wealthfront.magellan.lifecycle.lifecycleCreatedWithContext
-import com.wealthfront.magellan.lifecycle.lifecycleShownWithContext
+import com.wealthfront.magellan.lifecycle.lifecycleWithContext
 
 abstract class Step<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V
@@ -18,12 +17,12 @@ abstract class Step<V : ViewBinding>(
 
   private var viewState: SparseArray<Parcelable>? = null
 
-  final override var activity: Activity? by lifecycleCreatedWithContext { it as Activity }
+  final override var activity: Activity? by lifecycleWithContext { it as Activity }
 
-  var viewBinding: V? by lifecycleShownWithContext { createBinding.invoke(LayoutInflater.from(it)) }
+  var viewBinding: V? by lifecycleWithContext { createBinding.invoke(LayoutInflater.from(it)) }
     @VisibleForTesting set
 
-  final override var view: View? by lifecycleShownWithContext { viewBinding!!.root }
+  final override var view: View? by lifecycleWithContext { viewBinding!!.root }
     @VisibleForTesting set
 
   final override fun onShow(context: Context) {
