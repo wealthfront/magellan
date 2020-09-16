@@ -5,7 +5,6 @@ import android.view.Menu;
 import android.view.ViewGroup;
 
 import com.wealthfront.magellan.lifecycle.LifecycleAware;
-import com.wealthfront.magellan.lifecycle.LifecycleState;
 import com.wealthfront.magellan.lifecycle.LifecycleState.Destroyed;
 
 import org.jetbrains.annotations.NotNull;
@@ -15,32 +14,30 @@ import java.util.List;
 
 import androidx.annotation.VisibleForTesting;
 
-public abstract class LazyTabsScreenGroup<S extends Screen, V extends ViewGroup & ScreenView> extends Screen<V> {
+/**
+ * A Screen containing a list of screens which are lazily added to the lifecycle when [setSelectedScreen] method is called.
+ * Useful to display reusable Screens that can be either in another one or on it's own.
+ */
+public abstract class LazyTabsScreenGroup<S extends Screen, V extends ViewGroup & ScreenView> extends Screen<V> implements MultiScreen<S> {
 
-  @VisibleForTesting List<S> lazyScreens;
-  @VisibleForTesting S selectedLazyScreen;
+  private List<S> lazyScreens;
+  private S selectedLazyScreen;
 
   public LazyTabsScreenGroup() {
     this(new ArrayList<>());
   }
 
-  public LazyTabsScreenGroup(List<S> screens) {
+  public LazyTabsScreenGroup(@NotNull List<S> screens) {
     this.lazyScreens = new ArrayList<>();
     addScreens(screens);
   }
 
-  public void addScreen(S screen) {
+  @Override
+  public void addScreen(@NotNull S screen) {
     attachToLifecycleWithNavigator(screen);
     lazyScreens.add(screen);
     if (selectedLazyScreen == null) {
       selectedLazyScreen = lazyScreens.get(0);
-    }
-  }
-
-  public void addScreens(List<S> screens) {
-    for (S screen : screens) {
-      addScreen(screen);
-      attachToLifecycleWithNavigator(screen);
     }
   }
 
@@ -91,7 +88,7 @@ public abstract class LazyTabsScreenGroup<S extends Screen, V extends ViewGroup 
   @VisibleForTesting
   protected void showSelectedScreen() {
     if (selectedLazyScreen.getCurrentState() == Destroyed.INSTANCE) {
-      attachToLifecycle(selectedLazyScreen, Destroyed.INSTANCE);
+      attachToLifecycleWithNavigator(selectedLazyScreen);
     }
     onScreenDisplayed(selectedLazyScreen);
   }
@@ -113,7 +110,8 @@ public abstract class LazyTabsScreenGroup<S extends Screen, V extends ViewGroup 
     }
   }
 
-  protected final List<S> getScreens() {
-    return lazyScreens;
+  @Override
+  public final List<S> getScreens() {
+    return new ArrayList<>(lazyScreens);
   }
 }

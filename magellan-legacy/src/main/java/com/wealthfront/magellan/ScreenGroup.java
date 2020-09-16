@@ -16,25 +16,31 @@ import static com.wealthfront.magellan.lifecycle.LifecycleState.*;
  * A Screen containing a list of screens. Useful to display reusable Screens that can be either in another one or on
  * it's own.
  */
-public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & ScreenView> extends Screen<V> {
+public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & ScreenView> extends Screen<V> implements MultiScreen<S> {
 
   private List<S> screens;
 
   public ScreenGroup() {
-    this.screens = new ArrayList<>();
-    for (S screen : screens) {
-      attachToLifecycleWithNavigator(screen);
-    }
+    this(new ArrayList<>());
   }
 
   public ScreenGroup(@NotNull List<S> screens) {
     this.screens = new ArrayList<>(screens);
-    for (S screen : screens) {
-      attachToLifecycleWithNavigator(screen);
-    }
+    addScreens(screens);
   }
 
-  private void attachToLifecycleWithNavigator(@NotNull Screen screen) {
+  @Override
+  public void addScreen(@NotNull S screen) {
+    screens.add(screen);
+    attachToLifecycleWithNavigator(screen);
+  }
+
+  @NotNull
+  public final List<S> getScreens() {
+    return new ArrayList<>(screens);
+  }
+
+  private void attachToLifecycleWithNavigator(@NotNull S screen) {
     attachToLifecycle(screen, Destroyed.INSTANCE);
     attachToLifecycle(new LifecycleAware() {
       @Override
@@ -42,21 +48,5 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
         screen.setNavigator(getNavigator());
       }
     }, Destroyed.INSTANCE);
-  }
-
-  public void addScreen(@NotNull S screen) {
-    screens.add(screen);
-    attachToLifecycleWithNavigator(screen);
-  }
-
-  public void addScreens(@NotNull List<S> screens) {
-    for (S screen : screens) {
-      addScreen(screen);
-    }
-  }
-
-  @NotNull
-  protected final List<S> getScreens() {
-    return new ArrayList<>(screens);
   }
 }

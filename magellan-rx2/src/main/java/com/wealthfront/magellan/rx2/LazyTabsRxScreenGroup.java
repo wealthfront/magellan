@@ -14,8 +14,7 @@ import java.util.List;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-public abstract class LazyTabsRxScreenGroup<S extends Screen, V extends ViewGroup & ScreenView> extends
-    LazyTabsScreenGroup<S, V> {
+public abstract class LazyTabsRxScreenGroup<S extends Screen, V extends ViewGroup & ScreenView> extends LazyTabsScreenGroup<S, V> {
 
   private CompositeDisposable compositeSubscription = new CompositeDisposable();
 
