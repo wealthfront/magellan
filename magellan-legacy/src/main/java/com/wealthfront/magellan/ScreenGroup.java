@@ -25,7 +25,7 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
   }
 
   public ScreenGroup(@NotNull List<S> screens) {
-    this.screens = new ArrayList<>(screens);
+    this.screens = new ArrayList<>();
     addScreens(screens);
   }
 

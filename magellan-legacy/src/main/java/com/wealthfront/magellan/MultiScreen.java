@@ -9,10 +9,10 @@ public interface MultiScreen<S extends Screen> {
   void addScreen(@NotNull S screen);
 
   default void addScreens(@NotNull List<S> screens) {
-    for (S screen: screens) {
+    for (S screen : screens) {
       addScreen(screen);
     }
-  };
+  }
 
   List<S> getScreens();
 }

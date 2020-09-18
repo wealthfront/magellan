@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.navigation;
 
 import android.content.Context;
+
 import com.wealthfront.magellan.lifecycle.LifecycleAware;
 
 import org.jetbrains.annotations.NotNull;
