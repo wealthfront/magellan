@@ -42,7 +42,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   private final DialogComponent dialogComponent = new DialogComponent();
 
   private @Nullable Activity activity;
-  private @Nullable  V view;
+  private @Nullable V view;
   private boolean isTransitioning;
   private final Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
   private LegacyNavigator navigator;
