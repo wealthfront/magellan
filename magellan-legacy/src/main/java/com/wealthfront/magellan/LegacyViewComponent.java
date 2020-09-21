@@ -15,7 +15,7 @@ public class LegacyViewComponent<V extends ViewGroup & ScreenView> implements Li
   private final Screen<V> screen;
   private SparseArray<Parcelable> viewState;
 
-  public LegacyViewComponent(Screen<V> screen) {
+  public LegacyViewComponent(@NotNull Screen<V> screen) {
     this.screen = screen;
   }
 
@@ -47,7 +47,7 @@ public class LegacyViewComponent<V extends ViewGroup & ScreenView> implements Li
     screen.setActivity(null);
   }
 
-  private void setActivity(Context context) {
+  private void setActivity(@NotNull Context context) {
     screen.setActivity((Activity) context);
   }
 }

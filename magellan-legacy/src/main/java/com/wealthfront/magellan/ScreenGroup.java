@@ -4,6 +4,8 @@ import android.view.ViewGroup;
 
 import com.wealthfront.magellan.lifecycle.LifecycleState;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,16 +21,16 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
     this.screens = new ArrayList<>();
   }
 
-  public ScreenGroup(List<S> screens) {
+  public ScreenGroup(@NotNull List<S> screens) {
     this.screens = new ArrayList<>(screens);
   }
 
-  public void addScreen(S screen) {
+  public void addScreen(@NotNull S screen) {
     attachToLifecycle(screen, LifecycleState.Destroyed.INSTANCE);
     screens.add(screen);
   }
 
-  public void addScreens(List<S> screens) {
+  public void addScreens(@NotNull List<S> screens) {
     for (S screen : screens) {
       addScreen(screen);
     }
