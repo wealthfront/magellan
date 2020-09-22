@@ -12,7 +12,7 @@ abstract class Journey<V : ViewBinding>(
   container: V.() -> ScreenContainer
 ) : Step<V>(createBinding) {
 
-  protected var navigator by lifecycle(LinearNavigator(this) { viewBinding!!.container() })
+  protected open var navigator by lifecycle(LinearNavigator(this) { viewBinding!!.container() })
 
   fun setMenu(menu: Menu) {
     navigator.menu = menu

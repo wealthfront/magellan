@@ -60,7 +60,7 @@ class NavigationDelegate(
   override fun onShow(context: Context) {
     containerView = container()
     currentNavigable?.let {
-      containerView!!.addView(it.view!!)
+      showCurrentNavigable(FORWARD)
     }
   }
 
@@ -223,13 +223,16 @@ class NavigationDelegate(
   }
 
   private fun callOnNavigate(navItem: NavigableCompat) {
-    if (navItem is ActionBarModifier) {
-      (activity as? ActionBarConfigListener)?.onNavigate(
+    val actionBarConfig = if (navItem is ActionBarModifier) {
         ActionBarConfig.with()
           .visible(navItem.shouldShowActionBar())
           .animated(navItem.shouldAnimateActionBar())
           .colorRes(navItem.actionBarColorRes)
-          .build())
+          .build()
+    } else {
+      null
     }
+    (activity as? ActionBarConfigListener)?.onNavigate(actionBarConfig)
+
   }
 }

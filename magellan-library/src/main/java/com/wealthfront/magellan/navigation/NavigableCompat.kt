@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.annotation.StringRes
 import com.wealthfront.magellan.core.Displayable
 import com.wealthfront.magellan.lifecycle.LifecycleAware
-import org.jetbrains.annotations.NotNull
 
 interface NavigableCompat : LifecycleAware, Displayable {
 
@@ -15,7 +14,7 @@ interface NavigableCompat : LifecycleAware, Displayable {
    * @return the title to be displayed on the navigable
    */
   @JvmDefault
-  fun getTitle(@NotNull context: Context) = ""
+  fun getTitle(context: Context) = ""
 
   /**
    * Set the title to be displayed on the navigable

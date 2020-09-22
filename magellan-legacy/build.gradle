@@ -24,6 +24,11 @@ android {
     setTargetCompatibility(JavaVersion.VERSION_1_8)
   }
 
+  kotlinOptions {
+    jvmTarget = "1.8"
+    freeCompilerArgs = ['-Xjvm-default=compatibility']
+  }
+
   buildTypes {
     release {
       minifyEnabled false

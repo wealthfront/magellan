@@ -45,10 +45,6 @@ open class LegacyNavigator internal constructor(
     delegate.hide(navigable)
   }
 
-  fun currentScreen() = backStack.peek().navigable
-
-  fun isCurrentScreen(navigable: NavigableCompat) = currentScreen() == navigable
-
   fun goBackToRoot(navType: NavigationType) {
     navigate(Direction.BACKWARD) { history ->
       var navigable: NavigableCompat? = null

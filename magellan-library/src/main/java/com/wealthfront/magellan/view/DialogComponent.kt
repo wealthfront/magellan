@@ -28,19 +28,13 @@ class DialogComponent @Inject constructor() : LifecycleAware {
     createDialog()
   }
 
-  override fun create(context: Context) {
-    this.context = context
-  }
-
   override fun show(context: Context) {
+    this.context = context
     createDialog()
   }
 
   override fun hide(context: Context) {
     destroyDialog()
-  }
-
-  override fun destroy(context: Context) {
     this.context = null
   }
 

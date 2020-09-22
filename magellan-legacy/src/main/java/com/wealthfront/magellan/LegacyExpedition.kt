@@ -9,7 +9,7 @@ import com.wealthfront.magellan.lifecycle.lifecycle
 abstract class LegacyExpedition<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V,
   container: V.() -> ScreenContainer
-) : Step<V>(createBinding) {
+) : Step<V>(createBinding), Expedition {
 
   var navigator by lifecycle(LegacyNavigator(this) { viewBinding!!.container() })
 

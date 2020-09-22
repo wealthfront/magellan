@@ -1,11 +1,12 @@
 package com.wealthfront.magellan.navigation
 
 import android.util.Log
+import com.wealthfront.magellan.Expedition
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LoggingNavigableListener @Inject constructor(private val navigationTraverser: NavigationTraverser) : NavigableListener {
+class LoggingNavigableListener @Inject constructor(private val expedition: Expedition) : NavigableListener {
 
   override fun onNavigableShown(navigable: NavigableCompat) {
     Log.i(this::class.java.simpleName, "Shown: ${navigable.javaClass.simpleName}")
@@ -16,6 +17,6 @@ class LoggingNavigableListener @Inject constructor(private val navigationTravers
   }
 
   override fun onNavigate() {
-    navigationTraverser.logGlobalBackStack()
+    expedition.logGlobalBackStack()
   }
 }

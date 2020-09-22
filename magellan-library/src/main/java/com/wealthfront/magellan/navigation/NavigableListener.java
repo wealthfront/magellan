@@ -20,7 +20,12 @@ public interface NavigableListener extends LifecycleAware {
   }
 
   @Override
-  default void destroy(@NotNull Context context) {
-    NavigationPropagator.removeNavigableListener(this);
+  default void show(@NotNull Context context) {
+    NavigationPropagator.addNavigableListener(this);
+  }
+
+  @Override
+  default void hide(@NotNull Context context) {
+    NavigationPropagator.addNavigableListener(this);
   }
 }
