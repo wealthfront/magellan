@@ -1,5 +1,6 @@
 package com.wealthfront.magellan;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -8,8 +9,8 @@ import android.view.ViewGroup;
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent;
 import com.wealthfront.magellan.lifecycle.LifecycleState;
 import com.wealthfront.magellan.navigation.NavigableCompat;
-import com.wealthfront.magellan.view.DialogComponent;
 import com.wealthfront.magellan.view.ActionBarModifier;
+import com.wealthfront.magellan.view.DialogComponent;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -164,6 +165,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   /**
    * Finish the Activity, and therefore quit the app in a Single Activity Architecture.
    */
+  @SuppressLint("AvoidUsingActivity")
   public boolean quit() {
     if (activity != null) {
       activity.finish();

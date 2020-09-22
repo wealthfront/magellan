@@ -8,9 +8,9 @@ import org.jetbrains.annotations.NotNull;
 
 public interface NavigableListener extends LifecycleAware {
 
-  default void onNavigableShown(NavigableCompat navigable) {}
+  default void onNavigableShown(@NotNull NavigableCompat navigable) {}
 
-  default void onNavigableHidden(NavigableCompat navigable) {}
+  default void onNavigableHidden(@NotNull NavigableCompat navigable) {}
 
   default void onNavigate() {}
 
