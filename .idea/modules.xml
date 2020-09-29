@@ -2,13 +2,20 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/magellan-library/com.wealthfront-magellan-library.iml" filepath="$PROJECT_DIR$/.idea/modules/magellan-library/com.wealthfront-magellan-library.iml" group="magellan/magellan-library" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/magellan-rx/com.wealthfront-magellan-rx.iml" filepath="$PROJECT_DIR$/.idea/modules/magellan-rx/com.wealthfront-magellan-rx.iml" group="magellan/magellan-rx" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/magellan-rx2/com.wealthfront-magellan-rx2.iml" filepath="$PROJECT_DIR$/.idea/modules/magellan-rx2/com.wealthfront-magellan-rx2.iml" group="magellan/magellan-rx2" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/magellan-support/com.wealthfront-magellan-support.iml" filepath="$PROJECT_DIR$/.idea/modules/magellan-support/com.wealthfront-magellan-support.iml" group="magellan/magellan-support" />
       <module fileurl="file://$PROJECT_DIR$/magellan.iml" filepath="$PROJECT_DIR$/magellan.iml" />
       <module fileurl="file://$PROJECT_DIR$/magellan-library/magellan-library.iml" filepath="$PROJECT_DIR$/magellan-library/magellan-library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/magellan-sample/magellan-magellan-sample.iml" filepath="$PROJECT_DIR$/.idea/modules/magellan-sample/magellan-magellan-sample.iml" group="magellan/magellan-sample" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/magellan-sample-advanced/magellan-magellan-sample-advanced.iml" filepath="$PROJECT_DIR$/.idea/modules/magellan-sample-advanced/magellan-magellan-sample-advanced.iml" group="magellan/magellan-sample-advanced" />
       <module fileurl="file://$PROJECT_DIR$/magellan-rx/magellan-rx.iml" filepath="$PROJECT_DIR$/magellan-rx/magellan-rx.iml" />
       <module fileurl="file://$PROJECT_DIR$/magellan-rx2/magellan-rx2.iml" filepath="$PROJECT_DIR$/magellan-rx2/magellan-rx2.iml" />
       <module fileurl="file://$PROJECT_DIR$/magellan-sample/magellan-sample.iml" filepath="$PROJECT_DIR$/magellan-sample/magellan-sample.iml" />
       <module fileurl="file://$PROJECT_DIR$/magellan-sample-advanced/magellan-sample-advanced.iml" filepath="$PROJECT_DIR$/magellan-sample-advanced/magellan-sample-advanced.iml" />
       <module fileurl="file://$PROJECT_DIR$/magellan-support/magellan-support.iml" filepath="$PROJECT_DIR$/magellan-support/magellan-support.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/opensource-magellan.iml" filepath="$PROJECT_DIR$/.idea/modules/opensource-magellan.iml" group="magellan" />
     </modules>
   </component>
 </project>

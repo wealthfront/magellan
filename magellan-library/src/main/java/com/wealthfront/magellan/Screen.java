@@ -6,6 +6,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.VisibleForTesting;
 import android.util.SparseArray;
@@ -56,6 +58,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
    * @return the View associated with this Screen or null if we are not in between {@link #onShow(Context)} and\
    * {@link #onHide(Context)}.
    */
+  @Nullable
   public final V getView() {
     return view;
   }
@@ -64,6 +67,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
    * @return the Activity associated with this Screen or null if we are not in between {@link #onShow(Context)} and\
    * {@link #onHide(Context)}.
    */
+  @Nullable
   public final Activity getActivity() {
     return activity;
   }
@@ -75,6 +79,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
     return navigator;
   }
 
+  @Nullable
   public final Dialog getDialog() {
     return dialog;
   }
@@ -201,24 +206,24 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
   /**
    * Called when the Activity is resumed and when the Screen is shown.
    */
-  protected void onResume(Context context) {}
+  protected void onResume(@NonNull Context context) {}
 
   /**
    * Called when the Screen in shown (including on rotation).
    */
-  protected void onShow(Context context) {}
+  protected void onShow(@NonNull Context context) {}
 
-  protected void onSave(Bundle outState) {}
+  protected void onSave(@NonNull Bundle outState) {}
 
   /**
    * Called when the Activity is paused and when the Screen is hidden.
    */
-  protected void onPause(Context context) {}
+  protected void onPause(@NonNull Context context) {}
 
   /**
    * Called when the Screen is hidden (including on rotation).
    */
-  protected void onHide(Context context) {}
+  protected void onHide(@NonNull Context context) {}
 
   /**
    * Finish the Activity, and therefore quit the app in a Single Activity Architecture.

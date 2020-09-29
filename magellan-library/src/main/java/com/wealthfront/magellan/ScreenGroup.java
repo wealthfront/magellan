@@ -2,6 +2,7 @@ package com.wealthfront.magellan;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
   }
 
   @Override
-  protected void onShow(Context context) {
+  protected void onShow(@NonNull Context context) {
     for (Screen screen : screens) {
       screen.recreateView(getActivity(), getNavigator());
       screen.createDialog();
@@ -52,14 +53,14 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
   }
 
   @Override
-  protected void onResume(Context context) {
+  protected void onResume(@NonNull Context context) {
     for (Screen screen : screens) {
       screen.onResume(context);
     }
   }
 
   @Override
-  protected void onPause(Context context) {
+  protected void onPause(@NonNull Context context) {
     for (Screen screen : screens) {
       screen.onPause(context);
     }
@@ -73,7 +74,7 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
   }
 
   @Override
-  protected void onHide(Context context) {
+  protected void onHide(@NonNull Context context) {
     for (Screen screen : screens) {
       screen.onHide(context);
       screen.destroyDialog();
