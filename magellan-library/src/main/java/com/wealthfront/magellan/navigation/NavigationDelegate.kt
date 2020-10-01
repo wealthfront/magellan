@@ -233,6 +233,5 @@ class NavigationDelegate(
       null
     }
     (activity as? ActionBarConfigListener)?.onNavigate(actionBarConfig)
-
   }
 }
