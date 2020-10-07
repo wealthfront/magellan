@@ -151,7 +151,7 @@ class NavigationDelegate(
     callOnNavigate(currentNavigable!!)
     when (currentState) {
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
-        containerView!!.addView(currentNavigable!!.view!!)
+        containerView!!.addView(currentNavigable!!.view!!, direction.indexToAddView(containerView!!))
       }
       is LifecycleState.Destroyed, is LifecycleState.Created -> { }
     }
