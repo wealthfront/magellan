@@ -126,25 +126,32 @@ class NavigationDelegate(
   ) {
     currentNavigable!!.transitionStarted()
     to?.whenMeasured {
-      transition.animate(from, to, direction, object : Transition.Callback {
-        override fun onAnimationEnd() {
-          if (context != null) {
-            containerView!!.removeView(from)
-            currentNavigable!!.transitionFinished()
-            containerView!!.setInterceptTouchEvents(false)
+      transition.animate(
+        from,
+        to,
+        direction,
+        object : Transition.Callback {
+          override fun onAnimationEnd() {
+            if (context != null) {
+              containerView!!.removeView(from)
+              currentNavigable!!.transitionFinished()
+              containerView!!.setInterceptTouchEvents(false)
+            }
           }
         }
-      })
+      )
     }
   }
 
   private fun showCurrentNavigable(direction: Direction): View? {
     currentNavigableSetup?.invoke(currentNavigable!!)
     attachToLifecycle(
-      currentNavigable!!, detachedState = when (direction) {
-      FORWARD -> LifecycleState.Destroyed
-      BACKWARD -> currentState.getEarlierOfCurrentState()
-    })
+      currentNavigable!!,
+      detachedState = when (direction) {
+        FORWARD -> LifecycleState.Destroyed
+        BACKWARD -> currentState.getEarlierOfCurrentState()
+      }
+    )
     setupCurrentScreenToBeShown(currentNavigable!!)
     navigationPropagator.onNavigate()
     navigationPropagator.showCurrentNavigable(currentNavigable!!)
@@ -153,7 +160,8 @@ class NavigationDelegate(
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
         containerView!!.addView(
           currentNavigable!!.view!!,
-          direction.indexToAddView(containerView!!))
+          direction.indexToAddView(containerView!!)
+        )
       }
       is LifecycleState.Destroyed, is LifecycleState.Created -> { }
     }
@@ -164,10 +172,12 @@ class NavigationDelegate(
     return currentNavigable?.let { currentNavigable ->
       val currentView = currentNavigable.view
       removeFromLifecycle(
-        currentNavigable, detachedState = when (direction) {
-        FORWARD -> currentState.getEarlierOfCurrentState()
-        BACKWARD -> LifecycleState.Destroyed
-      })
+        currentNavigable,
+        detachedState = when (direction) {
+          FORWARD -> currentState.getEarlierOfCurrentState()
+          BACKWARD -> LifecycleState.Destroyed
+        }
+      )
       navigationPropagator.hideCurrentNavigable(currentNavigable)
       currentView
     }
@@ -217,7 +227,8 @@ class NavigationDelegate(
           .visible(navItem.shouldShowActionBar())
           .animated(navItem.shouldAnimateActionBar())
           .colorRes(navItem.actionBarColorRes)
-          .build())
+          .build()
+      )
     }
   }
 }

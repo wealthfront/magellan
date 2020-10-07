@@ -7,7 +7,7 @@ import org.junit.Test
 class EnforceLifecycleAwareAttachmentTest {
 
   private val LIFECYCLE_AWARE = kt(
-  """
+    """
     package com.wealthfront.magellan.lifecycle
 
     interface LifecycleAware {
@@ -15,7 +15,8 @@ class EnforceLifecycleAwareAttachmentTest {
       fun create() {}
     }
 
-  """).indented()
+  """
+  ).indented()
 
   private val LINEAR_NAVIGATOR = kt(
     """
@@ -27,7 +28,8 @@ class EnforceLifecycleAwareAttachmentTest {
     
       val backStack: List<NavigationEvent> = listOf()
     }
-  """).indented()
+  """
+  ).indented()
 
   private val LIFECYCLE_OWNER = kt(
     """
@@ -40,14 +42,18 @@ class EnforceLifecycleAwareAttachmentTest {
         fun removeFromLifecycle(lifecycleAware: LifecycleAware, detachedState: LifecycleState = LifecycleState.Destroyed)
       }
 
-  """).indented()
+  """
+  ).indented()
 
   private val LIFECYCLE_FILES = arrayOf(LIFECYCLE_AWARE, LIFECYCLE_OWNER, LINEAR_NAVIGATOR)
 
   @Test
   fun testThatInstanceCreationIsDetected() {
     lint()
-      .files(*LIFECYCLE_FILES, kt("""
+      .files(
+        *LIFECYCLE_FILES,
+        kt(
+          """
           package com.wealthfront.magellan.app
 
           import com.wealthfront.magellan.lifecycle.LifecycleOwner
@@ -57,22 +63,29 @@ class EnforceLifecycleAwareAttachmentTest {
           
             val navigator = LinearNavigator()
           }
-        """).indented())
+        """
+        ).indented()
+      )
       .issues(ENFORCE_LIFECYCLE_AWARE_ATTACHMENT)
       .run()
-      .expect("src/com/wealthfront/magellan/app/SomeClass.kt:8: " +
-        "Error: In order to make this lifecycle aware work as expected, please attach it to the lifecycle owner with a lifecycle delegate. " +
-        "Eg. val someObject by lifecycle(SomeObject()) or lateinit var someObject: SomeObject by lateinitLifecycle() [EnforceLifecycleAwareAttachment]\n" +
-        "  val navigator = LinearNavigator()\n" +
-        "  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
-        "1 errors, 0 warnings")
+      .expect(
+        "src/com/wealthfront/magellan/app/SomeClass.kt:8: " +
+          "Error: In order to make this lifecycle aware work as expected, please attach it to the lifecycle owner with a lifecycle delegate. " +
+          "Eg. val someObject by lifecycle(SomeObject()) or lateinit var someObject: SomeObject by lateinitLifecycle() [EnforceLifecycleAwareAttachment]\n" +
+          "  val navigator = LinearNavigator()\n" +
+          "  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+          "1 errors, 0 warnings"
+      )
       .expectFixDiffs("")
   }
 
   @Test
   fun testThatProperInstanceCreationIsNotDetected() {
     lint()
-      .files(*LIFECYCLE_FILES, kt("""
+      .files(
+        *LIFECYCLE_FILES,
+        kt(
+          """
           package com.wealthfront.magellan.app
 
           import com.wealthfront.magellan.lifecycle.LifecycleAware
@@ -82,7 +95,9 @@ class EnforceLifecycleAwareAttachmentTest {
           
             val navigator by lifecycle(LinearNavigator())
           }
-        """).indented())
+        """
+        ).indented()
+      )
       .issues(ENFORCE_LIFECYCLE_AWARE_ATTACHMENT)
       .run()
       .expectClean()

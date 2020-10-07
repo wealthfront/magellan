@@ -49,12 +49,14 @@ class NavigationTraverserTest {
 
     oneStepRoot.create(context)
 
-    assertThat(traverser.getGlobalBackstackDescription()).isEqualTo("""
+    assertThat(traverser.getGlobalBackstackDescription()).isEqualTo(
+      """
       
       RootJourney
       	DummyJourney1
       		DummyStep1
-    """.trimIndent())
+    """.trimIndent()
+    )
   }
 
   @Test
@@ -63,13 +65,15 @@ class NavigationTraverserTest {
 
     multiStepRoot.create(context)
 
-    assertThat(traverser.getGlobalBackstackDescription()).isEqualTo("""
+    assertThat(traverser.getGlobalBackstackDescription()).isEqualTo(
+      """
       
       MultiStepJourney
       	DummyJourney2
       		DummyStep1
       		DummyStep2
-    """.trimIndent())
+    """.trimIndent()
+    )
   }
 
   @Test
@@ -78,7 +82,8 @@ class NavigationTraverserTest {
 
     siblingRoot.create(context)
 
-    assertThat(traverser.getGlobalBackstackDescription()).isEqualTo("""
+    assertThat(traverser.getGlobalBackstackDescription()).isEqualTo(
+      """
       
       SiblingJourney
       	DummyJourney3
@@ -87,12 +92,14 @@ class NavigationTraverserTest {
       	DummyJourney2
       		DummyStep1
       		DummyStep2
-    """.trimIndent())
+    """.trimIndent()
+    )
   }
 
   private inner class RootJourney : Journey<MagellanDummyLayoutBinding>(
     MagellanDummyLayoutBinding::inflate,
-    MagellanDummyLayoutBinding::container) {
+    MagellanDummyLayoutBinding::container
+  ) {
 
     override fun onCreate(context: Context) {
       navigator.goTo(journey1)
@@ -101,7 +108,8 @@ class NavigationTraverserTest {
 
   private inner class MultiStepJourney : Journey<MagellanDummyLayoutBinding>(
     MagellanDummyLayoutBinding::inflate,
-    MagellanDummyLayoutBinding::container) {
+    MagellanDummyLayoutBinding::container
+  ) {
 
     override fun onCreate(context: Context) {
       navigator.goTo(journey2)
@@ -110,7 +118,8 @@ class NavigationTraverserTest {
 
   private inner class SiblingJourney : Journey<MagellanDummyLayoutBinding>(
     MagellanDummyLayoutBinding::inflate,
-    MagellanDummyLayoutBinding::container) {
+    MagellanDummyLayoutBinding::container
+  ) {
 
     override fun onCreate(context: Context) {
       navigator.goTo(journey3)
@@ -123,7 +132,8 @@ class NavigationTraverserTest {
 
   private inner class DummyJourney1 : Journey<MagellanDummyLayoutBinding>(
     MagellanDummyLayoutBinding::inflate,
-    MagellanDummyLayoutBinding::container) {
+    MagellanDummyLayoutBinding::container
+  ) {
 
     override fun onCreate(context: Context) {
       navigator.goTo(step1)
@@ -132,7 +142,8 @@ class NavigationTraverserTest {
 
   private inner class DummyJourney2 : Journey<MagellanDummyLayoutBinding>(
     MagellanDummyLayoutBinding::inflate,
-    MagellanDummyLayoutBinding::container) {
+    MagellanDummyLayoutBinding::container
+  ) {
 
     override fun onCreate(context: Context) {
       navigator.goTo(step1)
@@ -144,7 +155,8 @@ class NavigationTraverserTest {
     private val goToSiblingJourney: () -> Unit
   ) : Journey<MagellanDummyLayoutBinding>(
     MagellanDummyLayoutBinding::inflate,
-    MagellanDummyLayoutBinding::container) {
+    MagellanDummyLayoutBinding::container
+  ) {
 
     override fun onCreate(context: Context) {
       navigator.goTo(step3)

@@ -34,13 +34,13 @@ internal class AvoidUsingActivity : Detector(), Detector.UastScanner {
 
     override fun visitCallExpression(node: UCallExpression) {
       if (node.isSubtypeOfNavigableCompat() && node.receiverType?.canonicalText == ACTIVITY)
-      context.report(
-        AVOID_USING_ACTIVITY,
-        node,
-        context.getLocation(node),
-        "Avoid using the activity instance present in the superclass. " +
-          "Instead use the context provided in the lifecycle methods."
-      )
+        context.report(
+          AVOID_USING_ACTIVITY,
+          node,
+          context.getLocation(node),
+          "Avoid using the activity instance present in the superclass. " +
+            "Instead use the context provided in the lifecycle methods."
+        )
     }
   }
 }

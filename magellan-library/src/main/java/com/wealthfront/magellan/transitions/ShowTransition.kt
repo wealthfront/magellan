@@ -14,11 +14,13 @@ class ShowTransition : Transition {
 
   override fun animate(from: View?, to: View, direction: Direction, callback: Transition.Callback) {
     val animator = createAnimator(from, to, direction)
-    animator.addListener(object : AnimatorListenerAdapter() {
-      override fun onAnimationEnd(animation: Animator) {
-        callback.onAnimationEnd()
+    animator.addListener(
+      object : AnimatorListenerAdapter() {
+        override fun onAnimationEnd(animation: Animator) {
+          callback.onAnimationEnd()
+        }
       }
-    })
+    )
     animator.start()
   }
 

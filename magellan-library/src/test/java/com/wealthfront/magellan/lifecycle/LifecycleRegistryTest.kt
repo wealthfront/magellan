@@ -37,12 +37,14 @@ class LifecycleRegistryTest {
     lifecycleRegistry.attachToLifecycle(lifecycleAware4, Created(context))
     lifecycleRegistry.attachToLifecycle(lifecycleAware5, Created(context))
 
-    assertThat(lifecycleRegistry.listeners).containsExactlyElementsIn(setOf(
-      lifecycleAware1,
-      lifecycleAware2,
-      lifecycleAware3,
-      lifecycleAware5,
-      lifecycleAware4
-    )).inOrder()
+    assertThat(lifecycleRegistry.listeners).containsExactlyElementsIn(
+      setOf(
+        lifecycleAware1,
+        lifecycleAware2,
+        lifecycleAware3,
+        lifecycleAware5,
+        lifecycleAware4
+      )
+    ).inOrder()
   }
 }

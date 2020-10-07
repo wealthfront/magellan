@@ -19,7 +19,8 @@ class AvoidUsingActivityTest {
     }
 
 
-  """).indented()
+  """
+  ).indented()
 
   private val ACTIVITY = kt(
     """
@@ -29,15 +30,18 @@ class AvoidUsingActivityTest {
     
       fun setTitle() {}
     }
-  """).indented()
+  """
+  ).indented()
 
   private val ACTIVITY_FILES = arrayOf(NAVIGABLE_COMPAT, ACTIVITY)
 
   @Test
   fun testThatIssueIsDetected() {
     lint()
-      .files(*ACTIVITY_FILES, kt(
-        """
+      .files(
+        *ACTIVITY_FILES,
+        kt(
+          """
           package com.wealthfront.magellan.app
           
           import com.wealthfront.magellan.navigation.NavigableCompat
@@ -48,19 +52,26 @@ class AvoidUsingActivityTest {
               activity.setTitle()
             }
           }
-        """).indented())
+        """
+        ).indented()
+      )
       .issues(AVOID_USING_ACTIVITY)
       .run()
-      .expect("src/com/wealthfront/magellan/app/SomeClass.kt:8: Warning: Avoid using the activity instance present in the superclass. Instead use the context provided in the lifecycle methods. [AvoidUsingActivity]\n" +
-        "    activity.setTitle()\n" +
-        "    ~~~~~~~~~~~~~~~~~~~\n" +
-        "0 errors, 1 warnings")
+      .expect(
+        "src/com/wealthfront/magellan/app/SomeClass.kt:8: Warning: Avoid using the activity instance present in the superclass. Instead use the context provided in the lifecycle methods. [AvoidUsingActivity]\n" +
+          "    activity.setTitle()\n" +
+          "    ~~~~~~~~~~~~~~~~~~~\n" +
+          "0 errors, 1 warnings"
+      )
   }
 
   @Test
   fun testThatIssueIsNotDetected() {
     lint()
-      .files(*ACTIVITY_FILES, kt("""
+      .files(
+        *ACTIVITY_FILES,
+        kt(
+          """
           package com.wealthfront.magellan.app
 
           import com.wealthfront.magellan.lifecycle.LifecycleAware
@@ -71,7 +82,9 @@ class AvoidUsingActivityTest {
             fun someFunc() {
             }
           }
-        """).indented())
+        """
+        ).indented()
+      )
       .issues(AVOID_USING_ACTIVITY)
       .run()
       .expectClean()

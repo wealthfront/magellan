@@ -4,10 +4,10 @@ import android.app.Activity
 import androidx.activity.ComponentActivity
 import androidx.annotation.LayoutRes
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner as ActivityLifecycleOwner
 import com.wealthfront.magellan.R
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Navigable
+import androidx.lifecycle.LifecycleOwner as ActivityLifecycleOwner
 import com.wealthfront.magellan.lifecycle.LifecycleOwner as MagellanLifecycleOwner
 
 internal class ActivityLifecycleAdapter(
