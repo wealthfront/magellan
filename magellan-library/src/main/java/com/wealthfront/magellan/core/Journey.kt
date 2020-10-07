@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.core
 
 import android.view.LayoutInflater
+import android.view.Menu
 import androidx.viewbinding.ViewBinding
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.lifecycle.lifecycle
@@ -11,7 +12,11 @@ abstract class Journey<V : ViewBinding>(
   container: V.() -> ScreenContainer
 ) : Step<V>(createBinding) {
 
-  protected var navigator by lifecycle(LinearNavigator { viewBinding!!.container() })
+  protected var navigator by lifecycle(LinearNavigator(this) { viewBinding!!.container() })
+
+  fun setMenu(menu: Menu) {
+    navigator.menu = menu
+  }
 
   override fun toString(): String = this.javaClass.simpleName
 }

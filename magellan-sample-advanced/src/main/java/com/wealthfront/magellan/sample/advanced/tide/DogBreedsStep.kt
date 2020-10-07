@@ -14,10 +14,11 @@ import com.wealthfront.magellan.sample.advanced.R
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.advanced.api.DogApi
 import com.wealthfront.magellan.sample.advanced.databinding.DogBreedBinding
+import com.wealthfront.magellan.view.ActionBarModifier
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
-class DogBreedsStep : Step<DogBreedBinding>(DogBreedBinding::inflate) {
+class DogBreedsStep : Step<DogBreedBinding>(DogBreedBinding::inflate), ActionBarModifier {
 
   @Inject lateinit var api: DogApi
 
@@ -26,6 +27,8 @@ class DogBreedsStep : Step<DogBreedBinding>(DogBreedBinding::inflate) {
   override fun onCreate(context: Context) {
     app(context).injector().inject(this)
   }
+
+  override fun getActionBarColorRes() = R.color.water
 
   override fun onShow(context: Context, binding: DogBreedBinding) {
     scope.launch {
