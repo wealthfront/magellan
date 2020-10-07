@@ -155,8 +155,7 @@ class NavigationDelegate(
           currentNavigable!!.view!!,
           direction.indexToAddView(containerView!!))
       }
-      is LifecycleState.Destroyed, is LifecycleState.Created -> {
-      }
+      is LifecycleState.Destroyed, is LifecycleState.Created -> { }
     }
     return currentNavigable!!.view
   }
@@ -204,13 +203,9 @@ class NavigationDelegate(
           menu.getItem(i).isVisible = false
         }
         (rootNavigable as? ActionBarModifier)?.onUpdateMenu(menu)
-        rootNavigable.childNavigables()
-          .filterIsInstance(ActionBarModifier::class.java)
-          .forEach { it.onUpdateMenu(menu) }
+        rootNavigable.childNavigables().filterIsInstance(ActionBarModifier::class.java).forEach { it.onUpdateMenu(menu) }
         (updateMenuForNavigable as? ActionBarModifier)?.onUpdateMenu(menu)
-        updateMenuForNavigable?.childNavigables()
-          ?.filterIsInstance(ActionBarModifier::class.java)
-          ?.forEach { it.onUpdateMenu(menu) }
+        updateMenuForNavigable?.childNavigables()?.filterIsInstance(ActionBarModifier::class.java)?.forEach { it.onUpdateMenu(menu) }
       }
     }
   }

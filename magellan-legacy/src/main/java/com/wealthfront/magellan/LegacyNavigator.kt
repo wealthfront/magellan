@@ -8,6 +8,7 @@ import com.wealthfront.magellan.navigation.NavigableCompat
 import com.wealthfront.magellan.navigation.NavigationDelegate
 import com.wealthfront.magellan.navigation.NavigationEvent
 import com.wealthfront.magellan.navigation.Navigator
+import com.wealthfront.magellan.transitions.Transition
 import java.util.Stack
 
 class LegacyNavigator internal constructor(
@@ -34,20 +35,24 @@ class LegacyNavigator internal constructor(
     }
   }
 
-  fun goTo(navigable: NavigableCompat) {
-    delegate.goTo(navigable)
+  @JvmOverloads
+  fun goTo(navigable: NavigableCompat, overrideTransition: Transition? = null) {
+    delegate.goTo(navigable, overrideTransition)
   }
 
-  fun show(navigable: NavigableCompat) {
-    delegate.show(navigable)
+  @JvmOverloads
+  fun show(navigable: NavigableCompat, overrideTransition: Transition? = null) {
+    delegate.show(navigable, overrideTransition)
   }
 
-  fun replaceAndGo(navigable: NavigableCompat) {
-    delegate.replaceAndGo(navigable)
+  @JvmOverloads
+  fun replaceAndGo(navigable: NavigableCompat, overrideTransition: Transition? = null) {
+    delegate.replaceAndGo(navigable, overrideTransition)
   }
 
-  fun replaceAndShow(navigable: NavigableCompat) {
-    delegate.replaceAndShow(navigable)
+  @JvmOverloads
+  fun replaceAndShow(navigable: NavigableCompat, overrideTransition: Transition? = null) {
+    delegate.replaceAndShow(navigable, overrideTransition)
   }
 
   fun navigate(
