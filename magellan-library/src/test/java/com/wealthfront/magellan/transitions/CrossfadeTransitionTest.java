@@ -3,7 +3,6 @@ package com.wealthfront.magellan.transitions;
 import android.view.View;
 
 import com.wealthfront.magellan.Direction;
-import com.wealthfront.magellan.NavigationType;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,9 +15,9 @@ import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static com.google.common.truth.Truth.assertThat;
 import static com.wealthfront.magellan.Direction.BACKWARD;
 import static com.wealthfront.magellan.Direction.FORWARD;
-import static com.wealthfront.magellan.NavigationType.GO;
-import static com.wealthfront.magellan.NavigationType.NO_ANIM;
-import static com.wealthfront.magellan.NavigationType.SHOW;
+import static com.wealthfront.magellan.Transition.GO;
+import static com.wealthfront.magellan.Transition.NO_ANIM;
+import static com.wealthfront.magellan.Transition.SHOW;
 import static org.robolectric.Robolectric.flushForegroundThreadScheduler;
 import static org.robolectric.Robolectric.getForegroundThreadScheduler;
 
@@ -62,8 +61,8 @@ public class CrossfadeTransitionTest {
     checkAnimate(NO_ANIM, FORWARD);
   }
 
-  private void checkAnimate(NavigationType navType, Direction direction) {
-    new CrossfadeTransition().animate(from, to, navType, direction, new Transition.Callback() {
+  private void checkAnimate(Transition navType, Direction direction) {
+    new CrossfadeTransition().animate(from, to, navType, direction, new com.wealthfront.magellan.transitions.Transition.Callback() {
       @Override
       public void onAnimationEnd() {
         onAnimationEndCalled = true;

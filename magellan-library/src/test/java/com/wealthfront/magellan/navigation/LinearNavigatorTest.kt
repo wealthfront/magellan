@@ -5,8 +5,8 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.Direction.FORWARD
-import com.wealthfront.magellan.NavigationType.GO
-import com.wealthfront.magellan.NavigationType.SHOW
+import com.wealthfront.magellan.Transition.GO
+import com.wealthfront.magellan.Transition.SHOW
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.Step
@@ -78,7 +78,7 @@ class LinearNavigatorTest {
     verify(context as ActionBarConfigListener).onNavigate(any())
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().transition).isEqualTo(GO)
   }
 
   @Test
@@ -87,7 +87,7 @@ class LinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(SHOW)
+    assertThat(linearNavigator.backStack.peek().transition).isEqualTo(SHOW)
   }
 
   @Test
@@ -97,7 +97,7 @@ class LinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().transition).isEqualTo(GO)
   }
 
   @Test
@@ -107,7 +107,7 @@ class LinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(SHOW)
+    assertThat(linearNavigator.backStack.peek().transition).isEqualTo(SHOW)
   }
 
   @Test
@@ -119,7 +119,7 @@ class LinearNavigatorTest {
     assertThat(didNavigate).isTrue()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().transition).isEqualTo(GO)
   }
 
   @Test
@@ -130,7 +130,7 @@ class LinearNavigatorTest {
     assertThat(didNavigate).isFalse()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().transition).isEqualTo(GO)
   }
 
   @Test
@@ -148,7 +148,7 @@ class LinearNavigatorTest {
     assertThat(didNavigate).isTrue()
     assertThat(linearNavigator.backStack.size).isEqualTo(2)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().transition).isEqualTo(GO)
   }
 
   @Test
