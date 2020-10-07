@@ -5,4 +5,5 @@
   <string name="cannot_retrieve_tide_info">Cannot retrieve tide info</string>
   <string name="help">Help</string>
   <string name="show_dialog">Show additional info</string>
+  <string name="notification">Notifications</string>
 </resources>

@@ -1,11 +1,11 @@
 package com.wealthfront.magellan.core
 
+import android.app.Activity
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.SparseArray
 import android.view.LayoutInflater.from
 import android.view.View
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
 import org.junit.Before
@@ -19,6 +19,7 @@ import org.mockito.Mockito.doAnswer
 import org.mockito.Mockito.never
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations.initMocks
+import org.robolectric.Robolectric.buildActivity
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -26,7 +27,9 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 class StepTest {
 
+  private lateinit var context: Activity
   private lateinit var screen: DummyStep
+
   @Captor lateinit var sparseArrayCaptor: ArgumentCaptor<SparseArray<Parcelable>>
   @Mock lateinit var view: View
 
@@ -35,19 +38,20 @@ class StepTest {
     initMocks(this)
     screen = DummyStep()
     screen.view = view
-    screen.viewBinding = MagellanDummyLayoutBinding.inflate(from(getApplicationContext()))
+    context = buildActivity(Activity::class.java).get()
+    screen.viewBinding = MagellanDummyLayoutBinding.inflate(from(context))
   }
 
   @Test
   fun onShow() {
-    screen.show(getApplicationContext())
+    screen.show(context)
 
     verify(view, never()).restoreHierarchyState(any())
   }
 
   @Test
   fun onHide() {
-    screen.hide(getApplicationContext())
+    screen.hide(context)
 
     verify(view).saveHierarchyState(any())
   }
@@ -58,10 +62,10 @@ class StepTest {
     state.putString("key", "value")
     doAnswer { sparseArrayCaptor.value.put(42, state) }.`when`(view).saveHierarchyState(sparseArrayCaptor.capture())
 
-    screen.hide(getApplicationContext())
+    screen.hide(context)
     verify(view).saveHierarchyState(any())
 
-    screen.show(getApplicationContext())
+    screen.show(context)
     verify(view).restoreHierarchyState(sparseArrayCaptor.capture())
 
     val bundle = sparseArrayCaptor.value.get(42) as Bundle

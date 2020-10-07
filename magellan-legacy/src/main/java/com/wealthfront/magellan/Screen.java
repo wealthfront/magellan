@@ -3,22 +3,21 @@ package com.wealthfront.magellan;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.view.Menu;
 import android.view.ViewGroup;
 
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent;
 import com.wealthfront.magellan.lifecycle.LifecycleState;
 import com.wealthfront.magellan.navigation.NavigableCompat;
+import com.wealthfront.magellan.view.ActionBarModifier;
 import com.wealthfront.magellan.view.DialogComponent;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
 
 /**
  * Screens are where your logic lives (you can think of it as a Presenter in the MVP pattern, or a Controller
@@ -40,15 +39,12 @@ import androidx.annotation.StringRes;
  * }
  * </code> </pre>
  */
-public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements
-    NavigableCompat {
-
-  public static final int DEFAULT_ACTION_BAR_COLOR_RES = 0;
+public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements NavigableCompat, ActionBarModifier {
 
   private final DialogComponent dialogComponent = new DialogComponent();
 
-  private Activity activity;
-  private V view;
+  private @Nullable Activity activity;
+  private @Nullable V view;
   private boolean isTransitioning;
   private final Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
   private LegacyNavigator navigator;
@@ -62,6 +58,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * @return the View associated with this Screen or null if we are not in between {@link #onShow(Context)} and\
    * {@link #onHide(Context)}.
    */
+  @Nullable
   public final V getView() {
     return view;
   }
@@ -70,6 +67,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * @return the Activity associated with this Screen or null if we are not in between {@link #onShow(Context)} and
    * {@link #onHide(Context)}.
    */
+  @Nullable
   public final Activity getActivity() {
     return activity;
   }
@@ -77,6 +75,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   /**
    * @return the Navigator associated with this Screen.
    */
+  @NotNull
   public final LegacyNavigator getNavigator() {
     return navigator;
   }
@@ -113,41 +112,10 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   }
 
   /**
-   * @return true if we should show the ActionBar, false otherwise (true by default).
-   */
-  protected boolean shouldShowActionBar() {
-    return true;
-  }
-
-  /**
-   * @return true if we should animate the ActionBar, false otherwise (true by default).
-   */
-  protected boolean shouldAnimateActionBar() {
-    return true;
-  }
-
-  public String getTitle(Context context) {
-    return "";
-  }
-
-  /**
-   * @return the color of the ActionBar (invalid by default).
-   */
-  @ColorRes
-  protected int getActionBarColorRes() {
-    return DEFAULT_ACTION_BAR_COLOR_RES;
-  }
-
-  /**
    * The only mandatory method to implement in a Screen. <b>Must</b> create and return a new instance of the View
    * to be displayed for this Screen.
    */
-  protected abstract V createView(Context context);
-
-  /**
-   * Override this method to dynamically change the menu.
-   */
-  protected void onUpdateMenu(Menu menu) {}
+  protected abstract V createView(@NonNull Context context);
 
   /**
    * Called when the Screen is navigated to from before the screen is shown (not triggered on rotation).
@@ -197,26 +165,18 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   /**
    * Finish the Activity, and therefore quit the app in a Single Activity Architecture.
    */
-  protected final boolean quit() {
-    if (getActivity() != null) {
-      getActivity().finish();
+  public boolean quit() {
+    if (activity != null) {
+      activity.finish();
     }
     return true;
-  }
-
-  protected final void setTitle(@StringRes int titleResId) {
-    activity.setTitle(titleResId);
-  }
-
-  protected final void setTitle(CharSequence title) {
-    activity.setTitle(title);
   }
 
   /**
    * Display a {@link Dialog} using a {@link DialogCreator}. The dialog will be automatically recreated and redisplayed
    * on rotation.
    */
-  protected final void showDialog(DialogCreator dialogCreator) {
+  protected final void showDialog(@NotNull DialogCreator dialogCreator) {
     dialogComponent.showDialog(dialogCreator);
   }
 
@@ -224,17 +184,17 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * @return a String representation of the Screen to be used for logging purposes. Return the Simple name of the class
    * by default.
    */
-  @NonNull
+  @NotNull
   @Override
   public String toString() {
     return getClass().getSimpleName();
   }
 
-  public final void setView(V view) {
+  public final void setView(@Nullable V view) {
     this.view = view;
   }
 
-  public final void setActivity(Activity activity) {
+  public final void setActivity(@Nullable Activity activity) {
     this.activity = activity;
   }
 

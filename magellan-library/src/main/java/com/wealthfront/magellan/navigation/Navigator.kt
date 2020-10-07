@@ -2,5 +2,7 @@ package com.wealthfront.magellan.navigation
 
 interface Navigator {
 
-  val backStack: List<NavigationEvent>
+  val journey: NavigableCompat
+
+  val backStack: List<NavigableCompat>
 }

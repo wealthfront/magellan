@@ -4,10 +4,12 @@ object NavigationPropagator {
 
   private var listeners: Set<NavigableListener> = emptySet()
 
+  @JvmStatic
   fun addNavigableListener(navigableListener: NavigableListener) {
     listeners = listeners + navigableListener
   }
 
+  @JvmStatic
   fun removeNavigableListener(navigableListener: NavigableListener) {
     listeners = listeners - navigableListener
   }

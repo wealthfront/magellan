@@ -1,11 +1,13 @@
-package com.wealthfront.magellan;
+package com.wealthfront.magellan.view;
 
 import android.app.ActionBar;
 import androidx.annotation.ColorRes;
 import android.widget.Toolbar;
 
+import com.wealthfront.magellan.navigation.ActionBarConfigListener;
+
 /**
- * Used to configure the {@link ActionBar} or {@link Toolbar} in {@link NavigationListener#onNavigate(ActionBarConfig)}
+ * Used to configure the {@link ActionBar} or {@link Toolbar} in {@link ActionBarConfigListener#onNavigate(ActionBarConfig)}
  * with what the current Screen asked for.
  */
 public final class ActionBarConfig {

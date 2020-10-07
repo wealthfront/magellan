@@ -12,15 +12,15 @@ class NavigationTraverser(private val root: NavigableCompat) {
   private fun constructTree(navigable: NavigableCompat): NavigationNode {
     val navNode = NavigationNode(navigable, mutableListOf())
     if (navNode.hasBackstack) {
-      navNode.backStack.forEach { navEvent ->
-        val childNavNode = constructTree(navEvent.navigable)
+      navNode.backStack.forEach { nav ->
+        val childNavNode = constructTree(nav)
         navNode.addChild(childNavNode)
       }
     }
     return navNode
   }
 
-  fun printGlobalBackstack(): String {
+  fun getGlobalBackstackDescription(): String {
     val rootNode = getGlobalBackStack()
     val sb = StringBuilder()
     getPrintableGlobalBackstack(rootNode, 0, sb)
@@ -28,7 +28,7 @@ class NavigationTraverser(private val root: NavigableCompat) {
   }
 
   fun logGlobalBackStack() {
-    Log.i(this::class.java.simpleName, printGlobalBackstack())
+    Log.i(this::class.java.simpleName, getGlobalBackstackDescription())
   }
 
   private fun getPrintableGlobalBackstack(navNode: NavigationNode, depth: Int, sb: StringBuilder) {
@@ -52,7 +52,7 @@ data class NavigationNode(
     get() = (value as? LifecycleOwner)?.children?.mapNotNull { it as? Navigator }?.isNotEmpty()
       ?: false
 
-  val backStack: List<NavigationEvent>
+  val backStack: List<NavigableCompat>
     get() = (value as LifecycleOwner).children.mapNotNull { it as? Navigator }.first().backStack
 
   fun addChild(child: NavigationNode) {
