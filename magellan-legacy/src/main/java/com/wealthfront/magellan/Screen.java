@@ -17,6 +17,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import androidx.annotation.NonNull;
+
 /**
  * Screens are where your logic lives (you can think of it as a Presenter in the MVP pattern, or a Controller
  * in the MVC pattern).
@@ -73,7 +75,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   /**
    * @return the Navigator associated with this Screen.
    */
-  @Nullable
+  @NotNull
   public final LegacyNavigator getNavigator() {
     return navigator;
   }
@@ -113,7 +115,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * The only mandatory method to implement in a Screen. <b>Must</b> create and return a new instance of the View
    * to be displayed for this Screen.
    */
-  protected abstract V createView(@Nullable Context context);
+  protected abstract V createView(@NonNull Context context);
 
   /**
    * Called when the Screen is navigated to from before the screen is shown (not triggered on rotation).
