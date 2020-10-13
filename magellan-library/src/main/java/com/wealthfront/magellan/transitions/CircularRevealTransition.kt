@@ -10,9 +10,9 @@ import android.view.ViewGroup
 import com.wealthfront.magellan.Direction
 import kotlin.math.hypot
 
-class CircularRevealTransition(private val clickedView: View) : Transition {
+class CircularRevealTransition(private val clickedView: View) : MagellanTransition {
 
-  override fun animate(from: View?, to: View, direction: Direction, callback: Transition.Callback) {
+  override fun animate(from: View?, to: View, direction: Direction, callback: MagellanTransition.Callback) {
     val clickedViewCenter = getCenterClickedView(from as ViewGroup)
     val circularRevealCenterX = clickedViewCenter[0]
     val circularRevealCenterY = clickedViewCenter[1]

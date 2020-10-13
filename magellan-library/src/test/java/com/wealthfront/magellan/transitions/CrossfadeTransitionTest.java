@@ -3,7 +3,7 @@ package com.wealthfront.magellan.transitions;
 import android.view.View;
 
 import com.wealthfront.magellan.Direction;
-import com.wealthfront.magellan.transitions.Transition.Callback;
+import com.wealthfront.magellan.transitions.MagellanTransition.Callback;
 
 import org.junit.Before;
 import org.junit.Test;

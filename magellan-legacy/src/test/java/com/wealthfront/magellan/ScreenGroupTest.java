@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.ViewGroup;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -36,7 +37,7 @@ public class ScreenGroupTest {
     screen3 = spy(new DummyScreen(view3));
     screenGroup = new ScreenGroup(asList(screen1, screen2)) {
       @Override
-      protected ViewGroup createView(Context context) {
+      protected ViewGroup createView(@NotNull Context context) {
         return screenGroupView;
       }
     };
@@ -54,7 +55,7 @@ public class ScreenGroupTest {
   public void addScreen_emptyConstructor() {
     screenGroup = new ScreenGroup() {
       @Override
-      protected ViewGroup createView(Context context) {
+      protected ViewGroup createView(@NotNull Context context) {
         return null;
       }
     };
@@ -65,7 +66,7 @@ public class ScreenGroupTest {
   public void addScreens() {
     screenGroup = new ScreenGroup() {
       @Override
-      protected ViewGroup createView(Context context) {
+      protected ViewGroup createView(@NotNull Context context) {
         return null;
       }
     };
