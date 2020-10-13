@@ -41,7 +41,7 @@ public class ShowTransitionTest {
 
   private void checkAnimate(Direction direction) {
     new ShowTransition().animate(new View(getApplicationContext()), new View(getApplicationContext()), direction,
-        new Transition.Callback() {
+        new MagellanTransition.Callback() {
           @Override
           public void onAnimationEnd() {
             onAnimationEndCalled = true;
