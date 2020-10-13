@@ -15,8 +15,7 @@ import com.wealthfront.magellan.core.childNavigables
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.LifecycleState
 import com.wealthfront.magellan.transitions.DefaultTransition
-import com.wealthfront.magellan.transitions.ShowTransition
-import com.wealthfront.magellan.transitions.Transition
+import com.wealthfront.magellan.transitions.MagellanTransition
 import com.wealthfront.magellan.view.ActionBarConfig
 import com.wealthfront.magellan.view.ActionBarModifier
 import com.wealthfront.magellan.view.whenMeasured
@@ -72,32 +71,16 @@ class NavigationDelegate(
     activity = null
   }
 
-  fun goTo(nextNavigableCompat: NavigableCompat, overrideTransition: Transition? = null) {
-    navigateTo(nextNavigableCompat, overrideTransition ?: DefaultTransition())
-  }
-
-  fun show(nextNavigableCompat: NavigableCompat, overrideTransition: Transition? = null) {
-    navigateTo(nextNavigableCompat, overrideTransition ?: ShowTransition())
-  }
-
-  fun replaceAndGo(nextNavigableCompat: NavigableCompat, overrideTransition: Transition? = null) {
-    replace(nextNavigableCompat, overrideTransition ?: DefaultTransition())
-  }
-
-  fun replaceAndShow(nextNavigableCompat: NavigableCompat, overrideTransition: Transition? = null) {
-    replace(nextNavigableCompat, overrideTransition ?: ShowTransition())
-  }
-
-  private fun replace(nextNavigableCompat: NavigableCompat, overrideTransition: Transition? = null) {
+  fun goTo(nextNavigableCompat: NavigableCompat, overrideMagellanTransition: MagellanTransition? = null) {
     navigate(FORWARD) { backStack ->
-      backStack.pop()
-      backStack.push(NavigationEvent(nextNavigableCompat, overrideTransition ?: ShowTransition()))
+      backStack.push(NavigationEvent(nextNavigableCompat, overrideMagellanTransition ?: DefaultTransition()))
     }
   }
 
-  private fun navigateTo(nextNavigableCompat: NavigableCompat, overrideTransition: Transition? = null) {
+  fun replace(nextNavigableCompat: NavigableCompat, overrideMagellanTransition: MagellanTransition? = null) {
     navigate(FORWARD) { backStack ->
-      backStack.push(NavigationEvent(nextNavigableCompat, overrideTransition ?: DefaultTransition()))
+      backStack.pop()
+      backStack.push(NavigationEvent(nextNavigableCompat, overrideMagellanTransition ?: DefaultTransition()))
     }
   }
 
@@ -113,7 +96,7 @@ class NavigationDelegate(
   ) {
     containerView?.setInterceptTouchEvents(true)
     val from = hideCurrentNavigable(direction)
-    val transition = backStackOperation.invoke(backStack).transition
+    val transition = backStackOperation.invoke(backStack).magellanTransition
     val to = showCurrentNavigable(direction)
     animateAndRemove(from, to, direction, transition)
   }
@@ -122,19 +105,17 @@ class NavigationDelegate(
     from: View?,
     to: View?,
     direction: Direction,
-    transition: Transition
+    magellanTransition: MagellanTransition
   ) {
     currentNavigable!!.transitionStarted()
     to?.whenMeasured {
-      transition.animate(from, to, direction, object : Transition.Callback {
-        override fun onAnimationEnd() {
-          if (context != null) {
-            containerView!!.removeView(from)
-            currentNavigable!!.transitionFinished()
-            containerView!!.setInterceptTouchEvents(false)
-          }
+      magellanTransition.animate(from, to, direction) {
+        if (context != null) {
+          containerView!!.removeView(from)
+          currentNavigable!!.transitionFinished()
+          containerView!!.setInterceptTouchEvents(false)
         }
-      })
+      }
     }
   }
 

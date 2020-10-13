@@ -1,5 +1,6 @@
 package com.wealthfront.magellan;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -16,8 +17,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedList;
 import java.util.Queue;
-
-import androidx.annotation.NonNull;
 
 /**
  * Screens are where your logic lives (you can think of it as a Presenter in the MVP pattern, or a Controller
@@ -115,7 +114,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * The only mandatory method to implement in a Screen. <b>Must</b> create and return a new instance of the View
    * to be displayed for this Screen.
    */
-  protected abstract V createView(@NonNull Context context);
+  protected abstract V createView(@NotNull Context context);
 
   /**
    * Called when the Screen is navigated to from before the screen is shown (not triggered on rotation).
@@ -165,6 +164,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   /**
    * Finish the Activity, and therefore quit the app in a Single Activity Architecture.
    */
+  @SuppressLint("AvoidUsingActivity")
   public boolean quit() {
     if (activity != null) {
       activity.finish();

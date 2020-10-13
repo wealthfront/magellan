@@ -10,13 +10,13 @@ import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
 
-class ShowTransition : Transition {
+class ShowTransition : MagellanTransition {
 
-  override fun animate(from: View?, to: View, direction: Direction, callback: Transition.Callback) {
+  override fun animate(from: View?, to: View, direction: Direction, onAnimationEndCallback: () -> Unit) {
     val animator = createAnimator(from, to, direction)
     animator.addListener(object : AnimatorListenerAdapter() {
       override fun onAnimationEnd(animation: Animator) {
-        callback.onAnimationEnd()
+        onAnimationEndCallback()
       }
     })
     animator.start()

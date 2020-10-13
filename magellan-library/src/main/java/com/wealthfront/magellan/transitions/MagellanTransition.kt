@@ -13,7 +13,7 @@ import com.wealthfront.magellan.Direction
  *
  * You can find more Transitions implemented in [com.wealthfront.magellan.transitions].
  */
-interface Transition {
+interface MagellanTransition {
 
   /**
    * Animate between 2 views (associated to the screens).
@@ -29,10 +29,6 @@ interface Transition {
     from: View?,
     to: View,
     direction: Direction,
-    callback: Callback
+    onAnimationEndCallback: () -> Unit
   )
-
-  interface Callback {
-    fun onAnimationEnd()
-  }
 }
