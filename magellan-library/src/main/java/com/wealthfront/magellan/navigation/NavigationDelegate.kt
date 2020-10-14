@@ -57,7 +57,7 @@ class NavigationDelegate(
   override fun onShow(context: Context) {
     containerView = container()
     currentNavigable?.let {
-      containerView!!.addView(it.view!!)
+      showCurrentNavigable(FORWARD)
     }
   }
 
@@ -186,21 +186,23 @@ class NavigationDelegate(
           menu.getItem(i).isVisible = false
         }
         (rootNavigable as? ActionBarModifier)?.onUpdateMenu(menu)
-        rootNavigable.childNavigables().filterIsInstance(ActionBarModifier::class.java).forEach { it.onUpdateMenu(menu) }
+        rootNavigable.childNavigables().filterIsInstance(ActionBarModifier::class.java).filter { it.shouldShowChildNavigablesMenu() }.forEach { it.onUpdateMenu(menu) }
         (updateMenuForNavigable as? ActionBarModifier)?.onUpdateMenu(menu)
-        updateMenuForNavigable?.childNavigables()?.filterIsInstance(ActionBarModifier::class.java)?.forEach { it.onUpdateMenu(menu) }
+        updateMenuForNavigable?.childNavigables()?.filterIsInstance(ActionBarModifier::class.java)?.filter { it.shouldShowChildNavigablesMenu() }?.forEach { it.onUpdateMenu(menu) }
       }
     }
   }
 
   private fun callOnNavigate(navItem: NavigableCompat) {
-    if (navItem is ActionBarModifier) {
-      (activity as? ActionBarConfigListener)?.onNavigate(
-        ActionBarConfig.with()
-          .visible(navItem.shouldShowActionBar())
-          .animated(navItem.shouldAnimateActionBar())
-          .colorRes(navItem.actionBarColorRes)
-          .build())
+    val actionBarConfig = if (navItem is ActionBarModifier) {
+      ActionBarConfig.with()
+        .visible(navItem.shouldShowActionBar())
+        .animated(navItem.shouldAnimateActionBar())
+        .colorRes(navItem.actionBarColorRes)
+        .build()
+    } else {
+      null
     }
+    (activity as? ActionBarConfigListener)?.onNavigate(actionBarConfig)
   }
 }

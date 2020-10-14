@@ -10,6 +10,7 @@ import com.wealthfront.magellan.navigation.NavigableCompat
 import com.wealthfront.magellan.navigation.NavigationDelegate
 import com.wealthfront.magellan.navigation.NavigationEvent
 import com.wealthfront.magellan.navigation.Navigator
+import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.transitions.NoAnimationTransition
 import com.wealthfront.magellan.transitions.ShowTransition
 import java.util.Stack
@@ -34,6 +35,9 @@ class LegacyNavigator internal constructor(
     delegate.currentNavigableSetup = { navItem ->
       if (navItem is Screen<*>) {
         navItem.setNavigator(this)
+      }
+      if (navItem is MultiScreen<*>) {
+        navItem.screens.forEach { it.setNavigator(this) }
       }
     }
   }
@@ -82,6 +86,16 @@ class LegacyNavigator internal constructor(
   fun hideNow(navigable: NavigableCompat) {
     navigate(BACKWARD) { backStack ->
       NavigationEvent(backStack.pop().navigable, NoAnimationTransition())
+    }
+  }
+
+  fun goBackToRoot() {
+    navigate(Direction.BACKWARD) { history ->
+      var navigable: NavigableCompat? = null
+      while (history.size > 1) {
+        navigable = history.pop().navigable
+      }
+      NavigationEvent(navigable!!, DefaultTransition())
     }
   }
 

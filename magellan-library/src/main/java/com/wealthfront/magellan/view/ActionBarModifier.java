@@ -28,6 +28,13 @@ public interface ActionBarModifier {
   }
 
   /**
+   * @return true if we need to pass the onUpdateMenu calls to the navigables children, false otherwise (false by default).
+   */
+  default boolean shouldShowChildNavigablesMenu() {
+    return false;
+  }
+
+  /**
    * @return the color of the ActionBar (invalid by default).
    */
   @ColorRes
