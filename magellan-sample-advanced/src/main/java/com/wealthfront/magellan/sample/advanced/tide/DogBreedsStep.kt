@@ -14,11 +14,10 @@ import com.wealthfront.magellan.sample.advanced.R
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.advanced.api.DogApi
 import com.wealthfront.magellan.sample.advanced.databinding.DogBreedBinding
-import com.wealthfront.magellan.view.ActionBarModifier
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DogBreedsStep : Step<DogBreedBinding>(DogBreedBinding::inflate), ActionBarModifier {
+class DogBreedsStep : Step<DogBreedBinding>(DogBreedBinding::inflate) {
 
   @Inject lateinit var api: DogApi
 

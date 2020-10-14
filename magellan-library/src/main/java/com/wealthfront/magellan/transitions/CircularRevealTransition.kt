@@ -19,13 +19,19 @@ class CircularRevealTransition(private val clickedView: View) : MagellanTransiti
     val finalRadius = hypot(to.width.toDouble(), to.height.toDouble()).toFloat()
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       val anim = ViewAnimationUtils.createCircularReveal(
-        to, circularRevealCenterX,
-        circularRevealCenterY, 0f, finalRadius)
-      anim.addListener(object : AnimatorListenerAdapter() {
-        override fun onAnimationEnd(animation: Animator) {
-          callback.onAnimationEnd()
+        to,
+        circularRevealCenterX,
+        circularRevealCenterY,
+        0f,
+        finalRadius
+      )
+      anim.addListener(
+        object : AnimatorListenerAdapter() {
+          override fun onAnimationEnd(animation: Animator) {
+            callback.onAnimationEnd()
+          }
         }
-      })
+      )
       anim.start()
     } else {
       callback.onAnimationEnd()
@@ -38,6 +44,7 @@ class CircularRevealTransition(private val clickedView: View) : MagellanTransiti
     from.offsetDescendantRectToMyCoords(clickedView, clickedViewRect)
     return intArrayOf(
       clickedViewRect.exactCenterX().toInt(),
-      clickedViewRect.exactCenterY().toInt())
+      clickedViewRect.exactCenterY().toInt()
+    )
   }
 }

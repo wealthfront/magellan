@@ -71,16 +71,32 @@ class NavigationDelegate(
     activity = null
   }
 
-  fun goTo(nextNavigableCompat: NavigableCompat, overrideMagellanTransition: MagellanTransition? = null) {
+  fun goTo(
+    nextNavigableCompat: NavigableCompat,
+    overrideMagellanTransition: MagellanTransition? = null
+  ) {
     navigate(FORWARD) { backStack ->
-      backStack.push(NavigationEvent(nextNavigableCompat, overrideMagellanTransition ?: DefaultTransition()))
+      backStack.push(
+        NavigationEvent(
+          nextNavigableCompat,
+          overrideMagellanTransition ?: DefaultTransition()
+        )
+      )
     }
   }
 
-  fun replace(nextNavigableCompat: NavigableCompat, overrideMagellanTransition: MagellanTransition? = null) {
+  fun replace(
+    nextNavigableCompat: NavigableCompat,
+    overrideMagellanTransition: MagellanTransition? = null
+  ) {
     navigate(FORWARD) { backStack ->
       backStack.pop()
-      backStack.push(NavigationEvent(nextNavigableCompat, overrideMagellanTransition ?: DefaultTransition()))
+      backStack.push(
+        NavigationEvent(
+          nextNavigableCompat,
+          overrideMagellanTransition ?: DefaultTransition()
+        )
+      )
     }
   }
 
@@ -109,25 +125,32 @@ class NavigationDelegate(
   ) {
     currentNavigable!!.transitionStarted()
     to?.whenMeasured {
-      magellanTransition.animate(from, to, direction, object : MagellanTransition.Callback {
-        override fun onAnimationEnd() {
-          if (context != null) {
-            containerView!!.removeView(from)
-            currentNavigable!!.transitionFinished()
-            containerView!!.setInterceptTouchEvents(false)
+      magellanTransition.animate(
+        from,
+        to,
+        direction,
+        object : MagellanTransition.Callback {
+          override fun onAnimationEnd() {
+            if (context != null) {
+              containerView!!.removeView(from)
+              currentNavigable!!.transitionFinished()
+              containerView!!.setInterceptTouchEvents(false)
+            }
           }
         }
-      })
+      )
     }
   }
 
   private fun showCurrentNavigable(direction: Direction): View? {
     currentNavigableSetup?.invoke(currentNavigable!!)
     attachToLifecycle(
-      currentNavigable!!, detachedState = when (direction) {
-      FORWARD -> LifecycleState.Destroyed
-      BACKWARD -> currentState.getEarlierOfCurrentState()
-    })
+      currentNavigable!!,
+      detachedState = when (direction) {
+        FORWARD -> LifecycleState.Destroyed
+        BACKWARD -> currentState.getEarlierOfCurrentState()
+      }
+    )
     setupCurrentScreenToBeShown(currentNavigable!!)
     navigationPropagator.onNavigate()
     navigationPropagator.showCurrentNavigable(currentNavigable!!)
@@ -136,9 +159,11 @@ class NavigationDelegate(
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
         containerView!!.addView(
           currentNavigable!!.view!!,
-          direction.indexToAddView(containerView!!))
+          direction.indexToAddView(containerView!!)
+        )
       }
-      is LifecycleState.Destroyed, is LifecycleState.Created -> { }
+      is LifecycleState.Destroyed, is LifecycleState.Created -> {
+      }
     }
     return currentNavigable!!.view
   }
@@ -147,10 +172,12 @@ class NavigationDelegate(
     return currentNavigable?.let { currentNavigable ->
       val currentView = currentNavigable.view
       removeFromLifecycle(
-        currentNavigable, detachedState = when (direction) {
-        FORWARD -> currentState.getEarlierOfCurrentState()
-        BACKWARD -> LifecycleState.Destroyed
-      })
+        currentNavigable,
+        detachedState = when (direction) {
+          FORWARD -> currentState.getEarlierOfCurrentState()
+          BACKWARD -> LifecycleState.Destroyed
+        }
+      )
       navigationPropagator.hideCurrentNavigable(currentNavigable)
       currentView
     }
@@ -186,23 +213,26 @@ class NavigationDelegate(
           menu.getItem(i).isVisible = false
         }
         (rootNavigable as? ActionBarModifier)?.onUpdateMenu(menu)
-        rootNavigable.childNavigables().filterIsInstance(ActionBarModifier::class.java).filter { it.shouldShowChildNavigablesMenu() }.forEach { it.onUpdateMenu(menu) }
+        rootNavigable.childNavigables()
+          .filterIsInstance(ActionBarModifier::class.java)
+          .forEach { it.onUpdateMenu(menu) }
         (updateMenuForNavigable as? ActionBarModifier)?.onUpdateMenu(menu)
-        updateMenuForNavigable?.childNavigables()?.filterIsInstance(ActionBarModifier::class.java)?.filter { it.shouldShowChildNavigablesMenu() }?.forEach { it.onUpdateMenu(menu) }
+        updateMenuForNavigable?.childNavigables()
+          ?.filterIsInstance(ActionBarModifier::class.java)
+          ?.forEach { it.onUpdateMenu(menu) }
       }
     }
   }
 
   private fun callOnNavigate(navItem: NavigableCompat) {
-    val actionBarConfig = if (navItem is ActionBarModifier) {
-      ActionBarConfig.with()
-        .visible(navItem.shouldShowActionBar())
-        .animated(navItem.shouldAnimateActionBar())
-        .colorRes(navItem.actionBarColorRes)
-        .build()
-    } else {
-      null
+    if (navItem is ActionBarModifier) {
+      (activity as? ActionBarConfigListener)?.onNavigate(
+        ActionBarConfig.with()
+          .visible(navItem.shouldShowActionBar())
+          .animated(navItem.shouldAnimateActionBar())
+          .colorRes(navItem.actionBarColorRes)
+          .build()
+      )
     }
-    (activity as? ActionBarConfigListener)?.onNavigate(actionBarConfig)
   }
 }

@@ -190,10 +190,13 @@ class LinearNavigatorTest {
 }
 
 private open class FakeActivity : AppCompatActivity(), ActionBarConfigListener {
-  override fun onNavigate(actionBarConfig: ActionBarConfig?) {}
+  override fun onNavigate(actionBarConfig: ActionBarConfig) {}
 }
 
 private open class DummyStep : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate), ActionBarModifier
-private open class DummyJourney : Journey<MagellanDummyLayoutBinding>(
-  MagellanDummyLayoutBinding::inflate,
-  MagellanDummyLayoutBinding::container), ActionBarModifier
+private open class DummyJourney :
+  Journey<MagellanDummyLayoutBinding>(
+    MagellanDummyLayoutBinding::inflate,
+    MagellanDummyLayoutBinding::container
+  ),
+  ActionBarModifier

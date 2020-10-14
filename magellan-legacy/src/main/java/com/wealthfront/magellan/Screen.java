@@ -18,8 +18,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import androidx.annotation.NonNull;
-
 /**
  * Screens are where your logic lives (you can think of it as a Presenter in the MVP pattern, or a Controller
  * in the MVC pattern).
