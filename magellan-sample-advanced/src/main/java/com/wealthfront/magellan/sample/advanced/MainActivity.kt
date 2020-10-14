@@ -2,10 +2,12 @@ package com.wealthfront.magellan.sample.advanced
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.Window
 import androidx.annotation.ColorRes
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.wealthfront.magellan.lifecycle.setContentScreen
@@ -44,11 +46,17 @@ class MainActivity : AppCompatActivity(), ActionBarConfigListener {
     }
   }
 
-  override fun onNavigate(actionBarConfig: ActionBarConfig) {
-    updateStatusBar(actionBarConfig.colorRes())
+  @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+  override fun onNavigate(actionBarConfig: ActionBarConfig?) {
+    if (actionBarConfig != null) {
+      updateStatusBar(actionBarConfig.colorRes())
+    } else {
+      updateStatusBar()
+    }
   }
 
-  private fun updateStatusBar(@ColorRes actionBarColorRes: Int) {
+  @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+  private fun updateStatusBar(@ColorRes actionBarColorRes: Int = DEFAULT_ACTION_BAR_COLOR_RES) {
     if (actionBarColorRes == DEFAULT_ACTION_BAR_COLOR_RES) {
       animateStatusBarColor(window, window.statusBarColor, R.color.colorAccent)
     } else {
@@ -57,6 +65,7 @@ class MainActivity : AppCompatActivity(), ActionBarConfigListener {
     }
   }
 
+  @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
   private fun animateStatusBarColor(window: Window, startColor: Int, endColor: Int) {
     if (startColor == endColor) {
       return
