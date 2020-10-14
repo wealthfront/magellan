@@ -78,36 +78,36 @@ class LinearNavigatorTest {
     verify(context as ActionBarConfigListener).onNavigate(any())
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.peek().transition.javaClass).isEqualTo(DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.peek().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
   fun show() {
-    linearNavigator.show(step1)
+    linearNavigator.goTo(step1, ShowTransition())
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.peek().transition.javaClass).isEqualTo(ShowTransition::class.java)
+    assertThat(linearNavigator.backStack.peek().magellanTransition.javaClass).isEqualTo(ShowTransition::class.java)
   }
 
   @Test
   fun replaceGo() {
-    linearNavigator.show(step1)
-    linearNavigator.replaceAndGo(step2)
+    linearNavigator.goTo(step1, ShowTransition())
+    linearNavigator.replace(step2)
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.peek().transition.javaClass).isEqualTo(DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.peek().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
   fun replaceShow() {
-    linearNavigator.show(step1)
-    linearNavigator.replaceAndShow(step2)
+    linearNavigator.goTo(step1, ShowTransition())
+    linearNavigator.replace(step2, ShowTransition())
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.peek().transition.javaClass).isEqualTo(ShowTransition::class.java)
+    assertThat(linearNavigator.backStack.peek().magellanTransition.javaClass).isEqualTo(ShowTransition::class.java)
   }
 
   @Test
@@ -119,7 +119,7 @@ class LinearNavigatorTest {
     assertThat(didNavigate).isTrue()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.peek().transition.javaClass).isEqualTo(DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.peek().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
@@ -130,7 +130,7 @@ class LinearNavigatorTest {
     assertThat(didNavigate).isFalse()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.peek().transition.javaClass).isEqualTo(DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.peek().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
@@ -148,7 +148,7 @@ class LinearNavigatorTest {
     assertThat(didNavigate).isTrue()
     assertThat(linearNavigator.backStack.size).isEqualTo(2)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.peek().transition.javaClass).isEqualTo(DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.peek().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test

@@ -2,6 +2,8 @@ package com.wealthfront.magellan;
 
 import android.content.Context;
 
+import org.jetbrains.annotations.NotNull;
+
 class DummyScreen extends Screen<BaseScreenView<DummyScreen>> {
 
   private BaseScreenView<DummyScreen> view;
@@ -11,7 +13,7 @@ class DummyScreen extends Screen<BaseScreenView<DummyScreen>> {
   }
 
   @Override
-  protected BaseScreenView<DummyScreen> createView(Context context) {
+  protected BaseScreenView<DummyScreen> createView(@NotNull Context context) {
     return view;
   }
 

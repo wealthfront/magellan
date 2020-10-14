@@ -62,7 +62,8 @@ dependencies {
   testImplementation Dependencies.robolectric
   testImplementation Dependencies.coroutinesTest
 
-  lintPublish project(':magellan-lint')
+// Bug in AGP: Follow this issue - https://issuetracker.google.com/issues/141840950
+// lintPublish project(':magellan-lint')
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
