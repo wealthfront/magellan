@@ -29,10 +29,6 @@ interface MagellanTransition {
     from: View?,
     to: View,
     direction: Direction,
-    callback: Callback
+    onAnimationEndCallback: () -> Unit
   )
-
-  interface Callback {
-    fun onAnimationEnd()
-  }
 }
