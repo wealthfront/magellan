@@ -7,7 +7,6 @@ import android.content.Context;
 import android.view.ViewGroup;
 
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent;
-import com.wealthfront.magellan.lifecycle.LifecycleState;
 import com.wealthfront.magellan.navigation.NavigableCompat;
 import com.wealthfront.magellan.view.ActionBarModifier;
 import com.wealthfront.magellan.view.DialogComponent;
@@ -49,8 +48,8 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   private LegacyNavigator navigator;
 
   public Screen() {
-    attachToLifecycle(new LegacyViewComponent<>(this), LifecycleState.Destroyed.INSTANCE);
-    attachToLifecycle(dialogComponent, LifecycleState.Destroyed.INSTANCE);
+    attachToLifecycle(new LegacyViewComponent<>(this));
+    attachToLifecycle(dialogComponent);
   }
 
   /**

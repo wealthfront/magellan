@@ -51,6 +51,7 @@ fun ComponentActivity.setContentScreen(navigable: Navigable, @LayoutRes root: In
   lifecycle.addObserver(ActivityLifecycleAdapter(navigable, this))
 }
 
+@Deprecated("This method exists for migration purposes.", ReplaceWith("setContentScreen(navigable)"))
 fun ComponentActivity.setExpedition(navigable: Navigable) {
   lifecycle.addObserver(ActivityLifecycleAdapter(navigable, this))
 }

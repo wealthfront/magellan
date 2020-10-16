@@ -1,7 +1,9 @@
 package com.wealthfront.magellan.view;
 
 import android.view.Menu;
+
 import org.jetbrains.annotations.NotNull;
+
 import androidx.annotation.ColorRes;
 
 public interface ActionBarModifier {
@@ -25,13 +27,6 @@ public interface ActionBarModifier {
    */
   default boolean shouldAnimateActionBar() {
     return true;
-  }
-
-  /**
-   * @return true if we need to pass the onUpdateMenu calls to the navigables children, false otherwise (false by default).
-   */
-  default boolean shouldShowChildNavigablesMenu() {
-    return false;
   }
 
   /**

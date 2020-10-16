@@ -10,11 +10,10 @@ import androidx.annotation.VisibleForTesting
 import androidx.viewbinding.ViewBinding
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.lifecycleWithContext
-import com.wealthfront.magellan.view.ActionBarModifier
 
 abstract class Step<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V
-) : Navigable, LifecycleAwareComponent(), ActionBarModifier {
+) : Navigable, LifecycleAwareComponent() {
 
   private var viewState: SparseArray<Parcelable>? = null
 

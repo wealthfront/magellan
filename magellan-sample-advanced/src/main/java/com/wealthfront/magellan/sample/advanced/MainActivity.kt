@@ -47,8 +47,13 @@ class MainActivity : AppCompatActivity(), ActionBarConfigListener {
   }
 
   @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-  override fun onNavigate(actionBarConfig: ActionBarConfig) {
-    updateStatusBar(actionBarConfig.colorRes())
+  override fun onNavigate(actionBarConfig: ActionBarConfig?) {
+    if (actionBarConfig != null) {
+      updateStatusBar(actionBarConfig.colorRes())
+      actionBar?.show()
+    } else {
+      actionBar?.hide()
+    }
   }
 
   @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

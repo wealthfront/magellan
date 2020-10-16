@@ -47,6 +47,6 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
       public void create(@NotNull Context context) {
         screen.setNavigator(getNavigator());
       }
-    }, Destroyed.INSTANCE);
+    });
   }
 }
