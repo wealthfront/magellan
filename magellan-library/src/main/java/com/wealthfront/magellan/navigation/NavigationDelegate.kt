@@ -125,20 +125,13 @@ class NavigationDelegate(
   ) {
     currentNavigable!!.transitionStarted()
     to?.whenMeasured {
-      magellanTransition.animate(
-        from,
-        to,
-        direction,
-        object : MagellanTransition.Callback {
-          override fun onAnimationEnd() {
-            if (context != null) {
-              containerView!!.removeView(from)
-              currentNavigable!!.transitionFinished()
-              containerView!!.setInterceptTouchEvents(false)
-            }
-          }
+      magellanTransition.animate(from, to, direction) {
+        if (context != null) {
+          containerView!!.removeView(from)
+          currentNavigable!!.transitionFinished()
+          containerView!!.setInterceptTouchEvents(false)
         }
-      )
+      }
     }
   }
 

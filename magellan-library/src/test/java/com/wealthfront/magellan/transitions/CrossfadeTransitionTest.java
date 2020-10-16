@@ -3,12 +3,13 @@ package com.wealthfront.magellan.transitions;
 import android.view.View;
 
 import com.wealthfront.magellan.Direction;
-import com.wealthfront.magellan.transitions.MagellanTransition.Callback;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+
+import kotlin.Unit;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -45,11 +46,9 @@ public class CrossfadeTransitionTest {
   }
 
   private void checkAnimate(Direction direction) {
-    new CrossfadeTransition().animate(from, to, direction, new Callback() {
-      @Override
-      public void onAnimationEnd() {
-        onAnimationEndCalled = true;
-      }
+    new CrossfadeTransition().animate(from, to, direction, () -> {
+      onAnimationEndCalled = true;
+      return Unit.INSTANCE;
     });
     flushForegroundThreadScheduler();
     assertThat(onAnimationEndCalled).isTrue();

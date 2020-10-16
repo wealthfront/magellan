@@ -5,7 +5,7 @@ import com.wealthfront.magellan.Direction
 
 class NoAnimationTransition : MagellanTransition {
 
-  override fun animate(from: View?, to: View, direction: Direction, callback: MagellanTransition.Callback) {
-    callback.onAnimationEnd()
+  override fun animate(from: View?, to: View, direction: Direction, onAnimationEndCallback: () -> Unit) {
+    onAnimationEndCallback()
   }
 }

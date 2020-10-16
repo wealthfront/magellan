@@ -10,15 +10,18 @@ import com.wealthfront.magellan.Direction
 
 class DefaultTransition : MagellanTransition {
 
-  override fun animate(from: View?, to: View, direction: Direction, callback: MagellanTransition.Callback) {
+  override fun animate(
+    from: View?,
+    to: View,
+    direction: Direction,
+    onAnimationEndCallback: () -> Unit
+  ) {
     val animator = createAnimator(from, to, direction)
-    animator.addListener(
-      object : AnimatorListenerAdapter() {
-        override fun onAnimationEnd(animation: Animator) {
-          callback.onAnimationEnd()
-        }
+    animator.addListener(object : AnimatorListenerAdapter() {
+      override fun onAnimationEnd(animation: Animator) {
+        onAnimationEndCallback()
       }
-    )
+    })
     animator.start()
   }
 
