@@ -11,11 +11,13 @@ import com.wealthfront.magellan.navigation.NavigationDelegate
 import com.wealthfront.magellan.navigation.NavigationEvent
 import com.wealthfront.magellan.navigation.Navigator
 import com.wealthfront.magellan.transitions.DefaultTransition
+import com.wealthfront.magellan.transitions.MagellanTransition
 import com.wealthfront.magellan.transitions.NoAnimationTransition
 import com.wealthfront.magellan.transitions.ShowTransition
+import java.lang.IllegalStateException
 import java.util.Stack
 
-class LegacyNavigator internal constructor(
+public class LegacyNavigator internal constructor(
   override val journey: Step<*>,
   container: () -> ScreenContainer
 ) : Navigator, LifecycleAwareComponent() {
@@ -34,7 +36,7 @@ class LegacyNavigator internal constructor(
   init {
     delegate.currentNavigableSetup = { navItem ->
       if (navItem is Screen<*>) {
-        navItem.setNavigator(this)
+        navItem.navigator = this
       }
       if (navItem is MultiScreen<*>) {
         navItem.screens.forEach { it.setNavigator(this) }
@@ -42,54 +44,58 @@ class LegacyNavigator internal constructor(
     }
   }
 
-  fun rewriteHistory(backStackOperation: (Stack<NavigationEvent>) -> NavigationEvent) {
-    backStackOperation.invoke(backStack)
-  }
-
-  fun navigate(backStackOperation: (Stack<NavigationEvent>) -> NavigationEvent) {
+  public fun navigate(backStackOperation: (Stack<NavigationEvent>) -> NavigationEvent) {
     navigate(FORWARD, backStackOperation)
   }
 
-  fun navigate(
+  public fun navigate(
     direction: Direction,
     backStackOperation: (Stack<NavigationEvent>) -> NavigationEvent
   ) {
     delegate.navigate(direction, backStackOperation)
   }
 
-  fun replace(navigable: NavigableCompat) {
+  public fun replace(navigable: NavigableCompat) {
     delegate.replace(navigable)
   }
 
-  fun replaceNow(navigable: NavigableCompat) {
+  public fun replaceNow(navigable: NavigableCompat) {
     delegate.replace(navigable, NoAnimationTransition())
   }
 
-  fun show(navigable: NavigableCompat) {
+  public fun show(navigable: NavigableCompat) {
     delegate.goTo(navigable, ShowTransition())
   }
 
-  fun showNow(navigable: NavigableCompat) {
+  public fun showNow(navigable: NavigableCompat) {
     delegate.goTo(navigable, NoAnimationTransition())
   }
 
-  fun goTo(navigable: NavigableCompat) {
+  public fun goTo(navigable: NavigableCompat) {
     delegate.goTo(navigable)
   }
 
-  fun hide(navigable: NavigableCompat) {
+  public fun hideNow(navigable: NavigableCompat) {
+    hide(navigable, NoAnimationTransition())
+  }
+
+  @JvmOverloads
+  public fun hide(navigable: NavigableCompat, overrideMagellanTransition: MagellanTransition? = null) {
     navigate(BACKWARD) { backStack ->
-      backStack.pop()
+      val backStackItem = backStack.find { it.navigable == navigable }
+        ?: throw IllegalStateException("Cannot find navigable (${navigable::class.java.simpleName}) in the backstack!")
+      backStack.remove(backStackItem)
+      NavigationEvent(navigable, overrideMagellanTransition ?: ShowTransition())
     }
   }
 
-  fun hideNow(navigable: NavigableCompat) {
+  public fun hide(magellanTransition: MagellanTransition? = null) {
     navigate(BACKWARD) { backStack ->
-      NavigationEvent(backStack.pop().navigable, NoAnimationTransition())
+      NavigationEvent(backStack.pop().navigable, magellanTransition ?: ShowTransition())
     }
   }
 
-  fun goBackToRoot() {
+  public fun goBackToRoot() {
     navigate(Direction.BACKWARD) { history ->
       var navigable: NavigableCompat? = null
       while (history.size > 1) {
@@ -99,7 +105,7 @@ class LegacyNavigator internal constructor(
     }
   }
 
-  fun goBack(): Boolean {
+  public fun goBack(): Boolean {
     return delegate.goBack()
   }
 }

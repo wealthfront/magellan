@@ -1,12 +1,12 @@
 package com.wealthfront.magellan.lifecycle
 
-interface LifecycleOwner {
+public interface LifecycleOwner {
 
-  val currentState: LifecycleState
+  public val currentState: LifecycleState
 
-  val children: List<LifecycleAware>
+  public val children: List<LifecycleAware>
 
-  fun attachToLifecycle(lifecycleAware: LifecycleAware, detachedState: LifecycleState = LifecycleState.Destroyed)
+  public fun attachToLifecycle(lifecycleAware: LifecycleAware, detachedState: LifecycleState = LifecycleState.Destroyed)
 
-  fun removeFromLifecycle(lifecycleAware: LifecycleAware, detachedState: LifecycleState = LifecycleState.Destroyed)
+  public fun removeFromLifecycle(lifecycleAware: LifecycleAware, detachedState: LifecycleState = LifecycleState.Destroyed)
 }

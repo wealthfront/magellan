@@ -9,7 +9,7 @@ import kotlinx.coroutines.SupervisorJob
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class NavigableScope @Inject constructor() : LifecycleAware, CoroutineScope {
+public class NavigableScope @Inject constructor() : LifecycleAware, CoroutineScope {
 
   private var job = SupervisorJob().apply { cancel(CancellationException("Not created yet")) }
 

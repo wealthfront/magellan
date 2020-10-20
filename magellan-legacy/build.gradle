@@ -29,6 +29,11 @@ android {
       minifyEnabled false
     }
   }
+
+  kotlinOptions {
+    jvmTarget = "1.8"
+    freeCompilerArgs = ['-Xexplicit-api=strict']
+  }
 }
 
 dependencies {

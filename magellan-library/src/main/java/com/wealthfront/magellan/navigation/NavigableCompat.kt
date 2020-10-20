@@ -6,21 +6,21 @@ import androidx.annotation.StringRes
 import com.wealthfront.magellan.core.Displayable
 import com.wealthfront.magellan.lifecycle.LifecycleAware
 
-interface NavigableCompat : LifecycleAware, Displayable {
+public interface NavigableCompat : LifecycleAware, Displayable {
 
-  val activity: Activity?
+  public val activity: Activity?
 
   /**
    * @return the title to be displayed on the navigable
    */
   @JvmDefault
-  fun getTitle(context: Context) = ""
+  public fun getTitle(context: Context): String = ""
 
   /**
    * Set the title to be displayed on the navigable
    */
   @JvmDefault
-  fun setTitle(@StringRes titleResId: Int) {
+  public fun setTitle(@StringRes titleResId: Int) {
     activity?.setTitle(titleResId)
   }
 
@@ -28,7 +28,7 @@ interface NavigableCompat : LifecycleAware, Displayable {
    * Set the title to be displayed on the navigable
    */
   @JvmDefault
-  fun setTitle(title: CharSequence) {
+  public fun setTitle(title: CharSequence) {
     activity?.title = title
   }
 }

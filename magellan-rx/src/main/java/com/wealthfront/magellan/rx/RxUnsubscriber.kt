@@ -6,18 +6,18 @@ import rx.Subscription
 import rx.subscriptions.CompositeSubscription
 import javax.inject.Inject
 
-class RxUnsubscriber @Inject constructor() : LifecycleAware {
+public class RxUnsubscriber @Inject constructor() : LifecycleAware {
 
   private var subscriptions: CompositeSubscription? = null
 
-  fun autoUnsubscribe(subscription: Subscription) {
+  public fun autoUnsubscribe(subscription: Subscription) {
     if (subscriptions == null) {
       subscriptions = CompositeSubscription()
     }
     subscriptions!!.add(subscription)
   }
 
-  fun autoUnsubscribe(vararg subscription: Subscription) {
+  public fun autoUnsubscribe(vararg subscription: Subscription) {
     subscription.forEach { autoUnsubscribe(it) }
   }
 

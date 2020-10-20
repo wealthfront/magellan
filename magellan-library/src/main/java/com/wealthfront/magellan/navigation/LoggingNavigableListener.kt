@@ -5,7 +5,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LoggingNavigableListener @Inject constructor(private val navigationTraverser: NavigationTraverser) : NavigableListener {
+public class LoggingNavigableListener @Inject constructor(private val navigationTraverser: NavigationTraverser) : NavigableListener {
 
   override fun onNavigableShown(navigable: NavigableCompat) {
     Log.i(this::class.java.simpleName, "Shown: ${navigable.javaClass.simpleName}")

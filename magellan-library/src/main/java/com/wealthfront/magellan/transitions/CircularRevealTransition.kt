@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import com.wealthfront.magellan.Direction
 import kotlin.math.hypot
 
-class CircularRevealTransition(private val clickedView: View) : MagellanTransition {
+public class CircularRevealTransition(private val clickedView: View) : MagellanTransition {
 
   override fun animate(
     from: View?,
