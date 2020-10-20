@@ -194,9 +194,6 @@ private open class FakeActivity : AppCompatActivity(), ActionBarConfigListener {
 }
 
 private open class DummyStep : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate), ActionBarModifier
-private open class DummyJourney :
-  Journey<MagellanDummyLayoutBinding>(
-    MagellanDummyLayoutBinding::inflate,
-    MagellanDummyLayoutBinding::container
-  ),
-  ActionBarModifier
+private open class DummyJourney : Journey<MagellanDummyLayoutBinding>(
+  MagellanDummyLayoutBinding::inflate,
+  MagellanDummyLayoutBinding::container), ActionBarModifier

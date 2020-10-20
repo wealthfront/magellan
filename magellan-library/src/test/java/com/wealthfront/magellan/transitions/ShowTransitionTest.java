@@ -10,8 +10,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import kotlin.Unit;
-
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static com.google.common.truth.Truth.assertThat;
 import static com.wealthfront.magellan.Direction.BACKWARD;
@@ -43,9 +41,11 @@ public class ShowTransitionTest {
 
   private void checkAnimate(Direction direction) {
     new ShowTransition().animate(new View(getApplicationContext()), new View(getApplicationContext()), direction,
-        () -> {
-          onAnimationEndCalled = true;
-          return Unit.INSTANCE;
+        new MagellanTransition.Callback() {
+          @Override
+          public void onAnimationEnd() {
+            onAnimationEndCalled = true;
+          }
         });
     flushForegroundThreadScheduler();
     assertThat(onAnimationEndCalled).isTrue();

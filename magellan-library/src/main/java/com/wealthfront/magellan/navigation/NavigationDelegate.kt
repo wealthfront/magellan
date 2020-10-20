@@ -71,32 +71,16 @@ class NavigationDelegate(
     activity = null
   }
 
-  fun goTo(
-    nextNavigableCompat: NavigableCompat,
-    overrideMagellanTransition: MagellanTransition? = null
-  ) {
+  fun goTo(nextNavigableCompat: NavigableCompat, overrideMagellanTransition: MagellanTransition? = null) {
     navigate(FORWARD) { backStack ->
-      backStack.push(
-        NavigationEvent(
-          nextNavigableCompat,
-          overrideMagellanTransition ?: DefaultTransition()
-        )
-      )
+      backStack.push(NavigationEvent(nextNavigableCompat, overrideMagellanTransition ?: DefaultTransition()))
     }
   }
 
-  fun replace(
-    nextNavigableCompat: NavigableCompat,
-    overrideMagellanTransition: MagellanTransition? = null
-  ) {
+  fun replace(nextNavigableCompat: NavigableCompat, overrideMagellanTransition: MagellanTransition? = null) {
     navigate(FORWARD) { backStack ->
       backStack.pop()
-      backStack.push(
-        NavigationEvent(
-          nextNavigableCompat,
-          overrideMagellanTransition ?: DefaultTransition()
-        )
-      )
+      backStack.push(NavigationEvent(nextNavigableCompat, overrideMagellanTransition ?: DefaultTransition()))
     }
   }
 
@@ -138,12 +122,10 @@ class NavigationDelegate(
   private fun showCurrentNavigable(direction: Direction): View? {
     currentNavigableSetup?.invoke(currentNavigable!!)
     attachToLifecycle(
-      currentNavigable!!,
-      detachedState = when (direction) {
-        FORWARD -> LifecycleState.Destroyed
-        BACKWARD -> currentState.getEarlierOfCurrentState()
-      }
-    )
+      currentNavigable!!, detachedState = when (direction) {
+      FORWARD -> LifecycleState.Destroyed
+      BACKWARD -> currentState.getEarlierOfCurrentState()
+    })
     setupCurrentScreenToBeShown(currentNavigable!!)
     navigationPropagator.onNavigate()
     navigationPropagator.showCurrentNavigable(currentNavigable!!)
@@ -152,11 +134,9 @@ class NavigationDelegate(
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
         containerView!!.addView(
           currentNavigable!!.view!!,
-          direction.indexToAddView(containerView!!)
-        )
+          direction.indexToAddView(containerView!!))
       }
-      is LifecycleState.Destroyed, is LifecycleState.Created -> {
-      }
+      is LifecycleState.Destroyed, is LifecycleState.Created -> { }
     }
     return currentNavigable!!.view
   }
@@ -165,12 +145,10 @@ class NavigationDelegate(
     return currentNavigable?.let { currentNavigable ->
       val currentView = currentNavigable.view
       removeFromLifecycle(
-        currentNavigable,
-        detachedState = when (direction) {
-          FORWARD -> currentState.getEarlierOfCurrentState()
-          BACKWARD -> LifecycleState.Destroyed
-        }
-      )
+        currentNavigable, detachedState = when (direction) {
+        FORWARD -> currentState.getEarlierOfCurrentState()
+        BACKWARD -> LifecycleState.Destroyed
+      })
       navigationPropagator.hideCurrentNavigable(currentNavigable)
       currentView
     }
@@ -206,13 +184,9 @@ class NavigationDelegate(
           menu.getItem(i).isVisible = false
         }
         (rootNavigable as? ActionBarModifier)?.onUpdateMenu(menu)
-        rootNavigable.childNavigables()
-          .filterIsInstance(ActionBarModifier::class.java)
-          .forEach { it.onUpdateMenu(menu) }
+        rootNavigable.childNavigables().filterIsInstance(ActionBarModifier::class.java).forEach { it.onUpdateMenu(menu) }
         (updateMenuForNavigable as? ActionBarModifier)?.onUpdateMenu(menu)
-        updateMenuForNavigable?.childNavigables()
-          ?.filterIsInstance(ActionBarModifier::class.java)
-          ?.forEach { it.onUpdateMenu(menu) }
+        updateMenuForNavigable?.childNavigables()?.filterIsInstance(ActionBarModifier::class.java)?.forEach { it.onUpdateMenu(menu) }
       }
     }
   }
@@ -224,8 +198,7 @@ class NavigationDelegate(
           .visible(navItem.shouldShowActionBar())
           .animated(navItem.shouldAnimateActionBar())
           .colorRes(navItem.actionBarColorRes)
-          .build()
-      )
+          .build())
     }
   }
 }

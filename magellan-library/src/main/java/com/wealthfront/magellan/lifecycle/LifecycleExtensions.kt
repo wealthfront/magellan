@@ -14,8 +14,7 @@ fun <T : LifecycleAware> LifecycleOwner.lifecycle(lifecycleAware: T): Lifecycle<
   return Lifecycle(
     this,
     lifecycleAware,
-    { lifecycleAware }
-  )
+    { lifecycleAware })
 }
 
 class Lifecycle<T : LifecycleAware, R>(parent: LifecycleOwner, lifecycleAware: T, val getter: (T) -> R) {
