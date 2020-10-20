@@ -9,9 +9,9 @@ import com.wealthfront.magellan.rx.RxUnsubscriber
 import com.wealthfront.magellan.sample.advanced.R
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.advanced.api.DogApi
-import javax.inject.Inject
 import rx.android.schedulers.AndroidSchedulers.mainThread
 import rx.schedulers.Schedulers
+import javax.inject.Inject
 
 class DogDetailsScreen(private val breed: String) : Screen<DogDetailsView>() {
 
@@ -37,13 +37,15 @@ class DogDetailsScreen(private val breed: String) : Screen<DogDetailsView>() {
   }
 
   override fun onShow(context: Context) {
-    rxUnsubscriber.autoUnsubscribe(api.getRandomImageForBreed(breed)
-      .subscribeOn(Schedulers.io())
-      .observeOn(mainThread())
-      .subscribe {
-        view!!.setDogPic(it.message)
-        setTitle(breed)
-      })
+    rxUnsubscriber.autoUnsubscribe(
+      api.getRandomImageForBreed(breed)
+        .subscribeOn(Schedulers.io())
+        .observeOn(mainThread())
+        .subscribe {
+          view!!.setDogPic(it.message)
+          setTitle(breed)
+        }
+    )
   }
 
   fun goToHelpScreen() {

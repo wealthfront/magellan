@@ -8,9 +8,9 @@ import com.wealthfront.magellan.lifecycle.lifecycle
 import com.wealthfront.magellan.rx.RxUnsubscriber
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.advanced.api.DogApi
-import javax.inject.Inject
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import javax.inject.Inject
 
 class HelpScreen : Screen<HelpView>() {
 
@@ -24,12 +24,14 @@ class HelpScreen : Screen<HelpView>() {
 
   override fun onShow(context: Context) {
     super.onShow(context)
-    rxUnsubscriber.autoUnsubscribe(api.getRandomImageForBreed("husky")
-      .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread())
-      .subscribe {
-        view!!.setDogPic(it.message)
-      })
+    rxUnsubscriber.autoUnsubscribe(
+      api.getRandomImageForBreed("husky")
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe {
+          view!!.setDogPic(it.message)
+        }
+    )
   }
 
   fun showHelpDialog() {

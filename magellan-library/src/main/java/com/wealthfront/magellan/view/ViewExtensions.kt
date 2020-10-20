@@ -11,14 +11,16 @@ internal fun View.whenMeasured(onMeasured: () -> Unit) {
     return
   }
 
-  viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
-    override fun onPreDraw(): Boolean {
-      val observer = viewTreeObserver
-      if (observer.isAlive) {
-        observer.removeOnPreDrawListener(this)
+  viewTreeObserver.addOnPreDrawListener(
+    object : ViewTreeObserver.OnPreDrawListener {
+      override fun onPreDraw(): Boolean {
+        val observer = viewTreeObserver
+        if (observer.isAlive) {
+          observer.removeOnPreDrawListener(this)
+        }
+        onMeasured.invoke()
+        return true
       }
-      onMeasured.invoke()
-      return true
     }
-  })
+  )
 }

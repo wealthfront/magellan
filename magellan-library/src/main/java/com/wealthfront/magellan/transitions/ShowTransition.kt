@@ -12,7 +12,12 @@ import com.wealthfront.magellan.Direction.FORWARD
 
 class ShowTransition : MagellanTransition {
 
-  override fun animate(from: View?, to: View, direction: Direction, onAnimationEndCallback: () -> Unit) {
+  override fun animate(
+    from: View?,
+    to: View,
+    direction: Direction,
+    onAnimationEndCallback: () -> Unit
+  ) {
     val animator = createAnimator(from, to, direction)
     animator.addListener(object : AnimatorListenerAdapter() {
       override fun onAnimationEnd(animation: Animator) {

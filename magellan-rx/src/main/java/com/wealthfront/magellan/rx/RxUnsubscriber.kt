@@ -2,9 +2,9 @@ package com.wealthfront.magellan.rx
 
 import android.content.Context
 import com.wealthfront.magellan.lifecycle.LifecycleAware
-import javax.inject.Inject
 import rx.Subscription
 import rx.subscriptions.CompositeSubscription
+import javax.inject.Inject
 
 class RxUnsubscriber @Inject constructor() : LifecycleAware {
 
