@@ -1,5 +1,6 @@
 package com.wealthfront.magellan;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -73,7 +74,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   /**
    * @return the Navigator associated with this Screen.
    */
-  @Nullable
+  @NotNull
   public final LegacyNavigator getNavigator() {
     return navigator;
   }
@@ -113,7 +114,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * The only mandatory method to implement in a Screen. <b>Must</b> create and return a new instance of the View
    * to be displayed for this Screen.
    */
-  protected abstract V createView(@Nullable Context context);
+  protected abstract V createView(@NotNull Context context);
 
   /**
    * Called when the Screen is navigated to from before the screen is shown (not triggered on rotation).
@@ -163,6 +164,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   /**
    * Finish the Activity, and therefore quit the app in a Single Activity Architecture.
    */
+  @SuppressLint("AvoidUsingActivity")
   public boolean quit() {
     if (activity != null) {
       activity.finish();

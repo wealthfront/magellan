@@ -3,6 +3,7 @@ package com.wealthfront.magellan.rx2;
 import android.content.Context;
 import android.view.ViewGroup;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
 import io.reactivex.Observable;
@@ -25,7 +26,7 @@ public class RxScreenTest {
   public class DummyRxScreen extends RxScreen {
 
     @Override
-    protected ViewGroup createView(Context context) {
+    protected ViewGroup createView(@NotNull Context context) {
       return null;
     }
 

@@ -9,15 +9,13 @@ import android.view.View
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
-import com.wealthfront.magellan.NavigationType
-import com.wealthfront.magellan.NavigationType.GO
-import com.wealthfront.magellan.NavigationType.SHOW
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.childNavigables
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.LifecycleState
 import com.wealthfront.magellan.transitions.DefaultTransition
+import com.wealthfront.magellan.transitions.MagellanTransition
 import com.wealthfront.magellan.view.ActionBarConfig
 import com.wealthfront.magellan.view.ActionBarModifier
 import com.wealthfront.magellan.view.whenMeasured
@@ -73,32 +71,32 @@ class NavigationDelegate(
     activity = null
   }
 
-  fun goTo(nextNavigableCompat: NavigableCompat) {
-    navigateTo(nextNavigableCompat, GO)
-  }
-
-  fun show(nextNavigableCompat: NavigableCompat) {
-    navigateTo(nextNavigableCompat, SHOW)
-  }
-
-  fun replaceAndGo(nextNavigableCompat: NavigableCompat) {
-    replace(nextNavigableCompat, GO)
-  }
-
-  fun replaceAndShow(nextNavigableCompat: NavigableCompat) {
-    replace(nextNavigableCompat, SHOW)
-  }
-
-  private fun replace(nextNavigableCompat: NavigableCompat, navType: NavigationType) {
+  fun goTo(
+    nextNavigableCompat: NavigableCompat,
+    overrideMagellanTransition: MagellanTransition? = null
+  ) {
     navigate(FORWARD) { backStack ->
-      backStack.pop()
-      backStack.push(NavigationEvent(nextNavigableCompat, navType))
+      backStack.push(
+        NavigationEvent(
+          nextNavigableCompat,
+          overrideMagellanTransition ?: DefaultTransition()
+        )
+      )
     }
   }
 
-  private fun navigateTo(nextNavigableCompat: NavigableCompat, navType: NavigationType) {
+  fun replace(
+    nextNavigableCompat: NavigableCompat,
+    overrideMagellanTransition: MagellanTransition? = null
+  ) {
     navigate(FORWARD) { backStack ->
-      backStack.push(NavigationEvent(nextNavigableCompat, navType))
+      backStack.pop()
+      backStack.push(
+        NavigationEvent(
+          nextNavigableCompat,
+          overrideMagellanTransition ?: DefaultTransition()
+        )
+      )
     }
   }
 
@@ -114,21 +112,20 @@ class NavigationDelegate(
   ) {
     containerView?.setInterceptTouchEvents(true)
     val from = hideCurrentNavigable(direction)
-    val navType = backStackOperation.invoke(backStack).navigationType
+    val transition = backStackOperation.invoke(backStack).magellanTransition
     val to = showCurrentNavigable(direction)
-    animateAndRemove(from, to, direction, navType)
+    animateAndRemove(from, to, direction, transition)
   }
 
   private fun animateAndRemove(
     from: View?,
     to: View?,
     direction: Direction,
-    navType: NavigationType
+    magellanTransition: MagellanTransition
   ) {
-    val transition = DefaultTransition()
     currentNavigable!!.transitionStarted()
     to?.whenMeasured {
-      transition.animate(from, to, navType, direction) {
+      magellanTransition.animate(from, to, direction) {
         if (context != null) {
           containerView!!.removeView(from)
           currentNavigable!!.transitionFinished()
@@ -141,19 +138,25 @@ class NavigationDelegate(
   private fun showCurrentNavigable(direction: Direction): View? {
     currentNavigableSetup?.invoke(currentNavigable!!)
     attachToLifecycle(
-      currentNavigable!!, detachedState = when (direction) {
-      FORWARD -> LifecycleState.Destroyed
-      BACKWARD -> currentState.getEarlierOfCurrentState()
-    })
+      currentNavigable!!,
+      detachedState = when (direction) {
+        FORWARD -> LifecycleState.Destroyed
+        BACKWARD -> currentState.getEarlierOfCurrentState()
+      }
+    )
     setupCurrentScreenToBeShown(currentNavigable!!)
     navigationPropagator.onNavigate()
     navigationPropagator.showCurrentNavigable(currentNavigable!!)
     callOnNavigate(currentNavigable!!)
     when (currentState) {
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
-        containerView!!.addView(currentNavigable!!.view!!)
+        containerView!!.addView(
+          currentNavigable!!.view!!,
+          direction.indexToAddView(containerView!!)
+        )
       }
-      is LifecycleState.Destroyed, is LifecycleState.Created -> { }
+      is LifecycleState.Destroyed, is LifecycleState.Created -> {
+      }
     }
     return currentNavigable!!.view
   }
@@ -162,10 +165,12 @@ class NavigationDelegate(
     return currentNavigable?.let { currentNavigable ->
       val currentView = currentNavigable.view
       removeFromLifecycle(
-        currentNavigable, detachedState = when (direction) {
-        FORWARD -> currentState.getEarlierOfCurrentState()
-        BACKWARD -> LifecycleState.Destroyed
-      })
+        currentNavigable,
+        detachedState = when (direction) {
+          FORWARD -> currentState.getEarlierOfCurrentState()
+          BACKWARD -> LifecycleState.Destroyed
+        }
+      )
       navigationPropagator.hideCurrentNavigable(currentNavigable)
       currentView
     }
@@ -201,9 +206,13 @@ class NavigationDelegate(
           menu.getItem(i).isVisible = false
         }
         (rootNavigable as? ActionBarModifier)?.onUpdateMenu(menu)
-        rootNavigable.childNavigables().filterIsInstance(ActionBarModifier::class.java).forEach { it.onUpdateMenu(menu) }
+        rootNavigable.childNavigables()
+          .filterIsInstance(ActionBarModifier::class.java)
+          .forEach { it.onUpdateMenu(menu) }
         (updateMenuForNavigable as? ActionBarModifier)?.onUpdateMenu(menu)
-        updateMenuForNavigable?.childNavigables()?.filterIsInstance(ActionBarModifier::class.java)?.forEach { it.onUpdateMenu(menu) }
+        updateMenuForNavigable?.childNavigables()
+          ?.filterIsInstance(ActionBarModifier::class.java)
+          ?.forEach { it.onUpdateMenu(menu) }
       }
     }
   }
@@ -215,7 +224,8 @@ class NavigationDelegate(
           .visible(navItem.shouldShowActionBar())
           .animated(navItem.shouldAnimateActionBar())
           .colorRes(navItem.actionBarColorRes)
-          .build())
+          .build()
+      )
     }
   }
 }

@@ -5,12 +5,12 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.Direction.FORWARD
-import com.wealthfront.magellan.NavigationType.GO
-import com.wealthfront.magellan.NavigationType.SHOW
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
+import com.wealthfront.magellan.transitions.DefaultTransition
+import com.wealthfront.magellan.transitions.ShowTransition
 import com.wealthfront.magellan.view.ActionBarConfig
 import com.wealthfront.magellan.view.ActionBarModifier
 import org.junit.Before
@@ -78,36 +78,36 @@ class LinearNavigatorTest {
     verify(context as ActionBarConfigListener).onNavigate(any())
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
   fun show() {
-    linearNavigator.show(step1)
+    linearNavigator.goTo(step1, ShowTransition())
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(SHOW)
+    assertThat(linearNavigator.backStack.peek().magellanTransition.javaClass).isEqualTo(ShowTransition::class.java)
   }
 
   @Test
   fun replaceGo() {
-    linearNavigator.show(step1)
-    linearNavigator.replaceAndGo(step2)
+    linearNavigator.goTo(step1, ShowTransition())
+    linearNavigator.replace(step2)
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
   fun replaceShow() {
-    linearNavigator.show(step1)
-    linearNavigator.replaceAndShow(step2)
+    linearNavigator.goTo(step1, ShowTransition())
+    linearNavigator.replace(step2, ShowTransition())
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(SHOW)
+    assertThat(linearNavigator.backStack.peek().magellanTransition.javaClass).isEqualTo(ShowTransition::class.java)
   }
 
   @Test
@@ -119,7 +119,7 @@ class LinearNavigatorTest {
     assertThat(didNavigate).isTrue()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
@@ -130,7 +130,7 @@ class LinearNavigatorTest {
     assertThat(didNavigate).isFalse()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
@@ -138,9 +138,9 @@ class LinearNavigatorTest {
     activityController.restart()
     linearNavigator.resume(context)
     linearNavigator.navigate(FORWARD) {
-      it.push(NavigationEvent(step1, GO))
-      it.push(NavigationEvent(step2, GO))
-      it.push(NavigationEvent(journey1, SHOW))
+      it.push(NavigationEvent(step1, DefaultTransition()))
+      it.push(NavigationEvent(step2, DefaultTransition()))
+      it.push(NavigationEvent(journey1, ShowTransition()))
     }
 
     val didNavigate = linearNavigator.goBack()
@@ -148,7 +148,7 @@ class LinearNavigatorTest {
     assertThat(didNavigate).isTrue()
     assertThat(linearNavigator.backStack.size).isEqualTo(2)
     assertThat(linearNavigator.backStack.peek().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.peek().navigationType).isEqualTo(GO)
+    assertThat(linearNavigator.backStack.peek().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
@@ -156,9 +156,9 @@ class LinearNavigatorTest {
     activityController.restart()
     linearNavigator.resume(context)
     linearNavigator.navigate(FORWARD) {
-      it.push(NavigationEvent(step1, GO))
-      it.push(NavigationEvent(step2, GO))
-      it.push(NavigationEvent(journey1, SHOW))
+      it.push(NavigationEvent(step1, DefaultTransition()))
+      it.push(NavigationEvent(step2, DefaultTransition()))
+      it.push(NavigationEvent(journey1, ShowTransition()))
     }
 
     linearNavigator.goBack()
@@ -172,7 +172,7 @@ class LinearNavigatorTest {
   @Test
   fun goBack_backOutOfJourney() {
     linearNavigator.navigate(FORWARD) {
-      it.push(NavigationEvent(journey1, SHOW))
+      it.push(NavigationEvent(journey1, ShowTransition()))
     }
 
     val didNavigate = linearNavigator.goBack()
@@ -194,6 +194,9 @@ private open class FakeActivity : AppCompatActivity(), ActionBarConfigListener {
 }
 
 private open class DummyStep : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate), ActionBarModifier
-private open class DummyJourney : Journey<MagellanDummyLayoutBinding>(
-  MagellanDummyLayoutBinding::inflate,
-  MagellanDummyLayoutBinding::container), ActionBarModifier
+private open class DummyJourney :
+  Journey<MagellanDummyLayoutBinding>(
+    MagellanDummyLayoutBinding::inflate,
+    MagellanDummyLayoutBinding::container
+  ),
+  ActionBarModifier

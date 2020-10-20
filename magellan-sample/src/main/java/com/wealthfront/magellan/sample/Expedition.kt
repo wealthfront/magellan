@@ -6,6 +6,7 @@ import com.wealthfront.magellan.lifecycle.lateinitLifecycle
 import com.wealthfront.magellan.navigation.LoggingNavigableListener
 import com.wealthfront.magellan.sample.App.Provider.appComponent
 import com.wealthfront.magellan.sample.databinding.ExpeditionBinding
+import com.wealthfront.magellan.transitions.ShowTransition
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,6 +24,6 @@ class Expedition : Journey<ExpeditionBinding>(
   }
 
   private fun goToSecondJourney() {
-    navigator.show(SecondJourney())
+    navigator.goTo(SecondJourney(), ShowTransition())
   }
 }

@@ -11,11 +11,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.espresso.util.HumanReadables
-import kotlin.reflect.KClass
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
+import kotlin.reflect.KClass
 
 fun assertShown(action: AssertionBuilder.() -> Unit) {
   AssertionBuilder(::scrollToAndAssertVisible).action()
@@ -55,7 +55,9 @@ private fun assertNotVisible(viewMatcher: Matcher<View>) {
 
 private val isNotShown = ViewAssertion { view, _ ->
   if (view != null && withEffectiveVisibility(Visibility.VISIBLE).matches(view)) {
-    throw AssertionError("View is present and visible in the hierarchy: " +
-      HumanReadables.describe(view))
+    throw AssertionError(
+      "View is present and visible in the hierarchy: " +
+        HumanReadables.describe(view)
+    )
   }
 }
