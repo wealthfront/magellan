@@ -44,6 +44,14 @@ abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
     return lifecycleRegistry.backPressed() || onBackPressed()
   }
 
+  fun attachToLifecycle(lifecycleAware: LifecycleAware) {
+    attachToLifecycle(lifecycleAware, LifecycleState.Destroyed)
+  }
+
+  fun removeFromLifecycle(lifecycleAware: LifecycleAware) {
+    removeFromLifecycle(lifecycleAware, LifecycleState.Destroyed)
+  }
+
   override fun attachToLifecycle(lifecycleAware: LifecycleAware, detachedState: LifecycleState) {
     lifecycleRegistry.attachToLifecycle(lifecycleAware, detachedState)
   }

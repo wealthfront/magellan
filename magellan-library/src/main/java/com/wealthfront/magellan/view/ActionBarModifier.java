@@ -1,7 +1,9 @@
 package com.wealthfront.magellan.view;
 
 import android.view.Menu;
+
 import org.jetbrains.annotations.NotNull;
+
 import androidx.annotation.ColorRes;
 
 public interface ActionBarModifier {

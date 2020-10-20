@@ -37,7 +37,7 @@ class DialogComponentTest {
   fun showDialog() {
     `when`(dialog1.isShowing).thenReturn(true)
 
-    dialogComponent.create(context)
+    dialogComponent.show(context)
     dialogComponent.showDialog(dialogCreator1)
 
     verify(dialog1).show()
@@ -48,7 +48,7 @@ class DialogComponentTest {
   fun showDialog_hidden() {
     `when`(dialog1.isShowing).thenReturn(true)
 
-    dialogComponent.create(context)
+    dialogComponent.show(context)
     dialogComponent.showDialog(dialogCreator1)
 
     verify(dialog1).show()
@@ -64,7 +64,7 @@ class DialogComponentTest {
   @Test
   fun showDialog_rotation() {
     `when`(dialog1.isShowing).thenReturn(true)
-    dialogComponent.create(context)
+    dialogComponent.show(context)
     dialogComponent.showDialog(dialogCreator1)
 
     verify(dialog1).show()
@@ -87,7 +87,7 @@ class DialogComponentTest {
     `when`(dialog1.isShowing).thenReturn(true)
     `when`(dialog2.isShowing).thenReturn(true)
 
-    dialogComponent.create(context)
+    dialogComponent.show(context)
     dialogComponent.showDialog(dialogCreator1)
 
     verify(dialog1).show()

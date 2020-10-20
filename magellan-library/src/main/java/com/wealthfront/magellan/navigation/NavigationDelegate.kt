@@ -57,14 +57,12 @@ class NavigationDelegate(
   override fun onShow(context: Context) {
     containerView = container()
     currentNavigable?.let {
-      containerView!!.addView(it.view!!)
+      showCurrentNavigable(FORWARD)
     }
   }
 
   override fun onDestroy(context: Context) {
-    backStack.navigables().forEach {
-      removeFromLifecycle(it, detachedState = LifecycleState.Destroyed)
-    }
+    backStack.navigables().forEach { removeFromLifecycle(it) }
     backStack.clear()
     containerView = null
     menu = null
@@ -226,6 +224,8 @@ class NavigationDelegate(
           .colorRes(navItem.actionBarColorRes)
           .build()
       )
+    } else {
+      (activity as? ActionBarConfigListener)?.onNavigate(null)
     }
   }
 }

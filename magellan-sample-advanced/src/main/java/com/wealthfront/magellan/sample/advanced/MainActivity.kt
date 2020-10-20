@@ -47,12 +47,17 @@ class MainActivity : AppCompatActivity(), ActionBarConfigListener {
   }
 
   @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-  override fun onNavigate(actionBarConfig: ActionBarConfig) {
-    updateStatusBar(actionBarConfig.colorRes())
+  override fun onNavigate(actionBarConfig: ActionBarConfig?) {
+    if (actionBarConfig != null) {
+      updateStatusBar(actionBarConfig.colorRes())
+      actionBar?.show()
+    } else {
+      actionBar?.hide()
+    }
   }
 
   @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-  private fun updateStatusBar(@ColorRes actionBarColorRes: Int) {
+  private fun updateStatusBar(@ColorRes actionBarColorRes: Int = DEFAULT_ACTION_BAR_COLOR_RES) {
     if (actionBarColorRes == DEFAULT_ACTION_BAR_COLOR_RES) {
       animateStatusBarColor(window, window.statusBarColor, R.color.colorAccent)
     } else {
