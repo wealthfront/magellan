@@ -19,7 +19,7 @@ public abstract class Step<V : ViewBinding>(
 
   public final override var activity: Activity? by lifecycleWithContext { it as Activity }
 
-  protected var viewBinding: V? by lifecycleWithContext { createBinding.invoke(LayoutInflater.from(it)) }
+  public var viewBinding: V? by lifecycleWithContext { createBinding.invoke(LayoutInflater.from(it)) }
     @VisibleForTesting set
 
   final override var view: View? by lifecycleWithContext { viewBinding!!.root }

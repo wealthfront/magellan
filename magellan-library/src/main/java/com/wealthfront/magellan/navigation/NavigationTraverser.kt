@@ -32,7 +32,7 @@ public class NavigationTraverser(private val root: NavigableCompat) {
   }
 
   private fun getPrintableGlobalBackstack(navNode: NavigationNode, depth: Int, sb: StringBuilder) {
-    sb.appendln()
+    sb.appendLine()
     for (i in 0 until depth) {
       sb.append("\t")
     }

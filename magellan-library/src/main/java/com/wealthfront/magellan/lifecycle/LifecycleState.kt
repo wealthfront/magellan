@@ -27,6 +27,6 @@ public sealed class LifecycleState(public open val context: Context? = null, pri
   }
 }
 
-internal enum class LifecycleStateDirection {
+public enum class LifecycleStateDirection {
   FORWARD, BACKWARDS, NO_MOVEMENT;
 }
