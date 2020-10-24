@@ -28,11 +28,14 @@ implementation 'com.wealthfront:magellan:1.1.0'
 ### Optional add-ons
 
 ```groovy
-def magellanVersion = '1.1.0'
-implementation "com.wealthfront:magellan:${magellanVersion}"
+def magellanVersion = '2.0.0-alpha'
+implementation "com.wealthfront:magellan-library:${magellanVersion}"
 implementation "com.wealthfront:magellan-support:${magellanVersion}"
 implementation "com.wealthfront:magellan-rx:${magellanVersion}"
 implementation "com.wealthfront:magellan-rx2:${magellanVersion}"
+
+For support for older versions of magellan:
+implementation "com.wealthfront:magellan-legacy:${magellanVersion}"
 ```
 
 ### Coming soon
