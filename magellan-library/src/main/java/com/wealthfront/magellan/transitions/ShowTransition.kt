@@ -10,7 +10,7 @@ import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
 
-class ShowTransition : MagellanTransition {
+public class ShowTransition : MagellanTransition {
 
   override fun animate(
     from: View?,

@@ -21,7 +21,7 @@ import com.wealthfront.magellan.view.ActionBarModifier
 import com.wealthfront.magellan.view.whenMeasured
 import java.util.Stack
 
-class NavigationDelegate(
+public class NavigationDelegate(
   private val rootNavigable: NavigableCompat,
   private val container: () -> ScreenContainer
 ) : LifecycleAwareComponent() {
@@ -29,14 +29,14 @@ class NavigationDelegate(
   private var containerView: ScreenContainer? = null
   private val navigationPropagator = NavigationPropagator
   private var activity: Activity? = null
-  var menu: Menu? = null
+  public var menu: Menu? = null
     set(value) {
       field = value
       updateMenu(menu)
     }
 
-  val backStack: Stack<NavigationEvent> = Stack()
-  var currentNavigableSetup: ((NavigableCompat) -> Unit)? = null
+  public val backStack: Stack<NavigationEvent> = Stack()
+  public var currentNavigableSetup: ((NavigableCompat) -> Unit)? = null
 
   private val currentNavigable: NavigableCompat?
     get() {
@@ -69,7 +69,7 @@ class NavigationDelegate(
     activity = null
   }
 
-  fun goTo(
+  public fun goTo(
     nextNavigableCompat: NavigableCompat,
     overrideMagellanTransition: MagellanTransition? = null
   ) {
@@ -83,7 +83,7 @@ class NavigationDelegate(
     }
   }
 
-  fun replace(
+  public fun replace(
     nextNavigableCompat: NavigableCompat,
     overrideMagellanTransition: MagellanTransition? = null
   ) {
@@ -104,7 +104,7 @@ class NavigationDelegate(
     }
   }
 
-  fun navigate(
+  public fun navigate(
     direction: Direction,
     backStackOperation: (Stack<NavigationEvent>) -> NavigationEvent
   ) {
@@ -176,7 +176,7 @@ class NavigationDelegate(
 
   override fun onBackPressed(): Boolean = currentNavigable?.backPressed() ?: false || goBack()
 
-  fun goBack(): Boolean {
+  public fun goBack(): Boolean {
     return if (!atRoot()) {
       navigateBack()
       true

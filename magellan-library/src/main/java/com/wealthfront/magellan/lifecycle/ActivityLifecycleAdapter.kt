@@ -46,12 +46,12 @@ internal class ActivityLifecycleAdapter(
   }
 }
 
-fun ComponentActivity.setContentScreen(navigable: Navigable, @LayoutRes root: Int = R.layout.magellan_root) {
+public fun ComponentActivity.setContentScreen(navigable: Navigable, @LayoutRes root: Int = R.layout.magellan_root) {
   setContentView(root)
   lifecycle.addObserver(ActivityLifecycleAdapter(navigable, this))
 }
 
 @Deprecated("This method exists for migration purposes.", ReplaceWith("setContentScreen(navigable)"))
-fun ComponentActivity.setExpedition(navigable: Navigable) {
+public fun ComponentActivity.setExpedition(navigable: Navigable) {
   lifecycle.addObserver(ActivityLifecycleAdapter(navigable, this))
 }

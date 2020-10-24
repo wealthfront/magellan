@@ -6,14 +6,14 @@ import androidx.viewbinding.ViewBinding
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.lifecycle.lifecycle
 
-abstract class LegacyExpedition<V : ViewBinding>(
+public abstract class LegacyExpedition<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V,
   container: V.() -> ScreenContainer
 ) : Step<V>(createBinding) {
 
-  var navigator by lifecycle(LegacyNavigator(this) { viewBinding!!.container() })
+  public var navigator: LegacyNavigator by lifecycle(LegacyNavigator(this) { viewBinding!!.container() })
 
-  fun setMenu(menu: Menu) {
+  public fun setMenu(menu: Menu) {
     navigator.menu = menu
   }
 

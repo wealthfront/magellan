@@ -1,32 +1,32 @@
 package com.wealthfront.magellan.navigation
 
-object NavigationPropagator {
+public object NavigationPropagator {
 
   private var listeners: Set<NavigableListener> = emptySet()
 
   @JvmStatic
-  fun addNavigableListener(navigableListener: NavigableListener) {
+  public fun addNavigableListener(navigableListener: NavigableListener) {
     listeners = listeners + navigableListener
   }
 
   @JvmStatic
-  fun removeNavigableListener(navigableListener: NavigableListener) {
+  public fun removeNavigableListener(navigableListener: NavigableListener) {
     listeners = listeners - navigableListener
   }
 
-  fun onNavigate() {
+  public fun onNavigate() {
     listeners.forEach {
       it.onNavigate()
     }
   }
 
-  fun hideCurrentNavigable(currentNavigable: NavigableCompat) {
+  public fun hideCurrentNavigable(currentNavigable: NavigableCompat) {
     listeners.forEach {
       it.onNavigableHidden(currentNavigable)
     }
   }
 
-  fun showCurrentNavigable(currentNavigable: NavigableCompat) {
+  public fun showCurrentNavigable(currentNavigable: NavigableCompat) {
     listeners.forEach {
       it.onNavigableShown(currentNavigable)
     }

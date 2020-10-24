@@ -7,14 +7,14 @@ import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.lifecycle.lifecycle
 import com.wealthfront.magellan.navigation.LinearNavigator
 
-abstract class Journey<V : ViewBinding>(
+public abstract class Journey<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V,
   container: V.() -> ScreenContainer
 ) : Step<V>(createBinding) {
 
-  protected var navigator by lifecycle(LinearNavigator(this) { viewBinding!!.container() })
+  protected var navigator: LinearNavigator by lifecycle(LinearNavigator(this) { viewBinding!!.container() })
 
-  fun setMenu(menu: Menu) {
+  public fun setMenu(menu: Menu) {
     navigator.menu = menu
   }
 

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.View.GONE
 import com.wealthfront.magellan.Direction
 
-class CrossfadeTransition : MagellanTransition {
+public class CrossfadeTransition : MagellanTransition {
 
   override fun animate(
     from: View?,

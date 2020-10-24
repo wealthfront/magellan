@@ -2,11 +2,11 @@ package com.wealthfront.magellan.lifecycle
 
 import android.content.Context
 
-class LifecycleWithContext<V>(
-  val supplier: (Context) -> V
+public class LifecycleWithContext<V>(
+  public val supplier: (Context) -> V
 ) : LifecycleAware {
 
-  var data: V? = null
+  public var data: V? = null
     protected set
 
   override fun show(context: Context) {
@@ -18,5 +18,5 @@ class LifecycleWithContext<V>(
   }
 }
 
-fun <V> LifecycleOwner.lifecycleWithContext(supplier: (Context) -> V) =
+public fun <V> LifecycleOwner.lifecycleWithContext(supplier: (Context) -> V): Lifecycle<LifecycleWithContext<V>, V?> =
   lifecycle(LifecycleWithContext(supplier), { it.data })

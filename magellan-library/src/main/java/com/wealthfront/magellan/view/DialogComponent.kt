@@ -7,22 +7,22 @@ import com.wealthfront.magellan.DialogCreator
 import com.wealthfront.magellan.lifecycle.LifecycleAware
 import javax.inject.Inject
 
-class DialogComponent @Inject constructor() : LifecycleAware {
+public class DialogComponent @Inject constructor() : LifecycleAware {
 
   private var dialogCreator: DialogCreator? = null
-  var dialog: Dialog? = null
+  public var dialog: Dialog? = null
     private set
   private var context: Context? = null
 
-  var dialogIsShowing: Boolean = false
+  public var dialogIsShowing: Boolean = false
 
-  fun showDialog(dialogCreator: DialogCreator) {
+  public fun showDialog(dialogCreator: DialogCreator) {
     this.dialogCreator = dialogCreator
     this.dialogIsShowing = true
     createDialog()
   }
 
-  fun showDialog(dialogCreator: (Activity) -> Dialog) {
+  public fun showDialog(dialogCreator: (Activity) -> Dialog) {
     this.dialogCreator = DialogCreator { dialogCreator.invoke(it) }
     this.dialogIsShowing = true
     createDialog()

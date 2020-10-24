@@ -2,13 +2,15 @@ package com.wealthfront.magellan.lifecycle
 
 import android.content.Context
 
-abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
+public abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
 
   private val lifecycleRegistry = LifecycleRegistry()
 
-  override val children get() = lifecycleRegistry.listeners.toList()
+  override val children: List<LifecycleAware>
+    get() = lifecycleRegistry.listeners.toList()
 
-  override val currentState get() = lifecycleRegistry.currentState
+  override val currentState: LifecycleState
+    get() = lifecycleRegistry.currentState
 
   final override fun create(context: Context) {
     lifecycleRegistry.create(context)
@@ -44,11 +46,11 @@ abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
     return lifecycleRegistry.backPressed() || onBackPressed()
   }
 
-  fun attachToLifecycle(lifecycleAware: LifecycleAware) {
+  public fun attachToLifecycle(lifecycleAware: LifecycleAware) {
     attachToLifecycle(lifecycleAware, LifecycleState.Destroyed)
   }
 
-  fun removeFromLifecycle(lifecycleAware: LifecycleAware) {
+  public fun removeFromLifecycle(lifecycleAware: LifecycleAware) {
     removeFromLifecycle(lifecycleAware, LifecycleState.Destroyed)
   }
 

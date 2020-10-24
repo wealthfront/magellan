@@ -11,15 +11,15 @@ import androidx.viewbinding.ViewBinding
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.lifecycleWithContext
 
-abstract class Step<V : ViewBinding>(
+public abstract class Step<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V
 ) : Navigable, LifecycleAwareComponent() {
 
   private var viewState: SparseArray<Parcelable>? = null
 
-  final override var activity: Activity? by lifecycleWithContext { it as Activity }
+  public final override var activity: Activity? by lifecycleWithContext { it as Activity }
 
-  var viewBinding: V? by lifecycleWithContext { createBinding.invoke(LayoutInflater.from(it)) }
+  public var viewBinding: V? by lifecycleWithContext { createBinding.invoke(LayoutInflater.from(it)) }
     @VisibleForTesting set
 
   final override var view: View? by lifecycleWithContext { viewBinding!!.root }

@@ -10,7 +10,7 @@ import com.wealthfront.magellan.lifecycle.lifecycle
 import com.wealthfront.magellan.transitions.MagellanTransition
 import java.util.Stack
 
-class LinearNavigator internal constructor(
+public class LinearNavigator internal constructor(
   override val journey: Journey<*>,
   container: () -> ScreenContainer
 ) : Navigator, LifecycleAwareComponent() {
@@ -26,22 +26,22 @@ class LinearNavigator internal constructor(
       delegate.menu = value
     }
 
-  fun goTo(navigable: Navigable, overrideMagellanTransition: MagellanTransition? = null) {
+  public fun goTo(navigable: Navigable, overrideMagellanTransition: MagellanTransition? = null) {
     delegate.goTo(navigable, overrideMagellanTransition)
   }
 
-  fun replace(navigable: NavigableCompat, overrideMagellanTransition: MagellanTransition? = null) {
+  public fun replace(navigable: NavigableCompat, overrideMagellanTransition: MagellanTransition? = null) {
     delegate.replace(navigable, overrideMagellanTransition)
   }
 
-  fun navigate(
+  public fun navigate(
     direction: Direction,
     backStackOperation: (Stack<NavigationEvent>) -> NavigationEvent
   ) {
     delegate.navigate(direction, backStackOperation)
   }
 
-  fun goBack(): Boolean {
+  public fun goBack(): Boolean {
     return delegate.goBack()
   }
 }

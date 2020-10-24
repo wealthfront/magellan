@@ -6,18 +6,18 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-class RxDisposer @Inject constructor() : LifecycleAware {
+public class RxDisposer @Inject constructor() : LifecycleAware {
 
   private var disposables: CompositeDisposable? = null
 
-  fun autoDispose(disposable: Disposable) {
+  public fun autoDispose(disposable: Disposable) {
     if (disposables == null) {
       disposables = CompositeDisposable()
     }
     disposables!!.add(disposable)
   }
 
-  fun autoDispose(vararg disposable: Disposable) {
+  public fun autoDispose(vararg disposable: Disposable) {
     disposable.forEach { autoDispose(it) }
   }
 

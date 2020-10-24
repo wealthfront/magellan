@@ -8,7 +8,7 @@ import android.util.Property
 import android.view.View
 import com.wealthfront.magellan.Direction
 
-class DefaultTransition : MagellanTransition {
+public class DefaultTransition : MagellanTransition {
 
   override fun animate(
     from: View?,

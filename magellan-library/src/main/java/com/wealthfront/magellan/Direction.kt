@@ -3,11 +3,11 @@ package com.wealthfront.magellan
 /**
  * Represent the direction in which we are navigating, either forward or backward.
  */
-enum class Direction(private val sign: Int) {
+public enum class Direction(private val sign: Int) {
 
   FORWARD(1), BACKWARD(-1);
 
-  fun sign(): Int {
+  internal fun sign(): Int {
     return sign
   }
 

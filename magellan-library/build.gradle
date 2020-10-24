@@ -24,11 +24,6 @@ android {
     setTargetCompatibility(JavaVersion.VERSION_1_8)
   }
 
-  kotlinOptions {
-    jvmTarget = "1.8"
-    freeCompilerArgs = ["-Xjvm-default=compatibility", "-Xopt-in=kotlin.RequiresOptIn"]
-  }
-  
   testOptions {
     unitTests {
       includeAndroidResources = true
@@ -44,6 +39,16 @@ android {
       minifyEnabled false
     }
   }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+  if (!name.contains("UnitTest")) {
+    kotlinOptions.freeCompilerArgs = ['-Xjvm-default=compatibility', '-Xexplicit-api=strict', '-Xopt-in=kotlin.RequiresOptIn']
+  } else {
+    kotlinOptions.freeCompilerArgs = ['-Xopt-in=kotlin.RequiresOptIn']
+  }
+  kotlinOptions.allWarningsAsErrors = true
+  kotlinOptions.jvmTarget = "1.8"
 }
 
 dependencies {
