@@ -29,6 +29,14 @@ android {
   }
 }
 
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+  if (!name.contains("UnitTest")) {
+    kotlinOptions.freeCompilerArgs = ['-Xjvm-default=compatibility', '-Xexplicit-api=strict', '-Xopt-in=kotlin.RequiresOptIn']
+  }
+  kotlinOptions.allWarningsAsErrors = true
+  kotlinOptions.jvmTarget = "1.8"
+}
+
 dependencies {
   implementation project(':magellan-legacy')
   implementation project(':magellan-library')

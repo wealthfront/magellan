@@ -27,14 +27,6 @@ allprojects {
     mavenCentral()
     google()
   }
-
-  tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    if (!name.contains("UnitTest")) {
-      kotlinOptions.freeCompilerArgs = ['-Xjvm-default=compatibility', '-Xexplicit-api=strict']
-    }
-    kotlinOptions.allWarningsAsErrors = true
-    kotlinOptions.jvmTarget = "1.8"
-  }
 }
 
 task clean(type: Delete) {
