@@ -45,7 +45,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   private @Nullable V view;
   private boolean isTransitioning;
   private final Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
-  private LegacyNavigator navigator;
+  private Navigator navigator;
 
   public Screen() {
     attachToLifecycle(new LegacyViewComponent<>(this));
@@ -74,7 +74,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * @return the Navigator associated with this Screen.
    */
   @NotNull
-  public final LegacyNavigator getNavigator() {
+  public final Navigator getNavigator() {
     return navigator;
   }
 
@@ -197,7 +197,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
     this.activity = activity;
   }
 
-  void setNavigator(@NotNull LegacyNavigator navigator) {
+  void setNavigator(@NotNull Navigator navigator) {
     this.navigator = navigator;
   }
 

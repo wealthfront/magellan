@@ -11,7 +11,7 @@ public abstract class LegacyExpedition<V : ViewBinding>(
   container: V.() -> ScreenContainer
 ) : Step<V>(createBinding) {
 
-  public var navigator: LegacyNavigator by lifecycle(LegacyNavigator(this) { viewBinding!!.container() })
+  public var navigator: Navigator by lifecycle(Navigator(this) { viewBinding!!.container() })
 
   public fun setMenu(menu: Menu) {
     navigator.menu = menu

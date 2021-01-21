@@ -6,7 +6,7 @@ import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
 /**
- * The container to be used to display the screens using the {@link Navigator}. Must have the id
+ * The container to be used to display the screens using the {@link com.wealthfront.magellan.navigation.Navigator}. Must have the id
  * {@code magellan_container}. This will also block touch events automatically during navigation to avoid accidental
  * double taps.
  */

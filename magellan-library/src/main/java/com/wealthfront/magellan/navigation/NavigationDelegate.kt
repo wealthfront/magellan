@@ -19,7 +19,8 @@ import com.wealthfront.magellan.transitions.MagellanTransition
 import com.wealthfront.magellan.view.ActionBarConfig
 import com.wealthfront.magellan.view.ActionBarModifier
 import com.wealthfront.magellan.view.whenMeasured
-import java.util.Stack
+import java.util.ArrayDeque
+import java.util.Deque
 
 public class NavigationDelegate(
   private val rootNavigable: NavigableCompat,
@@ -35,7 +36,7 @@ public class NavigationDelegate(
       updateMenu(menu)
     }
 
-  public val backStack: Stack<NavigationEvent> = Stack()
+  public val backStack: Deque<NavigationEvent> = ArrayDeque()
   public var currentNavigableSetup: ((NavigableCompat) -> Unit)? = null
 
   private val currentNavigable: NavigableCompat?
@@ -80,6 +81,7 @@ public class NavigationDelegate(
           overrideMagellanTransition ?: DefaultTransition()
         )
       )
+      backStack.peek()!!
     }
   }
 
@@ -95,6 +97,7 @@ public class NavigationDelegate(
           overrideMagellanTransition ?: DefaultTransition()
         )
       )
+      backStack.peek()!!
     }
   }
 
@@ -106,7 +109,7 @@ public class NavigationDelegate(
 
   public fun navigate(
     direction: Direction,
-    backStackOperation: (Stack<NavigationEvent>) -> NavigationEvent
+    backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent
   ) {
     containerView?.setInterceptTouchEvents(true)
     val from = hideCurrentNavigable(direction)
