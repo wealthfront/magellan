@@ -8,7 +8,7 @@ import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.lifecycle
 import com.wealthfront.magellan.transitions.MagellanTransition
-import java.util.Stack
+import java.util.Deque
 
 public class LinearNavigator internal constructor(
   override val journey: Journey<*>,
@@ -17,7 +17,7 @@ public class LinearNavigator internal constructor(
 
   private val delegate by lifecycle(NavigationDelegate(journey, container))
 
-  override val backStack: Stack<NavigationEvent>
+  override val backStack: Deque<NavigationEvent>
     get() = delegate.backStack
 
   internal var menu: Menu? = null
@@ -36,7 +36,7 @@ public class LinearNavigator internal constructor(
 
   public fun navigate(
     direction: Direction,
-    backStackOperation: (Stack<NavigationEvent>) -> NavigationEvent
+    backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent
   ) {
     delegate.navigate(direction, backStackOperation)
   }
