@@ -64,16 +64,16 @@ public class Navigator internal constructor(
     delegate.replace(navigable, NoAnimationTransition())
   }
 
-  public fun show(navigable: NavigableCompat) {
-    delegate.goTo(navigable, ShowTransition())
+  public fun show(navigable: NavigableCompat, magellanTransition: MagellanTransition? = null) {
+    delegate.goTo(navigable, magellanTransition ?: ShowTransition())
   }
 
   public fun showNow(navigable: NavigableCompat) {
     delegate.goTo(navigable, NoAnimationTransition())
   }
 
-  public fun goTo(navigable: NavigableCompat) {
-    delegate.goTo(navigable)
+  public fun goTo(navigable: NavigableCompat, magellanTransition: MagellanTransition? = null) {
+    delegate.goTo(navigable, magellanTransition)
   }
 
   public fun hideNow(navigable: NavigableCompat) {
@@ -118,16 +118,27 @@ public class Navigator internal constructor(
     navigate(historyRewriter)
   }
 
-  public fun navigate(historyRewriter: HistoryRewriter) {
+  public fun navigate(historyRewriter: HistoryRewriter, magellanTransition: MagellanTransition? = null) {
     navigate(FORWARD) { backStack ->
-      historyRewriter.rewriteHistoryWithNavigationEvents(backStack)
+      historyRewriter.rewriteHistoryWithNavigationEvents(backStack, magellanTransition)
       backStack.peek()!!
     }
   }
 
   public fun navigate(historyRewriter: HistoryRewriter, navType: NavigationType) {
     navigate(FORWARD) { backStack ->
-      historyRewriter.rewriteHistoryWithNavigationEvents(backStack, navType)
+      historyRewriter.rewriteHistoryWithNavigationEvents(backStack, null, navType)
+      backStack.peek()!!
+    }
+  }
+
+  public fun navigate(
+    historyRewriter: HistoryRewriter,
+    magellanTransition: MagellanTransition,
+    direction: Direction,
+  ) {
+    navigate(direction) { backStack ->
+      historyRewriter.rewriteHistoryWithNavigationEvents(backStack, magellanTransition)
       backStack.peek()!!
     }
   }
@@ -135,10 +146,10 @@ public class Navigator internal constructor(
   public fun navigate(
     historyRewriter: HistoryRewriter,
     navType: NavigationType,
-    direction: Direction
+    direction: Direction,
   ) {
     navigate(direction) { backStack ->
-      historyRewriter.rewriteHistoryWithNavigationEvents(backStack, navType)
+      historyRewriter.rewriteHistoryWithNavigationEvents(backStack, null, navType)
       backStack.peek()!!
     }
   }

@@ -3,11 +3,13 @@ import com.wealthfront.magellan.NavigationType
 import com.wealthfront.magellan.navigation.NavigationEvent
 import com.wealthfront.magellan.toTransition
 import com.wealthfront.magellan.transitions.DefaultTransition
+import com.wealthfront.magellan.transitions.MagellanTransition
 import java.util.ArrayDeque
 import java.util.Deque
 
 internal fun HistoryRewriter.rewriteHistoryWithNavigationEvents(
   oldBackStack: Deque<NavigationEvent>,
+  magellanTransition: MagellanTransition? = null,
   navigationType: NavigationType? = null
 ) {
   val modifiedBackStackOfScreens = ArrayDeque(oldBackStack.map { it.navigable })
@@ -21,9 +23,9 @@ internal fun HistoryRewriter.rewriteHistoryWithNavigationEvents(
       oldBackStack.add(NavigationEvent(screen, DefaultTransition()))
     }
   }
-  if (navigationType != null) {
+  if (magellanTransition != null || navigationType != null) {
     val lastNav = oldBackStack.last
     oldBackStack.removeLast()
-    oldBackStack.add(NavigationEvent(lastNav.navigable, navigationType.toTransition()))
+    oldBackStack.add(NavigationEvent(lastNav.navigable, magellanTransition ?: navigationType!!.toTransition()))
   }
 }
