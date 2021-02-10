@@ -4,7 +4,6 @@ import android.app.Activity
 import android.view.Menu
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
-import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.lifecycle
@@ -55,10 +54,6 @@ public class Navigator internal constructor(
     backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent
   ) {
     delegate.navigate(direction, backStackOperation)
-  }
-
-  public fun setRoot(navigable: Navigable, overrideMagellanTransition: MagellanTransition? = null) {
-    delegate.setRoot(navigable, overrideMagellanTransition)
   }
 
   public fun replace(navigable: NavigableCompat, magellanTransition: MagellanTransition? = null) {

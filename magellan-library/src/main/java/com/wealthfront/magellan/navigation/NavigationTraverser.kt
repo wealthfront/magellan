@@ -2,6 +2,7 @@ package com.wealthfront.magellan.navigation
 
 import android.util.Log
 import com.wealthfront.magellan.lifecycle.LifecycleOwner
+import java.util.ArrayDeque
 import java.util.Deque
 
 public class NavigationTraverser(private val root: NavigableCompat) {
@@ -13,8 +14,9 @@ public class NavigationTraverser(private val root: NavigableCompat) {
   private fun constructTree(navigable: NavigableCompat): NavigationNode {
     val navNode = NavigationNode(navigable, mutableListOf())
     if (navNode.hasBackstack) {
-      while (navNode.backStack.isNotEmpty()) {
-        val node = navNode.backStack.removeLast()
+      val backStack = navNode.getBackstack()
+      while (backStack.isNotEmpty()) {
+        val node = backStack.removeLast()
         val childNavNode = constructTree(node.navigable)
         navNode.addChild(childNavNode)
       }
@@ -54,8 +56,11 @@ public data class NavigationNode(
     get() = (value as? LifecycleOwner)?.children?.mapNotNull { it as? Navigator }?.isNotEmpty()
       ?: false
 
-  val backStack: Deque<NavigationEvent>
-    get() = (value as LifecycleOwner).children.mapNotNull { it as? Navigator }.first().backStack
+  public fun getBackstack(): Deque<NavigationEvent> {
+    val backStackDeepCopy = ArrayDeque<NavigationEvent>()
+    (value as LifecycleOwner).children.mapNotNull { it as? Navigator }.first().backStack.toList().toCollection(backStackDeepCopy)
+    return backStackDeepCopy
+  }
 
   public fun addChild(child: NavigationNode) {
     children = children + child
