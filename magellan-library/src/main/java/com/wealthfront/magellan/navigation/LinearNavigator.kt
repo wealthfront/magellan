@@ -26,6 +26,10 @@ public class LinearNavigator internal constructor(
       delegate.menu = value
     }
 
+  public fun setRoot(navigable: Navigable, overrideMagellanTransition: MagellanTransition? = null) {
+    delegate.setRoot(navigable, overrideMagellanTransition)
+  }
+
   public fun goTo(navigable: Navigable, overrideMagellanTransition: MagellanTransition? = null) {
     delegate.goTo(navigable, overrideMagellanTransition)
   }
