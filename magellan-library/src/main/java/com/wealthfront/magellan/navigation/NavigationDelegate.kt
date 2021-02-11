@@ -9,6 +9,7 @@ import android.view.View
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
+import com.wealthfront.magellan.Direction.NO_MOVEMENT
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.childNavigables
@@ -58,7 +59,7 @@ public class NavigationDelegate(
   override fun onShow(context: Context) {
     containerView = container()
     currentNavigable?.let {
-      showCurrentNavigable(FORWARD)
+      showCurrentNavigable(NO_MOVEMENT)
     }
   }
 
@@ -142,7 +143,7 @@ public class NavigationDelegate(
       currentNavigable!!,
       detachedState = when (direction) {
         FORWARD -> LifecycleState.Destroyed
-        BACKWARD -> currentState.getEarlierOfCurrentState()
+        NO_MOVEMENT, BACKWARD -> currentState.getEarlierOfCurrentState()
       }
     )
     setupCurrentScreenToBeShown(currentNavigable!!)
@@ -168,7 +169,7 @@ public class NavigationDelegate(
       removeFromLifecycle(
         currentNavigable,
         detachedState = when (direction) {
-          FORWARD -> currentState.getEarlierOfCurrentState()
+          NO_MOVEMENT, FORWARD -> currentState.getEarlierOfCurrentState()
           BACKWARD -> LifecycleState.Destroyed
         }
       )
