@@ -6,7 +6,7 @@ import javax.inject.Singleton
 @Singleton
 public class CurrentNavigableProvider @Inject constructor() : NavigableListener {
 
-  public lateinit var navigable: NavigableCompat
+  public var navigable: NavigableCompat? = null
 
   public fun isCurrentNavigable(other: NavigableCompat): Boolean = navigable == other
 

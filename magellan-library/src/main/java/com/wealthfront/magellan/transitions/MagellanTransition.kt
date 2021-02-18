@@ -1,7 +1,10 @@
 package com.wealthfront.magellan.transitions
 
 import android.view.View
+import androidx.annotation.RestrictTo
+import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
 import com.wealthfront.magellan.Direction
+import com.wealthfront.magellan.init.shouldRunAnimations
 
 /**
  * Define a transition (animation) between two screens. By default, transitions are implemented by
@@ -14,6 +17,23 @@ import com.wealthfront.magellan.Direction
  * You can find more Transitions implemented in [com.wealthfront.magellan.transitions].
  */
 public interface MagellanTransition {
+
+  /**
+   * This method is used for internal usage only. This allows us to disable animations globally.
+   */
+  @RestrictTo(LIBRARY_GROUP)
+  public fun animateInternal(
+    from: View?,
+    to: View,
+    direction: Direction,
+    onAnimationEndCallback: () -> Unit
+  ) {
+    if (shouldRunAnimations()) {
+      animate(from, to, direction, onAnimationEndCallback)
+    } else {
+      onAnimationEndCallback()
+    }
+  }
 
   /**
    * Animate between 2 views (associated to the screens).

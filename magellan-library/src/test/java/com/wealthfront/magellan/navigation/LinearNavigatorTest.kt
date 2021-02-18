@@ -11,8 +11,6 @@ import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
 import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.transitions.ShowTransition
-import com.wealthfront.magellan.view.ActionBarConfig
-import com.wealthfront.magellan.view.ActionBarModifier
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -192,14 +190,13 @@ class LinearNavigatorTest {
   }
 }
 
-private open class FakeActivity : AppCompatActivity(), ActionBarConfigListener {
+private open class FakeActivity : AppCompatActivity() {
   override fun onNavigate(actionBarConfig: ActionBarConfig?) {}
 }
 
-private open class DummyStep : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate), ActionBarModifier
+private open class DummyStep : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
 private open class DummyJourney :
   Journey<MagellanDummyLayoutBinding>(
     MagellanDummyLayoutBinding::inflate,
     MagellanDummyLayoutBinding::container
-  ),
-  ActionBarModifier
+  )

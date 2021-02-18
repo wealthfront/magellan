@@ -1,5 +1,6 @@
 package com.wealthfront.magellan.sample.advanced;
 
+import com.wealthfront.magellan.navigation.CurrentNavigableProvider;
 import com.wealthfront.magellan.navigation.NavigationTraverser;
 import com.wealthfront.magellan.sample.advanced.api.DogApi;
 
@@ -7,6 +8,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import kotlin.jvm.JvmStatic;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -18,6 +20,13 @@ import rx.schedulers.Schedulers;
 final class AppModule {
 
   private static final String DOG_BASE_URL = "https://dog.ceo/api/";
+
+  @JvmStatic
+  @Provides
+  @Singleton
+  CurrentNavigableProvider provideCurrentNavigableProvider() {
+    return new CurrentNavigableProvider();
+  }
 
   @Provides
   @Singleton

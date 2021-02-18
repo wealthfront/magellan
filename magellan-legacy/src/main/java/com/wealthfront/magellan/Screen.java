@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent;
 import com.wealthfront.magellan.navigation.NavigableCompat;
-import com.wealthfront.magellan.view.ActionBarModifier;
 import com.wealthfront.magellan.view.DialogComponent;
 
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +36,7 @@ import java.util.Queue;
  * }
  * </code> </pre>
  */
-public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements NavigableCompat, ActionBarModifier {
+public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements NavigableCompat {
 
   private final DialogComponent dialogComponent = new DialogComponent();
 

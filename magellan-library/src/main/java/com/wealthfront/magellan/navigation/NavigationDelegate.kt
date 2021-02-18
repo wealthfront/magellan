@@ -2,40 +2,27 @@ package com.wealthfront.magellan.navigation
 
 import android.app.Activity
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
-import android.view.Menu
 import android.view.View
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.Direction.NO_MOVEMENT
 import com.wealthfront.magellan.ScreenContainer
-import com.wealthfront.magellan.core.Journey
-import com.wealthfront.magellan.core.childNavigables
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.LifecycleState
 import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.transitions.MagellanTransition
-import com.wealthfront.magellan.view.ActionBarConfig
-import com.wealthfront.magellan.view.ActionBarModifier
 import com.wealthfront.magellan.view.whenMeasured
 import java.util.ArrayDeque
 import java.util.Deque
 
 public class NavigationDelegate(
-  private val rootNavigable: NavigableCompat,
   private val container: () -> ScreenContainer
 ) : LifecycleAwareComponent() {
 
   private var containerView: ScreenContainer? = null
   private val navigationPropagator = NavigationPropagator
   private var activity: Activity? = null
-  public var menu: Menu? = null
-    set(value) {
-      field = value
-      updateMenu(menu)
-    }
 
   public val backStack: Deque<NavigationEvent> = ArrayDeque()
   public var currentNavigableSetup: ((NavigableCompat) -> Unit)? = null
@@ -58,7 +45,7 @@ public class NavigationDelegate(
 
   override fun onShow(context: Context) {
     containerView = container()
-    currentNavigable?.let {
+    if (currentNavigable != null) {
       showCurrentNavigable(NO_MOVEMENT)
     }
   }
@@ -67,7 +54,6 @@ public class NavigationDelegate(
     backStack.navigables().forEach { removeFromLifecycle(it) }
     backStack.clear()
     containerView = null
-    menu = null
     activity = null
   }
 
@@ -108,6 +94,15 @@ public class NavigationDelegate(
     }
   }
 
+  public fun goBackTo(navigable: NavigableCompat) {
+    navigate(BACKWARD) { backStack ->
+      while (navigable != backStack.peek()!!.navigable) {
+        backStack.pop()
+      }
+      backStack.peek()!!
+    }
+  }
+
   public fun navigate(
     direction: Direction,
     backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent
@@ -127,7 +122,7 @@ public class NavigationDelegate(
   ) {
     currentNavigable!!.transitionStarted()
     to?.whenMeasured {
-      magellanTransition.animate(from, to, direction) {
+      magellanTransition.animateInternal(from, to, direction) {
         if (context != null) {
           containerView!!.removeView(from)
           currentNavigable!!.transitionFinished()
@@ -146,10 +141,8 @@ public class NavigationDelegate(
         NO_MOVEMENT, BACKWARD -> currentState.getEarlierOfCurrentState()
       }
     )
-    setupCurrentScreenToBeShown(currentNavigable!!)
     navigationPropagator.onNavigate()
     navigationPropagator.showCurrentNavigable(currentNavigable!!)
-    callOnNavigate(currentNavigable!!)
     when (currentState) {
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
         containerView!!.addView(
@@ -190,46 +183,4 @@ public class NavigationDelegate(
   }
 
   private fun atRoot() = backStack.size <= 1
-
-  private fun setupCurrentScreenToBeShown(currentNavigable: NavigableCompat) {
-    if (currentNavigable is Journey<*>) {
-      menu?.let { currentNavigable.setMenu(it) }
-    }
-    currentNavigable.setTitle(currentNavigable.getTitle(activity!!))
-    updateMenu(menu, currentNavigable)
-  }
-
-  private fun updateMenu(menu: Menu?, navItem: NavigableCompat? = null) {
-    // Need to post to avoid animation bug on disappearing menu
-    val updateMenuForNavigable = navItem ?: currentNavigable
-    Handler(Looper.getMainLooper()).post {
-      menu?.let {
-        for (i in 0 until menu.size()) {
-          menu.getItem(i).isVisible = false
-        }
-        (rootNavigable as? ActionBarModifier)?.onUpdateMenu(menu)
-        rootNavigable.childNavigables()
-          .filterIsInstance(ActionBarModifier::class.java)
-          .forEach { it.onUpdateMenu(menu) }
-        (updateMenuForNavigable as? ActionBarModifier)?.onUpdateMenu(menu)
-        updateMenuForNavigable?.childNavigables()
-          ?.filterIsInstance(ActionBarModifier::class.java)
-          ?.forEach { it.onUpdateMenu(menu) }
-      }
-    }
-  }
-
-  private fun callOnNavigate(navItem: NavigableCompat) {
-    if (navItem is ActionBarModifier) {
-      (activity as? ActionBarConfigListener)?.onNavigate(
-        ActionBarConfig.with()
-          .visible(navItem.shouldShowActionBar())
-          .animated(navItem.shouldAnimateActionBar())
-          .colorRes(navItem.actionBarColorRes)
-          .build()
-      )
-    } else {
-      (activity as? ActionBarConfigListener)?.onNavigate(null)
-    }
-  }
 }

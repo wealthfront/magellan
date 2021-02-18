@@ -16,7 +16,7 @@ public class DefaultTransition : MagellanTransition {
     direction: Direction,
     onAnimationEndCallback: () -> Unit
   ) {
-    val animator = createAnimator(from, to, direction)
+    val animator = createDefaultAnimator(from, to, direction)
     animator.addListener(object : AnimatorListenerAdapter() {
       override fun onAnimationEnd(animation: Animator) {
         onAnimationEndCallback()
@@ -24,21 +24,21 @@ public class DefaultTransition : MagellanTransition {
     })
     animator.start()
   }
+}
 
-  private fun createAnimator(
-    from: View?,
-    to: View,
-    direction: Direction
-  ): AnimatorSet {
-    val sign = direction.sign()
-    val axis: Property<View, Float> = View.TRANSLATION_X
-    val toTranslation = sign * to.width
-    val set = AnimatorSet()
-    if (from != null) {
-      val fromTranslation = sign * -from.width
-      set.play(ObjectAnimator.ofFloat(from, axis, 0f, fromTranslation.toFloat()))
-    }
-    set.play(ObjectAnimator.ofFloat(to, axis, toTranslation.toFloat(), 0f))
-    return set
+public fun createDefaultAnimator(
+  from: View?,
+  to: View,
+  direction: Direction
+): AnimatorSet {
+  val sign = direction.sign()
+  val axis: Property<View, Float> = View.TRANSLATION_X
+  val toTranslation = sign * to.width
+  val set = AnimatorSet()
+  if (from != null) {
+    val fromTranslation = sign * -from.width
+    set.play(ObjectAnimator.ofFloat(from, axis, 0f, fromTranslation.toFloat()))
   }
+  set.play(ObjectAnimator.ofFloat(to, axis, toTranslation.toFloat(), 0f))
+  return set
 }

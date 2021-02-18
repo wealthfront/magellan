@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.navigation
 
 import android.util.Log
+import com.wealthfront.magellan.init.shouldLogDebugInfo
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -8,14 +9,20 @@ import javax.inject.Singleton
 public class LoggingNavigableListener @Inject constructor(private val navigationTraverser: NavigationTraverser) : NavigableListener {
 
   override fun onNavigableShown(navigable: NavigableCompat) {
-    Log.i(this::class.java.simpleName, "Shown: ${navigable.javaClass.simpleName}")
+    if (shouldLogDebugInfo()) {
+      Log.i(this::class.java.simpleName, "Shown: ${navigable.javaClass.simpleName}")
+    }
   }
 
   override fun onNavigableHidden(navigable: NavigableCompat) {
-    Log.i(this::class.java.simpleName, "Hidden: ${navigable.javaClass.simpleName}")
+    if (shouldLogDebugInfo()) {
+      Log.i(this::class.java.simpleName, "Hidden: ${navigable.javaClass.simpleName}")
+    }
   }
 
   override fun onNavigate() {
-    navigationTraverser.logGlobalBackStack()
+    if (shouldLogDebugInfo()) {
+      navigationTraverser.logGlobalBackStack()
+    }
   }
 }
