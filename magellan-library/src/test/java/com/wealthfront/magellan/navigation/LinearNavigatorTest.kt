@@ -11,17 +11,11 @@ import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
 import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.transitions.ShowTransition
-import com.wealthfront.magellan.view.ActionBarConfig
-import com.wealthfront.magellan.view.ActionBarModifier
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mock
 import org.mockito.Mockito.spy
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations.initMocks
 import org.robolectric.Robolectric.buildActivity
 import org.robolectric.RobolectricTestRunner
@@ -66,16 +60,8 @@ class LinearNavigatorTest {
 
   @Test
   fun goTo() {
-    linearNavigator.menu = menu
-
-    verify(journey1 as ActionBarModifier).onUpdateMenu(menu)
-
     linearNavigator.goTo(step1)
 
-    verify(step1).setTitle(anyString())
-    verify(journey1 as ActionBarModifier, times(2)).onUpdateMenu(menu)
-    verify(step1 as ActionBarModifier).onUpdateMenu(menu)
-    verify(context as ActionBarConfigListener).onNavigate(any())
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.peek()!!.navigable).isEqualTo(step1)
     assertThat(linearNavigator.backStack.peek()!!.magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
@@ -192,14 +178,11 @@ class LinearNavigatorTest {
   }
 }
 
-private open class FakeActivity : AppCompatActivity(), ActionBarConfigListener {
-  override fun onNavigate(actionBarConfig: ActionBarConfig?) {}
-}
+private open class FakeActivity : AppCompatActivity()
 
-private open class DummyStep : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate), ActionBarModifier
+private open class DummyStep : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
 private open class DummyJourney :
   Journey<MagellanDummyLayoutBinding>(
     MagellanDummyLayoutBinding::inflate,
     MagellanDummyLayoutBinding::container
-  ),
-  ActionBarModifier
+  )

@@ -1,6 +1,5 @@
 package com.wealthfront.magellan.navigation
 
-import android.view.Menu
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Journey
@@ -15,16 +14,10 @@ public class LinearNavigator internal constructor(
   container: () -> ScreenContainer
 ) : Navigator, LifecycleAwareComponent() {
 
-  private val delegate by lifecycle(NavigationDelegate(journey, container))
+  private val delegate by lifecycle(NavigationDelegate(container))
 
   override val backStack: Deque<NavigationEvent>
     get() = delegate.backStack
-
-  internal var menu: Menu? = null
-    set(value) {
-      field = value
-      delegate.menu = value
-    }
 
   public fun goTo(navigable: Navigable, overrideMagellanTransition: MagellanTransition? = null) {
     delegate.goTo(navigable, overrideMagellanTransition)

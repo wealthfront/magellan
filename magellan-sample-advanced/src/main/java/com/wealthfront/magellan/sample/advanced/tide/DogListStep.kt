@@ -8,11 +8,13 @@ import android.widget.TextView
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.sample.advanced.R
 import com.wealthfront.magellan.sample.advanced.databinding.DashboardBinding
+import com.wealthfront.magellan.sample.advanced.toolbar.ToolbarHelper
 import java.util.Locale
 
 class DogListStep(private val goToDogDetails: (name: String) -> Unit) : Step<DashboardBinding>(DashboardBinding::inflate) {
 
   override fun onShow(context: Context, binding: DashboardBinding) {
+    ToolbarHelper.setTitle(context.getText(R.string.app_name))
     binding.dogItems.adapter = DogListAdapter(context)
   }
 
