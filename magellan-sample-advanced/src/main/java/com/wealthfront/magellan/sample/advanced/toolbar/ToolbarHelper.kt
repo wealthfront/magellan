@@ -5,6 +5,12 @@ import com.wealthfront.magellan.Navigator
 import com.wealthfront.magellan.navigation.NavigableCompat
 import com.wealthfront.magellan.navigation.NavigableListener
 
+/**
+ * [ToolbarHelper] provides APIs to modify the toolbar for the activity.
+ *
+ * Ideally, this dependency is provider by dependency injection and configured so that the views are cleaned up when the activity
+ * is destroyed with the help of (subcomponents & custom scopes)[https://dagger.dev/dev-guide/subcomponents].
+ */
 object ToolbarHelper : NavigableListener {
 
   private var toolbarView: ToolbarView? = null
