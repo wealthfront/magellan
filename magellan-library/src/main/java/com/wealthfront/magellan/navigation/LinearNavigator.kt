@@ -32,6 +32,10 @@ public class LinearNavigator internal constructor(
     delegate.navigate(direction, backStackOperation)
   }
 
+  public fun goBackTo(navigable: Navigable) {
+    delegate.goBackTo(navigable)
+  }
+
   public fun goBack(): Boolean {
     return delegate.goBack()
   }

@@ -3,6 +3,7 @@ package com.wealthfront.magellan.sample.advanced
 import android.content.Context
 import com.wealthfront.magellan.LegacyExpedition
 import com.wealthfront.magellan.lifecycle.lateinitLifecycle
+import com.wealthfront.magellan.navigation.CurrentNavigableProvider
 import com.wealthfront.magellan.navigation.LoggingNavigableListener
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.advanced.databinding.ExpeditionBinding
@@ -19,10 +20,12 @@ class Expedition @Inject constructor() : LegacyExpedition<ExpeditionBinding>(
 ) {
 
   @set:Inject var navListener: LoggingNavigableListener by lateinitLifecycle()
+  @Inject lateinit var currentNavigableProvider: CurrentNavigableProvider
 
   override fun onCreate(context: Context) {
-    attachToLifecycle(ToolbarHelper)
     app(context).injector().inject(this)
+    attachToLifecycle(ToolbarHelper)
+    setCurrentNavProvider(currentNavigableProvider)
   }
 
   override fun onShow(context: Context, binding: ExpeditionBinding) {

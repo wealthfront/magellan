@@ -6,10 +6,12 @@ import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.init.getDefaultTransition
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.lifecycle
+import com.wealthfront.magellan.navigation.CurrentNavigableProvider
 import com.wealthfront.magellan.navigation.NavigableCompat
 import com.wealthfront.magellan.navigation.NavigationDelegate
 import com.wealthfront.magellan.navigation.NavigationEvent
 import com.wealthfront.magellan.navigation.Navigator
+import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.transitions.MagellanTransition
 import com.wealthfront.magellan.transitions.NoAnimationTransition
 import com.wealthfront.magellan.transitions.ShowTransition
@@ -17,13 +19,15 @@ import rewriteHistoryWithNavigationEvents
 import java.util.Deque
 
 public class Navigator internal constructor(
-  container: () -> ScreenContainer
+  container: () -> ScreenContainer,
 ) : Navigator, LifecycleAwareComponent() {
 
   private val delegate by lifecycle(NavigationDelegate(container))
 
   override val backStack: Deque<NavigationEvent>
     get() = delegate.backStack
+
+  internal var currentNavigableProvider: CurrentNavigableProvider? = null
 
   init {
     delegate.currentNavigableSetup = { navItem ->
@@ -79,11 +83,11 @@ public class Navigator internal constructor(
     navigable: NavigableCompat,
     overrideMagellanTransition: MagellanTransition? = null
   ) {
-    navigate(BACKWARD) { backStack ->
-      val backStackItem = backStack.find { it.navigable == navigable }
-        ?: throw IllegalStateException("Cannot find navigable (${navigable::class.java.simpleName}) in the backstack!")
-      backStack.remove(backStackItem)
-      NavigationEvent(navigable, overrideMagellanTransition ?: ShowTransition())
+    if (backStack.isOnTopOfBackStack(navigable)) {
+      navigate(BACKWARD) { backStack ->
+        backStack.remove(backStack.peekLast())
+        NavigationEvent(navigable, overrideMagellanTransition ?: ShowTransition())
+      }
     }
   }
 
@@ -95,7 +99,7 @@ public class Navigator internal constructor(
   }
 
   public fun goBackToRoot() {
-    navigate(Direction.BACKWARD) { history ->
+    navigate(BACKWARD) { history ->
       var navigable: NavigableCompat? = null
       while (history.size > 1) {
         navigable = history.pop().navigable
@@ -104,15 +108,20 @@ public class Navigator internal constructor(
     }
   }
 
-  public fun goBack(): Boolean {
-    return delegate.goBack()
-  }
+  public fun atRoot(): Boolean = backStack.size <= 1
+
+  public fun goBack(): Boolean = delegate.goBack()
+
+  public fun isCurrentScreen(other: NavigableCompat): Boolean = currentNavigableProvider!!.isCurrentNavigable(other)
+
+  public fun currentScreen(): NavigableCompat = currentNavigableProvider!!.navigable!!
 
   public fun rewriteHistory(activity: Activity?, historyRewriter: HistoryRewriter) {
     checkNotNull(activity != null) { "Activity cannot be null" }
     navigate(historyRewriter)
   }
 
+  @JvmOverloads
   public fun navigate(historyRewriter: HistoryRewriter, magellanTransition: MagellanTransition? = null) {
     navigate(FORWARD) { backStack ->
       historyRewriter.rewriteHistoryWithNavigationEvents(backStack, magellanTransition)
@@ -125,6 +134,10 @@ public class Navigator internal constructor(
       historyRewriter.rewriteHistoryWithNavigationEvents(backStack, null, navType)
       backStack.peek()!!
     }
+  }
+
+  public fun goBackTo(navigable: NavigableCompat) {
+    delegate.goBackTo(navigable)
   }
 
   public fun navigate(
@@ -148,4 +161,8 @@ public class Navigator internal constructor(
       backStack.peek()!!
     }
   }
+}
+
+private fun Deque<NavigationEvent>.isOnTopOfBackStack(navigable: NavigableCompat): Boolean {
+  return peekLast()?.navigable == navigable
 }

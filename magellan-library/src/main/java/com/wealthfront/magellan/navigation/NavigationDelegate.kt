@@ -132,7 +132,6 @@ public class NavigationDelegate(
         NO_MOVEMENT, BACKWARD -> currentState.getEarlierOfCurrentState()
       }
     )
-    navigationPropagator.onNavigate()
     navigationPropagator.showCurrentNavigable(currentNavigable!!)
     when (currentState) {
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
@@ -144,6 +143,7 @@ public class NavigationDelegate(
       is LifecycleState.Destroyed, is LifecycleState.Created -> {
       }
     }
+    navigationPropagator.onNavigated()
     return currentNavigable!!.view
   }
 
@@ -159,6 +159,15 @@ public class NavigationDelegate(
       )
       navigationPropagator.hideCurrentNavigable(currentNavigable)
       currentView
+    }
+  }
+
+  public fun goBackTo(navigable: NavigableCompat) {
+    navigate(BACKWARD) { backStack ->
+      while (navigable != backStack.peek()!!.navigable) {
+        backStack.pop()
+      }
+      backStack.peek()!!
     }
   }
 

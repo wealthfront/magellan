@@ -11,7 +11,7 @@ public interface NavigableListener extends LifecycleAware {
 
   default void onNavigableHidden(@NotNull NavigableCompat navigable) {}
 
-  default void onNavigate() {}
+  default void onNavigated() {}
 
   @Override
   default void show(@NotNull Context context) {
