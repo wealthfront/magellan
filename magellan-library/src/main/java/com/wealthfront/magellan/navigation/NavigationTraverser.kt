@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.navigation
 
 import android.util.Log
+import com.wealthfront.magellan.init.shouldLogDebugInfo
 import com.wealthfront.magellan.lifecycle.LifecycleOwner
 import java.util.ArrayDeque
 import java.util.Deque
@@ -32,7 +33,9 @@ public class NavigationTraverser(private val root: NavigableCompat) {
   }
 
   public fun logGlobalBackStack() {
-    Log.i(this::class.java.simpleName, getGlobalBackstackDescription())
+    if (shouldLogDebugInfo()) {
+      Log.d(this::class.java.simpleName, getGlobalBackstackDescription())
+    }
   }
 
   private fun getPrintableGlobalBackstack(navNode: NavigationNode, depth: Int, sb: StringBuilder) {
