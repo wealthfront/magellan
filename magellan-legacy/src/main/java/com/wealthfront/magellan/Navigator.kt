@@ -3,7 +3,6 @@ package com.wealthfront.magellan
 import android.app.Activity
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
-import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.init.getDefaultTransition
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.lifecycle
