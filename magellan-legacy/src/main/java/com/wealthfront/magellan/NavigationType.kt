@@ -3,7 +3,7 @@ package com.wealthfront.magellan
 import com.wealthfront.magellan.NavigationType.GO
 import com.wealthfront.magellan.NavigationType.NO_ANIM
 import com.wealthfront.magellan.NavigationType.SHOW
-import com.wealthfront.magellan.transitions.DefaultTransition
+import com.wealthfront.magellan.init.getDefaultTransition
 import com.wealthfront.magellan.transitions.MagellanTransition
 import com.wealthfront.magellan.transitions.NoAnimationTransition
 import com.wealthfront.magellan.transitions.ShowTransition
@@ -25,7 +25,7 @@ public enum class NavigationType {
 
 internal fun NavigationType.toTransition(): MagellanTransition {
   return when (this) {
-    GO -> DefaultTransition()
+    GO -> getDefaultTransition()
     SHOW -> ShowTransition()
     NO_ANIM -> NoAnimationTransition()
   }

@@ -1,8 +1,8 @@
 import com.wealthfront.magellan.HistoryRewriter
 import com.wealthfront.magellan.NavigationType
+import com.wealthfront.magellan.init.getDefaultTransition
 import com.wealthfront.magellan.navigation.NavigationEvent
 import com.wealthfront.magellan.toTransition
-import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.transitions.MagellanTransition
 import java.util.ArrayDeque
 import java.util.Deque
@@ -20,7 +20,7 @@ internal fun HistoryRewriter.rewriteHistoryWithNavigationEvents(
     if (navEvent != null) {
       oldBackStack.add(navEvent)
     } else {
-      oldBackStack.add(NavigationEvent(screen, DefaultTransition()))
+      oldBackStack.add(NavigationEvent(screen, getDefaultTransition()))
     }
   }
   if (magellanTransition != null || navigationType != null) {

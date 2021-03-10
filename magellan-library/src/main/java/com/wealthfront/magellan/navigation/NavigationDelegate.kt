@@ -7,10 +7,12 @@ import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.Direction.NO_MOVEMENT
 import com.wealthfront.magellan.ScreenContainer
+import com.wealthfront.magellan.init.getDefaultTransition
+import com.wealthfront.magellan.init.shouldRunAnimations
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.LifecycleState
-import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.transitions.MagellanTransition
+import com.wealthfront.magellan.transitions.NoAnimationTransition
 import com.wealthfront.magellan.view.whenMeasured
 import java.util.ArrayDeque
 import java.util.Deque
@@ -58,7 +60,7 @@ public class NavigationDelegate(
       backStack.push(
         NavigationEvent(
           nextNavigableCompat,
-          overrideMagellanTransition ?: DefaultTransition()
+          overrideMagellanTransition ?: getDefaultTransition()
         )
       )
       backStack.peek()!!
@@ -74,7 +76,7 @@ public class NavigationDelegate(
       backStack.push(
         NavigationEvent(
           nextNavigableCompat,
-          overrideMagellanTransition ?: DefaultTransition()
+          overrideMagellanTransition ?: getDefaultTransition()
         )
       )
       backStack.peek()!!
@@ -106,7 +108,12 @@ public class NavigationDelegate(
   ) {
     currentNavigable!!.transitionStarted()
     to?.whenMeasured {
-      magellanTransition.animate(from, to, direction) {
+      val transition = if (shouldRunAnimations()) {
+        magellanTransition
+      } else {
+        NoAnimationTransition()
+      }
+      transition.animate(from, to, direction) {
         if (context != null) {
           containerView!!.removeView(from)
           currentNavigable!!.transitionFinished()

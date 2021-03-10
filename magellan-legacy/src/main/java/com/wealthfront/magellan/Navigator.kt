@@ -3,13 +3,13 @@ package com.wealthfront.magellan
 import android.app.Activity
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
+import com.wealthfront.magellan.init.getDefaultTransition
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.lifecycle
 import com.wealthfront.magellan.navigation.NavigableCompat
 import com.wealthfront.magellan.navigation.NavigationDelegate
 import com.wealthfront.magellan.navigation.NavigationEvent
 import com.wealthfront.magellan.navigation.Navigator
-import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.transitions.MagellanTransition
 import com.wealthfront.magellan.transitions.NoAnimationTransition
 import com.wealthfront.magellan.transitions.ShowTransition
@@ -100,7 +100,7 @@ public class Navigator internal constructor(
       while (history.size > 1) {
         navigable = history.pop().navigable
       }
-      NavigationEvent(navigable!!, DefaultTransition())
+      NavigationEvent(navigable!!, getDefaultTransition())
     }
   }
 
