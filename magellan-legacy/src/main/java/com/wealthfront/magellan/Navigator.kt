@@ -1,7 +1,6 @@
 package com.wealthfront.magellan
 
 import android.app.Activity
-import android.view.Menu
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.core.Step
@@ -19,20 +18,13 @@ import rewriteHistoryWithNavigationEvents
 import java.util.Deque
 
 public class Navigator internal constructor(
-  override val journey: Step<*>,
   container: () -> ScreenContainer
 ) : Navigator, LifecycleAwareComponent() {
 
-  private val delegate by lifecycle(NavigationDelegate(journey, container))
+  private val delegate by lifecycle(NavigationDelegate(container))
 
   override val backStack: Deque<NavigationEvent>
     get() = delegate.backStack
-
-  internal var menu: Menu? = null
-    set(value) {
-      field = value
-      delegate.menu = value
-    }
 
   init {
     delegate.currentNavigableSetup = { navItem ->
@@ -56,6 +48,7 @@ public class Navigator internal constructor(
     delegate.navigate(direction, backStackOperation)
   }
 
+  @JvmOverloads
   public fun replace(navigable: NavigableCompat, magellanTransition: MagellanTransition? = null) {
     delegate.replace(navigable, magellanTransition)
   }
@@ -64,6 +57,7 @@ public class Navigator internal constructor(
     delegate.replace(navigable, NoAnimationTransition())
   }
 
+  @JvmOverloads
   public fun show(navigable: NavigableCompat, magellanTransition: MagellanTransition? = null) {
     delegate.goTo(navigable, magellanTransition ?: ShowTransition())
   }
@@ -72,6 +66,7 @@ public class Navigator internal constructor(
     delegate.goTo(navigable, NoAnimationTransition())
   }
 
+  @JvmOverloads
   public fun goTo(navigable: NavigableCompat, magellanTransition: MagellanTransition? = null) {
     delegate.goTo(navigable, magellanTransition)
   }
@@ -93,6 +88,7 @@ public class Navigator internal constructor(
     }
   }
 
+  @JvmOverloads
   public fun hide(magellanTransition: MagellanTransition? = null) {
     navigate(BACKWARD) { backStack ->
       NavigationEvent(backStack.pop().navigable, magellanTransition ?: ShowTransition())
