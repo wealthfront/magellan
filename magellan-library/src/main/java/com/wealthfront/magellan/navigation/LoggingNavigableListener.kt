@@ -20,7 +20,7 @@ public class LoggingNavigableListener @Inject constructor(private val navigation
     }
   }
 
-  override fun onNavigated() {
+  override fun afterNavigation() {
     navigationTraverser.logGlobalBackStack()
   }
 }
