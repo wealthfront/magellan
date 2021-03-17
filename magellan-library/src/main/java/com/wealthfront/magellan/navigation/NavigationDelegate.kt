@@ -94,9 +94,12 @@ public class NavigationDelegate(
     backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent
   ) {
     containerView?.setInterceptTouchEvents(true)
+    navigationPropagator.beforeNavigation()
     val from = hideCurrentNavigable(direction)
     val transition = backStackOperation.invoke(backStack).magellanTransition
+    navigationPropagator.duringNavigation()
     val to = showCurrentNavigable(direction)
+    navigationPropagator.afterNavigation()
     animateAndRemove(from, to, direction, transition)
   }
 
@@ -143,7 +146,6 @@ public class NavigationDelegate(
       is LifecycleState.Destroyed, is LifecycleState.Created -> {
       }
     }
-    navigationPropagator.onNavigated()
     return currentNavigable!!.view
   }
 

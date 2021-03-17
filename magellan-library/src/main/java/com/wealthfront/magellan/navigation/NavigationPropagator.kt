@@ -14,9 +14,21 @@ public object NavigationPropagator {
     listeners = listeners - navigableListener
   }
 
-  public fun onNavigated() {
+  public fun beforeNavigation() {
     listeners.forEach {
-      it.onNavigated()
+      it.beforeNavigation()
+    }
+  }
+
+  public fun duringNavigation() {
+    listeners.forEach {
+      it.duringNavigation()
+    }
+  }
+
+  public fun afterNavigation() {
+    listeners.forEach {
+      it.afterNavigation()
     }
   }
 

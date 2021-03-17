@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.view.Menu;
 import android.view.ViewGroup;
 
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent;
