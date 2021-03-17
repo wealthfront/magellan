@@ -1,9 +1,12 @@
 package com.wealthfront.magellan.navigation;
 
 import android.content.Context;
+
 import com.wealthfront.magellan.lifecycle.LifecycleAware;
 
 import org.jetbrains.annotations.NotNull;
+
+import androidx.annotation.CallSuper;
 
 public interface NavigableListener extends LifecycleAware {
 
@@ -13,17 +16,17 @@ public interface NavigableListener extends LifecycleAware {
 
   default void beforeNavigation() {}
 
-  default void duringNavigation() {}
-
   default void afterNavigation() {}
 
   @Override
-  default void show(@NotNull Context context) {
+  @CallSuper
+  default void create(@NotNull Context context) {
     NavigationPropagator.addNavigableListener(this);
   }
 
   @Override
-  default void hide(@NotNull Context context) {
+  @CallSuper
+  default void destroy(@NotNull Context context) {
     NavigationPropagator.removeNavigableListener(this);
   }
 }

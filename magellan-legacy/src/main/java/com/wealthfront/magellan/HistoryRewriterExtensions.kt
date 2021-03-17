@@ -24,8 +24,8 @@ internal fun HistoryRewriter.rewriteHistoryWithNavigationEvents(
     }
   }
   if (magellanTransition != null || navigationType != null) {
-    val lastNav = oldBackStack.last
-    oldBackStack.removeLast()
-    oldBackStack.add(NavigationEvent(lastNav.navigable, magellanTransition ?: navigationType!!.toTransition()))
+    val lastNav = oldBackStack.first
+    oldBackStack.removeFirst()
+    oldBackStack.addFirst(NavigationEvent(lastNav.navigable, magellanTransition ?: navigationType!!.toTransition()))
   }
 }

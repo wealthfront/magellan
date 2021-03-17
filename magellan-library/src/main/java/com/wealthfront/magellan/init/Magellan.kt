@@ -14,10 +14,12 @@ public object Magellan {
   internal var disableAnimations: Boolean = false
   internal var customDefaultTransition: MagellanTransition = DefaultTransition()
 
+  @JvmStatic
+  @JvmOverloads
   public fun init(
     disableAnimations: Boolean = false,
-    defaultTransition: MagellanTransition = DefaultTransition(),
     logDebugInfo: Boolean = false,
+    defaultTransition: MagellanTransition = DefaultTransition(),
   ) {
     this.logDebugInfo = logDebugInfo
     this.disableAnimations = disableAnimations

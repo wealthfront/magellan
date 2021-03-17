@@ -1,6 +1,9 @@
 package com.wealthfront.magellan.navigation
 
-public object NavigationPropagator {
+import android.content.Context
+import com.wealthfront.magellan.lifecycle.LifecycleAware
+
+public object NavigationPropagator : LifecycleAware {
 
   private var listeners: Set<NavigableListener> = emptySet()
 
@@ -20,12 +23,6 @@ public object NavigationPropagator {
     }
   }
 
-  public fun duringNavigation() {
-    listeners.forEach {
-      it.duringNavigation()
-    }
-  }
-
   public fun afterNavigation() {
     listeners.forEach {
       it.afterNavigation()
@@ -42,5 +39,9 @@ public object NavigationPropagator {
     listeners.forEach {
       it.onNavigableShown(currentNavigable)
     }
+  }
+
+  override fun destroy(context: Context?) {
+    listeners = emptySet()
   }
 }

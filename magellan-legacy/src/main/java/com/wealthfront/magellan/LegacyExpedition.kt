@@ -17,5 +17,4 @@ public abstract class LegacyExpedition<V : ViewBinding>(
     attachToLifecycle(currentNavigableProvider)
     navigator.currentNavigableProvider = currentNavigableProvider
   }
-
 }

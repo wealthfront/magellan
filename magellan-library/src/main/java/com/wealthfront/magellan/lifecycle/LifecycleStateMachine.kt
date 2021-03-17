@@ -33,7 +33,7 @@ internal class LifecycleStateMachine {
       currentState = when (currentState.getTheDirectionIShouldGoToGetTo(newState)) {
         FORWARD -> next(subjects, currentState, newState.context!!)
         BACKWARDS -> previous(subjects, currentState, getContext(newState, oldState))
-        NO_MOVEMENT -> throw IllegalStateException("Attempting to transition from $currentState to itself")
+        NO_MOVEMENT -> newState
       }
     }
   }

@@ -11,7 +11,6 @@ import com.wealthfront.magellan.navigation.NavigableCompat
 import com.wealthfront.magellan.navigation.NavigationDelegate
 import com.wealthfront.magellan.navigation.NavigationEvent
 import com.wealthfront.magellan.navigation.Navigator
-import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.transitions.MagellanTransition
 import com.wealthfront.magellan.transitions.NoAnimationTransition
 import com.wealthfront.magellan.transitions.ShowTransition
@@ -78,30 +77,6 @@ public class Navigator internal constructor(
     delegate.goTo(navigable, magellanTransition)
   }
 
-  public fun hideNow(navigable: NavigableCompat) {
-    hide(navigable, NoAnimationTransition())
-  }
-
-  @JvmOverloads
-  public fun hide(
-    navigable: NavigableCompat,
-    overrideMagellanTransition: MagellanTransition? = null
-  ) {
-    if (backStack.isOnTopOfBackStack(navigable)) {
-      navigate(BACKWARD) { backStack ->
-        backStack.remove(backStack.peekLast())
-        NavigationEvent(navigable, overrideMagellanTransition ?: ShowTransition())
-      }
-    }
-  }
-
-  @JvmOverloads
-  public fun hide(magellanTransition: MagellanTransition? = null) {
-    navigate(BACKWARD) { backStack ->
-      NavigationEvent(backStack.pop().navigable, magellanTransition ?: ShowTransition())
-    }
-  }
-
   public fun goBackToRoot() {
     navigate(BACKWARD) { history ->
       var navigable: NavigableCompat? = null
@@ -144,6 +119,14 @@ public class Navigator internal constructor(
     delegate.goBackTo(navigable)
   }
 
+  public fun resetWithRoot(navigable: NavigableCompat) {
+    navigate(FORWARD) { backStack ->
+      backStack.clear()
+      backStack.push(NavigationEvent(navigable, getDefaultTransition()))
+      backStack.peek()!!
+    }
+  }
+
   public fun navigate(
     historyRewriter: HistoryRewriter,
     magellanTransition: MagellanTransition,
@@ -165,8 +148,4 @@ public class Navigator internal constructor(
       backStack.peek()!!
     }
   }
-}
-
-private fun Deque<NavigationEvent>.isOnTopOfBackStack(navigable: NavigableCompat): Boolean {
-  return peekLast()?.navigable == navigable
 }

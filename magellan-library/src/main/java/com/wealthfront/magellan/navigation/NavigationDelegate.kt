@@ -97,7 +97,6 @@ public class NavigationDelegate(
     navigationPropagator.beforeNavigation()
     val from = hideCurrentNavigable(direction)
     val transition = backStackOperation.invoke(backStack).magellanTransition
-    navigationPropagator.duringNavigation()
     val to = showCurrentNavigable(direction)
     navigationPropagator.afterNavigation()
     animateAndRemove(from, to, direction, transition)
