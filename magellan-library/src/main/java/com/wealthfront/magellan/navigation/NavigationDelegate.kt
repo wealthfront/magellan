@@ -46,6 +46,12 @@ public class NavigationDelegate(
     }
   }
 
+  override fun onHide(context: Context) {
+    currentNavigable?.let {
+      NavigationPropagator.hideCurrentNavigable(it)
+    }
+  }
+
   override fun onDestroy(context: Context) {
     backStack.navigables().forEach { removeFromLifecycle(it) }
     backStack.clear()
