@@ -14,9 +14,6 @@ public class LinearNavigator internal constructor(
 
   private val delegate by lifecycle(NavigationDelegate(container))
 
-  override val backStack: Deque<NavigationEvent>
-    get() = delegate.backStack
-
   public fun goTo(navigable: Navigable, overrideMagellanTransition: MagellanTransition? = null) {
     delegate.goTo(navigable, overrideMagellanTransition)
   }
@@ -32,11 +29,7 @@ public class LinearNavigator internal constructor(
     delegate.navigate(direction, backStackOperation)
   }
 
-  public fun goBackTo(navigable: Navigable) {
-    delegate.goBackTo(navigable)
-  }
-
-  public fun goBack(): Boolean {
+  public override fun goBack(): Boolean {
     return delegate.goBack()
   }
 }

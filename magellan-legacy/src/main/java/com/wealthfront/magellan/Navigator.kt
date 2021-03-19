@@ -23,9 +23,6 @@ public class Navigator internal constructor(
 
   private val delegate by lifecycle(NavigationDelegate(container))
 
-  override val backStack: Deque<NavigationEvent>
-    get() = delegate.backStack
-
   internal var currentNavigableProvider: CurrentNavigableProvider? = null
 
   init {
@@ -87,9 +84,9 @@ public class Navigator internal constructor(
     }
   }
 
-  public fun atRoot(): Boolean = backStack.size <= 1
+  public fun atRoot(): Boolean = delegate.atRoot()
 
-  public fun goBack(): Boolean = delegate.goBack()
+  public override fun goBack(): Boolean = delegate.goBack()
 
   public fun isCurrentScreen(other: NavigableCompat): Boolean = currentNavigableProvider!!.isCurrentNavigable(other)
 

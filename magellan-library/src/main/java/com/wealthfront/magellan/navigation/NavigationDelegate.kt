@@ -21,11 +21,11 @@ public class NavigationDelegate(
   private val container: () -> ScreenContainer
 ) : LifecycleAwareComponent() {
 
+  public var currentNavigableSetup: ((NavigableCompat) -> Unit)? = null
+
   private var containerView: ScreenContainer? = null
   private val navigationPropagator = NavigationPropagator
-
-  public val backStack: Deque<NavigationEvent> = ArrayDeque()
-  public var currentNavigableSetup: ((NavigableCompat) -> Unit)? = null
+  private val backStack: Deque<NavigationEvent> = ArrayDeque()
 
   private val currentNavigable: NavigableCompat?
     get() {
@@ -189,5 +189,5 @@ public class NavigationDelegate(
     }
   }
 
-  private fun atRoot() = backStack.size <= 1
+  public fun atRoot(): Boolean = backStack.size <= 1
 }
