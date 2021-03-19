@@ -1,6 +1,18 @@
 # Changelog
 
-## 2.0-alpha
+## 2.0.0-beta
+  - Added backwards compatibility for
+    - All the navigation methods
+    - ScreenLifecycleListener
+    - History re-writer
+    - NavigationType
+  - Added ability to turn off animations and logging
+  - Added ability to provide default transitions
+  - Breaking changes:
+    - Removed action bar (This needs to handled manually with 2.0)
+    - Removed activity reference from screens
+
+## 2.0-1-alpha
   - Introduced journeys/steps which help with implementation the concept of flows
   - Add support for lifecycle outside of screens/navigables
   - Breaking changes:

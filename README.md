@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/wealthfront/magellan.svg?branch=master)](https://travis-ci.org/wealthfront/magellan)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.wealthfront/magellan/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.wealthfront/magellan)
-[![Javadocs](https://www.javadoc.io/badge/com.wealthfront/magellan.svg)](https://www.javadoc.io/doc/com.wealthfront/magellan)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.wealthfront/magellan-library/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.wealthfront/magellan-library)
+[![Javadocs](https://www.javadoc.io/badge/com.wealthfront/magellan-library.svg)](https://www.javadoc.io/doc/com.wealthfront/magellan-library)
 
 # Magellan
 
@@ -23,12 +23,12 @@ Add the dependencies you need in your `build.gradle`:
 ### Core library
 
 ```groovy
-implementation 'com.wealthfront:magellan-library:2.0.0-alpha'
+implementation 'com.wealthfront:magellan-library:2.0.0-beta'
 ```
 ### Optional add-ons
 
 ```groovy
-def magellanVersion = '2.0.0-alpha'
+def magellanVersion = '2.0.0-beta'
 implementation "com.wealthfront:magellan-library:${magellanVersion}"
 implementation "com.wealthfront:magellan-support:${magellanVersion}"
 implementation "com.wealthfront:magellan-rx:${magellanVersion}"
