@@ -25,7 +25,7 @@ public class NavigationDelegate(
 
   private var containerView: ScreenContainer? = null
   private val navigationPropagator = NavigationPropagator
-  private val backStack: Deque<NavigationEvent> = ArrayDeque()
+  public val backStack: Deque<NavigationEvent> = ArrayDeque()
 
   private val currentNavigable: NavigableCompat?
     get() {

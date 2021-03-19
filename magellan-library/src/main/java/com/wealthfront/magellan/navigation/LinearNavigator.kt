@@ -14,6 +14,9 @@ public class LinearNavigator internal constructor(
 
   private val delegate by lifecycle(NavigationDelegate(container))
 
+  override val backStack: List<NavigationEvent>
+    get() = delegate.backStack.toList()
+
   public fun goTo(navigable: Navigable, overrideMagellanTransition: MagellanTransition? = null) {
     delegate.goTo(navigable, overrideMagellanTransition)
   }

@@ -23,6 +23,9 @@ public class Navigator internal constructor(
 
   private val delegate by lifecycle(NavigationDelegate(container))
 
+  override val backStack: List<NavigationEvent>
+    get() = delegate.backStack.toList()
+
   internal var currentNavigableProvider: CurrentNavigableProvider? = null
 
   init {
@@ -72,6 +75,12 @@ public class Navigator internal constructor(
   @JvmOverloads
   public fun goTo(navigable: NavigableCompat, magellanTransition: MagellanTransition? = null) {
     delegate.goTo(navigable, magellanTransition)
+  }
+
+  public fun hide(navigable: NavigableCompat) {
+    if (currentNavigableProvider!!.isCurrentNavigable(navigable)) {
+      goBack()
+    }
   }
 
   public fun goBackToRoot() {

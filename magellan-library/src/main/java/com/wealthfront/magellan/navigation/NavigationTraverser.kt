@@ -56,8 +56,7 @@ public data class NavigationNode(
 ) {
 
   val hasBackstack: Boolean
-    get() = (value as? LifecycleOwner)?.children?.mapNotNull { it as? Navigator }?.isNotEmpty()
-      ?: false
+    get() = (value as? LifecycleOwner)?.children?.mapNotNull { it as? Navigator }?.isNotEmpty() ?: false
 
   public fun getBackstack(): Deque<NavigationEvent> {
     val backStackDeepCopy = ArrayDeque<NavigationEvent>()

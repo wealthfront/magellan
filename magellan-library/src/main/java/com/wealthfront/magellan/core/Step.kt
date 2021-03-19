@@ -52,8 +52,6 @@ public abstract class Step<V : ViewBinding>(
     view!!.saveHierarchyState(viewState)
   }
 
-  override fun toString(): String = this.javaClass.simpleName
-
   protected open fun onShow(context: Context, binding: V) {}
 
   protected open fun onResume(context: Context, binding: V) {}
