@@ -6,7 +6,7 @@ import com.wealthfront.magellan.lifecycle.LifecycleStateDirection.BACKWARDS
 import com.wealthfront.magellan.lifecycle.LifecycleStateDirection.FORWARD
 import com.wealthfront.magellan.lifecycle.LifecycleStateDirection.NO_MOVEMENT
 
-public sealed class LifecycleState(public open val context: Context? = null, private val order: Int) {
+public sealed class LifecycleState(public open val context: Context? = null, internal val order: Int) {
 
   @SuppressLint("StaticFieldLeak")
   public object Destroyed : LifecycleState(null, 0)
@@ -14,7 +14,7 @@ public sealed class LifecycleState(public open val context: Context? = null, pri
   public data class Shown(override val context: Context) : LifecycleState(context, 2)
   public data class Resumed(override val context: Context) : LifecycleState(context, 3)
 
-  internal fun getTheDirectionIShouldGoToGetTo(other: LifecycleState) = when {
+  internal fun getDirectionForMovement(other: LifecycleState) = when {
     order > other.order -> BACKWARDS
     order == other.order -> NO_MOVEMENT
     order < other.order -> FORWARD

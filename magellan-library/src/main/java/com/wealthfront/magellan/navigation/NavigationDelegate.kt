@@ -21,11 +21,11 @@ public class NavigationDelegate(
   private val container: () -> ScreenContainer
 ) : LifecycleAwareComponent() {
 
+  public var currentNavigableSetup: ((NavigableCompat) -> Unit)? = null
+
   private var containerView: ScreenContainer? = null
   private val navigationPropagator = NavigationPropagator
-
   public val backStack: Deque<NavigationEvent> = ArrayDeque()
-  public var currentNavigableSetup: ((NavigableCompat) -> Unit)? = null
 
   private val currentNavigable: NavigableCompat?
     get() {
@@ -43,6 +43,12 @@ public class NavigationDelegate(
     containerView = container()
     currentNavigable?.let {
       showCurrentNavigable(NO_MOVEMENT)
+    }
+  }
+
+  override fun onHide(context: Context) {
+    currentNavigable?.let {
+      NavigationPropagator.hideCurrentNavigable(it)
     }
   }
 
@@ -94,9 +100,11 @@ public class NavigationDelegate(
     backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent
   ) {
     containerView?.setInterceptTouchEvents(true)
+    navigationPropagator.beforeNavigation()
     val from = hideCurrentNavigable(direction)
     val transition = backStackOperation.invoke(backStack).magellanTransition
     val to = showCurrentNavigable(direction)
+    navigationPropagator.afterNavigation()
     animateAndRemove(from, to, direction, transition)
   }
 
@@ -132,7 +140,6 @@ public class NavigationDelegate(
         NO_MOVEMENT, BACKWARD -> currentState.getEarlierOfCurrentState()
       }
     )
-    navigationPropagator.onNavigate()
     navigationPropagator.showCurrentNavigable(currentNavigable!!)
     when (currentState) {
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
@@ -162,6 +169,15 @@ public class NavigationDelegate(
     }
   }
 
+  public fun goBackTo(navigable: NavigableCompat) {
+    navigate(BACKWARD) { backStack ->
+      while (navigable != backStack.peek()!!.navigable) {
+        backStack.pop()
+      }
+      backStack.peek()!!
+    }
+  }
+
   override fun onBackPressed(): Boolean = currentNavigable?.backPressed() ?: false || goBack()
 
   public fun goBack(): Boolean {
@@ -173,5 +189,5 @@ public class NavigationDelegate(
     }
   }
 
-  private fun atRoot() = backStack.size <= 1
+  public fun atRoot(): Boolean = backStack.size <= 1
 }

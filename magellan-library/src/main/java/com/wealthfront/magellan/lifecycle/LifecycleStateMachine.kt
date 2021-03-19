@@ -29,11 +29,11 @@ internal class LifecycleStateMachine {
     newState: LifecycleState
   ) {
     var currentState = oldState
-    while (currentState != newState) {
-      currentState = when (currentState.getTheDirectionIShouldGoToGetTo(newState)) {
+    while (currentState.order != newState.order) {
+      currentState = when (currentState.getDirectionForMovement(newState)) {
         FORWARD -> next(subjects, currentState, newState.context!!)
         BACKWARDS -> previous(subjects, currentState, getContext(newState, oldState))
-        NO_MOVEMENT -> throw IllegalStateException("Attempting to transition from $currentState to itself")
+        NO_MOVEMENT -> throw IllegalStateException("Attempting to transition from $currentState to $newState")
       }
     }
   }

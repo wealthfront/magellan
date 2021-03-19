@@ -41,24 +41,24 @@ class LifecycleStateTest {
 
   @Test
   fun getTheDirectionIShouldGoToGetTo() {
-    assertThat(destroyed.getTheDirectionIShouldGoToGetTo(destroyed)).isEqualTo(NO_MOVEMENT)
-    assertThat(destroyed.getTheDirectionIShouldGoToGetTo(created)).isEqualTo(FORWARD)
-    assertThat(destroyed.getTheDirectionIShouldGoToGetTo(shown)).isEqualTo(FORWARD)
-    assertThat(destroyed.getTheDirectionIShouldGoToGetTo(resumed)).isEqualTo(FORWARD)
+    assertThat(destroyed.getDirectionForMovement(destroyed)).isEqualTo(NO_MOVEMENT)
+    assertThat(destroyed.getDirectionForMovement(created)).isEqualTo(FORWARD)
+    assertThat(destroyed.getDirectionForMovement(shown)).isEqualTo(FORWARD)
+    assertThat(destroyed.getDirectionForMovement(resumed)).isEqualTo(FORWARD)
 
-    assertThat(created.getTheDirectionIShouldGoToGetTo(destroyed)).isEqualTo(BACKWARDS)
-    assertThat(created.getTheDirectionIShouldGoToGetTo(created)).isEqualTo(NO_MOVEMENT)
-    assertThat(created.getTheDirectionIShouldGoToGetTo(shown)).isEqualTo(FORWARD)
-    assertThat(created.getTheDirectionIShouldGoToGetTo(resumed)).isEqualTo(FORWARD)
+    assertThat(created.getDirectionForMovement(destroyed)).isEqualTo(BACKWARDS)
+    assertThat(created.getDirectionForMovement(created)).isEqualTo(NO_MOVEMENT)
+    assertThat(created.getDirectionForMovement(shown)).isEqualTo(FORWARD)
+    assertThat(created.getDirectionForMovement(resumed)).isEqualTo(FORWARD)
 
-    assertThat(shown.getTheDirectionIShouldGoToGetTo(destroyed)).isEqualTo(BACKWARDS)
-    assertThat(shown.getTheDirectionIShouldGoToGetTo(created)).isEqualTo(BACKWARDS)
-    assertThat(shown.getTheDirectionIShouldGoToGetTo(shown)).isEqualTo(NO_MOVEMENT)
-    assertThat(shown.getTheDirectionIShouldGoToGetTo(resumed)).isEqualTo(FORWARD)
+    assertThat(shown.getDirectionForMovement(destroyed)).isEqualTo(BACKWARDS)
+    assertThat(shown.getDirectionForMovement(created)).isEqualTo(BACKWARDS)
+    assertThat(shown.getDirectionForMovement(shown)).isEqualTo(NO_MOVEMENT)
+    assertThat(shown.getDirectionForMovement(resumed)).isEqualTo(FORWARD)
 
-    assertThat(resumed.getTheDirectionIShouldGoToGetTo(destroyed)).isEqualTo(BACKWARDS)
-    assertThat(resumed.getTheDirectionIShouldGoToGetTo(created)).isEqualTo(BACKWARDS)
-    assertThat(resumed.getTheDirectionIShouldGoToGetTo(shown)).isEqualTo(BACKWARDS)
-    assertThat(resumed.getTheDirectionIShouldGoToGetTo(resumed)).isEqualTo(NO_MOVEMENT)
+    assertThat(resumed.getDirectionForMovement(destroyed)).isEqualTo(BACKWARDS)
+    assertThat(resumed.getDirectionForMovement(created)).isEqualTo(BACKWARDS)
+    assertThat(resumed.getDirectionForMovement(shown)).isEqualTo(BACKWARDS)
+    assertThat(resumed.getDirectionForMovement(resumed)).isEqualTo(NO_MOVEMENT)
   }
 }

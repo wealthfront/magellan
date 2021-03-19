@@ -156,7 +156,12 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * @return true if the method consumed the back event, false otherwise.
    */
   public boolean handleBack() {
-    return backPressed();
+    return false;
+  }
+
+  @Override
+  protected boolean onBackPressed() {
+    return handleBack();
   }
 
   /**
