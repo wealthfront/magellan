@@ -17,6 +17,7 @@ import com.wealthfront.magellan.transitions.ShowTransition
 import rewriteHistoryWithNavigationEvents
 import java.util.Deque
 
+@OpenForMocking
 public class Navigator internal constructor(
   container: () -> ScreenContainer,
 ) : Navigator, LifecycleAwareComponent() {
@@ -54,26 +55,35 @@ public class Navigator internal constructor(
     delegate.navigate(direction, backStackOperation)
   }
 
-  @JvmOverloads
-  public fun replace(navigable: NavigableCompat, magellanTransition: MagellanTransition? = null) {
-    delegate.replace(navigable, magellanTransition)
+  public fun replace(navigable: NavigableCompat) {
+    replace(navigable, null)
   }
 
   public fun replaceNow(navigable: NavigableCompat) {
-    delegate.replace(navigable, NoAnimationTransition())
+    replace(navigable, NoAnimationTransition())
   }
 
-  @JvmOverloads
-  public fun show(navigable: NavigableCompat, magellanTransition: MagellanTransition? = null) {
-    delegate.goTo(navigable, magellanTransition ?: ShowTransition())
+  public fun replace(navigable: NavigableCompat, magellanTransition: MagellanTransition?) {
+    delegate.replace(navigable, magellanTransition)
+  }
+
+  public fun show(navigable: NavigableCompat) {
+    goTo(navigable, null)
+  }
+
+  public fun show(navigable: NavigableCompat, magellanTransition: MagellanTransition?) {
+    goTo(navigable, magellanTransition ?: ShowTransition())
   }
 
   public fun showNow(navigable: NavigableCompat) {
-    delegate.goTo(navigable, NoAnimationTransition())
+    goTo(navigable, NoAnimationTransition())
   }
 
-  @JvmOverloads
-  public fun goTo(navigable: NavigableCompat, magellanTransition: MagellanTransition? = null) {
+  public fun goTo(navigable: NavigableCompat) {
+    goTo(navigable, null)
+  }
+
+  public fun goTo(navigable: NavigableCompat, magellanTransition: MagellanTransition?) {
     delegate.goTo(navigable, magellanTransition)
   }
 
@@ -106,7 +116,13 @@ public class Navigator internal constructor(
     navigate(historyRewriter)
   }
 
-  @JvmOverloads
+  public fun navigate(historyRewriter: HistoryRewriter) {
+    navigate(FORWARD) { backStack ->
+      historyRewriter.rewriteHistoryWithNavigationEvents(backStack, null)
+      backStack.peek()!!
+    }
+  }
+
   public fun navigate(historyRewriter: HistoryRewriter, magellanTransition: MagellanTransition? = null) {
     navigate(FORWARD) { backStack ->
       historyRewriter.rewriteHistoryWithNavigationEvents(backStack, magellanTransition)

@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.navigation
 
 import com.wealthfront.magellan.Direction
+import com.wealthfront.magellan.OpenForMocking
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
@@ -8,6 +9,7 @@ import com.wealthfront.magellan.lifecycle.lifecycle
 import com.wealthfront.magellan.transitions.MagellanTransition
 import java.util.Deque
 
+@OpenForMocking
 public class LinearNavigator internal constructor(
   container: () -> ScreenContainer
 ) : Navigator, LifecycleAwareComponent() {
