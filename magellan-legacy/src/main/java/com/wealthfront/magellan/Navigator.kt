@@ -111,7 +111,11 @@ public class Navigator internal constructor(
 
   public fun currentScreen(): NavigableCompat? = currentNavigableProvider!!.navigable
 
-  public fun isCurrentScreenOfType(other: Class<out Annotation>): Boolean {
+  public fun isCurrentScreenOfType(other: Class<*>): Boolean {
+    return currentNavigableProvider!!.navigable?.javaClass?.isAssignableFrom(other) ?: false
+  }
+
+  public fun isCurrentScreenOfAnnotationType(other: Class<out Annotation>): Boolean {
     return currentNavigableProvider!!.navigable?.javaClass?.isAnnotationPresent(other) ?: false
   }
 
