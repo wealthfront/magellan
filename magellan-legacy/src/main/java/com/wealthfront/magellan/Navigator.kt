@@ -111,6 +111,10 @@ public class Navigator internal constructor(
 
   public fun currentScreen(): NavigableCompat = currentNavigableProvider!!.navigable!!
 
+  public fun isCurrentScreenOfType(other: Class<out Annotation>): Boolean {
+    return currentNavigableProvider!!.navigable?.javaClass?.isAnnotationPresent(other) ?: false
+  }
+
   public fun rewriteHistory(activity: Activity?, historyRewriter: HistoryRewriter) {
     checkNotNull(activity != null) { "Activity cannot be null" }
     navigate(historyRewriter)
