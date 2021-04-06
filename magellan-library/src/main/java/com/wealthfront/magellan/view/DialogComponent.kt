@@ -12,7 +12,7 @@ public class DialogComponent @Inject constructor() : LifecycleAware {
   private var dialogCreator: DialogCreator? = null
   public var dialog: Dialog? = null
     private set
-  private var context: Context? = null
+  public var context: Context? = null
 
   public var dialogIsShowing: Boolean = false
 

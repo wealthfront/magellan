@@ -35,6 +35,7 @@ object Dependencies {
 
   const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   const val kotlinterGradle = "org.jmailen.gradle:kotlinter-gradle:$kotlinterVersion"
+  const val kotlinAllOpen = "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
 
   const val material = "com.google.android.material:material:$materialVersion"
   const val junit = "junit:junit:$junitVersion"

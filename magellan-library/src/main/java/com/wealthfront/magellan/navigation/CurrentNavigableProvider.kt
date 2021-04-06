@@ -1,9 +1,11 @@
 package com.wealthfront.magellan.navigation
 
+import com.wealthfront.magellan.OpenForMocking
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
+@OpenForMocking
 public class CurrentNavigableProvider @Inject constructor() : NavigableListener {
 
   public var navigable: NavigableCompat? = null
