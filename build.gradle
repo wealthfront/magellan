@@ -9,6 +9,7 @@ buildscript {
   dependencies {
     classpath(Dependencies.kotlinGradle)
     classpath(Dependencies.kotlinterGradle)
+    classpath(Dependencies.kotlinAllOpen)
   }
 }
 
@@ -18,6 +19,7 @@ plugins {
 
 allprojects {
   apply from: "$rootDir/gradle/static-analysis.gradle"
+  apply plugin: "kotlin-allopen"
 
   group = GROUP
   version = VERSION_NAME
@@ -26,6 +28,10 @@ allprojects {
     jcenter()
     mavenCentral()
     google()
+  }
+
+  allOpen {
+    annotation("com.wealthfront.magellan.OpenForMocking")
   }
 }
 

@@ -56,7 +56,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * {@link #onHide(Context)}.
    */
   @Nullable
-  public final V getView() {
+  public V getView() {
     return view;
   }
 
@@ -179,7 +179,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * Display a {@link Dialog} using a {@link DialogCreator}. The dialog will be automatically recreated and redisplayed
    * on rotation.
    */
-  protected final void showDialog(@NotNull DialogCreator dialogCreator) {
+  public void showDialog(@NotNull DialogCreator dialogCreator) {
     dialogComponent.showDialog(dialogCreator);
   }
 
@@ -199,9 +199,10 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
 
   public final void setActivity(@Nullable Activity activity) {
     this.activity = activity;
+    this.dialogComponent.setContext(activity);
   }
 
-  void setNavigator(@NotNull Navigator navigator) {
+  public final void setNavigator(@NotNull Navigator navigator) {
     this.navigator = navigator;
   }
 

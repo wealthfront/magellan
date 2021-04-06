@@ -1,11 +1,13 @@
 package com.wealthfront.magellan.navigation
 
 import android.util.Log
+import com.wealthfront.magellan.OpenForMocking
 import com.wealthfront.magellan.init.shouldLogDebugInfo
 import com.wealthfront.magellan.lifecycle.LifecycleOwner
 import java.util.ArrayDeque
 import java.util.Deque
 
+@OpenForMocking
 public class NavigationTraverser(private val root: NavigableCompat) {
 
   public fun getGlobalBackStack(): NavigationNode {

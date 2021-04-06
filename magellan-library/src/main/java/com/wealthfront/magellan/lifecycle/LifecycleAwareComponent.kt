@@ -42,7 +42,7 @@ public abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
     lifecycleRegistry.destroy(context)
   }
 
-  final override fun backPressed(): Boolean {
+  override fun backPressed(): Boolean {
     return lifecycleRegistry.backPressed() || onBackPressed()
   }
 
