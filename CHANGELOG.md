@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.1-beta
+  - Improve testability
+    - Open classes for mockable
+    - Support for testing overloaded methods in the Navigator 
+
 ## 2.0.0-beta
   - Added backwards compatibility for
     - All the navigation methods
