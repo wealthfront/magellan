@@ -150,11 +150,7 @@ public class Navigator internal constructor(
   }
 
   public fun resetWithRoot(navigable: NavigableCompat) {
-    navigate(FORWARD) { backStack ->
-      backStack.clear()
-      backStack.push(NavigationEvent(navigable, getDefaultTransition()))
-      backStack.peek()!!
-    }
+    delegate.resetWithRoot(navigable)
   }
 
   public fun navigate(

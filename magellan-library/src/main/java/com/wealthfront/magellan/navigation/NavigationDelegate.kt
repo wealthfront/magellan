@@ -178,6 +178,11 @@ public class NavigationDelegate(
     }
   }
 
+  public fun resetWithRoot(navigable: NavigableCompat) {
+    backStack.clear()
+    backStack.push(NavigationEvent(navigable, NoAnimationTransition()))
+  }
+
   override fun onBackPressed(): Boolean = currentNavigable?.backPressed() ?: false || goBack()
 
   public fun goBack(): Boolean {
