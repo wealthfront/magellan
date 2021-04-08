@@ -34,7 +34,7 @@ object ToolbarHelper : NavigableListener {
     toolbarView!!.setMenuIcon(icon, onClickListener)
   }
 
-  override fun onNavigableHidden(navigable: NavigableCompat) {
+  override fun onNavigatedFrom(navigable: NavigableCompat) {
     toolbarView?.reset()
   }
 
