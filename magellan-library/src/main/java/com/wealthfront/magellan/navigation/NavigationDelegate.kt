@@ -48,7 +48,7 @@ public class NavigationDelegate(
 
   override fun onHide(context: Context) {
     currentNavigable?.let {
-      NavigationPropagator.hideCurrentNavigable(it)
+      removeFromLifecycle(it)
     }
   }
 
