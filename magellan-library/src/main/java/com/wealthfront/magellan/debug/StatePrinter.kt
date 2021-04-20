@@ -2,6 +2,7 @@ package com.wealthfront.magellan.debug
 
 import com.wealthfront.magellan.lifecycle.LifecycleAware
 import com.wealthfront.magellan.lifecycle.LifecycleOwner
+import com.wealthfront.magellan.lifecycle.LifecycleState
 
 private const val VERTICAL_LINE = '|'
 private const val VERTICAL_T = '├'
@@ -15,7 +16,8 @@ public fun LifecycleOwner.getTreeDescription(): String {
     .mapIndexed { index, lifecycleAware ->
       lifecycleAware.getTreeDescriptionInternal(
         "",
-        index == children.lastIndex
+        index == children.lastIndex,
+        currentState
       )
     }
     .forEach { stringBuilder.append(it) }
@@ -25,12 +27,13 @@ public fun LifecycleOwner.getTreeDescription(): String {
 
 private fun LifecycleAware.getTreeDescriptionInternal(
   indent: String,
-  isLastChild: Boolean
+  isLastChild: Boolean,
+  parentLifecycleState: LifecycleState
 ): String {
   val stringBuilder = StringBuilder()
   val lineChar = if (isLastChild) CONNECTOR_L else VERTICAL_T
-  stringBuilder.append(describeSelf(indent + lineChar + INDENT_SPACE))
   if (this is LifecycleOwner) {
+    stringBuilder.append(describeSelf(indent + lineChar + INDENT_SPACE))
     children
       .mapIndexed { index, lifecycleAware ->
         val childIndent = indent + if (isLastChild) {
@@ -40,16 +43,22 @@ private fun LifecycleAware.getTreeDescriptionInternal(
         }
         lifecycleAware.getTreeDescriptionInternal(
           indent + childIndent,
-          index == children.lastIndex
+          index == children.lastIndex,
+          currentState
         )
       }
       .forEach { stringBuilder.append(it) }
+  } else {
+    stringBuilder.append(describeSelf(indent + lineChar + INDENT_SPACE, parentLifecycleState))
+
   }
 
   return stringBuilder.toString()
 }
 
-private fun LifecycleOwner.describeSelf(indent: String): String = indent + this::class.java.simpleName + "\n"
+private fun LifecycleOwner.describeSelf(indent: String): String =
+  "$indent${this::class.java.simpleName} (${currentState::class.java.simpleName})\n"
 
-private fun LifecycleAware.describeSelf(indent: String): String = indent + this::class.java.simpleName + "\n"
+private fun LifecycleAware.describeSelf(indent: String, parentLifecycleState: LifecycleState): String =
+  "$indent${this::class.java.simpleName} (${parentLifecycleState::class.java.simpleName}?)\n"
 
