@@ -55,7 +55,7 @@ class NavigationTraverserTest {
     └ DummyJourney1
       └ DummyStep1
     
-    """.trimIndent()
+      """.trimIndent()
     )
   }
 
@@ -72,7 +72,7 @@ class NavigationTraverserTest {
       ├ DummyStep1
       └ DummyStep2
     
-    """.trimIndent()
+      """.trimIndent()
     )
   }
 
@@ -92,7 +92,7 @@ class NavigationTraverserTest {
       ├ DummyStep1
       └ DummyStep2
     
-    """.trimIndent()
+      """.trimIndent()
     )
   }
 

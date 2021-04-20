@@ -39,35 +39,28 @@ public class NavigationTraverser(private val root: NavigableCompat) {
   private fun NavigationNode.getNavigationSnapshot(): String {
     val stringBuilder = StringBuilder()
     stringBuilder.append(describeSelf(""))
-    children
-      .mapIndexed { index, node ->
-        node.getNavigationSnapshotRecursive("", index == children.lastIndex)
-      }
+    children.mapIndexed { index, node ->
+      node.getNavigationSnapshotRecursive("", index == children.lastIndex)
+    }
       .forEach { stringBuilder.append(it) }
-
     return stringBuilder.toString()
   }
 
-  private fun NavigationNode.getNavigationSnapshotRecursive(
-    indent: String,
-    isLastChild: Boolean
-  ): String {
+  private fun NavigationNode.getNavigationSnapshotRecursive(indent: String, isLastChild: Boolean): String {
     val stringBuilder = StringBuilder()
     val lineChar = if (isLastChild) CONNECTOR_L else VERTICAL_T
     stringBuilder.append(describeSelf(indent + lineChar + INDENT_SPACE))
-    children
-      .mapIndexed { index, node ->
-        val childIndent = indent + if (isLastChild) {
-          " $INDENT_SPACE"
-        } else {
-          "$VERTICAL_LINE$INDENT_SPACE"
-        }
-        node.getNavigationSnapshotRecursive(
-          indent + childIndent,
-          index == children.lastIndex
-        )
+    children.mapIndexed { index, node ->
+      val childIndent = indent + if (isLastChild) {
+        " $INDENT_SPACE"
+      } else {
+        "$VERTICAL_LINE$INDENT_SPACE"
       }
-      .forEach { stringBuilder.append(it) }
+      node.getNavigationSnapshotRecursive(
+        indent + childIndent,
+        index == children.lastIndex
+      )
+    }.forEach { stringBuilder.append(it) }
     return stringBuilder.toString()
   }
 
@@ -76,20 +69,18 @@ public class NavigationTraverser(private val root: NavigableCompat) {
       Log.d(this::class.java.simpleName, getGlobalBackstackDescription())
     }
   }
-
 }
 
-public data class NavigationNode(
-  val value: NavigableCompat,
-  var children: List<NavigationNode>
-) {
+public data class NavigationNode(val value: NavigableCompat, var children: List<NavigationNode>) {
 
   val hasBackstack: Boolean
-    get() = (value as? LifecycleOwner)?.children?.mapNotNull { it as? Navigator }?.isNotEmpty() ?: false
+    get() = (value as? LifecycleOwner)?.children?.mapNotNull { it as? Navigator }?.isNotEmpty()
+      ?: false
 
   public fun getBackstack(): Deque<NavigationEvent> {
     val backStackDeepCopy = ArrayDeque<NavigationEvent>()
-    (value as LifecycleOwner).children.mapNotNull { it as? Navigator }.first().backStack.toList().toCollection(backStackDeepCopy)
+    (value as LifecycleOwner).children.mapNotNull { it as? Navigator }.first().backStack.toList()
+      .toCollection(backStackDeepCopy)
     return backStackDeepCopy
   }
 

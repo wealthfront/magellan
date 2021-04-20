@@ -50,7 +50,6 @@ private fun LifecycleAware.getLifecycleStateSnapshotRecursive(
       .forEach { stringBuilder.append(it) }
   } else {
     stringBuilder.append(describeSelf(indent + lineChar + INDENT_SPACE, parentLifecycleState))
-
   }
 
   return stringBuilder.toString()
@@ -61,4 +60,3 @@ private fun LifecycleOwner.describeSelf(indent: String): String =
 
 private fun LifecycleAware.describeSelf(indent: String, parentLifecycleState: LifecycleState): String =
   "$indent${this::class.java.simpleName} (${parentLifecycleState::class.java.simpleName}?)\n"
-
