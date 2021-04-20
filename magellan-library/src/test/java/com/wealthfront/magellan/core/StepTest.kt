@@ -25,7 +25,7 @@ import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
-class StepTest {
+internal class StepTest {
 
   private lateinit var context: Activity
   private lateinit var screen: DummyStep
@@ -73,4 +73,4 @@ class StepTest {
   }
 }
 
-class DummyStep : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
+internal class DummyStep : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
