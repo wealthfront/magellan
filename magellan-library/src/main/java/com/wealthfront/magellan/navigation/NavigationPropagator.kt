@@ -29,15 +29,15 @@ public object NavigationPropagator : LifecycleAware {
     }
   }
 
-  public fun hideCurrentNavigable(currentNavigable: NavigableCompat) {
+  public fun onNavigatedFrom(currentNavigable: NavigableCompat) {
     listeners.forEach {
-      it.onNavigableHidden(currentNavigable)
+      it.onNavigatedFrom(currentNavigable)
     }
   }
 
-  public fun showCurrentNavigable(currentNavigable: NavigableCompat) {
+  public fun onNavigatedTo(currentNavigable: NavigableCompat) {
     listeners.forEach {
-      it.onNavigableShown(currentNavigable)
+      it.onNavigatedTo(currentNavigable)
     }
   }
 

@@ -10,12 +10,12 @@ public interface ScreenLifecycleListener : NavigableListener {
   public fun onHide(navigable: NavigableCompat) {}
 
   @JvmDefault
-  override fun onNavigableShown(navigable: NavigableCompat) {
+  override fun onNavigatedTo(navigable: NavigableCompat) {
     onShow(navigable)
   }
 
   @JvmDefault
-  override fun onNavigableHidden(navigable: NavigableCompat) {
+  override fun onNavigatedFrom(navigable: NavigableCompat) {
     onHide(navigable)
   }
 }

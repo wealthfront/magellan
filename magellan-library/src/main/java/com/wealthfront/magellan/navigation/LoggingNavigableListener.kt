@@ -8,15 +8,15 @@ import javax.inject.Singleton
 @Singleton
 public class LoggingNavigableListener @Inject constructor(private val navigationTraverser: NavigationTraverser) : NavigableListener {
 
-  override fun onNavigableShown(navigable: NavigableCompat) {
+  override fun onNavigatedTo(navigable: NavigableCompat) {
     if (shouldLogDebugInfo()) {
-      Log.d(this::class.java.simpleName, "Shown: ${navigable.javaClass.simpleName}")
+      Log.d(this::class.java.simpleName, "Navigated To: ${navigable.javaClass.simpleName}")
     }
   }
 
-  override fun onNavigableHidden(navigable: NavigableCompat) {
+  override fun onNavigatedFrom(navigable: NavigableCompat) {
     if (shouldLogDebugInfo()) {
-      Log.d(this::class.java.simpleName, "Hidden: ${navigable.javaClass.simpleName}")
+      Log.d(this::class.java.simpleName, "Navigated From: ${navigable.javaClass.simpleName}")
     }
   }
 

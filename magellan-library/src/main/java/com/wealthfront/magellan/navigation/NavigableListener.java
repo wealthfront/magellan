@@ -10,9 +10,9 @@ import androidx.annotation.CallSuper;
 
 public interface NavigableListener extends LifecycleAware {
 
-  default void onNavigableShown(@NotNull NavigableCompat navigable) {}
+  default void onNavigatedTo(@NotNull NavigableCompat navigable) {}
 
-  default void onNavigableHidden(@NotNull NavigableCompat navigable) {}
+  default void onNavigatedFrom(@NotNull NavigableCompat navigable) {}
 
   default void beforeNavigation() {}
 

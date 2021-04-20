@@ -12,7 +12,7 @@ public class CurrentNavigableProvider @Inject constructor() : NavigableListener 
 
   public fun isCurrentNavigable(other: NavigableCompat): Boolean = navigable == other
 
-  override fun onNavigableShown(navigable: NavigableCompat) {
+  override fun onNavigatedTo(navigable: NavigableCompat) {
     this.navigable = navigable
   }
 }

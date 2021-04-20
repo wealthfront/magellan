@@ -11,6 +11,7 @@ import com.wealthfront.magellan.init.getDefaultTransition
 import com.wealthfront.magellan.init.shouldRunAnimations
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.LifecycleState
+import com.wealthfront.magellan.lifecycle.LifecycleState.Created
 import com.wealthfront.magellan.transitions.MagellanTransition
 import com.wealthfront.magellan.transitions.NoAnimationTransition
 import com.wealthfront.magellan.view.whenMeasured
@@ -42,13 +43,7 @@ public class NavigationDelegate(
   override fun onShow(context: Context) {
     containerView = container()
     currentNavigable?.let {
-      showCurrentNavigable(NO_MOVEMENT)
-    }
-  }
-
-  override fun onHide(context: Context) {
-    currentNavigable?.let {
-      NavigationPropagator.hideCurrentNavigable(it)
+      containerView!!.addView(currentNavigable!!.view!!)
     }
   }
 
@@ -101,9 +96,9 @@ public class NavigationDelegate(
   ) {
     containerView?.setInterceptTouchEvents(true)
     navigationPropagator.beforeNavigation()
-    val from = hideCurrentNavigable(direction)
+    val from = navigateFrom(currentNavigable, direction)
     val transition = backStackOperation.invoke(backStack).magellanTransition
-    val to = showCurrentNavigable(direction)
+    val to = navigateTo(currentNavigable!!, direction)
     navigationPropagator.afterNavigation()
     animateAndRemove(from, to, direction, transition)
   }
@@ -131,40 +126,38 @@ public class NavigationDelegate(
     }
   }
 
-  private fun showCurrentNavigable(direction: Direction): View? {
-    currentNavigableSetup?.invoke(currentNavigable!!)
+  private fun navigateTo(currentNavigable: NavigableCompat, direction: Direction): View? {
+    currentNavigableSetup?.invoke(currentNavigable)
     attachToLifecycle(
-      currentNavigable!!,
+      currentNavigable,
       detachedState = when (direction) {
         FORWARD -> LifecycleState.Destroyed
         NO_MOVEMENT, BACKWARD -> currentState.getEarlierOfCurrentState()
       }
     )
-    navigationPropagator.showCurrentNavigable(currentNavigable!!)
+    navigationPropagator.onNavigatedTo(currentNavigable)
     when (currentState) {
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
         containerView!!.addView(
-          currentNavigable!!.view!!,
+          currentNavigable.view!!,
           direction.indexToAddView(containerView!!)
         )
       }
-      is LifecycleState.Destroyed, is LifecycleState.Created -> {
+      is LifecycleState.Destroyed, is Created -> {
       }
     }
-    return currentNavigable!!.view
+    return currentNavigable.view
   }
 
-  private fun hideCurrentNavigable(direction: Direction): View? {
-    return currentNavigable?.let { currentNavigable ->
-      val currentView = currentNavigable.view
+  private fun navigateFrom(currentNavigable: NavigableCompat?, direction: Direction): View? {
+    return currentNavigable?.let { navigable ->
+      val currentView = navigable.view
       removeFromLifecycle(
-        currentNavigable,
-        detachedState = when (direction) {
-          NO_MOVEMENT, FORWARD -> currentState.getEarlierOfCurrentState()
-          BACKWARD -> LifecycleState.Destroyed
-        }
-      )
-      navigationPropagator.hideCurrentNavigable(currentNavigable)
+        navigable, detachedState = when (direction) {
+        NO_MOVEMENT, FORWARD -> currentState.getEarlierOfCurrentState()
+        BACKWARD -> LifecycleState.Destroyed
+      })
+      navigationPropagator.onNavigatedFrom(navigable)
       currentView
     }
   }
