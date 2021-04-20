@@ -12,7 +12,7 @@ import org.mockito.MockitoAnnotations.initMocks
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class LifecycleRegistryTest {
+internal class LifecycleRegistryTest {
 
   private val lifecycleRegistry = LifecycleRegistry()
   private val context = ApplicationProvider.getApplicationContext<Context>()
