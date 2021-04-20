@@ -9,12 +9,12 @@ private const val VERTICAL_T = '├'
 private const val CONNECTOR_L = '└'
 private const val INDENT_SPACE = ' '
 
-public fun LifecycleOwner.getTreeDescription(): String {
+public fun LifecycleOwner.getLifecycleStateSnapshot(): String {
   val stringBuilder = StringBuilder()
   stringBuilder.append(describeSelf(""))
   children
     .mapIndexed { index, lifecycleAware ->
-      lifecycleAware.getTreeDescriptionInternal(
+      lifecycleAware.getLifecycleStateSnapshotRecursive(
         "",
         index == children.lastIndex,
         currentState
@@ -25,7 +25,7 @@ public fun LifecycleOwner.getTreeDescription(): String {
   return stringBuilder.toString()
 }
 
-private fun LifecycleAware.getTreeDescriptionInternal(
+private fun LifecycleAware.getLifecycleStateSnapshotRecursive(
   indent: String,
   isLastChild: Boolean,
   parentLifecycleState: LifecycleState
@@ -41,7 +41,7 @@ private fun LifecycleAware.getTreeDescriptionInternal(
         } else {
           "$VERTICAL_LINE$INDENT_SPACE"
         }
-        lifecycleAware.getTreeDescriptionInternal(
+        lifecycleAware.getLifecycleStateSnapshotRecursive(
           indent + childIndent,
           index == children.lastIndex,
           currentState

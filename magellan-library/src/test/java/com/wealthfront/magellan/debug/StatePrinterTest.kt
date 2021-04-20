@@ -22,13 +22,13 @@ public class StatePrinterTest {
 
   @Test
   public fun singleItem() {
-    assertThat(root.getTreeDescription()).isEqualTo("DummyLifecycleOwner (Destroyed)\n")
+    assertThat(root.getLifecycleStateSnapshot()).isEqualTo("DummyLifecycleOwner (Destroyed)\n")
   }
 
   @Test
   public fun singleChild() {
     root.attachToLifecycle(MyStep())
-    assertThat(root.getTreeDescription()).isEqualTo(
+    assertThat(root.getLifecycleStateSnapshot()).isEqualTo(
       """
         DummyLifecycleOwner (Destroyed)
         └ MyStep (Destroyed)
@@ -42,7 +42,7 @@ public class StatePrinterTest {
     root.attachToLifecycle(MyStep())
     root.create(context)
     root.show(context)
-    assertThat(root.getTreeDescription()).isEqualTo(
+    assertThat(root.getLifecycleStateSnapshot()).isEqualTo(
       """
         DummyLifecycleOwner (Shown)
         ├ MyStep (Shown)
@@ -57,7 +57,7 @@ public class StatePrinterTest {
     root.attachToLifecycle(MyJourney().apply { attachToLifecycle(MyStep()) })
     root.attachToLifecycle(MyJourney().apply { attachToLifecycle(MyLifecycleAwareThing()) })
     root.create(context)
-    assertThat(root.getTreeDescription()).isEqualTo(
+    assertThat(root.getLifecycleStateSnapshot()).isEqualTo(
       """
         DummyLifecycleOwner (Created)
         ├ MyStep (Created)
