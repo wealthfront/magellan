@@ -4,10 +4,10 @@ import com.wealthfront.magellan.lifecycle.LifecycleAware
 import com.wealthfront.magellan.lifecycle.LifecycleOwner
 import com.wealthfront.magellan.lifecycle.LifecycleState
 
-private const val VERTICAL_LINE = '|'
-private const val VERTICAL_T = '├'
-private const val CONNECTOR_L = '└'
-private const val INDENT_SPACE = ' '
+internal const val VERTICAL_LINE = '|'
+internal const val VERTICAL_T = '├'
+internal const val CONNECTOR_L = '└'
+internal const val INDENT_SPACE = ' '
 
 public fun LifecycleOwner.getLifecycleStateSnapshot(): String {
   val stringBuilder = StringBuilder()
@@ -50,7 +50,6 @@ private fun LifecycleAware.getLifecycleStateSnapshotRecursive(
       .forEach { stringBuilder.append(it) }
   } else {
     stringBuilder.append(describeSelf(indent + lineChar + INDENT_SPACE, parentLifecycleState))
-
   }
 
   return stringBuilder.toString()
@@ -61,4 +60,3 @@ private fun LifecycleOwner.describeSelf(indent: String): String =
 
 private fun LifecycleAware.describeSelf(indent: String, parentLifecycleState: LifecycleState): String =
   "$indent${this::class.java.simpleName} (${parentLifecycleState::class.java.simpleName}?)\n"
-

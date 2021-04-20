@@ -51,11 +51,11 @@ class NavigationTraverserTest {
 
     assertThat(traverser.getGlobalBackstackDescription()).isEqualTo(
       """
-      
-      RootJourney
-      	DummyJourney1
-      		DummyStep1
-    """.trimIndent()
+    RootJourney
+    └ DummyJourney1
+      └ DummyStep1
+    
+      """.trimIndent()
     )
   }
 
@@ -67,12 +67,12 @@ class NavigationTraverserTest {
 
     assertThat(traverser.getGlobalBackstackDescription()).isEqualTo(
       """
-      
-      MultiStepJourney
-      	DummyJourney2
-      		DummyStep1
-      		DummyStep2
-    """.trimIndent()
+    MultiStepJourney
+    └ DummyJourney2
+      ├ DummyStep1
+      └ DummyStep2
+    
+      """.trimIndent()
     )
   }
 
@@ -84,15 +84,15 @@ class NavigationTraverserTest {
 
     assertThat(traverser.getGlobalBackstackDescription()).isEqualTo(
       """
-      
-      SiblingJourney
-      	DummyJourney3
-      		DummyStep3
-      		DummyStep4
-      	DummyJourney2
-      		DummyStep1
-      		DummyStep2
-    """.trimIndent()
+    SiblingJourney
+    ├ DummyJourney3
+    | ├ DummyStep3
+    | └ DummyStep4
+    └ DummyJourney2
+      ├ DummyStep1
+      └ DummyStep2
+    
+      """.trimIndent()
     )
   }
 

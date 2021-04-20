@@ -153,10 +153,12 @@ public class NavigationDelegate(
     return currentNavigable?.let { navigable ->
       val currentView = navigable.view
       removeFromLifecycle(
-        navigable, detachedState = when (direction) {
-        NO_MOVEMENT, FORWARD -> currentState.getEarlierOfCurrentState()
-        BACKWARD -> LifecycleState.Destroyed
-      })
+        navigable,
+        detachedState = when (direction) {
+          NO_MOVEMENT, FORWARD -> currentState.getEarlierOfCurrentState()
+          BACKWARD -> LifecycleState.Destroyed
+        }
+      )
       navigationPropagator.onNavigatedFrom(navigable)
       currentView
     }
