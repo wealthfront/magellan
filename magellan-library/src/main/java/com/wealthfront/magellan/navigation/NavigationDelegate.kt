@@ -10,8 +10,12 @@ import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.init.getDefaultTransition
 import com.wealthfront.magellan.init.shouldRunAnimations
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
+import com.wealthfront.magellan.lifecycle.LifecycleLimit.CREATED
+import com.wealthfront.magellan.lifecycle.LifecycleLimit.NO_LIMIT
+import com.wealthfront.magellan.lifecycle.LifecycleLimiter
 import com.wealthfront.magellan.lifecycle.LifecycleState
 import com.wealthfront.magellan.lifecycle.LifecycleState.Created
+import com.wealthfront.magellan.lifecycle.lifecycle
 import com.wealthfront.magellan.transitions.MagellanTransition
 import com.wealthfront.magellan.transitions.NoAnimationTransition
 import com.wealthfront.magellan.view.whenMeasured
@@ -27,6 +31,8 @@ public class NavigationDelegate(
   private var containerView: ScreenContainer? = null
   private val navigationPropagator = NavigationPropagator
   public val backStack: Deque<NavigationEvent> = ArrayDeque()
+
+  private val lifecycleLimiter by lifecycle(LifecycleLimiter())
 
   private val currentNavigable: NavigableCompat?
     get() {
@@ -97,10 +103,28 @@ public class NavigationDelegate(
     containerView?.setInterceptTouchEvents(true)
     navigationPropagator.beforeNavigation()
     val from = navigateFrom(currentNavigable, direction)
+    val oldBackStack = backStack.map { it.navigable }
     val transition = backStackOperation.invoke(backStack).magellanTransition
+    diffBackstackAndUpdateMaxStates(oldBackStack = oldBackStack, newBackStack = backStack.map { it.navigable })
     val to = navigateTo(currentNavigable!!, direction)
     navigationPropagator.afterNavigation()
     animateAndRemove(from, to, direction, transition)
+  }
+
+  private fun diffBackstackAndUpdateMaxStates(
+    oldBackStack: List<NavigableCompat>,
+    newBackStack: List<NavigableCompat>
+  ) {
+    val oldNavigables = oldBackStack.toSet()
+    val newNavigables = newBackStack.toSet()
+
+    (oldNavigables - newNavigables).forEach { oldNavigable ->
+      lifecycleLimiter.removeFromLifecycle(oldNavigable)
+    }
+
+    (newNavigables - oldNavigables).forEach { newNavigable ->
+      lifecycleLimiter.attachToLifecycleWithMaxState(newNavigable, CREATED)
+    }
   }
 
   private fun animateAndRemove(
@@ -128,13 +152,10 @@ public class NavigationDelegate(
 
   private fun navigateTo(currentNavigable: NavigableCompat, direction: Direction): View? {
     currentNavigableSetup?.invoke(currentNavigable)
-    attachToLifecycle(
-      currentNavigable,
-      detachedState = when (direction) {
-        FORWARD -> LifecycleState.Destroyed
-        NO_MOVEMENT, BACKWARD -> currentState.getEarlierOfCurrentState()
-      }
-    )
+    when (direction) {
+      FORWARD -> lifecycleLimiter.attachToLifecycle(currentNavigable)
+      NO_MOVEMENT, BACKWARD -> lifecycleLimiter.updateMaxStateForChild(currentNavigable, NO_LIMIT)
+    }
     navigationPropagator.onNavigatedTo(currentNavigable)
     when (currentState) {
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
@@ -152,13 +173,10 @@ public class NavigationDelegate(
   private fun navigateFrom(currentNavigable: NavigableCompat?, direction: Direction): View? {
     return currentNavigable?.let { navigable ->
       val currentView = navigable.view
-      removeFromLifecycle(
-        navigable,
-        detachedState = when (direction) {
-          NO_MOVEMENT, FORWARD -> currentState.getEarlierOfCurrentState()
-          BACKWARD -> LifecycleState.Destroyed
-        }
-      )
+      when (direction) {
+        NO_MOVEMENT, FORWARD -> lifecycleLimiter.updateMaxStateForChild(navigable, CREATED)
+        BACKWARD -> lifecycleLimiter.removeFromLifecycle(navigable)
+      }
       navigationPropagator.onNavigatedFrom(navigable)
       currentView
     }
@@ -174,8 +192,11 @@ public class NavigationDelegate(
   }
 
   public fun resetWithRoot(navigable: NavigableCompat) {
-    backStack.clear()
-    backStack.push(NavigationEvent(navigable, NoAnimationTransition()))
+    navigate(FORWARD) { backStack ->
+      backStack.clear()
+      backStack.push(NavigationEvent(navigable, NoAnimationTransition()))
+      backStack.peek()!!
+    }
   }
 
   override fun onBackPressed(): Boolean = currentNavigable?.backPressed() ?: false || goBack()
