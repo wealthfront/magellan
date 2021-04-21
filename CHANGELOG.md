@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.0.2-beta
+  - Improved debugging
+    - Add state printer to get the lifecycle snapshot
+    - Improve the visualization of the backstack
+  - Added lifecycle limiter to better control over the lifecycle of the lifecycle objects
+  - Fix issues with the navigation delegate
+
 ## 2.0.1-beta
   - Improve testability
     - Open classes for mockable
