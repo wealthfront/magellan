@@ -5,7 +5,7 @@ package com.wealthfront.magellan
  */
 public enum class Direction(private val sign: Int) {
 
-  FORWARD(1), NO_MOVEMENT(0), BACKWARD(-1);
+  FORWARD(1), BACKWARD(-1);
 
   internal fun sign(): Int {
     return sign

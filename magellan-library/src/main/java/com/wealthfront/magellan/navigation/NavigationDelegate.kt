@@ -5,7 +5,6 @@ import android.view.View
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
-import com.wealthfront.magellan.Direction.NO_MOVEMENT
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.init.getDefaultTransition
 import com.wealthfront.magellan.init.shouldRunAnimations
@@ -123,6 +122,7 @@ public class NavigationDelegate(
     }
 
     (newNavigables - oldNavigables).forEach { newNavigable ->
+      currentNavigableSetup?.invoke(newNavigable)
       lifecycleLimiter.attachToLifecycleWithMaxState(newNavigable, CREATED)
     }
   }
@@ -151,11 +151,7 @@ public class NavigationDelegate(
   }
 
   private fun navigateTo(currentNavigable: NavigableCompat, direction: Direction): View? {
-    currentNavigableSetup?.invoke(currentNavigable)
-    when (direction) {
-      FORWARD -> lifecycleLimiter.attachToLifecycle(currentNavigable)
-      NO_MOVEMENT, BACKWARD -> lifecycleLimiter.updateMaxStateForChild(currentNavigable, NO_LIMIT)
-    }
+    lifecycleLimiter.updateMaxStateForChild(currentNavigable, NO_LIMIT)
     navigationPropagator.onNavigatedTo(currentNavigable)
     when (currentState) {
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
@@ -171,13 +167,13 @@ public class NavigationDelegate(
   }
 
   private fun navigateFrom(currentNavigable: NavigableCompat?, direction: Direction): View? {
-    return currentNavigable?.let { navigable ->
-      val currentView = navigable.view
+    return currentNavigable?.let { oldNavigable ->
+      val currentView = oldNavigable.view
       when (direction) {
-        NO_MOVEMENT, FORWARD -> lifecycleLimiter.updateMaxStateForChild(navigable, CREATED)
-        BACKWARD -> lifecycleLimiter.removeFromLifecycle(navigable)
+        FORWARD -> lifecycleLimiter.updateMaxStateForChild(oldNavigable, CREATED)
+        BACKWARD -> lifecycleLimiter.removeFromLifecycle(oldNavigable)
       }
-      navigationPropagator.onNavigatedFrom(navigable)
+      navigationPropagator.onNavigatedFrom(oldNavigable)
       currentView
     }
   }
