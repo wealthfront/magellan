@@ -82,6 +82,69 @@ internal class LifecycleLimiterTest {
 
     assertThat(dummyLifecycleComponent.currentState).isEqualTo(LifecycleState.Created(context))
   }
+
+  @Test
+  fun onBackPressed_limited() {
+    lifecycleLimiter.create(context)
+    lifecycleLimiter.show(context)
+    lifecycleLimiter.resume(context)
+
+    var unwantedBackPressed = false
+    var wantedBackPressed = false
+
+    lifecycleLimiter.attachToLifecycleWithMaxState(
+      DummyLifecycleComponent {
+        unwantedBackPressed = true
+        true
+      },
+      LifecycleLimit.CREATED)
+    lifecycleLimiter.attachToLifecycleWithMaxState(
+      DummyLifecycleComponent {
+        wantedBackPressed = true
+        true
+      },
+      LifecycleLimit.NO_LIMIT)
+
+    val backPressedHandled = lifecycleLimiter.backPressed()
+
+    assertThat(backPressedHandled).isTrue()
+    assertThat(wantedBackPressed).isTrue()
+    assertThat(unwantedBackPressed).isFalse()
+  }
+
+  @Test
+  fun onBackPressed_notLimited() {
+    lifecycleLimiter.create(context)
+    lifecycleLimiter.show(context)
+    lifecycleLimiter.resume(context)
+
+    var wantedBackPressed = false
+    var unwantedBackPressed = false
+
+    lifecycleLimiter.attachToLifecycleWithMaxState(
+      DummyLifecycleComponent {
+        wantedBackPressed = true
+        true
+      },
+      LifecycleLimit.NO_LIMIT)
+    lifecycleLimiter.attachToLifecycleWithMaxState(
+      DummyLifecycleComponent {
+        unwantedBackPressed = true
+        true
+      },
+      LifecycleLimit.NO_LIMIT)
+
+    val backPressedHandled = lifecycleLimiter.backPressed()
+
+    assertThat(backPressedHandled).isTrue()
+    assertThat(wantedBackPressed).isTrue()
+    assertThat(unwantedBackPressed).isFalse()
+  }
 }
 
-private class DummyLifecycleComponent : LifecycleAwareComponent()
+private class DummyLifecycleComponent(
+  val backPressedAction: () -> Boolean = { true }
+) : LifecycleAwareComponent() {
+
+  override fun onBackPressed(): Boolean = backPressedAction()
+}

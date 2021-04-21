@@ -1,6 +1,10 @@
 package com.wealthfront.magellan.lifecycle
 
 import android.content.Context
+import com.wealthfront.magellan.lifecycle.LifecycleLimit.CREATED
+import com.wealthfront.magellan.lifecycle.LifecycleLimit.DESTROYED
+import com.wealthfront.magellan.lifecycle.LifecycleLimit.NO_LIMIT
+import com.wealthfront.magellan.lifecycle.LifecycleLimit.SHOWN
 
 internal class LifecycleRegistry : LifecycleAware {
 
@@ -28,7 +32,7 @@ internal class LifecycleRegistry : LifecycleAware {
   fun attachToLifecycle(
     lifecycleAware: LifecycleAware,
     detachedState: LifecycleState = LifecycleState.Destroyed,
-    maxState: LifecycleLimit = LifecycleLimit.NO_LIMIT
+    maxState: LifecycleLimit = NO_LIMIT
   ) {
     if (listenersToMaxStates.containsKey(lifecycleAware)) {
       throw IllegalStateException(
@@ -100,10 +104,15 @@ internal class LifecycleRegistry : LifecycleAware {
     currentState = LifecycleState.Destroyed
   }
 
-  override fun backPressed(): Boolean = onAllListenersUntilTrue { it.backPressed() }
+  override fun backPressed(): Boolean = onAllActiveListenersUntilTrue { it.backPressed() }
 
-  private fun onAllListenersUntilTrue(action: (LifecycleAware) -> Boolean): Boolean =
-    listenersToMaxStates.keys.asSequence().map(action).any { it }
+  private fun onAllActiveListenersUntilTrue(action: (LifecycleAware) -> Boolean): Boolean =
+    listenersToMaxStates
+      .asSequence()
+      .filter { it.value >= SHOWN }
+      .map { it.key }
+      .map(action)
+      .any { it }
 }
 
 public enum class LifecycleLimit(internal val order: Int) {
@@ -119,8 +128,8 @@ public fun LifecycleState.limitBy(limit: LifecycleLimit): LifecycleState = if (i
 }
 
 public fun LifecycleLimit.getMaxLifecycleState(context: Context): LifecycleState = when (this) {
-  LifecycleLimit.DESTROYED -> LifecycleState.Destroyed
-  LifecycleLimit.CREATED -> LifecycleState.Created(context)
-  LifecycleLimit.SHOWN -> LifecycleState.Shown(context)
-  LifecycleLimit.NO_LIMIT -> LifecycleState.Resumed(context)
+  DESTROYED -> LifecycleState.Destroyed
+  CREATED -> LifecycleState.Created(context)
+  SHOWN -> LifecycleState.Shown(context)
+  NO_LIMIT -> LifecycleState.Resumed(context)
 }
