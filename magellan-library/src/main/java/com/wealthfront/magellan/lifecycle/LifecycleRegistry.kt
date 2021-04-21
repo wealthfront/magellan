@@ -46,8 +46,9 @@ internal class LifecycleRegistry : LifecycleAware {
           lifecycleAware::class.java.simpleName
       )
     }
+    val maxState = listenersToMaxStates[lifecycleAware]!!
     listenersToMaxStates = listenersToMaxStates - lifecycleAware
-    lifecycleStateMachine.transition(lifecycleAware, currentState, detachedState)
+    lifecycleStateMachine.transition(lifecycleAware, currentState.limitBy(maxState), detachedState)
   }
 
   fun updateMaxState(lifecycleAware: LifecycleAware, maxState: LifecycleLimit) {
