@@ -104,13 +104,14 @@ public class NavigationDelegate(
     val from = navigateFrom(currentNavigable)
     val oldBackStack = backStack.map { it.navigable }
     val transition = backStackOperation.invoke(backStack).magellanTransition
-    diffBackstackAndUpdateMaxStates(oldBackStack = oldBackStack, newBackStack = backStack.map { it.navigable })
+    val newBackStack = backStack.map { it.navigable }
+    findBackstackChangesAndUpdateStates(oldBackStack = oldBackStack, newBackStack = newBackStack)
     val to = navigateTo(currentNavigable!!, direction)
     navigationPropagator.afterNavigation()
     animateAndRemove(from, to, direction, transition)
   }
 
-  private fun diffBackstackAndUpdateMaxStates(
+  private fun findBackstackChangesAndUpdateStates(
     oldBackStack: List<NavigableCompat>,
     newBackStack: List<NavigableCompat>
   ) {
