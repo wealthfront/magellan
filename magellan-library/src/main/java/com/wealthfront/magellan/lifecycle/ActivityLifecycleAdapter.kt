@@ -17,7 +17,7 @@ internal class ActivityLifecycleAdapter(
 
   override fun onCreate(owner: ActivityLifecycleOwner) {
     if (navigable is MagellanLifecycleOwner && navigable.currentState == LifecycleState.Destroyed) {
-      navigable.create(context)
+      navigable.create(context.applicationContext)
     }
   }
 
@@ -41,7 +41,7 @@ internal class ActivityLifecycleAdapter(
 
   override fun onDestroy(owner: ActivityLifecycleOwner) {
     if (context.isFinishing) {
-      navigable.destroy(context)
+      navigable.destroy(context.applicationContext)
     }
   }
 }

@@ -20,11 +20,6 @@ public class LegacyViewComponent<V extends ViewGroup & ScreenView> implements Li
   }
 
   @Override
-  public void create(@NotNull Context context) {
-    setActivity(context);
-  }
-
-  @Override
   public void show(@NotNull Context context) {
     setActivity(context);
     V view = screen.createView(context);
