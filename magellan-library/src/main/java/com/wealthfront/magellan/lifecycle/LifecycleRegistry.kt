@@ -15,8 +15,12 @@ internal class LifecycleRegistry : LifecycleAware {
       val oldState = field
       field = newState
       listenersToMaxStates.forEach { (lifecycleAware, maxState) ->
-        if (newState.isWithinLimit(maxState)) {
-          lifecycleStateMachine.transition(lifecycleAware, oldState, newState)
+        if (oldState.limitBy(maxState).order != newState.limitBy(maxState).order) {
+          lifecycleStateMachine.transition(
+            lifecycleAware,
+            oldState.limitBy(maxState),
+            newState.limitBy(maxState)
+          )
         }
       }
     }
@@ -59,15 +63,17 @@ internal class LifecycleRegistry : LifecycleAware {
       )
     }
     val oldMaxState = listenersToMaxStates[lifecycleAware]!!
-    val needsToTransition = !currentState.isWithinLimit(minOf(maxState, oldMaxState))
-    if (needsToTransition) {
-      lifecycleStateMachine.transition(
-        lifecycleAware,
-        currentState.limitBy(oldMaxState),
-        currentState.limitBy(maxState)
-      )
+    if (oldMaxState != maxState) {
+      val needsToTransition = !currentState.isWithinLimit(minOf(maxState, oldMaxState))
+      if (needsToTransition) {
+        lifecycleStateMachine.transition(
+          lifecycleAware,
+          currentState.limitBy(oldMaxState),
+          currentState.limitBy(maxState)
+        )
+      }
+      listenersToMaxStates = listenersToMaxStates + (lifecycleAware to maxState)
     }
-    listenersToMaxStates = listenersToMaxStates + (lifecycleAware to maxState)
   }
 
   override fun create(context: Context) {

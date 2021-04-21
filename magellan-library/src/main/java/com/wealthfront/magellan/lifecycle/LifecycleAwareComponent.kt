@@ -15,7 +15,8 @@ public abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
   final override fun create(context: Context) {
     if (currentState !is LifecycleState.Destroyed) {
       throw IllegalStateException(
-        "Cannot create() from a state that is not Destroyed: ${currentState::class.java.simpleName}"
+        "Cannot create() from a state that is not Destroyed: " +
+          "${this::class.java.simpleName} is ${currentState::class.java.simpleName}"
       )
     }
     lifecycleRegistry.create(context)
@@ -25,7 +26,8 @@ public abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
   final override fun show(context: Context) {
     if (currentState !is LifecycleState.Created) {
       throw IllegalStateException(
-        "Cannot show() from a state that is not Created: ${currentState::class.java.simpleName}"
+        "Cannot show() from a state that is not Created: " +
+          "${this::class.java.simpleName} is ${currentState::class.java.simpleName}"
       )
     }
     lifecycleRegistry.show(context)
@@ -35,7 +37,8 @@ public abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
   final override fun resume(context: Context) {
     if (currentState !is LifecycleState.Shown) {
       throw IllegalStateException(
-        "Cannot resume() from a state that is not Shown: ${currentState::class.java.simpleName}"
+        "Cannot resume() from a state that is not Shown: " +
+          "${this::class.java.simpleName} is ${currentState::class.java.simpleName}"
       )
     }
     lifecycleRegistry.resume(context)
@@ -45,7 +48,8 @@ public abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
   final override fun pause(context: Context) {
     if (currentState !is LifecycleState.Resumed) {
       throw IllegalStateException(
-        "Cannot pause() from a state that is not Resumed: ${currentState::class.java.simpleName}"
+        "Cannot pause() from a state that is not Resumed: " +
+          "${this::class.java.simpleName} is ${currentState::class.java.simpleName}"
       )
     }
     onPause(context)
@@ -55,7 +59,8 @@ public abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
   final override fun hide(context: Context) {
     if (currentState !is LifecycleState.Shown) {
       throw IllegalStateException(
-        "Cannot hide() from a state that is not Shown: ${currentState::class.java.simpleName}"
+        "Cannot hide() from a state that is not Shown: " +
+          "${this::class.java.simpleName} is ${currentState::class.java.simpleName}"
       )
     }
     onHide(context)
@@ -65,7 +70,8 @@ public abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
   final override fun destroy(context: Context) {
     if (currentState !is LifecycleState.Created) {
       throw IllegalStateException(
-        "Cannot destroy() from a state that is not Created: ${currentState::class.java.simpleName}"
+        "Cannot destroy() from a state that is not Created: " +
+          "${this::class.java.simpleName} is ${currentState::class.java.simpleName}"
       )
     }
     onDestroy(context)
