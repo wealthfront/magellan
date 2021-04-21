@@ -26,6 +26,12 @@ internal class LifecycleRegistry : LifecycleAware {
     detachedState: LifecycleState = LifecycleState.Destroyed,
     maxState: LifecycleLimit = LifecycleLimit.NO_LIMIT
   ) {
+    if (listenersToMaxStates.containsKey(lifecycleAware)) {
+      throw IllegalStateException(
+        "Cannot attach a lifecycleAware that is already a child: " +
+          lifecycleAware::class.java.simpleName
+      )
+    }
     lifecycleStateMachine.transition(lifecycleAware, detachedState, currentState.limitBy(maxState))
     listenersToMaxStates = listenersToMaxStates + (lifecycleAware to maxState)
   }
@@ -34,6 +40,12 @@ internal class LifecycleRegistry : LifecycleAware {
     lifecycleAware: LifecycleAware,
     detachedState: LifecycleState = LifecycleState.Destroyed
   ) {
+    if (!listenersToMaxStates.containsKey(lifecycleAware)) {
+      throw IllegalStateException(
+        "Cannot remove a lifecycleAware that is not a child: " +
+          lifecycleAware::class.java.simpleName
+      )
+    }
     listenersToMaxStates = listenersToMaxStates - lifecycleAware
     lifecycleStateMachine.transition(lifecycleAware, currentState, detachedState)
   }

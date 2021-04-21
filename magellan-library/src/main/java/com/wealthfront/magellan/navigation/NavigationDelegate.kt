@@ -101,7 +101,7 @@ public class NavigationDelegate(
   ) {
     containerView?.setInterceptTouchEvents(true)
     navigationPropagator.beforeNavigation()
-    val from = navigateFrom(currentNavigable, direction)
+    val from = navigateFrom(currentNavigable)
     val oldBackStack = backStack.map { it.navigable }
     val transition = backStackOperation.invoke(backStack).magellanTransition
     diffBackstackAndUpdateMaxStates(oldBackStack = oldBackStack, newBackStack = backStack.map { it.navigable })
@@ -166,13 +166,10 @@ public class NavigationDelegate(
     return currentNavigable.view
   }
 
-  private fun navigateFrom(currentNavigable: NavigableCompat?, direction: Direction): View? {
+  private fun navigateFrom(currentNavigable: NavigableCompat?): View? {
     return currentNavigable?.let { oldNavigable ->
       val currentView = oldNavigable.view
-      when (direction) {
-        FORWARD -> lifecycleLimiter.updateMaxStateForChild(oldNavigable, CREATED)
-        BACKWARD -> lifecycleLimiter.removeFromLifecycle(oldNavigable)
-      }
+      lifecycleLimiter.updateMaxStateForChild(oldNavigable, CREATED)
       navigationPropagator.onNavigatedFrom(oldNavigable)
       currentView
     }

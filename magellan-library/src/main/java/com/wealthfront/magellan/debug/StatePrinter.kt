@@ -42,7 +42,7 @@ private fun LifecycleAware.getLifecycleStateSnapshotRecursive(
           "$VERTICAL_LINE$INDENT_SPACE"
         }
         lifecycleAware.getLifecycleStateSnapshotRecursive(
-          indent + childIndent,
+          childIndent,
           index == children.lastIndex,
           currentState
         )
