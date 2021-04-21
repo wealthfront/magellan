@@ -54,7 +54,9 @@ public class StatePrinterTest {
   @Test
   public fun complexTree() {
     root.attachToLifecycle(MyStep())
-    root.attachToLifecycle(MyJourney().apply { attachToLifecycle(MyStep()) })
+    val step = MyStep()
+    root.attachToLifecycle(MyJourney().apply { attachToLifecycle(step) })
+    step.attachToLifecycle(MySection())
     root.attachToLifecycle(MyJourney().apply { attachToLifecycle(MyLifecycleAwareThing()) })
     root.create(context)
     assertThat(root.getLifecycleStateSnapshot()).isEqualTo(
@@ -63,6 +65,7 @@ public class StatePrinterTest {
         ├ MyStep (Created)
         ├ MyJourney (Created)
         | └ MyStep (Created)
+        |   └ MySection (Created)
         └ MyJourney (Created)
           └ MyLifecycleAwareThing (Created?)
       """.trimIndent() + '\n'
@@ -73,4 +76,5 @@ public class StatePrinterTest {
 private class DummyLifecycleOwner : LifecycleAwareComponent()
 private class MyJourney : LifecycleAwareComponent()
 private class MyStep : LifecycleAwareComponent()
+private class MySection : LifecycleAwareComponent()
 private class MyLifecycleAwareThing : LifecycleAware

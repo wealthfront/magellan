@@ -1,6 +1,10 @@
 package com.wealthfront.magellan.lifecycle
 
 import android.content.Context
+import com.wealthfront.magellan.lifecycle.LifecycleLimit.CREATED
+import com.wealthfront.magellan.lifecycle.LifecycleLimit.DESTROYED
+import com.wealthfront.magellan.lifecycle.LifecycleLimit.NO_LIMIT
+import com.wealthfront.magellan.lifecycle.LifecycleLimit.SHOWN
 
 internal class LifecycleRegistry : LifecycleAware {
 
@@ -15,8 +19,12 @@ internal class LifecycleRegistry : LifecycleAware {
       val oldState = field
       field = newState
       listenersToMaxStates.forEach { (lifecycleAware, maxState) ->
-        if (newState.isWithinLimit(maxState)) {
-          lifecycleStateMachine.transition(lifecycleAware, oldState, newState)
+        if (oldState.limitBy(maxState).order != newState.limitBy(maxState).order) {
+          lifecycleStateMachine.transition(
+            lifecycleAware,
+            oldState.limitBy(maxState),
+            newState.limitBy(maxState)
+          )
         }
       }
     }
@@ -24,8 +32,14 @@ internal class LifecycleRegistry : LifecycleAware {
   fun attachToLifecycle(
     lifecycleAware: LifecycleAware,
     detachedState: LifecycleState = LifecycleState.Destroyed,
-    maxState: LifecycleLimit = LifecycleLimit.NO_LIMIT
+    maxState: LifecycleLimit = NO_LIMIT
   ) {
+    if (listenersToMaxStates.containsKey(lifecycleAware)) {
+      throw IllegalStateException(
+        "Cannot attach a lifecycleAware that is already a child: " +
+          lifecycleAware::class.java.simpleName
+      )
+    }
     lifecycleStateMachine.transition(lifecycleAware, detachedState, currentState.limitBy(maxState))
     listenersToMaxStates = listenersToMaxStates + (lifecycleAware to maxState)
   }
@@ -34,8 +48,15 @@ internal class LifecycleRegistry : LifecycleAware {
     lifecycleAware: LifecycleAware,
     detachedState: LifecycleState = LifecycleState.Destroyed
   ) {
+    if (!listenersToMaxStates.containsKey(lifecycleAware)) {
+      throw IllegalStateException(
+        "Cannot remove a lifecycleAware that is not a child: " +
+          lifecycleAware::class.java.simpleName
+      )
+    }
+    val maxState = listenersToMaxStates[lifecycleAware]!!
     listenersToMaxStates = listenersToMaxStates - lifecycleAware
-    lifecycleStateMachine.transition(lifecycleAware, currentState, detachedState)
+    lifecycleStateMachine.transition(lifecycleAware, currentState.limitBy(maxState), detachedState)
   }
 
   fun updateMaxState(lifecycleAware: LifecycleAware, maxState: LifecycleLimit) {
@@ -46,15 +67,17 @@ internal class LifecycleRegistry : LifecycleAware {
       )
     }
     val oldMaxState = listenersToMaxStates[lifecycleAware]!!
-    val needsToTransition = !currentState.isWithinLimit(minOf(maxState, oldMaxState))
-    if (needsToTransition) {
-      lifecycleStateMachine.transition(
-        lifecycleAware,
-        currentState.limitBy(oldMaxState),
-        currentState.limitBy(maxState)
-      )
+    if (oldMaxState != maxState) {
+      val needsToTransition = !currentState.isWithinLimit(minOf(maxState, oldMaxState))
+      if (needsToTransition) {
+        lifecycleStateMachine.transition(
+          lifecycleAware,
+          currentState.limitBy(oldMaxState),
+          currentState.limitBy(maxState)
+        )
+      }
+      listenersToMaxStates = listenersToMaxStates + (lifecycleAware to maxState)
     }
-    listenersToMaxStates = listenersToMaxStates + (lifecycleAware to maxState)
   }
 
   override fun create(context: Context) {
@@ -81,10 +104,15 @@ internal class LifecycleRegistry : LifecycleAware {
     currentState = LifecycleState.Destroyed
   }
 
-  override fun backPressed(): Boolean = onAllListenersUntilTrue { it.backPressed() }
+  override fun backPressed(): Boolean = onAllActiveListenersUntilTrue { it.backPressed() }
 
-  private fun onAllListenersUntilTrue(action: (LifecycleAware) -> Boolean): Boolean =
-    listenersToMaxStates.keys.asSequence().map(action).any { it }
+  private fun onAllActiveListenersUntilTrue(action: (LifecycleAware) -> Boolean): Boolean =
+    listenersToMaxStates
+      .asSequence()
+      .filter { it.value >= SHOWN }
+      .map { it.key }
+      .map(action)
+      .any { it }
 }
 
 public enum class LifecycleLimit(internal val order: Int) {
@@ -100,8 +128,8 @@ public fun LifecycleState.limitBy(limit: LifecycleLimit): LifecycleState = if (i
 }
 
 public fun LifecycleLimit.getMaxLifecycleState(context: Context): LifecycleState = when (this) {
-  LifecycleLimit.DESTROYED -> LifecycleState.Destroyed
-  LifecycleLimit.CREATED -> LifecycleState.Created(context)
-  LifecycleLimit.SHOWN -> LifecycleState.Shown(context)
-  LifecycleLimit.NO_LIMIT -> LifecycleState.Resumed(context)
+  DESTROYED -> LifecycleState.Destroyed
+  CREATED -> LifecycleState.Created(context)
+  SHOWN -> LifecycleState.Shown(context)
+  NO_LIMIT -> LifecycleState.Resumed(context)
 }
