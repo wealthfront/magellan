@@ -21,7 +21,7 @@ public interface ScreenLifecycleListener {
 }
 
 public class ScreenLifecycleListenerAdapter(
-  private val lifecycleListener: ScreenLifecycleListener
+  internal val lifecycleListener: ScreenLifecycleListener
 ) : LifecycleAwareComponent() {
 
   private val createdScope by lifecycle(CreatedLifecycleScope())
