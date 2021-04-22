@@ -1,47 +1,41 @@
 package com.wealthfront.magellan.navigation
 
-import android.content.Context
-import com.wealthfront.magellan.lifecycle.LifecycleAware
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.runBlocking
 
-public object NavigationPropagator : LifecycleAware {
+public object NavigationPropagator {
 
-  private var listeners: Set<NavigableListener> = emptySet()
+  private val _events = MutableSharedFlow<NavigationLifecycleEvent>()
+  public val events: SharedFlow<NavigationLifecycleEvent> = _events.asSharedFlow()
 
-  @JvmStatic
-  public fun addNavigableListener(navigableListener: NavigableListener) {
-    listeners = listeners + navigableListener
-  }
-
-  @JvmStatic
-  public fun removeNavigableListener(navigableListener: NavigableListener) {
-    listeners = listeners - navigableListener
+  public fun emit(event: NavigationLifecycleEvent) {
+    runBlocking {
+      _events.emit(event)
+    }
   }
 
   public fun beforeNavigation() {
-    listeners.forEach {
-      it.beforeNavigation()
-    }
+    emit(NavigationLifecycleEvent.BeforeNavigation)
   }
 
   public fun afterNavigation() {
-    listeners.forEach {
-      it.afterNavigation()
-    }
+    emit(NavigationLifecycleEvent.AfterNavigation)
   }
 
   public fun onNavigatedFrom(currentNavigable: NavigableCompat) {
-    listeners.forEach {
-      it.onNavigatedFrom(currentNavigable)
-    }
+    emit(NavigationLifecycleEvent.NavigatedFrom(currentNavigable))
   }
 
   public fun onNavigatedTo(currentNavigable: NavigableCompat) {
-    listeners.forEach {
-      it.onNavigatedTo(currentNavigable)
-    }
+    emit(NavigationLifecycleEvent.NavigatedTo(currentNavigable))
   }
+}
 
-  override fun destroy(context: Context?) {
-    listeners = emptySet()
-  }
+public sealed class NavigationLifecycleEvent {
+  public data class NavigatedTo(val navigable: NavigableCompat) : NavigationLifecycleEvent()
+  public data class NavigatedFrom(val navigable: NavigableCompat) : NavigationLifecycleEvent()
+  public object BeforeNavigation : NavigationLifecycleEvent()
+  public object AfterNavigation : NavigationLifecycleEvent()
 }

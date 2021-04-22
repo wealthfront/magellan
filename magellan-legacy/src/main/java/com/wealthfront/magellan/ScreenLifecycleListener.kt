@@ -1,21 +1,41 @@
 package com.wealthfront.magellan
 
+import android.content.Context
+import com.wealthfront.magellan.coroutines.CreatedLifecycleScope
+import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
+import com.wealthfront.magellan.lifecycle.lifecycle
 import com.wealthfront.magellan.navigation.NavigableCompat
-import com.wealthfront.magellan.navigation.NavigableListener
+import com.wealthfront.magellan.navigation.NavigationLifecycleEvent.AfterNavigation
+import com.wealthfront.magellan.navigation.NavigationLifecycleEvent.BeforeNavigation
+import com.wealthfront.magellan.navigation.NavigationLifecycleEvent.NavigatedFrom
+import com.wealthfront.magellan.navigation.NavigationLifecycleEvent.NavigatedTo
+import com.wealthfront.magellan.navigation.NavigationPropagator
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
-public interface ScreenLifecycleListener : NavigableListener {
+public interface ScreenLifecycleListener {
 
   public fun onShow(navigable: NavigableCompat) {}
 
   public fun onHide(navigable: NavigableCompat) {}
+}
 
-  @JvmDefault
-  override fun onNavigatedTo(navigable: NavigableCompat) {
-    onShow(navigable)
-  }
+public class ScreenLifecycleListenerAdapter(
+  private val lifecycleListener: ScreenLifecycleListener
+) : LifecycleAwareComponent() {
 
-  @JvmDefault
-  override fun onNavigatedFrom(navigable: NavigableCompat) {
-    onHide(navigable)
+  private val createdScope by lifecycle(CreatedLifecycleScope())
+
+  override fun onCreate(context: Context) {
+    createdScope.launch {
+      NavigationPropagator.events
+        .collect { event ->
+          when (event) {
+            is NavigatedFrom -> lifecycleListener.onHide(event.navigable)
+            is NavigatedTo -> lifecycleListener.onShow(event.navigable)
+            AfterNavigation, BeforeNavigation -> { }
+          }
+        }
+    }
   }
 }

@@ -41,7 +41,7 @@ public class Navigator internal constructor(
   }
 
   public fun addLifecycleListener(screenLifecycleListener: ScreenLifecycleListener) {
-    attachToLifecycle(screenLifecycleListener)
+    attachToLifecycle(ScreenLifecycleListenerAdapter(screenLifecycleListener))
   }
 
   public fun navigate(backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent) {
