@@ -44,6 +44,7 @@ internal class StepTest {
 
   @Test
   fun onShow() {
+    screen.create(context)
     screen.show(context)
 
     verify(view, never()).restoreHierarchyState(any())
@@ -51,6 +52,8 @@ internal class StepTest {
 
   @Test
   fun onHide() {
+    screen.create(context)
+    screen.show(context)
     screen.hide(context)
 
     verify(view).saveHierarchyState(any())
@@ -62,9 +65,13 @@ internal class StepTest {
     state.putString("key", "value")
     doAnswer { sparseArrayCaptor.value.put(42, state) }.`when`(view).saveHierarchyState(sparseArrayCaptor.capture())
 
+    screen.create(context)
+    screen.show(context)
     screen.hide(context)
     verify(view).saveHierarchyState(any())
 
+    screen.destroy(context)
+    screen.create(context)
     screen.show(context)
     verify(view).restoreHierarchyState(sparseArrayCaptor.capture())
 

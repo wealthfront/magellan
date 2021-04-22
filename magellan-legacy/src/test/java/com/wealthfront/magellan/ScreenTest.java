@@ -33,13 +33,6 @@ public class ScreenTest {
   }
 
   @Test
-  public void createdActivity() {
-    screen.create(context);
-
-    assertThat(screen.getActivity()).isEqualTo(context);
-  }
-
-  @Test
   public void shown() {
     assertThat(screen.getActivity()).isEqualTo(null);
     assertThat(screen.getView()).isEqualTo(null);

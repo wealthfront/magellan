@@ -45,6 +45,8 @@ public class ScreenGroupTest {
 
   @Test
   public void addScreen() {
+    screenGroup.create(context);
+    screenGroup.show(context);
     screenGroup.resume(context);
 
     screenGroup.addScreen(screen3);

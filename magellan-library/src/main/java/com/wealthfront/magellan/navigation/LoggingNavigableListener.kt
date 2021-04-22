@@ -3,20 +3,20 @@ package com.wealthfront.magellan.navigation
 import android.content.Context
 import android.util.Log
 import com.wealthfront.magellan.init.shouldLogDebugInfo
-import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
+import com.wealthfront.magellan.lifecycle.LifecycleAware
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 public class LoggingNavigableListener @Inject constructor(
   private val navigationTraverser: NavigationTraverser
-) : NavigationListener, LifecycleAwareComponent() {
+) : NavigationListener, LifecycleAware {
 
-  override fun onCreate(context: Context) {
+  override fun create(context: Context) {
     NavigationPropagator.addNavigableListener(this)
   }
 
-  override fun onDestroy(context: Context) {
+  override fun destroy(context: Context) {
     NavigationPropagator.removeNavigableListener(this)
   }
 

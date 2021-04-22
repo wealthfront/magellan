@@ -10,6 +10,8 @@ import com.wealthfront.magellan.navigation.CurrentNavigableProvider
 import com.wealthfront.magellan.navigation.NavigableCompat
 import com.wealthfront.magellan.navigation.NavigationDelegate
 import com.wealthfront.magellan.navigation.NavigationEvent
+import com.wealthfront.magellan.navigation.NavigationListener
+import com.wealthfront.magellan.navigation.NavigationPropagator
 import com.wealthfront.magellan.navigation.Navigator
 import com.wealthfront.magellan.transitions.MagellanTransition
 import com.wealthfront.magellan.transitions.NoAnimationTransition
@@ -139,6 +141,14 @@ public class Navigator internal constructor(
       historyRewriter.rewriteHistoryWithNavigationEvents(backStack, null, navType)
       backStack.peek()!!
     }
+  }
+
+  public fun addLifecycleListener(navigationListener: NavigationListener) {
+    NavigationPropagator.addNavigableListener(navigationListener)
+  }
+
+  public fun removeLifecycleListener(navigationListener: NavigationListener) {
+    NavigationPropagator.removeNavigableListener(navigationListener)
   }
 
   public fun goBackTo(navigable: NavigableCompat) {

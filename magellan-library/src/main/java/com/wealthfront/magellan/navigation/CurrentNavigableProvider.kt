@@ -2,13 +2,13 @@ package com.wealthfront.magellan.navigation
 
 import android.content.Context
 import com.wealthfront.magellan.OpenForMocking
-import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
+import com.wealthfront.magellan.lifecycle.LifecycleAware
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 @OpenForMocking
-public class CurrentNavigableProvider @Inject constructor() : NavigationListener, LifecycleAwareComponent() {
+public class CurrentNavigableProvider @Inject constructor() : NavigationListener, LifecycleAware {
 
   public var navigable: NavigableCompat? = null
     protected set
@@ -19,11 +19,11 @@ public class CurrentNavigableProvider @Inject constructor() : NavigationListener
     this.navigable = navigable
   }
 
-  override fun onCreate(context: Context) {
+  override fun create(context: Context) {
     NavigationPropagator.addNavigableListener(this)
   }
 
-  override fun onDestroy(context: Context) {
+  override fun destroy(context: Context) {
     NavigationPropagator.removeNavigableListener(this)
   }
 }

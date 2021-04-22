@@ -28,8 +28,8 @@ internal class LifecycleRegistryTest {
     initMocks(this)
   }
 
-  @Test
-  fun preservesOrderingOfLifecycleAwares() {
+  @Test(expected = IllegalStateException::class)
+  fun throwsSinceWeAttachToLifecycleWhenAlreadyAttached() {
     lifecycleRegistry.attachToLifecycle(lifecycleAware1, Created(context))
     lifecycleRegistry.attachToLifecycle(lifecycleAware2, Created(context))
     lifecycleRegistry.attachToLifecycle(lifecycleAware3, Created(context))
