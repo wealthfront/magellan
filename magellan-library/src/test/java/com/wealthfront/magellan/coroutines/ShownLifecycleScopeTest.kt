@@ -15,14 +15,14 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class, InternalCoroutinesApi::class)
-class NavigableScopeTest {
+internal class ShownLifecycleScopeTest {
 
-  private lateinit var navScope: NavigableScope
+  private lateinit var navScope: ShownLifecycleScope
   private val context = Activity()
 
   @Before
   fun setUp() {
-    navScope = NavigableScope()
+    navScope = ShownLifecycleScope()
     Dispatchers.setMain(Dispatchers.Unconfined)
   }
 

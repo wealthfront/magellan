@@ -6,7 +6,8 @@ import android.view.ViewGroup;
 import com.wealthfront.magellan.Screen;
 import com.wealthfront.magellan.ScreenView;
 
-import androidx.annotation.NonNull;
+import org.jetbrains.annotations.NotNull;
+
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -15,7 +16,7 @@ public abstract class RxScreen<V extends ViewGroup & ScreenView> extends Screen<
   private CompositeDisposable disposables = new CompositeDisposable();
 
   @Override
-  protected final void onShow(@NonNull Context context) {
+  protected final void onShow(@NotNull Context context) {
     disposables = new CompositeDisposable();
     onSubscribe(context);
   }
@@ -29,7 +30,7 @@ public abstract class RxScreen<V extends ViewGroup & ScreenView> extends Screen<
   protected void onDispose(Context context) {}
 
   @Override
-  protected final void onHide(@NonNull Context context) {
+  protected final void onHide(@NotNull Context context) {
     onDispose(context);
     disposables.dispose();
   }

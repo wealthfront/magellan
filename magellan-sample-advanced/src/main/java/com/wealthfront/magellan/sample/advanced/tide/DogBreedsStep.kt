@@ -8,7 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import com.wealthfront.magellan.core.Step
-import com.wealthfront.magellan.coroutines.NavigableScope
+import com.wealthfront.magellan.coroutines.ShownLifecycleScope
 import com.wealthfront.magellan.lifecycle.lifecycle
 import com.wealthfront.magellan.sample.advanced.R
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
@@ -21,7 +21,7 @@ class DogBreedsStep : Step<DogBreedBinding>(DogBreedBinding::inflate) {
 
   @Inject lateinit var api: DogApi
 
-  private val scope by lifecycle(NavigableScope())
+  private val scope by lifecycle(ShownLifecycleScope())
 
   override fun onCreate(context: Context) {
     app(context).injector().inject(this)

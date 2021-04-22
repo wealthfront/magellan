@@ -41,7 +41,14 @@ public class Navigator internal constructor(
   }
 
   public fun addLifecycleListener(screenLifecycleListener: ScreenLifecycleListener) {
-    attachToLifecycle(screenLifecycleListener)
+    attachToLifecycle(ScreenLifecycleListenerAdapter(screenLifecycleListener))
+  }
+
+  public fun removeLifecycleListener(screenLifecycleListener: ScreenLifecycleListener) {
+    val lifecycleListenerAdapter = children.find {
+      it is ScreenLifecycleListenerAdapter && it.lifecycleListener == screenLifecycleListener
+    }!!
+    removeFromLifecycle(lifecycleListenerAdapter)
   }
 
   public fun navigate(backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent) {
