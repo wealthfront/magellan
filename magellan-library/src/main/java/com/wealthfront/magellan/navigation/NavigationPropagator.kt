@@ -11,25 +11,7 @@ public object NavigationPropagator {
   public val events: SharedFlow<NavigationLifecycleEvent> = _events.asSharedFlow()
 
   public fun emit(event: NavigationLifecycleEvent) {
-    runBlocking {
-      _events.emit(event)
-    }
-  }
-
-  public fun beforeNavigation() {
-    emit(NavigationLifecycleEvent.BeforeNavigation)
-  }
-
-  public fun afterNavigation() {
-    emit(NavigationLifecycleEvent.AfterNavigation)
-  }
-
-  public fun onNavigatedFrom(currentNavigable: NavigableCompat) {
-    emit(NavigationLifecycleEvent.NavigatedFrom(currentNavigable))
-  }
-
-  public fun onNavigatedTo(currentNavigable: NavigableCompat) {
-    emit(NavigationLifecycleEvent.NavigatedTo(currentNavigable))
+    runBlocking { _events.emit(event) }
   }
 }
 
