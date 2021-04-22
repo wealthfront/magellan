@@ -47,7 +47,7 @@ public class Navigator internal constructor(
   public fun removeLifecycleListener(screenLifecycleListener: ScreenLifecycleListener) {
     val lifecycleListenerAdapter = children.find {
       it is ScreenLifecycleListenerAdapter && it.lifecycleListener == screenLifecycleListener
-    }!!
+    } ?: error("Cannot remove a ScreenLifecycleListener that is not attached")
     removeFromLifecycle(lifecycleListenerAdapter)
   }
 
