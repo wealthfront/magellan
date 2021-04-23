@@ -23,7 +23,7 @@ import org.robolectric.android.controller.ActivityController
 import org.robolectric.fakes.RoboMenu
 
 @RunWith(RobolectricTestRunner::class)
-class LinearNavigatorTest {
+internal class LinearNavigatorTest {
 
   private val fakeId = 1000
 
@@ -122,6 +122,7 @@ class LinearNavigatorTest {
   @Test
   fun goBack_journey_back() {
     activityController.restart()
+    linearNavigator.show(context)
     linearNavigator.resume(context)
     linearNavigator.navigate(FORWARD) {
       it.push(NavigationEvent(step1, DefaultTransition()))
@@ -141,6 +142,7 @@ class LinearNavigatorTest {
   @Test
   fun destroy() {
     activityController.restart()
+    linearNavigator.show(context)
     linearNavigator.resume(context)
     linearNavigator.navigate(FORWARD) {
       it.push(NavigationEvent(step1, DefaultTransition()))
@@ -149,9 +151,10 @@ class LinearNavigatorTest {
       it.first()!!
     }
 
-    linearNavigator.goBack()
-    linearNavigator.goBack()
+    assertThat(linearNavigator.backStack.size).isEqualTo(3)
+
     linearNavigator.pause(context)
+    linearNavigator.hide(context)
     linearNavigator.destroy(context)
 
     assertThat(linearNavigator.backStack.size).isEqualTo(0)

@@ -13,7 +13,7 @@ import org.robolectric.Robolectric.buildActivity
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class NavigationTraverserTest {
+internal class NavigationTraverserTest {
 
   private lateinit var traverser: NavigationTraverser
   private lateinit var oneStepRoot: Journey<*>
@@ -78,8 +78,6 @@ class NavigationTraverserTest {
 
   @Test
   fun globalBackStackWithSiblingJourney() {
-    traverser = NavigationTraverser(siblingRoot)
-
     siblingRoot.create(context)
 
     assertThat(traverser.getGlobalBackstackDescription()).isEqualTo(

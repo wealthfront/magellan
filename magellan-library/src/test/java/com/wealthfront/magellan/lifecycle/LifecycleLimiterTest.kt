@@ -97,13 +97,15 @@ internal class LifecycleLimiterTest {
         unwantedBackPressed = true
         true
       },
-      LifecycleLimit.CREATED)
+      LifecycleLimit.CREATED
+    )
     lifecycleLimiter.attachToLifecycleWithMaxState(
       DummyLifecycleComponent {
         wantedBackPressed = true
         true
       },
-      LifecycleLimit.NO_LIMIT)
+      LifecycleLimit.NO_LIMIT
+    )
 
     val backPressedHandled = lifecycleLimiter.backPressed()
 
@@ -126,13 +128,15 @@ internal class LifecycleLimiterTest {
         wantedBackPressed = true
         true
       },
-      LifecycleLimit.NO_LIMIT)
+      LifecycleLimit.NO_LIMIT
+    )
     lifecycleLimiter.attachToLifecycleWithMaxState(
       DummyLifecycleComponent {
         unwantedBackPressed = true
         true
       },
-      LifecycleLimit.NO_LIMIT)
+      LifecycleLimit.NO_LIMIT
+    )
 
     val backPressedHandled = lifecycleLimiter.backPressed()
 

@@ -37,7 +37,6 @@ public class LegacyViewComponentTest {
     legacyViewComponent.create(context);
 
     assertThat(screen.getView()).isEqualTo(null);
-    assertThat(screen.getActivity()).isEqualTo(context);
 
     legacyViewComponent.show(context);
 

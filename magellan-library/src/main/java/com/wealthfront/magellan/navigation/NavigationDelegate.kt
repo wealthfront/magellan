@@ -15,10 +15,6 @@ import com.wealthfront.magellan.lifecycle.LifecycleLimiter
 import com.wealthfront.magellan.lifecycle.LifecycleState
 import com.wealthfront.magellan.lifecycle.LifecycleState.Created
 import com.wealthfront.magellan.lifecycle.lifecycle
-import com.wealthfront.magellan.navigation.NavigationLifecycleEvent.AfterNavigation
-import com.wealthfront.magellan.navigation.NavigationLifecycleEvent.BeforeNavigation
-import com.wealthfront.magellan.navigation.NavigationLifecycleEvent.NavigatedFrom
-import com.wealthfront.magellan.navigation.NavigationLifecycleEvent.NavigatedTo
 import com.wealthfront.magellan.transitions.MagellanTransition
 import com.wealthfront.magellan.transitions.NoAnimationTransition
 import com.wealthfront.magellan.view.whenMeasured
@@ -104,14 +100,14 @@ public class NavigationDelegate(
     backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent
   ) {
     containerView?.setInterceptTouchEvents(true)
-    navigationPropagator.emit(BeforeNavigation)
+    navigationPropagator.beforeNavigation()
     val from = navigateFrom(currentNavigable)
     val oldBackStack = backStack.map { it.navigable }
     val transition = backStackOperation.invoke(backStack).magellanTransition
     val newBackStack = backStack.map { it.navigable }
     findBackstackChangesAndUpdateStates(oldBackStack = oldBackStack, newBackStack = newBackStack)
     val to = navigateTo(currentNavigable!!, direction)
-    navigationPropagator.emit(AfterNavigation)
+    navigationPropagator.afterNavigation()
     animateAndRemove(from, to, direction, transition)
   }
 
@@ -157,7 +153,7 @@ public class NavigationDelegate(
 
   private fun navigateTo(currentNavigable: NavigableCompat, direction: Direction): View? {
     lifecycleLimiter.updateMaxStateForChild(currentNavigable, NO_LIMIT)
-    navigationPropagator.emit(NavigatedTo(currentNavigable))
+    navigationPropagator.onNavigatedTo(currentNavigable)
     when (currentState) {
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
         containerView!!.addView(
@@ -175,7 +171,7 @@ public class NavigationDelegate(
     return currentNavigable?.let { oldNavigable ->
       val currentView = oldNavigable.view
       lifecycleLimiter.updateMaxStateForChild(oldNavigable, CREATED)
-      navigationPropagator.emit(NavigatedFrom(oldNavigable))
+      navigationPropagator.onNavigatedFrom(oldNavigable)
       currentView
     }
   }

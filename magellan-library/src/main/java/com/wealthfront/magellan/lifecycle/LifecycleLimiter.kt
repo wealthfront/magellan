@@ -1,7 +1,9 @@
 package com.wealthfront.magellan.lifecycle
 
 import android.content.Context
+import com.wealthfront.magellan.OpenForMocking
 
+@OpenForMocking
 public class LifecycleLimiter : LifecycleOwner, LifecycleAware {
 
   private val lifecycleRegistry = LifecycleRegistry()

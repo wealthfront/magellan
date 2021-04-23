@@ -14,7 +14,6 @@ public abstract class LegacyExpedition<V : ViewBinding>(
   public var navigator: Navigator by lifecycle(Navigator { viewBinding!!.container() })
 
   public fun setCurrentNavProvider(currentNavigableProvider: CurrentNavigableProvider) {
-    attachToLifecycle(currentNavigableProvider)
     navigator.currentNavigableProvider = currentNavigableProvider
   }
 }
