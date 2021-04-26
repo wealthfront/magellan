@@ -45,14 +45,21 @@ public fun <CustomLifecycleAware : LifecycleAware> LifecycleOwner.lateinitLifecy
 
 public class LateinitLifecycle<CustomLifecycleAware : LifecycleAware>(private val parent: LifecycleOwner) {
 
-  private lateinit var lifecycleAware: CustomLifecycleAware
+  private var lifecycleAware: CustomLifecycleAware? = null
 
   public operator fun getValue(thisRef: Any?, property: KProperty<*>): CustomLifecycleAware {
-    return lifecycleAware
+    return lifecycleAware ?: error(
+      "This lateinit LifecycleAware has not been set yet. (Has your dependency injection run yet?)"
+    )
   }
 
   public operator fun setValue(thisRef: Any?, property: KProperty<*>, value: CustomLifecycleAware) {
-    lifecycleAware = value
-    parent.attachToLifecycle(lifecycleAware)
+    if (value != lifecycleAware) {
+      if (lifecycleAware != null) {
+        parent.removeFromLifecycle(lifecycleAware!!)
+      }
+      lifecycleAware = value
+      parent.attachToLifecycle(lifecycleAware!!)
+    }
   }
 }
