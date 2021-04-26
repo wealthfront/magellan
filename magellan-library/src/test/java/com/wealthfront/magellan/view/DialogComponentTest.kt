@@ -15,7 +15,7 @@ import org.mockito.MockitoAnnotations.initMocks
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class DialogComponentTest {
+internal class DialogComponentTest {
 
   @Mock lateinit var dialog1: Dialog
   @Mock lateinit var dialog2: Dialog
@@ -38,6 +38,7 @@ class DialogComponentTest {
     `when`(dialog1.isShowing).thenReturn(true)
 
     dialogComponent.show(context)
+    dialogComponent.resume(context)
     dialogComponent.showDialog(dialogCreator1)
 
     verify(dialog1).show()
@@ -49,12 +50,14 @@ class DialogComponentTest {
     `when`(dialog1.isShowing).thenReturn(true)
 
     dialogComponent.show(context)
+    dialogComponent.resume(context)
     dialogComponent.showDialog(dialogCreator1)
 
     verify(dialog1).show()
     assertThat(dialogComponent.dialogIsShowing).isTrue()
 
     `when`(dialog1.isShowing).thenReturn(false)
+    dialogComponent.pause(context)
     dialogComponent.hide(context)
 
     verify(dialog1).dismiss()
@@ -65,17 +68,20 @@ class DialogComponentTest {
   fun showDialog_rotation() {
     `when`(dialog1.isShowing).thenReturn(true)
     dialogComponent.show(context)
+    dialogComponent.resume(context)
     dialogComponent.showDialog(dialogCreator1)
 
     verify(dialog1).show()
     assertThat(dialogComponent.dialogIsShowing).isTrue()
 
+    dialogComponent.pause(context)
     dialogComponent.hide(context)
     dialogComponent.destroy(context)
 
     `when`(dialog1.isShowing).thenReturn(false)
     dialogComponent.create(context)
     dialogComponent.show(context)
+    dialogComponent.resume(context)
 
     verify(dialog1).dismiss()
     verify(dialog1, times(2)).show()
@@ -88,6 +94,7 @@ class DialogComponentTest {
     `when`(dialog2.isShowing).thenReturn(true)
 
     dialogComponent.show(context)
+    dialogComponent.resume(context)
     dialogComponent.showDialog(dialogCreator1)
 
     verify(dialog1).show()
