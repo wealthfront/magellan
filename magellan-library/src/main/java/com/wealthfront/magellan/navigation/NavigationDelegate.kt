@@ -53,7 +53,7 @@ public class NavigationDelegate(
   }
 
   override fun onDestroy(context: Context) {
-    backStack.navigables().forEach { removeFromLifecycle(it) }
+    backStack.navigables().forEach { lifecycleLimiter.removeFromLifecycle(it) }
     backStack.clear()
     containerView = null
   }
