@@ -9,15 +9,18 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.InOrder
 import org.mockito.Mock
+import org.mockito.Mockito.`when`
 import org.mockito.Mockito.inOrder
 import org.mockito.Mockito.verifyNoMoreInteractions
+import org.mockito.Mockito.verifyZeroInteractions
 import org.mockito.MockitoAnnotations.initMocks
 
-class LifecycleStateMachineTest {
+internal class LifecycleStateMachineTest {
 
   private val lifecycleStateMachine = LifecycleStateMachine()
 
   @Mock lateinit var lifecycleAware: LifecycleAware
+  @Mock lateinit var applicationContext: Context
   @Mock lateinit var context: Context
 
   private lateinit var inOrder: InOrder
@@ -32,16 +35,19 @@ class LifecycleStateMachineTest {
 
     inOrder = inOrder(lifecycleAware)
     destroyed = Destroyed
-    created = Created(context)
+    created = Created(applicationContext)
     shown = Shown(context)
     resumed = Resumed(context)
+
+    `when`(context.applicationContext).thenReturn(applicationContext)
+    `when`(applicationContext.applicationContext).thenReturn(applicationContext)
   }
 
   @Test
   fun transitionBetweenLifecycleStates_createToCreated() {
     lifecycleStateMachine.transition(lifecycleAware, created, created)
 
-    verifyNoMoreInteractions(lifecycleAware)
+    verifyZeroInteractions(lifecycleAware)
   }
 
   @Test
@@ -65,7 +71,7 @@ class LifecycleStateMachineTest {
   fun transitionBetweenLifecycleStates_createToDestroy() {
     lifecycleStateMachine.transition(lifecycleAware, created, destroyed)
 
-    inOrder.verify(lifecycleAware).destroy(context)
+    inOrder.verify(lifecycleAware).destroy(applicationContext)
     verifyNoMoreInteractions(lifecycleAware)
   }
 
@@ -81,7 +87,7 @@ class LifecycleStateMachineTest {
   fun transitionBetweenLifecycleStates_shownToShown() {
     lifecycleStateMachine.transition(lifecycleAware, shown, shown)
 
-    verifyNoMoreInteractions(lifecycleAware)
+    verifyZeroInteractions(lifecycleAware)
   }
 
   @Test
@@ -97,7 +103,7 @@ class LifecycleStateMachineTest {
     lifecycleStateMachine.transition(lifecycleAware, shown, destroyed)
 
     inOrder.verify(lifecycleAware).hide(context)
-    inOrder.verify(lifecycleAware).destroy(context)
+    inOrder.verify(lifecycleAware).destroy(applicationContext)
     verifyNoMoreInteractions(lifecycleAware)
   }
 
@@ -122,7 +128,7 @@ class LifecycleStateMachineTest {
   fun transitionBetweenLifecycleStates_resumedToResumed() {
     lifecycleStateMachine.transition(lifecycleAware, resumed, resumed)
 
-    verifyNoMoreInteractions(lifecycleAware)
+    verifyZeroInteractions(lifecycleAware)
   }
 
   @Test
@@ -131,7 +137,7 @@ class LifecycleStateMachineTest {
 
     inOrder.verify(lifecycleAware).pause(context)
     inOrder.verify(lifecycleAware).hide(context)
-    inOrder.verify(lifecycleAware).destroy(context)
+    inOrder.verify(lifecycleAware).destroy(applicationContext)
     verifyNoMoreInteractions(lifecycleAware)
   }
 
@@ -139,7 +145,7 @@ class LifecycleStateMachineTest {
   fun transitionBetweenLifecycleStates_destroyedToCreated() {
     lifecycleStateMachine.transition(lifecycleAware, destroyed, created)
 
-    inOrder.verify(lifecycleAware).create(context)
+    inOrder.verify(lifecycleAware).create(applicationContext)
     verifyNoMoreInteractions(lifecycleAware)
   }
 
@@ -147,7 +153,7 @@ class LifecycleStateMachineTest {
   fun transitionBetweenLifecycleStates_destroyedToShown() {
     lifecycleStateMachine.transition(lifecycleAware, destroyed, shown)
 
-    inOrder.verify(lifecycleAware).create(context)
+    inOrder.verify(lifecycleAware).create(applicationContext)
     inOrder.verify(lifecycleAware).show(context)
     verifyNoMoreInteractions(lifecycleAware)
   }
@@ -156,7 +162,7 @@ class LifecycleStateMachineTest {
   fun transitionBetweenLifecycleStates_destroyedToResumed() {
     lifecycleStateMachine.transition(lifecycleAware, destroyed, resumed)
 
-    inOrder.verify(lifecycleAware).create(context)
+    inOrder.verify(lifecycleAware).create(applicationContext)
     inOrder.verify(lifecycleAware).show(context)
     inOrder.verify(lifecycleAware).resume(context)
     verifyNoMoreInteractions(lifecycleAware)
@@ -166,6 +172,6 @@ class LifecycleStateMachineTest {
   fun transitionBetweenLifecycleStates_destroyedToDestroy() {
     lifecycleStateMachine.transition(lifecycleAware, destroyed, destroyed)
 
-    verifyNoMoreInteractions(lifecycleAware)
+    verifyZeroInteractions(lifecycleAware)
   }
 }

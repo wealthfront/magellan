@@ -81,7 +81,7 @@ internal class LifecycleRegistry : LifecycleAware {
   }
 
   override fun create(context: Context) {
-    currentState = LifecycleState.Created(context)
+    currentState = LifecycleState.Created(context.applicationContext)
   }
 
   override fun show(context: Context) {
@@ -97,7 +97,7 @@ internal class LifecycleRegistry : LifecycleAware {
   }
 
   override fun hide(context: Context) {
-    currentState = LifecycleState.Created(context)
+    currentState = LifecycleState.Created(context.applicationContext)
   }
 
   override fun destroy(context: Context) {
