@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.ViewGroup;
 
+import com.wealthfront.magellan.coroutines.ShownLifecycleScope;
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent;
 import com.wealthfront.magellan.navigation.NavigableCompat;
 import com.wealthfront.magellan.view.DialogComponent;
@@ -15,6 +16,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedList;
 import java.util.Queue;
+
+import androidx.annotation.VisibleForTesting;
+import kotlinx.coroutines.CoroutineScope;
 
 /**
  * Screens are where your logic lives (you can think of it as a Presenter in the MVP pattern, or a Controller
@@ -39,6 +43,8 @@ import java.util.Queue;
 public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements NavigableCompat {
 
   private final DialogComponent dialogComponent = new DialogComponent();
+  private final ShownLifecycleScope shownScope = new ShownLifecycleScope();
+  private CoroutineScope overrideScope = null;
 
   private @Nullable Activity activity;
   private @Nullable V view;
@@ -49,6 +55,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   public Screen() {
     attachToLifecycle(new LegacyViewComponent<>(this));
     attachToLifecycle(dialogComponent);
+    attachToLifecycle(shownScope);
   }
 
   /**
@@ -79,6 +86,19 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
 
   public final Dialog getDialog() {
     return dialogComponent.getDialog();
+  }
+
+  public final CoroutineScope getShownScope() {
+    if (overrideScope != null) {
+      return overrideScope;
+    } else {
+      return shownScope;
+    }
+  }
+
+  @VisibleForTesting
+  public final void setShownScope(CoroutineScope newScope) {
+    overrideScope = newScope;
   }
 
   @Override

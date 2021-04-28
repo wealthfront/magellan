@@ -17,12 +17,12 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class, InternalCoroutinesApi::class)
 internal class ShownLifecycleScopeTest {
 
-  private lateinit var navScope: ShownLifecycleScope
+  private lateinit var shownScope: ShownLifecycleScope
   private val context = Activity()
 
   @Before
   fun setUp() {
-    navScope = ShownLifecycleScope()
+    shownScope = ShownLifecycleScope()
     Dispatchers.setMain(Dispatchers.Unconfined)
   }
 
@@ -32,41 +32,42 @@ internal class ShownLifecycleScopeTest {
   }
 
   @Test
-  fun cancelAfterCreated() {
+  fun cancelBeforeCreated() {
     runBlockingTest {
-      navScope.create(context)
+      shownScope.create(context)
 
-      val async = navScope.async { delay(5000) }
-      assertThat(async.isCancelled).isFalse()
+      val async = shownScope.async { delay(5000) }
+      assertThat(async.isCancelled).isTrue()
+      assertThat(async.getCancellationException()).hasMessageThat().contains("Not shown yet")
 
-      navScope.show(context)
-      navScope.resume(context)
-
-      assertThat(async.isCancelled).isFalse()
-
-      navScope.pause(context)
-      navScope.hide(context)
+      shownScope.show(context)
+      shownScope.resume(context)
 
       assertThat(async.isCancelled).isTrue()
-      assertThat(async.getCancellationException()).hasMessageThat().contains("Hidden")
+
+      shownScope.pause(context)
+      shownScope.hide(context)
+
+      assertThat(async.isCancelled).isTrue()
+      assertThat(async.getCancellationException()).hasMessageThat().contains("Not shown yet")
     }
   }
 
   @Test
   fun cancelAfterShown() {
     runBlockingTest {
-      navScope.create(context)
-      navScope.show(context)
+      shownScope.create(context)
+      shownScope.show(context)
 
-      val async = navScope.async { delay(5000) }
+      val async = shownScope.async { delay(5000) }
       assertThat(async.isCancelled).isFalse()
 
-      navScope.resume(context)
+      shownScope.resume(context)
 
       assertThat(async.isCancelled).isFalse()
 
-      navScope.pause(context)
-      navScope.hide(context)
+      shownScope.pause(context)
+      shownScope.hide(context)
 
       assertThat(async.isCancelled).isTrue()
       assertThat(async.getCancellationException()).hasMessageThat().contains("Hidden")
@@ -74,17 +75,43 @@ internal class ShownLifecycleScopeTest {
   }
 
   @Test
+  fun cancelMultipleAfterShown() {
+    runBlockingTest {
+      shownScope.create(context)
+      shownScope.show(context)
+
+      val async = shownScope.async { delay(5000) }
+      val async2 = shownScope.async { delay(5000) }
+      assertThat(async.isCancelled).isFalse()
+      assertThat(async2.isCancelled).isFalse()
+
+      shownScope.resume(context)
+
+      assertThat(async.isCancelled).isFalse()
+      assertThat(async2.isCancelled).isFalse()
+
+      shownScope.pause(context)
+      shownScope.hide(context)
+
+      assertThat(async.isCancelled).isTrue()
+      assertThat(async.getCancellationException()).hasMessageThat().contains("Hidden")
+      assertThat(async2.isCancelled).isTrue()
+      assertThat(async2.getCancellationException()).hasMessageThat().contains("Hidden")
+    }
+  }
+
+  @Test
   fun cancelAfterResumed() {
     runBlockingTest {
-      navScope.create(context)
-      navScope.show(context)
-      navScope.resume(context)
+      shownScope.create(context)
+      shownScope.show(context)
+      shownScope.resume(context)
 
-      val async = navScope.async { delay(5000) }
+      val async = shownScope.async { delay(5000) }
       assertThat(async.isCancelled).isFalse()
 
-      navScope.pause(context)
-      navScope.hide(context)
+      shownScope.pause(context)
+      shownScope.hide(context)
 
       assertThat(async.isCancelled).isTrue()
       assertThat(async.getCancellationException()).hasMessageThat().contains("Hidden")

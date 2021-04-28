@@ -7,8 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.VisibleForTesting
 import androidx.viewbinding.ViewBinding
+import com.wealthfront.magellan.coroutines.ShownLifecycleScope
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
+import com.wealthfront.magellan.lifecycle.lifecycle
 import com.wealthfront.magellan.lifecycle.lifecycleWithContext
+import kotlinx.coroutines.CoroutineScope
 
 public abstract class Step<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V
@@ -20,6 +23,9 @@ public abstract class Step<V : ViewBinding>(
     @VisibleForTesting set
 
   final override var view: View? by lifecycleWithContext { viewBinding!!.root }
+    @VisibleForTesting set
+
+  public var shownScope: CoroutineScope by lifecycle(ShownLifecycleScope()) { it }
     @VisibleForTesting set
 
   final override fun onShow(context: Context) {
