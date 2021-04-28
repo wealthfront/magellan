@@ -32,7 +32,7 @@ internal class LifecycleStateMachine {
     while (currentState.order != newState.order) {
       currentState = when (currentState.getDirectionForMovement(newState)) {
         FORWARD -> next(subjects, currentState, newState.context!!)
-        BACKWARDS -> previous(subjects, currentState, getContext(newState, oldState))
+        BACKWARDS -> previous(subjects, currentState, oldState.context!!)
         NO_MOVEMENT -> throw IllegalStateException("Attempting to transition from $currentState to $newState")
       }
     }
@@ -45,8 +45,8 @@ internal class LifecycleStateMachine {
   ): LifecycleState {
     return when (currentState) {
       is Destroyed -> {
-        subjects.forEach { it.create(context) }
-        Created(context)
+        subjects.forEach { it.create(context.applicationContext) }
+        Created(context.applicationContext)
       }
       is Created -> {
         subjects.forEach { it.show(context) }
@@ -72,21 +72,17 @@ internal class LifecycleStateMachine {
         throw IllegalStateException("Cannot go backward from destroyed")
       }
       is Created -> {
-        subjects.forEach { it.destroy(context) }
+        subjects.forEach { it.destroy(context.applicationContext) }
         Destroyed
       }
       is Shown -> {
         subjects.forEach { it.hide(context) }
-        Created(context)
+        Created(context.applicationContext)
       }
       is Resumed -> {
         subjects.forEach { it.pause(context) }
         Shown(context)
       }
     }
-  }
-
-  private fun getContext(newState: LifecycleState, oldState: LifecycleState): Context {
-    return newState.context ?: oldState.context!!
   }
 }
