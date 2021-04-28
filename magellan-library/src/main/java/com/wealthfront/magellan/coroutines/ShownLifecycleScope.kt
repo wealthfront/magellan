@@ -11,18 +11,17 @@ import kotlin.coroutines.CoroutineContext
 
 public class ShownLifecycleScope @Inject constructor() : LifecycleAware, CoroutineScope {
 
-  private var job = SupervisorJob().apply { cancel(CancellationException("Not created yet")) }
+  private var job = SupervisorJob().apply { cancel(CancellationException("Not shown yet")) }
+    set(value) {
+      field = value
+      coroutineContext = value + Dispatchers.Main
+    }
 
-  override val coroutineContext: CoroutineContext get() = job + Dispatchers.Main
-
-  override fun create(context: Context) {
-    job = SupervisorJob()
-  }
+  override var coroutineContext: CoroutineContext = job + Dispatchers.Main
+    private set
 
   override fun show(context: Context) {
-    if (job.isCancelled) {
-      job = SupervisorJob()
-    }
+    job = SupervisorJob()
   }
 
   override fun hide(context: Context) {
