@@ -74,12 +74,12 @@ public class NavigationTraverser(private val root: NavigableCompat<*>) {
 public data class NavigationNode(val value: NavigableCompat<*>, var children: List<NavigationNode>) {
 
   val hasBackstack: Boolean
-    get() = (value as? LifecycleOwner)?.children?.mapNotNull { it as? Navigator }?.isNotEmpty()
+    get() = (value as? LifecycleOwner)?.children?.mapNotNull { it as? Navigator<*> }?.isNotEmpty()
       ?: false
 
-  public fun getBackstack(): Deque<NavigationEvent> {
-    val backStackDeepCopy = ArrayDeque<NavigationEvent>()
-    (value as LifecycleOwner).children.mapNotNull { it as? Navigator }.first().backStack.toList()
+  public fun getBackstack(): Deque<NavigationEvent<*>> {
+    val backStackDeepCopy = ArrayDeque<NavigationEvent<*>>()
+    (value as LifecycleOwner).children.mapNotNull { it as? Navigator<*> }.first().backStack.toList()
       .toCollection(backStackDeepCopy)
     return backStackDeepCopy
   }

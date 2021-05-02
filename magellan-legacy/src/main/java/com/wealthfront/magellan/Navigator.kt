@@ -23,11 +23,11 @@ import java.util.Deque
 @OpenForMocking
 public class Navigator internal constructor(
   container: () -> ScreenContainer,
-) : Navigator, LifecycleAwareComponent() {
+) : Navigator<View>, LifecycleAwareComponent() {
 
   private val delegate by lifecycle(NavigationDelegate(container))
 
-  override val backStack: List<NavigationEvent>
+  override val backStack: List<NavigationEvent<View>>
     get() = delegate.backStack.toList()
 
   internal var currentNavigableProvider: CurrentNavigableProvider? = null
@@ -43,13 +43,13 @@ public class Navigator internal constructor(
     }
   }
 
-  public fun navigate(backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent) {
+  public fun navigate(backStackOperation: (Deque<NavigationEvent<View>>) -> NavigationEvent<View>) {
     navigate(FORWARD, backStackOperation)
   }
 
   public fun navigate(
     direction: Direction,
-    backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent
+    backStackOperation: (Deque<NavigationEvent<View>>) -> NavigationEvent<View>
   ) {
     delegate.navigate(direction, backStackOperation)
   }

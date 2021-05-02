@@ -29,7 +29,7 @@ public class NavigationDelegate(
 
   private var containerView: ScreenContainer? = null
   private val navigationPropagator = NavigationPropagator
-  public val backStack: Deque<NavigationEvent> = ArrayDeque()
+  public val backStack: Deque<NavigationEvent<View>> = ArrayDeque()
 
   private val lifecycleLimiter by lifecycle(LifecycleLimiter())
 
@@ -97,7 +97,7 @@ public class NavigationDelegate(
 
   public fun navigate(
     direction: Direction,
-    backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent
+    backStackOperation: (Deque<NavigationEvent<View>>) -> NavigationEvent<View>
   ) {
     containerView?.setInterceptTouchEvents(true)
     navigationPropagator.beforeNavigation()
