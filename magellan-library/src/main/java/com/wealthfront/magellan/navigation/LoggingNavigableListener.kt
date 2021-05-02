@@ -20,13 +20,13 @@ public class LoggingNavigableListener @Inject constructor(
     NavigationPropagator.removeNavigableListener(this)
   }
 
-  override fun onNavigatedTo(navigable: NavigableCompat) {
+  override fun onNavigatedTo(navigable: NavigableCompat<*>) {
     if (shouldLogDebugInfo()) {
       Log.d(this::class.java.simpleName, "Navigated To: ${navigable.javaClass.simpleName}")
     }
   }
 
-  override fun onNavigatedFrom(navigable: NavigableCompat) {
+  override fun onNavigatedFrom(navigable: NavigableCompat<*>) {
     if (shouldLogDebugInfo()) {
       Log.d(this::class.java.simpleName, "Navigated From: ${navigable.javaClass.simpleName}")
     }

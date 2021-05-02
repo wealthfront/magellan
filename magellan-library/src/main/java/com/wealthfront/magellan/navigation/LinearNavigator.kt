@@ -1,5 +1,6 @@
 package com.wealthfront.magellan.navigation
 
+import android.view.View
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.OpenForMocking
 import com.wealthfront.magellan.ScreenContainer
@@ -19,11 +20,11 @@ public class LinearNavigator internal constructor(
   override val backStack: List<NavigationEvent>
     get() = delegate.backStack.toList()
 
-  public fun goTo(navigable: Navigable, overrideMagellanTransition: MagellanTransition? = null) {
+  public fun goTo(navigable: Navigable<View>, overrideMagellanTransition: MagellanTransition? = null) {
     delegate.goTo(navigable, overrideMagellanTransition)
   }
 
-  public fun replace(navigable: Navigable, overrideMagellanTransition: MagellanTransition? = null) {
+  public fun replace(navigable: Navigable<View>, overrideMagellanTransition: MagellanTransition? = null) {
     delegate.replace(navigable, overrideMagellanTransition)
   }
 
