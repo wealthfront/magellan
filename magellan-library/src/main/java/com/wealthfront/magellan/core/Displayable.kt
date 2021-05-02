@@ -2,9 +2,9 @@ package com.wealthfront.magellan.core
 
 import android.view.View
 
-public interface Displayable {
+public interface Displayable<ViewType : Any> {
 
-  public val view: View?
+  public val view: ViewType?
 
   public fun transitionStarted() {}
 

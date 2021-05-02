@@ -1,6 +1,7 @@
 package com.wealthfront.magellan
 
 import android.app.Activity
+import android.view.View
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.init.getDefaultTransition
@@ -53,39 +54,39 @@ public class Navigator internal constructor(
     delegate.navigate(direction, backStackOperation)
   }
 
-  public fun replace(navigable: NavigableCompat) {
+  public fun replace(navigable: NavigableCompat<View>) {
     replace(navigable, null)
   }
 
-  public fun replaceNow(navigable: NavigableCompat) {
+  public fun replaceNow(navigable: NavigableCompat<View>) {
     replace(navigable, NoAnimationTransition())
   }
 
-  public fun replace(navigable: NavigableCompat, magellanTransition: MagellanTransition?) {
+  public fun replace(navigable: NavigableCompat<View>, magellanTransition: MagellanTransition?) {
     delegate.replace(navigable, magellanTransition)
   }
 
-  public fun show(navigable: NavigableCompat) {
+  public fun show(navigable: NavigableCompat<View>) {
     goTo(navigable, null)
   }
 
-  public fun show(navigable: NavigableCompat, magellanTransition: MagellanTransition?) {
+  public fun show(navigable: NavigableCompat<View>, magellanTransition: MagellanTransition?) {
     goTo(navigable, magellanTransition ?: ShowTransition())
   }
 
-  public fun showNow(navigable: NavigableCompat) {
+  public fun showNow(navigable: NavigableCompat<View>) {
     goTo(navigable, NoAnimationTransition())
   }
 
-  public fun goTo(navigable: NavigableCompat) {
+  public fun goTo(navigable: NavigableCompat<View>) {
     goTo(navigable, null)
   }
 
-  public fun goTo(navigable: NavigableCompat, magellanTransition: MagellanTransition?) {
+  public fun goTo(navigable: NavigableCompat<View>, magellanTransition: MagellanTransition?) {
     delegate.goTo(navigable, magellanTransition)
   }
 
-  public fun hide(navigable: NavigableCompat) {
+  public fun hide(navigable: NavigableCompat<View>) {
     if (currentNavigableProvider!!.isCurrentNavigable(navigable)) {
       goBack()
     }
@@ -93,7 +94,7 @@ public class Navigator internal constructor(
 
   public fun goBackToRoot() {
     navigate(BACKWARD) { history ->
-      var navigable: NavigableCompat? = null
+      var navigable: NavigableCompat<View>? = null
       while (history.size > 1) {
         navigable = history.pop().navigable
       }
@@ -105,9 +106,9 @@ public class Navigator internal constructor(
 
   public override fun goBack(): Boolean = delegate.goBack()
 
-  public fun isCurrentScreen(other: NavigableCompat): Boolean = currentNavigableProvider!!.isCurrentNavigable(other)
+  public fun isCurrentScreen(other: NavigableCompat<*>): Boolean = currentNavigableProvider!!.isCurrentNavigable(other)
 
-  public fun currentScreen(): NavigableCompat? = currentNavigableProvider!!.navigable
+  public fun currentScreen(): NavigableCompat<*>? = currentNavigableProvider!!.navigable
 
   public fun isCurrentScreenOfType(other: Class<*>): Boolean {
     return currentNavigableProvider!!.navigable?.javaClass?.isAssignableFrom(other) ?: false
@@ -151,11 +152,11 @@ public class Navigator internal constructor(
     NavigationPropagator.removeNavigableListener(navigationListener)
   }
 
-  public fun goBackTo(navigable: NavigableCompat) {
+  public fun goBackTo(navigable: NavigableCompat<View>) {
     delegate.goBackTo(navigable)
   }
 
-  public fun resetWithRoot(navigable: NavigableCompat) {
+  public fun resetWithRoot(navigable: NavigableCompat<View>) {
     delegate.resetWithRoot(navigable)
   }
 

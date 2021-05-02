@@ -26,13 +26,13 @@ public object NavigationPropagator {
     }
   }
 
-  internal fun onNavigatedTo(navigable: NavigableCompat) {
+  internal fun onNavigatedTo(navigable: NavigableCompat<*>) {
     listeners.forEach {
       it.onNavigatedTo(navigable)
     }
   }
 
-  internal fun onNavigatedFrom(navigable: NavigableCompat) {
+  internal fun onNavigatedFrom(navigable: NavigableCompat<*>) {
     listeners.forEach {
       it.onNavigatedFrom(navigable)
     }

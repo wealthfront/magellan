@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.wealthfront.magellan.coroutines.ShownLifecycleScope;
@@ -40,7 +41,7 @@ import kotlinx.coroutines.CoroutineScope;
  * }
  * </code> </pre>
  */
-public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements NavigableCompat {
+public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements NavigableCompat<View> {
 
   private final DialogComponent dialogComponent = new DialogComponent();
   private final ShownLifecycleScope shownScope = new ShownLifecycleScope();

@@ -15,7 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 
 public abstract class Step<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V
-) : Navigable, LifecycleAwareComponent() {
+) : Navigable<View>, LifecycleAwareComponent() {
 
   private var viewState: SparseArray<Parcelable>? = null
 
