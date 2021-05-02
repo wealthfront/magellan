@@ -1,11 +1,11 @@
 object Versions {
   const val compileSdkVersion = 30
-  const val minSdkVersion = 15
+  const val minSdkVersion = 21
   const val targetSdkVersion = 30
 
   const val kotlinVersion = "1.4.30"
   const val kotlinterVersion = "3.4.0"
-  const val buildToolsVersion = "29.0.2"
+  const val buildToolsVersion = "30.0.2"
   const val detektVersion = "1.5.1"
   const val supportLibVersion = "1.1.0"
   const val robolectricVersion = "4.3.1"
@@ -25,6 +25,7 @@ object Versions {
   const val javaInjectVersion = "1"
   const val materialVersion = "1.1.0"
   const val coroutinesVersion = "1.4.3"
+  const val composeVersion = "1.0.0-beta01"
 
   const val testCoreVersion = "1.2.0"
   const val junitVersion = "4.13"

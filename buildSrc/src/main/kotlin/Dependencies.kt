@@ -1,5 +1,6 @@
 import Versions.archVersion
 import Versions.butterKnifeVersion
+import Versions.composeVersion
 import Versions.coroutinesVersion
 import Versions.daggerVersion
 import Versions.espressoVersion
@@ -51,6 +52,11 @@ object Dependencies {
   const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
   const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
   const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+
+  const val composeUi = "androidx.compose.ui:ui:$composeVersion"
+  const val composeUiTooling = "androidx.compose.ui:ui-tooling:$composeVersion"
+  const val composeFoundation = "androidx.compose.foundation:foundation:$composeVersion"
+  const val composeMaterial = "androidx.compose.material:material:$composeVersion"
 
   const val glide = "com.github.bumptech.glide:glide:$glideVersion"
   const val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
