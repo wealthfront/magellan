@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.0
+  - Release candidate for pushing to production
+  - Minor bug fixes
+    - Fix dialogs to show onResume
+    - Fix memory leaks
+  - Add shown coroutine scope to Step and screen
+
 ## 2.0.2-beta
   - Improved debugging
     - Add state printer to get the lifecycle snapshot
