@@ -1,3 +1,4 @@
+import android.view.View
 import com.wealthfront.magellan.HistoryRewriter
 import com.wealthfront.magellan.NavigationType
 import com.wealthfront.magellan.init.getDefaultTransition
@@ -8,7 +9,7 @@ import java.util.ArrayDeque
 import java.util.Deque
 
 internal fun HistoryRewriter.rewriteHistoryWithNavigationEvents(
-  oldBackStack: Deque<NavigationEvent>,
+  oldBackStack: Deque<NavigationEvent<View>>,
   magellanTransition: MagellanTransition? = null,
   navigationType: NavigationType? = null
 ) {

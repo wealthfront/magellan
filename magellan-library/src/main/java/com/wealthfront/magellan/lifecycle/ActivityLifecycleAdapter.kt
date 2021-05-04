@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.lifecycle
 
 import android.app.Activity
+import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.annotation.LayoutRes
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -11,7 +12,7 @@ import androidx.lifecycle.LifecycleOwner as ActivityLifecycleOwner
 import com.wealthfront.magellan.lifecycle.LifecycleOwner as MagellanLifecycleOwner
 
 internal class ActivityLifecycleAdapter(
-  private val navigable: Navigable,
+  private val navigable: Navigable<View>,
   private val context: Activity
 ) : DefaultLifecycleObserver {
 
@@ -46,12 +47,12 @@ internal class ActivityLifecycleAdapter(
   }
 }
 
-public fun ComponentActivity.setContentScreen(navigable: Navigable, @LayoutRes root: Int = R.layout.magellan_root) {
+public fun ComponentActivity.setContentScreen(navigable: Navigable<View>, @LayoutRes root: Int = R.layout.magellan_root) {
   setContentView(root)
   lifecycle.addObserver(ActivityLifecycleAdapter(navigable, this))
 }
 
 @Deprecated("This method exists for migration purposes.", ReplaceWith("setContentScreen(navigable)"))
-public fun ComponentActivity.setExpedition(navigable: Navigable) {
+public fun ComponentActivity.setExpedition(navigable: Navigable<View>) {
   lifecycle.addObserver(ActivityLifecycleAdapter(navigable, this))
 }

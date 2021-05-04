@@ -10,12 +10,12 @@ import javax.inject.Singleton
 @OpenForMocking
 public class CurrentNavigableProvider @Inject constructor() : NavigationListener, LifecycleAware {
 
-  public var navigable: NavigableCompat? = null
+  public var navigable: NavigableCompat<*>? = null
     protected set
 
-  public fun isCurrentNavigable(other: NavigableCompat): Boolean = navigable == other
+  public fun isCurrentNavigable(other: NavigableCompat<*>): Boolean = navigable == other
 
-  override fun onNavigatedTo(navigable: NavigableCompat) {
+  override fun onNavigatedTo(navigable: NavigableCompat<*>) {
     this.navigable = navigable
   }
 

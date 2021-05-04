@@ -1,5 +1,6 @@
 package com.wealthfront.magellan.navigation
 
+import android.view.View
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.OpenForMocking
 import com.wealthfront.magellan.ScreenContainer
@@ -12,24 +13,24 @@ import java.util.Deque
 @OpenForMocking
 public class LinearNavigator internal constructor(
   container: () -> ScreenContainer
-) : Navigator, LifecycleAwareComponent() {
+) : Navigator<View>, LifecycleAwareComponent() {
 
   private val delegate by lifecycle(NavigationDelegate(container))
 
-  override val backStack: List<NavigationEvent>
+  override val backStack: List<NavigationEvent<View>>
     get() = delegate.backStack.toList()
 
-  public fun goTo(navigable: Navigable, overrideMagellanTransition: MagellanTransition? = null) {
+  public fun goTo(navigable: Navigable<View>, overrideMagellanTransition: MagellanTransition? = null) {
     delegate.goTo(navigable, overrideMagellanTransition)
   }
 
-  public fun replace(navigable: Navigable, overrideMagellanTransition: MagellanTransition? = null) {
+  public fun replace(navigable: Navigable<View>, overrideMagellanTransition: MagellanTransition? = null) {
     delegate.replace(navigable, overrideMagellanTransition)
   }
 
   public fun navigate(
     direction: Direction,
-    backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent
+    backStackOperation: (Deque<NavigationEvent<View>>) -> NavigationEvent<View>
   ) {
     delegate.navigate(direction, backStackOperation)
   }

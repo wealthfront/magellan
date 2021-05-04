@@ -12,13 +12,13 @@ import java.util.ArrayDeque
 import java.util.Deque
 
 @OpenForMocking
-public class NavigationTraverser(private val root: NavigableCompat) {
+public class NavigationTraverser(private val root: NavigableCompat<*>) {
 
   public fun getGlobalBackStack(): NavigationNode {
     return constructTree(root)
   }
 
-  private fun constructTree(navigable: NavigableCompat): NavigationNode {
+  private fun constructTree(navigable: NavigableCompat<*>): NavigationNode {
     val navNode = NavigationNode(navigable, mutableListOf())
     if (navNode.hasBackstack) {
       val backStack = navNode.getBackstack()
@@ -71,15 +71,15 @@ public class NavigationTraverser(private val root: NavigableCompat) {
   }
 }
 
-public data class NavigationNode(val value: NavigableCompat, var children: List<NavigationNode>) {
+public data class NavigationNode(val value: NavigableCompat<*>, var children: List<NavigationNode>) {
 
   val hasBackstack: Boolean
-    get() = (value as? LifecycleOwner)?.children?.mapNotNull { it as? Navigator }?.isNotEmpty()
+    get() = (value as? LifecycleOwner)?.children?.mapNotNull { it as? Navigator<*> }?.isNotEmpty()
       ?: false
 
-  public fun getBackstack(): Deque<NavigationEvent> {
-    val backStackDeepCopy = ArrayDeque<NavigationEvent>()
-    (value as LifecycleOwner).children.mapNotNull { it as? Navigator }.first().backStack.toList()
+  public fun getBackstack(): Deque<NavigationEvent<*>> {
+    val backStackDeepCopy = ArrayDeque<NavigationEvent<*>>()
+    (value as LifecycleOwner).children.mapNotNull { it as? Navigator<*> }.first().backStack.toList()
       .toCollection(backStackDeepCopy)
     return backStackDeepCopy
   }

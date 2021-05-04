@@ -25,15 +25,15 @@ public class NavigationDelegate(
   private val container: () -> ScreenContainer
 ) : LifecycleAwareComponent() {
 
-  public var currentNavigableSetup: ((NavigableCompat) -> Unit)? = null
+  public var currentNavigableSetup: ((NavigableCompat<*>) -> Unit)? = null
 
   private var containerView: ScreenContainer? = null
   private val navigationPropagator = NavigationPropagator
-  public val backStack: Deque<NavigationEvent> = ArrayDeque()
+  public val backStack: Deque<NavigationEvent<View>> = ArrayDeque()
 
   private val lifecycleLimiter by lifecycle(LifecycleLimiter())
 
-  private val currentNavigable: NavigableCompat?
+  private val currentNavigable: NavigableCompat<View>?
     get() {
       return if (backStack.isNotEmpty()) {
         backStack.peek()?.navigable
@@ -59,7 +59,7 @@ public class NavigationDelegate(
   }
 
   public fun goTo(
-    nextNavigableCompat: NavigableCompat,
+    nextNavigableCompat: NavigableCompat<View>,
     overrideMagellanTransition: MagellanTransition? = null
   ) {
     navigate(FORWARD) { backStack ->
@@ -74,7 +74,7 @@ public class NavigationDelegate(
   }
 
   public fun replace(
-    nextNavigableCompat: NavigableCompat,
+    nextNavigableCompat: NavigableCompat<View>,
     overrideMagellanTransition: MagellanTransition? = null
   ) {
     navigate(FORWARD) { backStack ->
@@ -97,7 +97,7 @@ public class NavigationDelegate(
 
   public fun navigate(
     direction: Direction,
-    backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent
+    backStackOperation: (Deque<NavigationEvent<View>>) -> NavigationEvent<View>
   ) {
     containerView?.setInterceptTouchEvents(true)
     navigationPropagator.beforeNavigation()
@@ -112,8 +112,8 @@ public class NavigationDelegate(
   }
 
   private fun findBackstackChangesAndUpdateStates(
-    oldBackStack: List<NavigableCompat>,
-    newBackStack: List<NavigableCompat>
+    oldBackStack: List<NavigableCompat<View>>,
+    newBackStack: List<NavigableCompat<View>>
   ) {
     val oldNavigables = oldBackStack.toSet()
     val newNavigables = newBackStack.toSet()
@@ -151,7 +151,7 @@ public class NavigationDelegate(
     }
   }
 
-  private fun navigateTo(currentNavigable: NavigableCompat, direction: Direction): View? {
+  private fun navigateTo(currentNavigable: NavigableCompat<View>, direction: Direction): View? {
     lifecycleLimiter.updateMaxStateForChild(currentNavigable, NO_LIMIT)
     navigationPropagator.onNavigatedTo(currentNavigable)
     when (currentState) {
@@ -167,7 +167,7 @@ public class NavigationDelegate(
     return currentNavigable.view
   }
 
-  private fun navigateFrom(currentNavigable: NavigableCompat?): View? {
+  private fun navigateFrom(currentNavigable: NavigableCompat<View>?): View? {
     return currentNavigable?.let { oldNavigable ->
       val currentView = oldNavigable.view
       lifecycleLimiter.updateMaxStateForChild(oldNavigable, CREATED)
@@ -176,7 +176,7 @@ public class NavigationDelegate(
     }
   }
 
-  public fun goBackTo(navigable: NavigableCompat) {
+  public fun goBackTo(navigable: NavigableCompat<View>) {
     navigate(BACKWARD) { backStack ->
       while (navigable != backStack.peek()!!.navigable) {
         backStack.pop()
@@ -185,7 +185,7 @@ public class NavigationDelegate(
     }
   }
 
-  public fun resetWithRoot(navigable: NavigableCompat) {
+  public fun resetWithRoot(navigable: NavigableCompat<View>) {
     navigate(FORWARD) { backStack ->
       backStack.clear()
       backStack.push(NavigationEvent(navigable, NoAnimationTransition()))
