@@ -14,7 +14,7 @@ The simplest navigation library for Android.
 
  - Navigation is as simple as calling `goTo(screen)`
  - You get **full control** of the backstack
- - Transitions are automaticaly handled for you
+ - Transitions are automatically handled for you
  
 ## Download
 
@@ -23,12 +23,12 @@ Add the dependencies you need in your `build.gradle`:
 ### Core library
 
 ```groovy
-implementation 'com.wealthfront:magellan-library:2.1.0'
+implementation 'com.wealthfront:magellan-library:2.1.1'
 ```
 ### Optional add-ons
 
 ```groovy
-def magellanVersion = '2.1.0'
+def magellanVersion = '2.1.1'
 implementation "com.wealthfront:magellan-library:${magellanVersion}"
 implementation "com.wealthfront:magellan-support:${magellanVersion}"
 implementation "com.wealthfront:magellan-rx:${magellanVersion}"
