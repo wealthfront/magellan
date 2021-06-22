@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.1
+  - Minor fix: Update lifecycle logic when attaching to an Activity
+
 ## 2.1.0
   - Release candidate for pushing to production
   - Minor bug fixes
