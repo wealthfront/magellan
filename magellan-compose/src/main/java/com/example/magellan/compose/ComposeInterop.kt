@@ -32,7 +32,7 @@ public class ComposeStepWrapper(
 
   override val view: View? by lifecycleWithContext { context ->
     ComposeView(context).apply {
-      setContent @Composable { composeStep.view!!() }
+      setContent(content = { composeStep.view!!() })
     }
   }
 }

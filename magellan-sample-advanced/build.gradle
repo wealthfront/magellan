@@ -3,8 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: "org.jetbrains.kotlin.kapt"
 
 android {
-  compileSdkVersion Versions.compileSdkVersion
-  buildToolsVersion Versions.buildToolsVersion
+  compileSdk Versions.compileSdkVersion
+  buildToolsVersion = Versions.buildToolsVersion
 
   defaultConfig {
     applicationId "com.wealthfront.magellan.sample"
@@ -32,6 +32,7 @@ android {
 
   kotlinOptions {
     jvmTarget = "1.8"
+    useIR = true
   }
 
   packagingOptions {

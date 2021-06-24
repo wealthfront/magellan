@@ -2,12 +2,13 @@
 
 buildscript {
   repositories {
-    jcenter()
-    mavenCentral()
     google()
+    mavenCentral()
+    jcenter()
   }
   dependencies {
     classpath(Dependencies.kotlinGradle)
+    classpath(Dependencies.androidGradle)
     classpath(Dependencies.kotlinterGradle)
     classpath(Dependencies.kotlinAllOpen)
   }

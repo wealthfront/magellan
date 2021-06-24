@@ -1,5 +1,5 @@
 plugins {
-  id 'org.jetbrains.kotlin.jvm' version '1.4.30'
+  id 'org.jetbrains.kotlin.jvm' version '1.5.10'
 }
 
 repositories {
@@ -9,18 +9,20 @@ repositories {
 }
 
 dependencies {
-  implementation "com.android.tools.build:gradle:7.0.0-alpha15"
+  implementation 'com.android.tools.build:gradle:7.0.0-beta04'
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 compileKotlin {
   kotlinOptions {
     jvmTarget = "1.8"
+    useIR = true
   }
 }
 
 compileTestKotlin {
   kotlinOptions {
     jvmTarget = "1.8"
+    useIR = true
   }
 }

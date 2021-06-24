@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.sample
 
 import android.content.Context
+import com.example.magellan.compose.ComposeStepWrapper
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.sample.App.Provider.appComponent
 import com.wealthfront.magellan.sample.databinding.FirstJourneyBinding
@@ -14,7 +15,7 @@ class FirstJourney(
 
   override fun onCreate(context: Context) {
     appComponent.inject(this)
-    navigator.goTo(IntroStep(::goToLearnMore))
+    navigator.goTo(ComposeStepWrapper(IntroStep(::goToLearnMore)))
   }
 
   override fun onShow(context: Context, binding: FirstJourneyBinding) {

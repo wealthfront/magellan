@@ -5,14 +5,12 @@ group = GROUP
 version = VERSION_NAME
 
 android {
-  compileSdkVersion Versions.compileSdkVersion
-  buildToolsVersion Versions.buildToolsVersion
+  compileSdk Versions.compileSdkVersion
+  buildToolsVersion = Versions.buildToolsVersion
 
   defaultConfig {
     minSdkVersion Versions.minSdkVersion
     targetSdkVersion Versions.targetSdkVersion
-    versionCode 1
-    versionName "1.0"
 
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
@@ -35,6 +33,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
   }
   kotlinOptions.allWarningsAsErrors = true
   kotlinOptions.jvmTarget = "1.8"
+  kotlinOptions.useIR = true
 }
 
 dependencies {
@@ -43,6 +42,7 @@ dependencies {
 
   implementation Dependencies.rxjava
   implementation Dependencies.kotlinStdLib
+  implementation Dependencies.kotlinReflect
   implementation Dependencies.inject
 
   testImplementation Dependencies.junit
