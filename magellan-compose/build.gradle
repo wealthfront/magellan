@@ -56,9 +56,10 @@ dependencies {
   implementation Dependencies.coroutines
   implementation Dependencies.coroutinesAndroid
   implementation Dependencies.composeUi
+  implementation Dependencies.composeUiUtil
   implementation Dependencies.composeUiTooling
   implementation Dependencies.composeFoundation
-  implementation 'androidx.activity:activity-compose:1.3.0-beta02'
+  implementation Dependencies.activityCompose
   implementation Dependencies.lifecycle
 
   testImplementation Dependencies.testCore

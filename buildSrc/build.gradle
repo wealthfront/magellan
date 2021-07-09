@@ -1,5 +1,5 @@
 plugins {
-  id 'org.jetbrains.kotlin.jvm' version '1.5.10'
+  id 'org.jetbrains.kotlin.jvm' version '1.4.32'
 }
 
 repositories {
@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-  implementation 'com.android.tools.build:gradle:7.0.0-beta04'
+  implementation 'com.android.tools.build:gradle:7.0.0-beta05'
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 

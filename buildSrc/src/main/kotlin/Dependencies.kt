@@ -1,3 +1,4 @@
+import Versions.activityComposeVersion
 import Versions.androidGradleVersion
 import Versions.archVersion
 import Versions.butterKnifeVersion
@@ -64,6 +65,7 @@ object Dependencies {
   const val composeFoundationLayout = "androidx.compose.foundation:foundation-layout:$composeVersion"
   const val composeRuntime = "androidx.compose.runtime:runtime:$composeVersion"
   const val composeMaterial = "androidx.compose.material:material:$composeVersion"
+  const val activityCompose = "androidx.activity:activity-compose:$activityComposeVersion"
 
   const val glide = "com.github.bumptech.glide:glide:$glideVersion"
   const val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
