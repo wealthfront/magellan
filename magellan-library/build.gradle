@@ -58,6 +58,7 @@ dependencies {
   implementation Dependencies.inject
   implementation Dependencies.coroutines
   implementation Dependencies.coroutinesAndroid
+  implementation 'androidx.test.ext:junit-ktx:1.1.2'
 
   testImplementation Dependencies.testCore
   testImplementation Dependencies.junit

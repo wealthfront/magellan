@@ -7,6 +7,7 @@ import Versions.extVersion
 import Versions.glideVersion
 import Versions.jacksonVersion
 import Versions.javaInjectVersion
+import Versions.junitTestExtVersion
 import Versions.junitVersion
 import Versions.kotlinVersion
 import Versions.kotlinterVersion
@@ -39,6 +40,7 @@ object Dependencies {
 
   const val material = "com.google.android.material:material:$materialVersion"
   const val junit = "junit:junit:$junitVersion"
+  const val junitTestExt = "androidx.test.ext:junit-ktx:$junitTestExtVersion"
   const val truth = "com.google.truth:truth:$truthVersion"
   const val mockito = "org.mockito:mockito-core:$mockitoVersion"
   const val archTesting = "androidx.arch.core:core-testing:$archVersion"
