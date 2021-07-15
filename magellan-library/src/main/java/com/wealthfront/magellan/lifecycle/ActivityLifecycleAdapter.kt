@@ -5,13 +5,13 @@ import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.annotation.LayoutRes
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle as ActivityLifecycle
-import androidx.lifecycle.LifecycleOwner as ActivityLifecycleOwner
 import com.wealthfront.magellan.R
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.lifecycle.LifecycleState.Created
 import com.wealthfront.magellan.lifecycle.LifecycleState.Destroyed
+import androidx.lifecycle.Lifecycle as ActivityLifecycle
+import androidx.lifecycle.LifecycleOwner as ActivityLifecycleOwner
 
 private var adapterMap = emptyMap<Navigable, Pair<ActivityLifecycleAdapter, ActivityLifecycle>>()
 
@@ -56,7 +56,8 @@ public fun ComponentActivity.setContentScreen(
 
 @Deprecated(
   "This method exists for migration purposes.",
-  ReplaceWith("setContentScreen(navigable)"))
+  ReplaceWith("setContentScreen(navigable)")
+)
 public fun ComponentActivity.setExpedition(navigable: Navigable) {
   if (navigable is LifecycleOwner && navigable.currentState == Destroyed) {
     navigable.create(applicationContext)
