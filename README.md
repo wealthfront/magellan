@@ -23,12 +23,12 @@ Add the dependencies you need in your `build.gradle`:
 ### Core library
 
 ```groovy
-implementation 'com.wealthfront:magellan-library:2.1.1'
+implementation 'com.wealthfront:magellan-library:2.1.2'
 ```
 ### Optional add-ons
 
 ```groovy
-def magellanVersion = '2.1.1'
+def magellanVersion = '2.1.2'
 implementation "com.wealthfront:magellan-library:${magellanVersion}"
 implementation "com.wealthfront:magellan-support:${magellanVersion}"
 implementation "com.wealthfront:magellan-rx:${magellanVersion}"
