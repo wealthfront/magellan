@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.2
+  - Minor fix: Fix overlapping activities bug
+
 ## 2.1.1
   - Minor fix: Update lifecycle logic when attaching to an Activity
 
