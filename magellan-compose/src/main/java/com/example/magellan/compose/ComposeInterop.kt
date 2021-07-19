@@ -31,8 +31,8 @@ public class ComposeStepWrapper(
   public val composeStep: Navigable<@Composable () -> Unit> by lifecycle(composeStep)
 
   override val view: View? by lifecycleWithContext { context ->
-    ComposeView(context).apply {
-      setContent(content = { Displayable(composeStep) })
+    ComposeView(context).also { composeView ->
+      composeView.setContent @Composable { Displayable(this.composeStep) }
     }
   }
 }
@@ -44,6 +44,6 @@ public class ViewStepComposer(
   public val viewStep: Navigable<View> by lifecycle(viewStep)
 
   override val view: @Composable () -> Unit = {
-    Displayable(viewStep)
+    Displayable(this.viewStep)
   }
 }
