@@ -1,12 +1,12 @@
 package com.wealthfront.magellan.sample
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
 import com.wealthfront.magellan.lifecycle.setContentScreen
 import com.wealthfront.magellan.sample.App.Provider.appComponent
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
   @Inject lateinit var expedition: Expedition
 

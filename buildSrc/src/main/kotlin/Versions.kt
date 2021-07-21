@@ -3,7 +3,7 @@ object Versions {
   const val minSdkVersion = 21
   const val targetSdkVersion = 30
 
-  const val kotlinVersion = "1.5.21"
+  const val kotlinVersion = "1.5.10"
   const val androidGradleVersion = "7.0.0-beta05"
   const val coroutinesVersion = "1.5.0"
   const val kotlinterVersion = "3.4.5"
