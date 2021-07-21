@@ -6,15 +6,16 @@
 
 <img src="assets/magellan_icon_web_hi_res_512.png" width="200" align="right" />
 
-The simplest navigation library for Android.
+A simple, flexible, and practical navigation framework for Android.
 
 > Note: This library is currently under development for the next major version.
 
-## Main Features
+## Why would I use Magellan?
 
- - Navigation is as simple as calling `goTo(screen)`
- - You get **full control** of the backstack
- - Transitions are automatically handled for you
+- **Simple**: Intuitive abstractions and encapsulation make it easy to reason through code.
+- **Flexible**: The infinitely-nestable structure allows for many different styles of structuring an app and navigating between pages.
+- **Practical**: We pay special attention to simplifying common patterns and removing day-to-day boilerplate.
+- **Testable**: Plain objects that are easy to instantiate make testing simple.
  
 ## Download
 
@@ -25,6 +26,7 @@ Add the dependencies you need in your `build.gradle`:
 ```groovy
 implementation 'com.wealthfront:magellan-library:2.1.2'
 ```
+
 ### Optional add-ons
 
 ```groovy
@@ -37,6 +39,12 @@ implementation "com.wealthfront:magellan-rx2:${magellanVersion}"
 For support of older version:
 implementation "com.wealthfront:magellan-legacy:${magellanVersion}"
 ```
+
+## Learning
+
+For an explanation of the core concepts of Magellan, see our [wiki](https://github.com/wealthfront/magellan/wiki), starting with [Thinking in Magellan](https://github.com/wealthfront/magellan/wiki/Thinking-in-Magellan).
+
+If you're eager to start, check out our [Quickstart wiki page](https://github.com/wealthfront/magellan/wiki/Quickstart)
 
 ## License
 
