@@ -44,6 +44,8 @@ implementation "com.wealthfront:magellan-legacy:${magellanVersion}"
 
 For an explanation of the core concepts of Magellan, see our [wiki](https://github.com/wealthfront/magellan/wiki), starting with [Thinking in Magellan](https://github.com/wealthfront/magellan/wiki/Thinking-in-Magellan).
 
+If you're eager to start, check out our [Quickstart wiki page](https://github.com/wealthfront/magellan/wiki/Quickstart)
+
 ## License
 
 ```
