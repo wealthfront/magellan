@@ -6,7 +6,7 @@
 
 <img src="assets/magellan_icon_web_hi_res_512.png" width="200" align="right" />
 
-A simple, flexible, and practical navigation framework.
+A simple, flexible, and practical navigation framework for Android.
 
 > Note: This library is currently under development for the next major version.
 
