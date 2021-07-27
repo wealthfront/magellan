@@ -52,10 +52,13 @@ public class NavigationDelegate(
     }
   }
 
+  override fun onHide(context: Context) {
+    containerView = null
+  }
+
   override fun onDestroy(context: Context) {
     backStack.navigables().forEach { lifecycleLimiter.removeFromLifecycle(it) }
     backStack.clear()
-    containerView = null
   }
 
   public fun goTo(
