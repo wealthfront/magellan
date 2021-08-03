@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.lifecycle
 
 import android.content.Context
+import kotlinx.coroutines.flow.StateFlow
 
 public abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
 
@@ -8,6 +9,9 @@ public abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
 
   override val children: List<LifecycleAware>
     get() = lifecycleRegistry.listeners.toList()
+
+  override val currentStateFlow: StateFlow<LifecycleState>
+    get() = lifecycleRegistry.currentStateFlow
 
   override val currentState: LifecycleState
     get() = lifecycleRegistry.currentState

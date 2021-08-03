@@ -2,19 +2,20 @@
 
 buildscript {
   repositories {
-    jcenter()
-    mavenCentral()
     google()
+    mavenCentral()
+    jcenter()
   }
   dependencies {
     classpath(Dependencies.kotlinGradle)
+    classpath(Dependencies.androidGradle)
     classpath(Dependencies.kotlinterGradle)
     classpath(Dependencies.kotlinAllOpen)
   }
 }
 
 plugins {
-  id 'io.gitlab.arturbosch.detekt' version '1.5.1'
+  id 'io.gitlab.arturbosch.detekt' version '1.18.0-RC1'
 }
 
 allprojects {

@@ -1,5 +1,8 @@
+import Versions.activityComposeVersion
+import Versions.androidGradleVersion
 import Versions.archVersion
 import Versions.butterKnifeVersion
+import Versions.composeVersion
 import Versions.coroutinesVersion
 import Versions.daggerVersion
 import Versions.espressoVersion
@@ -30,12 +33,14 @@ import Versions.uiAutomatorVersion
 object Dependencies {
 
   const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+  const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
   const val appCompat = "androidx.appcompat:appcompat:$supportLibVersion"
   const val lifecycle = "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
 
   const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   const val kotlinterGradle = "org.jmailen.gradle:kotlinter-gradle:$kotlinterVersion"
   const val kotlinAllOpen = "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
+  const val androidGradle = "com.android.tools.build:gradle:$androidGradleVersion"
 
   const val material = "com.google.android.material:material:$materialVersion"
   const val junit = "junit:junit:$junitVersion"
@@ -51,6 +56,16 @@ object Dependencies {
   const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
   const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
   const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+
+  const val composeCompiler = "androidx.compose.compiler:compiler:$composeVersion"
+  const val composeUi = "androidx.compose.ui:ui:$composeVersion"
+  const val composeUiUtil = "androidx.compose.ui:ui-util:$composeVersion"
+  const val composeUiTooling = "androidx.compose.ui:ui-tooling:$composeVersion"
+  const val composeFoundation = "androidx.compose.foundation:foundation:$composeVersion"
+  const val composeFoundationLayout = "androidx.compose.foundation:foundation-layout:$composeVersion"
+  const val composeRuntime = "androidx.compose.runtime:runtime:$composeVersion"
+  const val composeMaterial = "androidx.compose.material:material:$composeVersion"
+  const val activityCompose = "androidx.activity:activity-compose:$activityComposeVersion"
 
   const val glide = "com.github.bumptech.glide:glide:$glideVersion"
   const val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"

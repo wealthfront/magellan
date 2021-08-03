@@ -17,6 +17,19 @@ android {
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
 
+  buildFeatures {
+    compose true
+  }
+
+  kotlinOptions {
+    jvmTarget = "1.8"
+    useIR = true
+  }
+
+  composeOptions {
+    kotlinCompilerExtensionVersion Versions.composeVersion
+  }
+
   compileOptions {
     setSourceCompatibility(JavaVersion.VERSION_1_8)
     setTargetCompatibility(JavaVersion.VERSION_1_8)
@@ -47,6 +60,12 @@ dependencies {
   implementation Dependencies.inject
   implementation Dependencies.coroutines
   implementation Dependencies.coroutinesAndroid
+  implementation Dependencies.composeUi
+  implementation Dependencies.composeUiUtil
+  implementation Dependencies.composeUiTooling
+  implementation Dependencies.composeFoundation
+  implementation Dependencies.activityCompose
+  implementation Dependencies.lifecycle
 
   testImplementation Dependencies.testCore
   testImplementation Dependencies.junit

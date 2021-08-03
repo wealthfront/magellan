@@ -5,19 +5,27 @@ import com.wealthfront.magellan.lifecycle.LifecycleLimit.CREATED
 import com.wealthfront.magellan.lifecycle.LifecycleLimit.DESTROYED
 import com.wealthfront.magellan.lifecycle.LifecycleLimit.NO_LIMIT
 import com.wealthfront.magellan.lifecycle.LifecycleLimit.SHOWN
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 internal class LifecycleRegistry : LifecycleAware {
 
   val listeners: Set<LifecycleAware>
     get() = listenersToMaxStates.keys
+
   var listenersToMaxStates: Map<LifecycleAware, LifecycleLimit> = linkedMapOf()
     private set
+
   private val lifecycleStateMachine = LifecycleStateMachine()
 
-  internal var currentState: LifecycleState = LifecycleState.Destroyed
+  private val _currentStateFlow: MutableStateFlow<LifecycleState> = MutableStateFlow(LifecycleState.Destroyed)
+  internal val currentStateFlow: StateFlow<LifecycleState> get() = _currentStateFlow.asStateFlow()
+
+  internal var currentState: LifecycleState
+    get() = currentStateFlow.value
     private set(newState) {
-      val oldState = field
-      field = newState
+      val oldState = currentStateFlow.value
       listenersToMaxStates.forEach { (lifecycleAware, maxState) ->
         if (oldState.limitBy(maxState).order != newState.limitBy(maxState).order) {
           lifecycleStateMachine.transition(
@@ -27,6 +35,7 @@ internal class LifecycleRegistry : LifecycleAware {
           )
         }
       }
+      _currentStateFlow.value = newState
     }
 
   fun attachToLifecycle(

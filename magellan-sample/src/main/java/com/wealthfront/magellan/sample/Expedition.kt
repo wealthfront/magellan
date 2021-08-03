@@ -1,20 +1,17 @@
 package com.wealthfront.magellan.sample
 
 import android.content.Context
-import com.wealthfront.magellan.core.Journey
+import com.example.magellan.compose.ComposeJourney
+import com.example.magellan.compose.ComposeStepWrappingViewStep
+import com.example.magellan.compose.transitions.showTransition
 import com.wealthfront.magellan.lifecycle.lateinitLifecycle
 import com.wealthfront.magellan.navigation.LoggingNavigableListener
 import com.wealthfront.magellan.sample.App.Provider.appComponent
-import com.wealthfront.magellan.sample.databinding.ExpeditionBinding
-import com.wealthfront.magellan.transitions.ShowTransition
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Expedition : Journey<ExpeditionBinding>(
-  ExpeditionBinding::inflate,
-  ExpeditionBinding::container
-) {
+class Expedition : ComposeJourney() {
 
   @set:Inject var navListener: LoggingNavigableListener by lateinitLifecycle()
 
@@ -24,6 +21,6 @@ class Expedition : Journey<ExpeditionBinding>(
   }
 
   private fun goToSecondJourney() {
-    navigator.goTo(SecondJourney(), ShowTransition())
+    navigator.goTo(ComposeStepWrappingViewStep(SecondJourney()), showTransition)
   }
 }

@@ -18,4 +18,4 @@ If step 6 or 7 fails, drop the Sonatype repo, fix the problem, commit, and start
 1. Set up [signatory credentials](https://docs.gradle.org/current/userguide/signing_plugin.html#sec:signatory_credentials), or temporarily comment out the `signing` block in `gradle/gradle-mvn-push.gradle`.
 2. Run `./gradlew publishToMavenLocal`.
 3. In the other project, add `mavenLocal()` as a repository (likely in `allProjects.repositories` of the root `build.gradle` file).
-4. Update `com.wealthfront:magellan:X.Y.Z` to `com.wealthfront:magellan-library:SNAPSHOT_VERSION`, where `SNAPSHOT_VERSION` is the `VERSION_NAME` defined in this project's `./gradle.properties`.
+4. Update `com.wealthfront:magellan-library:X.Y.Z` to `com.wealthfront:magellan-library:SNAPSHOT_VERSION`, where `SNAPSHOT_VERSION` is the `VERSION_NAME` defined in this project's `./gradle.properties`.

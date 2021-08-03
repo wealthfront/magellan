@@ -1,5 +1,7 @@
 package com.wealthfront.magellan.navigation
 
+import androidx.annotation.RestrictTo
+
 public object NavigationPropagator {
 
   private var listeners: Set<NavigationListener> = emptySet()
@@ -14,25 +16,29 @@ public object NavigationPropagator {
     listeners = listeners - navigationListener
   }
 
-  internal fun beforeNavigation() {
+  @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
+  public fun beforeNavigation() {
     listeners.forEach {
       it.beforeNavigation()
     }
   }
 
-  internal fun afterNavigation() {
+  @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
+  public fun afterNavigation() {
     listeners.forEach {
       it.afterNavigation()
     }
   }
 
-  internal fun onNavigatedTo(navigable: NavigableCompat<*>) {
+  @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
+  public fun onNavigatedTo(navigable: NavigableCompat<*>) {
     listeners.forEach {
       it.onNavigatedTo(navigable)
     }
   }
 
-  internal fun onNavigatedFrom(navigable: NavigableCompat<*>) {
+  @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
+  public fun onNavigatedFrom(navigable: NavigableCompat<*>) {
     listeners.forEach {
       it.onNavigatedFrom(navigable)
     }
