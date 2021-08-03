@@ -12,7 +12,7 @@ internal class IntroStep(
 ) : ComposeStep() {
 
   @Composable
-  override fun Compose() = IntroStepContent(goToLearnMore)
+  override fun Content() = IntroStepContent(goToLearnMore)
 }
 
 @Composable

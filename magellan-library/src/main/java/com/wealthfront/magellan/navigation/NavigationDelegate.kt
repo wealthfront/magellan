@@ -178,7 +178,7 @@ public class NavigationDelegate(
 
   public fun goBackTo(navigable: NavigableCompat<View>) {
     navigate(BACKWARD) { backStack ->
-      while (navigable != backStack.peek()!!.navigable) {
+      while (navigable !== backStack.peek()!!.navigable) {
         backStack.pop()
       }
       backStack.peek()!!

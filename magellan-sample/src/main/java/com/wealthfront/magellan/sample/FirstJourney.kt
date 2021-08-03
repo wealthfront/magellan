@@ -1,30 +1,44 @@
 package com.wealthfront.magellan.sample
 
 import android.content.Context
-import com.example.magellan.compose.ComposeStepWrapper
-import com.wealthfront.magellan.core.Journey
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.example.magellan.compose.ComposeJourney
+import com.example.magellan.compose.ComposeStepWrappingViewStep
+import com.example.magellan.compose.Displayable
 import com.wealthfront.magellan.sample.App.Provider.appComponent
-import com.wealthfront.magellan.sample.databinding.FirstJourneyBinding
 import javax.inject.Inject
 
 class FirstJourney(
   private val goToSecondJourney: () -> Unit
-) : Journey<FirstJourneyBinding>(FirstJourneyBinding::inflate, FirstJourneyBinding::container) {
+) : ComposeJourney() {
 
   @Inject lateinit var toaster: Toaster
 
-  override fun onCreate(context: Context) {
-    appComponent.inject(this)
-    navigator.goTo(ComposeStepWrapper(IntroStep(::goToLearnMore)))
-  }
-
-  override fun onShow(context: Context, binding: FirstJourneyBinding) {
-    binding.nextJourney.setOnClickListener {
-      goToSecondJourney()
+  @Composable
+  override fun Content() {
+    Column {
+      Box(modifier = Modifier.padding(16.dp)) {
+        Button(onClick = { goToSecondJourney() }) {
+          Text("Start next journey")
+        }
+      }
+      Displayable(navigator)
     }
   }
 
+  override fun onCreate(context: Context) {
+    appComponent.inject(this)
+    navigator.goTo(IntroStep(::goToLearnMore))
+  }
+
   private fun goToLearnMore() {
-    navigator.goTo(LearnMoreStep())
+    navigator.goTo(ComposeStepWrappingViewStep(LearnMoreStep()))
   }
 }

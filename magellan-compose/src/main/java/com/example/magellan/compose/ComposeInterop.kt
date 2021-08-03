@@ -12,7 +12,7 @@ import com.wealthfront.magellan.lifecycle.lifecycle
 import com.wealthfront.magellan.lifecycle.lifecycleWithContext
 
 @Composable
-public fun Displayable(displayable: Displayable<View>, modifier: Modifier = Modifier) {
+public fun ViewDisplayable(displayable: Displayable<View>, modifier: Modifier = Modifier) {
   AndroidView(modifier = modifier, factory = {
     if (displayable.view == null) {
       throw IllegalStateException(
@@ -24,7 +24,7 @@ public fun Displayable(displayable: Displayable<View>, modifier: Modifier = Modi
   })
 }
 
-public class ComposeStepWrapper(
+public class ViewStepWrappingComposeStep(
   composeStep: Navigable<@Composable () -> Unit>
 ) : LifecycleAwareComponent(), Navigable<View> {
 
@@ -37,13 +37,13 @@ public class ComposeStepWrapper(
   }
 }
 
-public class ViewStepComposer(
+public class ComposeStepWrappingViewStep(
   viewStep: Navigable<View>
 ) : LifecycleAwareComponent(), Navigable<@Composable () -> Unit> {
 
   public val viewStep: Navigable<View> by lifecycle(viewStep)
 
   override val view: @Composable () -> Unit = {
-    Displayable(this.viewStep)
+    ViewDisplayable(this.viewStep)
   }
 }

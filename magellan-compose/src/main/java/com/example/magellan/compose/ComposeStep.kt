@@ -11,11 +11,15 @@ import kotlinx.coroutines.CoroutineScope
 public abstract class ComposeStep : LifecycleAwareComponent(), Navigable<@Composable () -> Unit> {
 
   override val view: (@Composable () -> Unit)?
-    get() = { Compose() }
+    get() = {
+      WhenShown {
+        Content()
+      }
+    }
 
   public var shownScope: CoroutineScope by lifecycle(ShownLifecycleScope()) { it }
     @VisibleForTesting set
 
   @Composable
-  public abstract fun Compose()
+  protected abstract fun Content()
 }

@@ -2,6 +2,7 @@ package com.wealthfront.magellan.lifecycle
 
 import android.content.Context
 import com.wealthfront.magellan.OpenForMocking
+import kotlinx.coroutines.flow.StateFlow
 
 @OpenForMocking
 public class LifecycleLimiter : LifecycleOwner, LifecycleAware {
@@ -10,6 +11,9 @@ public class LifecycleLimiter : LifecycleOwner, LifecycleAware {
 
   override val children: List<LifecycleAware>
     get() = lifecycleRegistry.listenersToMaxStates.keys.toList()
+
+  override val currentStateFlow: StateFlow<LifecycleState>
+    get() = lifecycleRegistry.currentStateFlow
 
   override val currentState: LifecycleState
     get() = lifecycleRegistry.currentState
