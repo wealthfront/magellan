@@ -9,23 +9,23 @@ import androidx.annotation.VisibleForTesting
 import androidx.viewbinding.ViewBinding
 import com.wealthfront.magellan.coroutines.ShownLifecycleScope
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
-import com.wealthfront.magellan.lifecycle.lifecycle
-import com.wealthfront.magellan.lifecycle.lifecycleWithContext
+import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
+import com.wealthfront.magellan.lifecycle.shownFieldFromContext
 import kotlinx.coroutines.CoroutineScope
 
 public abstract class Step<V : ViewBinding>(
-  createBinding: (LayoutInflater) -> V
+  bindingProvider: (LayoutInflater) -> V
 ) : Navigable, LifecycleAwareComponent() {
 
   private var viewState: SparseArray<Parcelable>? = null
 
-  public var viewBinding: V? by lifecycleWithContext { createBinding.invoke(LayoutInflater.from(it)) }
+  public var viewBinding: V? by shownFieldFromContext { context -> bindingProvider.invoke(LayoutInflater.from(context)) }
     @VisibleForTesting set
 
-  final override var view: View? by lifecycleWithContext { viewBinding!!.root }
+  final override var view: View? by shownFieldFromContext { viewBinding!!.root }
     @VisibleForTesting set
 
-  public var shownScope: CoroutineScope by lifecycle(ShownLifecycleScope()) { it }
+  public var shownScope: CoroutineScope by attachFieldToLifecycle(ShownLifecycleScope()) { it }
     @VisibleForTesting set
 
   final override fun onShow(context: Context) {
