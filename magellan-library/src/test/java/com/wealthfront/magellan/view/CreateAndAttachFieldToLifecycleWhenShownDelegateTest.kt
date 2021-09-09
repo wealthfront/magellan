@@ -9,7 +9,7 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations.initMocks
 
-class LifecycleViewTest {
+class CreateAndAttachFieldToLifecycleWhenShownDelegateTest {
 
   private lateinit var lifecycleView: CreateAndAttachFieldToLifecycleWhenShownDelegate<FrameLayout>
 
@@ -37,21 +37,21 @@ class LifecycleViewTest {
     assertThat(lifecycleView.field).isEqualTo(frameLayout)
 
     lifecycleView.hide(context)
-    assertThat(lifecycleView.data).isEqualTo(null)
+    assertThat(lifecycleView.field).isEqualTo(null)
 
     lifecycleView.destroy(context)
-    assertThat(lifecycleView.data).isEqualTo(null)
+    assertThat(lifecycleView.field).isEqualTo(null)
   }
 
   @Test
   fun onCreateView() {
     lifecycleView.show(context)
-    assertThat(lifecycleView.data).isEqualTo(frameLayout)
+    assertThat(lifecycleView.field).isEqualTo(frameLayout)
   }
 
   @Test
   fun onDestroyView() {
     lifecycleView.hide(context)
-    assertThat(lifecycleView.data).isEqualTo(null)
+    assertThat(lifecycleView.field).isEqualTo(null)
   }
 }
