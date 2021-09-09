@@ -20,7 +20,7 @@ class DetailStep(
     appComponent.inject(this)
   }
 
-  override fun onShow(context: Context, binding: DetailBinding) {
+  override fun onStart(context: Context, binding: DetailBinding) {
     binding.dialog.setOnClickListener {
       dialogComponent.showDialog(DialogCreator { activity -> getDialog(activity) })
     }
