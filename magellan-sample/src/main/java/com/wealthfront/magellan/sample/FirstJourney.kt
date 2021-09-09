@@ -17,7 +17,7 @@ class FirstJourney(
     navigator.goTo(IntroStep(::goToLearnMore))
   }
 
-  override fun onShow(context: Context, binding: FirstJourneyBinding) {
+  override fun onStart(context: Context, binding: FirstJourneyBinding) {
     binding.nextJourney.setOnClickListener {
       goToSecondJourney()
     }

@@ -8,7 +8,7 @@ internal class IntroStep(
   private val goToLearnMore: () -> Unit
 ) : Step<IntroBinding>(IntroBinding::inflate) {
 
-  override fun onShow(context: Context, binding: IntroBinding) {
+  override fun onStart(context: Context, binding: IntroBinding) {
     binding.learnMore.setOnClickListener {
       goToLearnMore()
     }
