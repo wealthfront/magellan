@@ -25,7 +25,7 @@ internal class LifecycleLimiterTest {
   @Test
   fun attachToLifecycleWithMaxState() {
     lifecycleLimiter.create(context)
-    lifecycleLimiter.show(context)
+    lifecycleLimiter.start(context)
     lifecycleLimiter.resume(context)
 
     lifecycleLimiter.attachToLifecycle(dummyLifecycleComponent)
@@ -58,7 +58,7 @@ internal class LifecycleLimiterTest {
 
     assertThat(dummyLifecycleComponent.currentState).isEqualTo(LifecycleState.Created(context))
 
-    lifecycleLimiter.show(context)
+    lifecycleLimiter.start(context)
     lifecycleLimiter.resume(context)
 
     assertThat(dummyLifecycleComponent.currentState).isEqualTo(LifecycleState.Shown(context))
@@ -67,7 +67,7 @@ internal class LifecycleLimiterTest {
   @Test
   fun updateMaxStateForChild_afterEvents() {
     lifecycleLimiter.create(context)
-    lifecycleLimiter.show(context)
+    lifecycleLimiter.start(context)
     lifecycleLimiter.resume(context)
 
     lifecycleLimiter.attachToLifecycleWithMaxState(dummyLifecycleComponent, LifecycleLimit.CREATED)
@@ -86,7 +86,7 @@ internal class LifecycleLimiterTest {
   @Test
   fun onBackPressed_limited() {
     lifecycleLimiter.create(context)
-    lifecycleLimiter.show(context)
+    lifecycleLimiter.start(context)
     lifecycleLimiter.resume(context)
 
     var unwantedBackPressed = false
@@ -117,7 +117,7 @@ internal class LifecycleLimiterTest {
   @Test
   fun onBackPressed_notLimited() {
     lifecycleLimiter.create(context)
-    lifecycleLimiter.show(context)
+    lifecycleLimiter.start(context)
     lifecycleLimiter.resume(context)
 
     var wantedBackPressed = false

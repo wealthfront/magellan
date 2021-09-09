@@ -45,14 +45,14 @@ public class NavigationDelegate(
   private val context: Context?
     get() = currentState.context
 
-  override fun onShow(context: Context) {
+  override fun onStart(context: Context) {
     containerView = container()
     currentNavigable?.let {
       containerView!!.addView(currentNavigable!!.view!!)
     }
   }
 
-  override fun onHide(context: Context) {
+  override fun onStop(context: Context) {
     containerView = null
   }
 

@@ -6,7 +6,7 @@ import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.navigation.CurrentNavigableProvider
 
-public abstract class LegacyExpedition<V : ViewBinding>(
+public abstract class LegacyJourney<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V,
   container: V.() -> ScreenContainer
 ) : Step<V>(createBinding) {

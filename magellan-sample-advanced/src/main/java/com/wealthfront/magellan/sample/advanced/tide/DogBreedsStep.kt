@@ -27,7 +27,7 @@ class DogBreedsStep : Step<DogBreedBinding>(DogBreedBinding::inflate) {
     app(context).injector().inject(this)
   }
 
-  override fun onShow(context: Context, binding: DogBreedBinding) {
+  override fun onStart(context: Context, binding: DogBreedBinding) {
     scope.launch {
       // show loading
       val breeds = runCatching { api.getListOfAllBreedsOfRetriever() }

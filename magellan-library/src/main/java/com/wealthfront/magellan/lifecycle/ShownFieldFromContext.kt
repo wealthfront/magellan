@@ -9,11 +9,11 @@ public class ShownFieldFromContext<Field>(
   public var field: Field? = null
     protected set
 
-  override fun show(context: Context) {
+  override fun start(context: Context) {
     field = fieldSupplier(context)
   }
 
-  override fun hide(context: Context) {
+  override fun stop(context: Context) {
     field = null
   }
 }

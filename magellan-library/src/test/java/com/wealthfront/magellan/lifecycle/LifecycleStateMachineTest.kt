@@ -54,7 +54,7 @@ internal class LifecycleStateMachineTest {
   fun transitionBetweenLifecycleStates_createToShown() {
     lifecycleStateMachine.transition(lifecycleAware, created, shown)
 
-    inOrder.verify(lifecycleAware).show(context)
+    inOrder.verify(lifecycleAware).start(context)
     verifyNoMoreInteractions(lifecycleAware)
   }
 
@@ -62,7 +62,7 @@ internal class LifecycleStateMachineTest {
   fun transitionBetweenLifecycleStates_createToResumed() {
     lifecycleStateMachine.transition(lifecycleAware, created, resumed)
 
-    inOrder.verify(lifecycleAware).show(context)
+    inOrder.verify(lifecycleAware).start(context)
     inOrder.verify(lifecycleAware).resume(context)
     verifyNoMoreInteractions(lifecycleAware)
   }
@@ -79,7 +79,7 @@ internal class LifecycleStateMachineTest {
   fun transitionBetweenLifecycleStates_shownToCreated() {
     lifecycleStateMachine.transition(lifecycleAware, shown, created)
 
-    inOrder.verify(lifecycleAware).hide(context)
+    inOrder.verify(lifecycleAware).stop(context)
     verifyNoMoreInteractions(lifecycleAware)
   }
 
@@ -102,7 +102,7 @@ internal class LifecycleStateMachineTest {
   fun transitionBetweenLifecycleStates_shownToDestroy() {
     lifecycleStateMachine.transition(lifecycleAware, shown, destroyed)
 
-    inOrder.verify(lifecycleAware).hide(context)
+    inOrder.verify(lifecycleAware).stop(context)
     inOrder.verify(lifecycleAware).destroy(applicationContext)
     verifyNoMoreInteractions(lifecycleAware)
   }
@@ -112,7 +112,7 @@ internal class LifecycleStateMachineTest {
     lifecycleStateMachine.transition(lifecycleAware, resumed, created)
 
     inOrder.verify(lifecycleAware).pause(context)
-    inOrder.verify(lifecycleAware).hide(context)
+    inOrder.verify(lifecycleAware).stop(context)
     verifyNoMoreInteractions(lifecycleAware)
   }
 
@@ -136,7 +136,7 @@ internal class LifecycleStateMachineTest {
     lifecycleStateMachine.transition(lifecycleAware, resumed, destroyed)
 
     inOrder.verify(lifecycleAware).pause(context)
-    inOrder.verify(lifecycleAware).hide(context)
+    inOrder.verify(lifecycleAware).stop(context)
     inOrder.verify(lifecycleAware).destroy(applicationContext)
     verifyNoMoreInteractions(lifecycleAware)
   }
@@ -154,7 +154,7 @@ internal class LifecycleStateMachineTest {
     lifecycleStateMachine.transition(lifecycleAware, destroyed, shown)
 
     inOrder.verify(lifecycleAware).create(applicationContext)
-    inOrder.verify(lifecycleAware).show(context)
+    inOrder.verify(lifecycleAware).start(context)
     verifyNoMoreInteractions(lifecycleAware)
   }
 
@@ -163,7 +163,7 @@ internal class LifecycleStateMachineTest {
     lifecycleStateMachine.transition(lifecycleAware, destroyed, resumed)
 
     inOrder.verify(lifecycleAware).create(applicationContext)
-    inOrder.verify(lifecycleAware).show(context)
+    inOrder.verify(lifecycleAware).start(context)
     inOrder.verify(lifecycleAware).resume(context)
     verifyNoMoreInteractions(lifecycleAware)
   }

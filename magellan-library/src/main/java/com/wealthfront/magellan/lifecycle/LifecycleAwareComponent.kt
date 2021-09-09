@@ -23,15 +23,15 @@ public abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
     onCreate(context)
   }
 
-  final override fun show(context: Context) {
+  final override fun start(context: Context) {
     if (currentState !is LifecycleState.Created) {
       throw IllegalStateException(
         "Cannot show() from a state that is not Created: " +
           "${this::class.java.simpleName} is ${currentState::class.java.simpleName}"
       )
     }
-    lifecycleRegistry.show(context)
-    onShow(context)
+    lifecycleRegistry.start(context)
+    onStart(context)
   }
 
   final override fun resume(context: Context) {
@@ -56,15 +56,15 @@ public abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
     lifecycleRegistry.pause(context)
   }
 
-  final override fun hide(context: Context) {
+  final override fun stop(context: Context) {
     if (currentState !is LifecycleState.Shown) {
       throw IllegalStateException(
         "Cannot hide() from a state that is not Shown: " +
           "${this::class.java.simpleName} is ${currentState::class.java.simpleName}"
       )
     }
-    onHide(context)
-    lifecycleRegistry.hide(context)
+    onStop(context)
+    lifecycleRegistry.stop(context)
   }
 
   final override fun destroy(context: Context) {
@@ -100,13 +100,13 @@ public abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
 
   protected open fun onCreate(context: Context) {}
 
-  protected open fun onShow(context: Context) {}
+  protected open fun onStart(context: Context) {}
 
   protected open fun onResume(context: Context) {}
 
   protected open fun onPause(context: Context) {}
 
-  protected open fun onHide(context: Context) {}
+  protected open fun onStop(context: Context) {}
 
   protected open fun onDestroy(context: Context) {}
 

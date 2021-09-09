@@ -1,7 +1,7 @@
 package com.wealthfront.magellan.sample.advanced
 
 import android.content.Context
-import com.wealthfront.magellan.LegacyExpedition
+import com.wealthfront.magellan.LegacyJourney
 import com.wealthfront.magellan.lifecycle.attachLateinitFieldToLifecycle
 import com.wealthfront.magellan.navigation.CurrentNavigableProvider
 import com.wealthfront.magellan.navigation.LoggingNavigableListener
@@ -14,7 +14,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Expedition @Inject constructor() : LegacyExpedition<ExpeditionBinding>(
+class Expedition @Inject constructor() : LegacyJourney<ExpeditionBinding>(
   ExpeditionBinding::inflate,
   ExpeditionBinding::container
 ) {
@@ -28,7 +28,7 @@ class Expedition @Inject constructor() : LegacyExpedition<ExpeditionBinding>(
     setCurrentNavProvider(currentNavigableProvider)
   }
 
-  override fun onShow(context: Context, binding: ExpeditionBinding) {
+  override fun onStart(context: Context, binding: ExpeditionBinding) {
     ToolbarHelper.init(viewBinding!!.menu, navigator)
     navigator.showNow(DogListStep(::goToDetailsScreen))
   }

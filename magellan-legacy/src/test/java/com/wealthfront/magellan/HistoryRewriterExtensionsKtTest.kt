@@ -15,7 +15,7 @@ import java.util.ArrayDeque
 
 public class HistoryRewriterExtensionsKtTest {
 
-  private lateinit var root: LegacyExpedition<*>
+  private lateinit var root: LegacyJourney<*>
   private lateinit var journey1: Journey<*>
   private lateinit var screen: Screen<*>
   @Mock private lateinit var view: BaseScreenView<DummyScreen>
@@ -95,7 +95,7 @@ public class HistoryRewriterExtensionsKtTest {
     historyRewriter.rewriteHistoryWithNavigationEvents(backStack)
   }
 
-  private inner class RootJourney : LegacyExpedition<MagellanDummyLayoutBinding>(
+  private inner class RootJourney : LegacyJourney<MagellanDummyLayoutBinding>(
     MagellanDummyLayoutBinding::inflate,
     MagellanDummyLayoutBinding::container
   )

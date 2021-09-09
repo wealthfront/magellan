@@ -21,7 +21,7 @@ public class RxDisposer @Inject constructor() : LifecycleAware {
     disposable.forEach { autoDispose(it) }
   }
 
-  override fun hide(context: Context) {
+  override fun stop(context: Context) {
     disposables?.dispose()
     disposables = null
   }

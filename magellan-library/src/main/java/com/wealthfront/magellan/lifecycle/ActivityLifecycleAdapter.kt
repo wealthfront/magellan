@@ -21,7 +21,7 @@ internal class ActivityLifecycleAdapter(
 ) : DefaultLifecycleObserver {
 
   override fun onStart(owner: ActivityLifecycleOwner) {
-    navigable.show(context)
+    navigable.start(context)
     context.findViewById<ScreenContainer>(R.id.magellan_container).addView(navigable.view!!)
   }
 
@@ -34,7 +34,7 @@ internal class ActivityLifecycleAdapter(
   }
 
   override fun onStop(owner: ActivityLifecycleOwner) {
-    navigable.hide(context)
+    navigable.stop(context)
     context.findViewById<ScreenContainer>(R.id.magellan_container).removeAllViews()
   }
 

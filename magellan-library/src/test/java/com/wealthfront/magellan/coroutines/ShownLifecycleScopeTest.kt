@@ -40,13 +40,13 @@ internal class ShownLifecycleScopeTest {
       assertThat(async.isCancelled).isTrue()
       assertThat(async.getCancellationException()).hasMessageThat().contains("Not shown yet")
 
-      shownScope.show(context)
+      shownScope.start(context)
       shownScope.resume(context)
 
       assertThat(async.isCancelled).isTrue()
 
       shownScope.pause(context)
-      shownScope.hide(context)
+      shownScope.stop(context)
 
       assertThat(async.isCancelled).isTrue()
       assertThat(async.getCancellationException()).hasMessageThat().contains("Not shown yet")
@@ -57,7 +57,7 @@ internal class ShownLifecycleScopeTest {
   fun cancelAfterShown() {
     runBlockingTest {
       shownScope.create(context)
-      shownScope.show(context)
+      shownScope.start(context)
 
       val async = shownScope.async { delay(5000) }
       assertThat(async.isCancelled).isFalse()
@@ -67,7 +67,7 @@ internal class ShownLifecycleScopeTest {
       assertThat(async.isCancelled).isFalse()
 
       shownScope.pause(context)
-      shownScope.hide(context)
+      shownScope.stop(context)
 
       assertThat(async.isCancelled).isTrue()
       assertThat(async.getCancellationException()).hasMessageThat().contains("Hidden")
@@ -78,7 +78,7 @@ internal class ShownLifecycleScopeTest {
   fun cancelMultipleAfterShown() {
     runBlockingTest {
       shownScope.create(context)
-      shownScope.show(context)
+      shownScope.start(context)
 
       val async = shownScope.async { delay(5000) }
       val async2 = shownScope.async { delay(5000) }
@@ -91,7 +91,7 @@ internal class ShownLifecycleScopeTest {
       assertThat(async2.isCancelled).isFalse()
 
       shownScope.pause(context)
-      shownScope.hide(context)
+      shownScope.stop(context)
 
       assertThat(async.isCancelled).isTrue()
       assertThat(async.getCancellationException()).hasMessageThat().contains("Hidden")
@@ -104,14 +104,14 @@ internal class ShownLifecycleScopeTest {
   fun cancelAfterResumed() {
     runBlockingTest {
       shownScope.create(context)
-      shownScope.show(context)
+      shownScope.start(context)
       shownScope.resume(context)
 
       val async = shownScope.async { delay(5000) }
       assertThat(async.isCancelled).isFalse()
 
       shownScope.pause(context)
-      shownScope.hide(context)
+      shownScope.stop(context)
 
       assertThat(async.isCancelled).isTrue()
       assertThat(async.getCancellationException()).hasMessageThat().contains("Hidden")

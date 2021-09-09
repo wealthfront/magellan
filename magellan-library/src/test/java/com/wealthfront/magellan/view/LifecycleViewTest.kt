@@ -27,7 +27,7 @@ class LifecycleViewTest {
     lifecycleView.create(context)
     assertThat(lifecycleView.data).isEqualTo(null)
 
-    lifecycleView.show(context)
+    lifecycleView.start(context)
     assertThat(lifecycleView.data).isEqualTo(frameLayout)
 
     lifecycleView.resume(context)
@@ -36,7 +36,7 @@ class LifecycleViewTest {
     lifecycleView.pause(context)
     assertThat(lifecycleView.data).isEqualTo(frameLayout)
 
-    lifecycleView.hide(context)
+    lifecycleView.stop(context)
     assertThat(lifecycleView.data).isEqualTo(null)
 
     lifecycleView.destroy(context)
@@ -45,13 +45,13 @@ class LifecycleViewTest {
 
   @Test
   fun onCreateView() {
-    lifecycleView.show(context)
+    lifecycleView.start(context)
     assertThat(lifecycleView.data).isEqualTo(frameLayout)
   }
 
   @Test
   fun onDestroyView() {
-    lifecycleView.hide(context)
+    lifecycleView.stop(context)
     assertThat(lifecycleView.data).isEqualTo(null)
   }
 }

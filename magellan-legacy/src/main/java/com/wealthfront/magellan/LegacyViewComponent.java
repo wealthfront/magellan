@@ -20,7 +20,7 @@ public class LegacyViewComponent<V extends ViewGroup & ScreenView> implements Li
   }
 
   @Override
-  public void show(@NotNull Context context) {
+  public void start(@NotNull Context context) {
     setActivity(context);
     V view = screen.createView(context);
     // noinspection unchecked
@@ -32,7 +32,7 @@ public class LegacyViewComponent<V extends ViewGroup & ScreenView> implements Li
   }
 
   @Override
-  public void hide(@NotNull Context context) {
+  public void stop(@NotNull Context context) {
     V view = screen.getView();
     if (view != null) {
       viewState = new SparseArray<>();

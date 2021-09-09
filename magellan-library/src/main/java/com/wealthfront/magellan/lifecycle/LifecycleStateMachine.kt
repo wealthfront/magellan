@@ -49,7 +49,7 @@ internal class LifecycleStateMachine {
         Created(context.applicationContext)
       }
       is Created -> {
-        subjects.forEach { it.show(context) }
+        subjects.forEach { it.start(context) }
         Shown(context)
       }
       is Shown -> {
@@ -76,7 +76,7 @@ internal class LifecycleStateMachine {
         Destroyed
       }
       is Shown -> {
-        subjects.forEach { it.hide(context) }
+        subjects.forEach { it.stop(context) }
         Created(context.applicationContext)
       }
       is Resumed -> {

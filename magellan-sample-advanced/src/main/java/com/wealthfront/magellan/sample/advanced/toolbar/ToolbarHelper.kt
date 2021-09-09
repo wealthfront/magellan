@@ -5,14 +5,12 @@ import com.wealthfront.magellan.Navigator
 import com.wealthfront.magellan.coroutines.ShownLifecycleScope
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
-import com.wealthfront.magellan.navigation.NavigationLifecycleEvent
-import com.wealthfront.magellan.navigation.NavigationPropagator
 import kotlinx.coroutines.launch
 
 /**
  * [ToolbarHelper] provides APIs to modify the toolbar for the activity.
  *
- * Ideally, this dependency is provider by dependency injection and configured so that the views are cleaned up when the activity
+ * Ideally, this dependency is provided by dependency injection and configured so that the views are cleaned up when the activity
  * is destroyed with the help of (subcomponents & custom scopes)[https://dagger.dev/dev-guide/subcomponents].
  */
 object ToolbarHelper : LifecycleAwareComponent() {
@@ -27,7 +25,7 @@ object ToolbarHelper : LifecycleAwareComponent() {
     }
   }
 
-  override fun onShow(context: Context) {
+  override fun onStart(context: Context) {
     shownScope.launch {
       NavigationPropagator.events
         .filterIsInstance<NavigationLifecycleEvent.NavigatedFrom>()
@@ -37,7 +35,7 @@ object ToolbarHelper : LifecycleAwareComponent() {
     }
   }
 
-  override fun onHide(context: Context) {
+  override fun onStop(context: Context) {
     toolbarView = null
   }
 

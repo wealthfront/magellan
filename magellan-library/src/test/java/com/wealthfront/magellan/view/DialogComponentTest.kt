@@ -37,7 +37,7 @@ internal class DialogComponentTest {
   fun showDialog() {
     `when`(dialog1.isShowing).thenReturn(true)
 
-    dialogComponent.show(context)
+    dialogComponent.start(context)
     dialogComponent.resume(context)
     dialogComponent.showDialog(dialogCreator1)
 
@@ -49,7 +49,7 @@ internal class DialogComponentTest {
   fun showDialog_hidden() {
     `when`(dialog1.isShowing).thenReturn(true)
 
-    dialogComponent.show(context)
+    dialogComponent.start(context)
     dialogComponent.resume(context)
     dialogComponent.showDialog(dialogCreator1)
 
@@ -58,7 +58,7 @@ internal class DialogComponentTest {
 
     `when`(dialog1.isShowing).thenReturn(false)
     dialogComponent.pause(context)
-    dialogComponent.hide(context)
+    dialogComponent.stop(context)
 
     verify(dialog1).dismiss()
     assertThat(dialogComponent.dialogIsShowing).isFalse()
@@ -67,7 +67,7 @@ internal class DialogComponentTest {
   @Test
   fun showDialog_rotation() {
     `when`(dialog1.isShowing).thenReturn(true)
-    dialogComponent.show(context)
+    dialogComponent.start(context)
     dialogComponent.resume(context)
     dialogComponent.showDialog(dialogCreator1)
 
@@ -75,12 +75,12 @@ internal class DialogComponentTest {
     assertThat(dialogComponent.dialogIsShowing).isTrue()
 
     dialogComponent.pause(context)
-    dialogComponent.hide(context)
+    dialogComponent.stop(context)
     dialogComponent.destroy(context)
 
     `when`(dialog1.isShowing).thenReturn(false)
     dialogComponent.create(context)
-    dialogComponent.show(context)
+    dialogComponent.start(context)
     dialogComponent.resume(context)
 
     verify(dialog1).dismiss()
@@ -93,7 +93,7 @@ internal class DialogComponentTest {
     `when`(dialog1.isShowing).thenReturn(true)
     `when`(dialog2.isShowing).thenReturn(true)
 
-    dialogComponent.show(context)
+    dialogComponent.start(context)
     dialogComponent.resume(context)
     dialogComponent.showDialog(dialogCreator1)
 

@@ -13,7 +13,7 @@ import java.util.Locale
 
 class DogListStep(private val goToDogDetails: (name: String) -> Unit) : Step<DashboardBinding>(DashboardBinding::inflate) {
 
-  override fun onShow(context: Context, binding: DashboardBinding) {
+  override fun onStart(context: Context, binding: DashboardBinding) {
     ToolbarHelper.setTitle(context.getText(R.string.app_name))
     binding.dogItems.adapter = DogListAdapter(context)
   }

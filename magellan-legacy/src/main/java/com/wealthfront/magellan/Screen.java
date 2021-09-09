@@ -143,8 +143,12 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   /**
    * Called when the Screen in shown (including on rotation).
    */
+  protected void onShow(@NotNull Context context) {
+    onStart(context);
+  }
+
   @Override
-  protected void onShow(@NotNull Context context) { }
+  final protected void onStart(@NotNull Context context) { }
 
   /**
    * Called when the activity is resumed and when the Screen is shown.
@@ -162,6 +166,10 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * Called when the Screen is hidden (including on rotation).
    */
   @Override
+  final protected void onStop(@NotNull Context context) {
+    onHide(context);
+  }
+
   protected void onHide(@NotNull Context context) { }
 
   /**

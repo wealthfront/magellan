@@ -28,9 +28,9 @@ public abstract class Step<V : ViewBinding>(
   public var shownScope: CoroutineScope by attachFieldToLifecycle(ShownLifecycleScope()) { it }
     @VisibleForTesting set
 
-  final override fun onShow(context: Context) {
+  final override fun onStart(context: Context) {
     restoreViewState()
-    onShow(context, viewBinding!!)
+    onStart(context, viewBinding!!)
   }
 
   final override fun onResume(context: Context) {
@@ -41,8 +41,8 @@ public abstract class Step<V : ViewBinding>(
     onPause(context, viewBinding!!)
   }
 
-  final override fun onHide(context: Context) {
-    onHide(context, viewBinding!!)
+  final override fun onStop(context: Context) {
+    onStop(context, viewBinding!!)
     saveViewState()
   }
 
@@ -58,11 +58,11 @@ public abstract class Step<V : ViewBinding>(
     view!!.saveHierarchyState(viewState)
   }
 
-  protected open fun onShow(context: Context, binding: V) {}
+  protected open fun onStart(context: Context, binding: V) {}
 
   protected open fun onResume(context: Context, binding: V) {}
 
   protected open fun onPause(context: Context, binding: V) {}
 
-  protected open fun onHide(context: Context, binding: V) {}
+  protected open fun onStop(context: Context, binding: V) {}
 }

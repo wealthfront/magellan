@@ -8,13 +8,13 @@ public interface LifecycleAware {
   
   default void create(@NotNull Context context) {}
 
-  default void show(@NotNull Context context) {}
+  default void start(@NotNull Context context) {}
 
   default void resume(@NotNull Context context) {}
 
   default void pause(@NotNull Context context) {}
 
-  default void hide(@NotNull Context context) {}
+  default void stop(@NotNull Context context) {}
 
   default void destroy(@NotNull Context context) {}
 

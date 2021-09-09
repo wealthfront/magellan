@@ -18,8 +18,8 @@ public class LifecycleLimiter : LifecycleOwner, LifecycleAware {
     lifecycleRegistry.create(context)
   }
 
-  override fun show(context: Context) {
-    lifecycleRegistry.show(context)
+  override fun start(context: Context) {
+    lifecycleRegistry.start(context)
   }
 
   override fun resume(context: Context) {
@@ -30,8 +30,8 @@ public class LifecycleLimiter : LifecycleOwner, LifecycleAware {
     lifecycleRegistry.pause(context)
   }
 
-  override fun hide(context: Context) {
-    lifecycleRegistry.hide(context)
+  override fun stop(context: Context) {
+    lifecycleRegistry.stop(context)
   }
 
   override fun destroy(context: Context) {

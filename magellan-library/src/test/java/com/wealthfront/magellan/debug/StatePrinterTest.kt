@@ -41,7 +41,7 @@ public class StatePrinterTest {
     root.attachToLifecycle(MyStep())
     root.attachToLifecycle(MyStep())
     root.create(context)
-    root.show(context)
+    root.start(context)
     assertThat(root.getLifecycleStateSnapshot()).isEqualTo(
       """
         DummyLifecycleOwner (Shown)

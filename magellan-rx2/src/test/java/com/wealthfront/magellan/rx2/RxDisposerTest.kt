@@ -30,10 +30,10 @@ class RxDisposerTest {
 
     assertThat(testSubscriber.isDisposed).isFalse()
 
-    rxDisposer.show(context)
+    rxDisposer.start(context)
     rxDisposer.resume(context)
     rxDisposer.pause(context)
-    rxDisposer.hide(context)
+    rxDisposer.stop(context)
 
     assertThat(testSubscriber.isDisposed).isTrue()
   }
@@ -43,7 +43,7 @@ class RxDisposerTest {
     assertThat(testSubscriber.isDisposed).isFalse()
 
     rxDisposer.create(context)
-    rxDisposer.show(context)
+    rxDisposer.start(context)
 
     rxDisposer.autoDispose(testSubscriber)
 
@@ -51,7 +51,7 @@ class RxDisposerTest {
 
     rxDisposer.resume(context)
     rxDisposer.pause(context)
-    rxDisposer.hide(context)
+    rxDisposer.stop(context)
 
     assertThat(testSubscriber.isDisposed).isTrue()
   }
@@ -61,7 +61,7 @@ class RxDisposerTest {
     assertThat(testSubscriber.isDisposed).isFalse()
 
     rxDisposer.create(context)
-    rxDisposer.show(context)
+    rxDisposer.start(context)
     rxDisposer.resume(context)
 
     rxDisposer.autoDispose(testSubscriber)
@@ -69,7 +69,7 @@ class RxDisposerTest {
     assertThat(testSubscriber.isDisposed).isFalse()
 
     rxDisposer.pause(context)
-    rxDisposer.hide(context)
+    rxDisposer.stop(context)
 
     assertThat(testSubscriber.isDisposed).isTrue()
   }

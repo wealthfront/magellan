@@ -40,13 +40,13 @@ internal class CreatedLifecycleScopeTest {
       assertThat(async.getCancellationException()).hasMessageThat().contains("Not created yet")
 
       createdScope.create(context)
-      createdScope.show(context)
+      createdScope.start(context)
       createdScope.resume(context)
 
       assertThat(async.isCancelled).isTrue()
 
       createdScope.pause(context)
-      createdScope.hide(context)
+      createdScope.stop(context)
 
       assertThat(async.isCancelled).isTrue()
       assertThat(async.getCancellationException()).hasMessageThat().contains("Not created yet")
@@ -61,13 +61,13 @@ internal class CreatedLifecycleScopeTest {
       val async = createdScope.async { delay(5000) }
       assertThat(async.isCancelled).isFalse()
 
-      createdScope.show(context)
+      createdScope.start(context)
       createdScope.resume(context)
 
       assertThat(async.isCancelled).isFalse()
 
       createdScope.pause(context)
-      createdScope.hide(context)
+      createdScope.stop(context)
 
       assertThat(async.isCancelled).isFalse()
 
@@ -82,7 +82,7 @@ internal class CreatedLifecycleScopeTest {
   fun cancelAfterShown() {
     runBlockingTest {
       createdScope.create(context)
-      createdScope.show(context)
+      createdScope.start(context)
 
       val async = createdScope.async { delay(5000) }
       assertThat(async.isCancelled).isFalse()
@@ -92,7 +92,7 @@ internal class CreatedLifecycleScopeTest {
       assertThat(async.isCancelled).isFalse()
 
       createdScope.pause(context)
-      createdScope.hide(context)
+      createdScope.stop(context)
 
       assertThat(async.isCancelled).isFalse()
 
@@ -107,14 +107,14 @@ internal class CreatedLifecycleScopeTest {
   fun cancelAfterResumed() {
     runBlockingTest {
       createdScope.create(context)
-      createdScope.show(context)
+      createdScope.start(context)
       createdScope.resume(context)
 
       val async = createdScope.async { delay(5000) }
       assertThat(async.isCancelled).isFalse()
 
       createdScope.pause(context)
-      createdScope.hide(context)
+      createdScope.stop(context)
 
       assertThat(async.isCancelled).isFalse()
 

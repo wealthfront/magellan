@@ -122,7 +122,7 @@ internal class LinearNavigatorTest {
   @Test
   fun goBack_journey_back() {
     activityController.restart()
-    linearNavigator.show(context)
+    linearNavigator.start(context)
     linearNavigator.resume(context)
     linearNavigator.navigate(FORWARD) {
       it.push(NavigationEvent(step1, DefaultTransition()))
@@ -142,7 +142,7 @@ internal class LinearNavigatorTest {
   @Test
   fun destroy() {
     activityController.restart()
-    linearNavigator.show(context)
+    linearNavigator.start(context)
     linearNavigator.resume(context)
     linearNavigator.navigate(FORWARD) {
       it.push(NavigationEvent(step1, DefaultTransition()))
@@ -154,7 +154,7 @@ internal class LinearNavigatorTest {
     assertThat(linearNavigator.backStack.size).isEqualTo(3)
 
     linearNavigator.pause(context)
-    linearNavigator.hide(context)
+    linearNavigator.stop(context)
     linearNavigator.destroy(context)
 
     assertThat(linearNavigator.backStack.size).isEqualTo(0)

@@ -21,7 +21,7 @@ public class RxUnsubscriber @Inject constructor() : LifecycleAware {
     subscription.forEach { autoUnsubscribe(it) }
   }
 
-  override fun hide(context: Context) {
+  override fun stop(context: Context) {
     subscriptions?.unsubscribe()
     subscriptions = null
   }

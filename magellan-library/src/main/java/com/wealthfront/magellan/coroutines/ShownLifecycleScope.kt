@@ -20,11 +20,11 @@ public class ShownLifecycleScope @Inject constructor() : LifecycleAware, Corouti
   override var coroutineContext: CoroutineContext = job + Dispatchers.Main
     private set
 
-  override fun show(context: Context) {
+  override fun start(context: Context) {
     job = SupervisorJob()
   }
 
-  override fun hide(context: Context) {
+  override fun stop(context: Context) {
     job.cancel(CancellationException("Hidden"))
   }
 }

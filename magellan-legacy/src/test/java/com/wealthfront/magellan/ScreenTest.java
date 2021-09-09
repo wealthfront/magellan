@@ -38,7 +38,7 @@ public class ScreenTest {
     assertThat(screen.getView()).isEqualTo(null);
 
     screen.create(context);
-    screen.show(context);
+    screen.start(context);
     screen.resume(context);
 
     assertThat(screen.getActivity()).isEqualTo(context);
@@ -51,10 +51,10 @@ public class ScreenTest {
     assertThat(screen.getView()).isEqualTo(null);
 
     screen.create(context);
-    screen.show(context);
+    screen.start(context);
     screen.resume(context);
     screen.pause(context);
-    screen.hide(context);
+    screen.stop(context);
 
     assertThat(screen.getActivity()).isEqualTo(null);
     assertThat(screen.getView()).isEqualTo(null);
@@ -66,10 +66,10 @@ public class ScreenTest {
     assertThat(screen.getView()).isEqualTo(null);
 
     screen.create(context);
-    screen.show(context);
+    screen.start(context);
     screen.resume(context);
     screen.pause(context);
-    screen.hide(context);
+    screen.stop(context);
     screen.destroy(context);
 
     assertThat(screen.getActivity()).isEqualTo(null);
@@ -83,19 +83,19 @@ public class ScreenTest {
     assertThat(screen.getView()).isEqualTo(null);
 
     screen.create(context);
-    screen.show(context);
+    screen.start(context);
     screen.resume(context);
 
     assertThat(screen.getActivity()).isEqualTo(context);
     assertThat(screen.getView()).isEqualTo(view);
 
     screen.pause(context);
-    screen.hide(context);
+    screen.stop(context);
 
     assertThat(screen.getActivity()).isEqualTo(null);
     assertThat(screen.getView()).isEqualTo(null);
 
-    screen.show(context);
+    screen.start(context);
     screen.resume(context);
 
     assertThat(screen.getActivity()).isEqualTo(context);
