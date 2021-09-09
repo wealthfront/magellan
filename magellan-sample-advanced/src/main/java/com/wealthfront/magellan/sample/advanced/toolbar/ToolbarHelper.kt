@@ -5,7 +5,6 @@ import com.wealthfront.magellan.Navigator
 import com.wealthfront.magellan.coroutines.ShownLifecycleScope
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
-import kotlinx.coroutines.launch
 
 /**
  * [ToolbarHelper] provides APIs to modify the toolbar for the activity.
@@ -15,23 +14,12 @@ import kotlinx.coroutines.launch
  */
 object ToolbarHelper : LifecycleAwareComponent() {
 
-  private val shownScope by attachFieldToLifecycle(ShownLifecycleScope())
   private var toolbarView: ToolbarView? = null
 
   fun init(toolbarView: ToolbarView, navigator: Navigator) {
     this.toolbarView = toolbarView
     toolbarView.binding.back.setOnClickListener {
       navigator.goBack()
-    }
-  }
-
-  override fun onStart(context: Context) {
-    shownScope.launch {
-      NavigationPropagator.events
-        .filterIsInstance<NavigationLifecycleEvent.NavigatedFrom>()
-        .collect { event ->
-          toolbarView?.reset()
-        }
     }
   }
 
