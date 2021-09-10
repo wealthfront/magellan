@@ -4,7 +4,6 @@ import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.OpenForMocking
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Navigable
-import com.wealthfront.magellan.lifecycle.LifecycleAware
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.transitions.MagellanTransition

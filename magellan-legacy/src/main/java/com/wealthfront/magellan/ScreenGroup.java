@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.wealthfront.magellan.lifecycle.LifecycleState.*;
+import static com.wealthfront.magellan.lifecycle.LifecycleState.Destroyed;
 
 /**
  * A Screen containing a list of screens. Useful to display reusable Screens that can be either in another one or on
