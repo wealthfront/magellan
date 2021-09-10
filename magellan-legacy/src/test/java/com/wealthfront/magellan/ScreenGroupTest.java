@@ -9,20 +9,22 @@ import com.wealthfront.magellan.test.DummyScreen;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static org.mockito.Mockito.spy;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+@RunWith(RobolectricTestRunner.class)
 public class ScreenGroupTest {
 
   private DummyScreen screen1;
   private DummyScreen screen2;
   private DummyScreen screen3;
-
-  private Context context = new Activity();
 
   @Mock BaseScreenView<DummyScreen> view1;
   @Mock BaseScreenView<DummyScreen> view2;
@@ -47,6 +49,7 @@ public class ScreenGroupTest {
 
   @Test
   public void addScreen() {
+    Context context = Robolectric.buildActivity(Activity.class).get();
     screenGroup.create(context);
     screenGroup.show(context);
     screenGroup.resume(context);
