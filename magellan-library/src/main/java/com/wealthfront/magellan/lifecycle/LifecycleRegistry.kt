@@ -119,15 +119,15 @@ public enum class LifecycleLimit(internal val order: Int) {
   DESTROYED(0), CREATED(1), SHOWN(2), NO_LIMIT(3)
 }
 
-public fun LifecycleState.isWithinLimit(limit: LifecycleLimit): Boolean = order <= limit.order
+private fun LifecycleState.isWithinLimit(limit: LifecycleLimit): Boolean = order <= limit.order
 
-public fun LifecycleState.limitBy(limit: LifecycleLimit): LifecycleState = if (isWithinLimit(limit)) {
+private fun LifecycleState.limitBy(limit: LifecycleLimit): LifecycleState = if (isWithinLimit(limit)) {
   this
 } else {
   limit.getMaxLifecycleState(context!!)
 }
 
-public fun LifecycleLimit.getMaxLifecycleState(context: Context): LifecycleState = when (this) {
+private fun LifecycleLimit.getMaxLifecycleState(context: Context): LifecycleState = when (this) {
   DESTROYED -> LifecycleState.Destroyed
   CREATED -> LifecycleState.Created(context)
   SHOWN -> LifecycleState.Shown(context)

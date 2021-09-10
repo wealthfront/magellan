@@ -4,8 +4,9 @@ import android.content.Context
 import com.wealthfront.magellan.OpenForMocking
 
 @OpenForMocking
-public class LifecycleLimiter(private val lifecycleRegistry: LifecycleRegistry) : LifecycleOwner,
-  LifecycleAware {
+public class LifecycleLimiter(
+  private val lifecycleRegistry: LifecycleRegistry
+) : LifecycleOwner, LifecycleAware {
 
   override val children: List<LifecycleAware>
     get() = lifecycleRegistry.listenersToMaxStates.keys.toList()
@@ -43,7 +44,7 @@ public class LifecycleLimiter(private val lifecycleRegistry: LifecycleRegistry) 
     attachToLifecycleWithMaxState(lifecycleAware, LifecycleLimit.NO_LIMIT, detachedState)
   }
 
-  public fun attachToLifecycleWithMaxState(
+  internal fun attachToLifecycleWithMaxState(
     lifecycleAware: LifecycleAware,
     maxState: LifecycleLimit,
     detachedState: LifecycleState = LifecycleState.Destroyed
@@ -51,7 +52,7 @@ public class LifecycleLimiter(private val lifecycleRegistry: LifecycleRegistry) 
     lifecycleRegistry.attachToLifecycle(lifecycleAware, detachedState, maxState)
   }
 
-  public fun updateMaxStateForChild(lifecycleAware: LifecycleAware, newMaxState: LifecycleLimit) {
+  internal fun updateMaxStateForChild(lifecycleAware: LifecycleAware, newMaxState: LifecycleLimit) {
     lifecycleRegistry.updateMaxState(lifecycleAware, newMaxState)
   }
 

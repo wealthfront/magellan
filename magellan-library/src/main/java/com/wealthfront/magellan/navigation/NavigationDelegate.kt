@@ -121,8 +121,6 @@ public class NavigationDelegate(
       lifecycleLimiter.removeFromLifecycle(oldNavigable)
     }
 
-    // this is where steps, journeys, whatever are supposed to get attached to navigator's lifecycleregistery.
-    // Attached to 5479. What's up?
     (newNavigables - oldNavigables).forEach { newNavigable ->
       currentNavigableSetup?.invoke(newNavigable)
       lifecycleLimiter.attachToLifecycleWithMaxState(newNavigable, CREATED)

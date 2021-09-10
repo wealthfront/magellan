@@ -78,8 +78,6 @@ internal class NavigationTraverserTest {
 
   @Test
   fun globalBackStackWithSiblingJourney() {
-    traverser = NavigationTraverser(siblingRoot)
-
     siblingRoot.create(context)
 
     assertThat(traverser.getGlobalBackstackDescription()).isEqualTo(
