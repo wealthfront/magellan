@@ -2,7 +2,7 @@ package com.wealthfront.magellan.sample.advanced
 
 import android.content.Context
 import com.wealthfront.magellan.LegacyExpedition
-import com.wealthfront.magellan.lifecycle.lateinitLifecycle
+import com.wealthfront.magellan.lifecycle.attachLateinitFieldToLifecycle
 import com.wealthfront.magellan.navigation.CurrentNavigableProvider
 import com.wealthfront.magellan.navigation.LoggingNavigableListener
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
@@ -19,7 +19,7 @@ class Expedition @Inject constructor() : LegacyExpedition<ExpeditionBinding>(
   ExpeditionBinding::container
 ) {
 
-  @set:Inject var navListener: LoggingNavigableListener by lateinitLifecycle()
+  @set:Inject var navListener: LoggingNavigableListener by attachLateinitFieldToLifecycle()
   @Inject lateinit var currentNavigableProvider: CurrentNavigableProvider
 
   override fun onCreate(context: Context) {

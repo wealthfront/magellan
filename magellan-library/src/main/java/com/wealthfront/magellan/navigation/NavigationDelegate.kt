@@ -14,7 +14,7 @@ import com.wealthfront.magellan.lifecycle.LifecycleLimit.NO_LIMIT
 import com.wealthfront.magellan.lifecycle.LifecycleLimiter
 import com.wealthfront.magellan.lifecycle.LifecycleState
 import com.wealthfront.magellan.lifecycle.LifecycleState.Created
-import com.wealthfront.magellan.lifecycle.lifecycle
+import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.transitions.MagellanTransition
 import com.wealthfront.magellan.transitions.NoAnimationTransition
 import com.wealthfront.magellan.view.whenMeasured
@@ -31,7 +31,7 @@ public class NavigationDelegate(
   private val navigationPropagator = NavigationPropagator
   public val backStack: Deque<NavigationEvent> = ArrayDeque()
 
-  private val lifecycleLimiter by lifecycle(LifecycleLimiter())
+  private val lifecycleLimiter by attachFieldToLifecycle(LifecycleLimiter())
 
   private val currentNavigable: NavigableCompat?
     get() {

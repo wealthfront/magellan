@@ -2,7 +2,7 @@ package com.wealthfront.magellan.core
 
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
-import com.wealthfront.magellan.lifecycle.lifecycle
+import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import org.junit.Test
 
 public class NavigableExtensionsKtTest {
@@ -24,9 +24,9 @@ public class NavigableExtensionsKtTest {
     step3: Step<*>
   ) : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate) {
 
-    private val childDummyStep1 by lifecycle(step1)
-    private val childDummyStep2 by lifecycle(step2)
-    private val childDummyStep3 by lifecycle(step3)
+    private val childDummyStep1 by attachFieldToLifecycle(step1)
+    private val childDummyStep2 by attachFieldToLifecycle(step2)
+    private val childDummyStep3 by attachFieldToLifecycle(step3)
   }
 }
 

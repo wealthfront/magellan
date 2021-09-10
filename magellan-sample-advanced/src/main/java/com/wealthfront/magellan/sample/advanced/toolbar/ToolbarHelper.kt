@@ -4,11 +4,9 @@ import android.content.Context
 import com.wealthfront.magellan.Navigator
 import com.wealthfront.magellan.coroutines.ShownLifecycleScope
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
-import com.wealthfront.magellan.lifecycle.lifecycle
+import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.navigation.NavigationLifecycleEvent
 import com.wealthfront.magellan.navigation.NavigationPropagator
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.launch
 
 /**
@@ -19,7 +17,7 @@ import kotlinx.coroutines.launch
  */
 object ToolbarHelper : LifecycleAwareComponent() {
 
-  private val shownScope by lifecycle(ShownLifecycleScope())
+  private val shownScope by attachFieldToLifecycle(ShownLifecycleScope())
   private var toolbarView: ToolbarView? = null
 
   fun init(toolbarView: ToolbarView, navigator: Navigator) {

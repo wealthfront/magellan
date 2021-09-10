@@ -3,7 +3,7 @@ package com.wealthfront.magellan.sample.advanced.tide
 import android.content.Context
 import android.widget.Toast
 import com.wealthfront.magellan.Screen
-import com.wealthfront.magellan.lifecycle.lifecycle
+import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.rx.RxUnsubscriber
 import com.wealthfront.magellan.sample.advanced.R
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class DogDetailsScreen(private val breed: String) : Screen<DogDetailsView>() {
 
   @Inject lateinit var api: DogApi
-  private val rxUnsubscriber by lifecycle(RxUnsubscriber())
+  private val rxUnsubscriber by attachFieldToLifecycle(RxUnsubscriber())
 
   override fun createView(context: Context): DogDetailsView {
     app(context).injector().inject(this)
