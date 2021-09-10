@@ -8,8 +8,6 @@ android {
   compileSdkVersion Versions.compileSdkVersion
   buildToolsVersion Versions.buildToolsVersion
 
-  resourcePrefix 'magellan_'
-
   defaultConfig {
     minSdkVersion Versions.minSdkVersion
     targetSdkVersion Versions.targetSdkVersion
@@ -22,12 +20,6 @@ android {
   compileOptions {
     setSourceCompatibility(JavaVersion.VERSION_1_8)
     setTargetCompatibility(JavaVersion.VERSION_1_8)
-  }
-
-  testOptions {
-    unitTests {
-      includeAndroidResources = true
-    }
   }
 
   buildFeatures {
@@ -44,34 +36,15 @@ android {
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
   if (!name.contains("UnitTest")) {
     kotlinOptions.freeCompilerArgs = ['-Xjvm-default=compatibility', '-Xexplicit-api=strict', '-Xopt-in=kotlin.RequiresOptIn']
-  } else {
-    kotlinOptions.freeCompilerArgs = ['-Xopt-in=kotlin.RequiresOptIn']
   }
   kotlinOptions.allWarningsAsErrors = true
   kotlinOptions.jvmTarget = "1.8"
 }
 
 dependencies {
+  implementation project(':magellan-library')
+
   implementation Dependencies.kotlinStdLib
-  implementation Dependencies.appCompat
-  implementation Dependencies.lifecycle
   implementation Dependencies.inject
-  implementation Dependencies.coroutines
-  implementation Dependencies.coroutinesAndroid
-
-  testImplementation project(':magellan-library-test')
-  testImplementation Dependencies.testCore
-  testImplementation Dependencies.testCoreKtx
-  testImplementation Dependencies.junit
-  testImplementation Dependencies.junitTestExt
-  testImplementation Dependencies.truth
-  testImplementation Dependencies.mockito
-  testImplementation Dependencies.archTesting
-  testImplementation Dependencies.robolectric
-  testImplementation Dependencies.coroutinesTest
-
-// Bug in AGP: Follow this issue - https://issuetracker.google.com/issues/141840950
-// lintPublish project(':magellan-lint')
+  implementation Dependencies.appCompat
 }
-
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

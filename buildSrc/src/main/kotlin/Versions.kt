@@ -8,7 +8,7 @@ object Versions {
   const val buildToolsVersion = "29.0.2"
   const val detektVersion = "1.5.1"
   const val supportLibVersion = "1.1.0"
-  const val robolectricVersion = "4.3.1"
+  const val robolectricVersion = "4.4"
   const val archVersion = "2.1.0"
   const val lifecycleVersion = "2.2.0"
   const val butterKnifeVersion = "10.0.0"

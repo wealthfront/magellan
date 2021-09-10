@@ -1,22 +1,28 @@
 package com.wealthfront.magellan.lifecycle
 
 import android.content.Context
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations.initMocks
+import org.robolectric.RobolectricTestRunner
 
+@RunWith(RobolectricTestRunner::class)
 internal class LifecycleLimiterTest {
 
   lateinit var lifecycleLimiter: LifecycleLimiter
   private lateinit var dummyLifecycleComponent: DummyLifecycleComponent
   private lateinit var dummyLifecycleComponent2: DummyLifecycleComponent
-  @Mock internal lateinit var context: Context
+  private lateinit var context: Context
 
   @Before
   fun setUp() {
     initMocks(this)
+    context = getApplicationContext()
     lifecycleLimiter = LifecycleLimiter()
     dummyLifecycleComponent = DummyLifecycleComponent()
     dummyLifecycleComponent2 = DummyLifecycleComponent()

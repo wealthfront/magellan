@@ -1,52 +1,53 @@
 package com.wealthfront.magellan.lifecycle
 
 import android.app.Activity
-import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.lifecycle.Lifecycle
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.launchActivity
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
+import com.wealthfront.magellan.AttachingActivity
 import com.wealthfront.magellan.core.DummyStep
 import com.wealthfront.magellan.core.Step
-import junit.framework.TestCase
-import org.junit.Rule
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.MockitoAnnotations.initMocks
 
-public class ActivityLifecycleAdapterTest : TestCase() {
+@RunWith(AndroidJUnit4::class)
+public class ActivityLifecycleAdapterTest {
 
   private lateinit var step: Step<*>
 
-  @Rule
-  public var rule: ActivityScenarioRule<AttachingActivity> = ActivityScenarioRule(AttachingActivity::class.java)
-  @Rule
-  public var rule2: ActivityScenarioRule<AttachingActivity> = ActivityScenarioRule(AttachingActivity::class.java)
+  private lateinit var activityScenario1: ActivityScenario<AttachingActivity>
+  private lateinit var activityScenario2: ActivityScenario<AttachingActivity>
 
-  public override fun setUp() {
+  @Before
+  public fun setUp() {
     initMocks(this)
     step = DummyStep()
+  }
+
+  @After
+  public fun tearDown() {
+    activityScenario1.close()
+    activityScenario2.close()
   }
 
   @Test
   public fun overlappingActivities_doesNotCrash() {
     var rule2Activity: Activity? = null
-    rule.scenario.onActivity { activity -> activity.step = step }
-    rule2.scenario.onActivity { activity ->
-      activity.step = step
+    AttachingActivity.step = step
+    activityScenario1 = launchActivity()
+    activityScenario2 = launchActivity()
+    activityScenario2.onActivity { activity ->
       rule2Activity = activity
     }
-    rule.scenario.moveToState(Lifecycle.State.RESUMED)
-    rule.scenario.moveToState(Lifecycle.State.STARTED)
-    rule2.scenario.moveToState(Lifecycle.State.RESUMED)
+
+    activityScenario1.moveToState(Lifecycle.State.RESUMED)
+    activityScenario1.moveToState(Lifecycle.State.STARTED)
+    activityScenario2.moveToState(Lifecycle.State.RESUMED)
     assertThat(step.currentState).isEqualTo(LifecycleState.Resumed(rule2Activity!!))
-  }
-}
-
-public class AttachingActivity : ComponentActivity() {
-  internal lateinit var step: Step<*>
-
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentScreen(step)
   }
 }

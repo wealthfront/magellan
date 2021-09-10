@@ -5,7 +5,7 @@ import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
 import com.wealthfront.magellan.lifecycle.lifecycle
 import org.junit.Test
 
-class NavigableExtensionsKtTest {
+public class NavigableExtensionsKtTest {
 
   private val childDummyStep1 = ChildDummyStep1()
   private val childDummyStep2 = ChildDummyStep2()
@@ -13,12 +13,12 @@ class NavigableExtensionsKtTest {
   private val dummyStep1 = DummyStep1(childDummyStep1, childDummyStep2, childDummyStep3)
 
   @Test
-  fun childNavigables() {
+  public fun childNavigables() {
     assertThat(dummyStep1.childNavigables().size).isEqualTo(3)
     assertThat(dummyStep1.childNavigables()).containsExactlyElementsIn(setOf(childDummyStep1, childDummyStep2, childDummyStep3))
   }
 
-  open class DummyStep1(
+  private open class DummyStep1(
     step1: Step<*>,
     step2: Step<*>,
     step3: Step<*>

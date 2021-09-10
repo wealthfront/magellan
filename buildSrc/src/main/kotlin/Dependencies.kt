@@ -64,6 +64,7 @@ object Dependencies {
   const val okhttp = "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
 
   const val testCore = "androidx.test:core:$testCoreVersion"
+  const val testCoreKtx = "androidx.test:core-ktx:$testCoreVersion"
   const val testRunner = "com.android.support.test:runner:$testRunnerVersion"
   const val testRules = "com.android.support.test:rules:$testRunnerVersion"
   const val uiAutomator ="androidx.test.uiautomator:uiautomator:$uiAutomatorVersion"
