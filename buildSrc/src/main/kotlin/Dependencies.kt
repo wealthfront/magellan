@@ -3,7 +3,6 @@ import Versions.butterKnifeVersion
 import Versions.coroutinesVersion
 import Versions.daggerVersion
 import Versions.espressoVersion
-import Versions.extVersion
 import Versions.glideVersion
 import Versions.jacksonVersion
 import Versions.javaInjectVersion
@@ -64,10 +63,10 @@ object Dependencies {
   const val okhttp = "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
 
   const val testCore = "androidx.test:core:$testCoreVersion"
-  const val testRunner = "com.android.support.test:runner:$testRunnerVersion"
+  const val testRunner = "androidx.test:runner:$testRunnerVersion"
   const val testRules = "com.android.support.test:rules:$testRunnerVersion"
   const val uiAutomator ="androidx.test.uiautomator:uiautomator:$uiAutomatorVersion"
-  const val extJunit = "androidx.test.ext:junit:$extVersion"
+  const val extJunit = "androidx.test.ext:junit:$junitTestExtVersion"
   const val espressoCore = "com.android.support.test.espresso:espresso-core:$espressoVersion"
 
   const val lintApi = "com.android.tools.lint:lint-api:$lintVersion"
