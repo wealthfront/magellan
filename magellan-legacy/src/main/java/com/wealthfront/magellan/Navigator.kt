@@ -5,7 +5,7 @@ import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.init.getDefaultTransition
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
-import com.wealthfront.magellan.lifecycle.lifecycle
+import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.navigation.CurrentNavigableProvider
 import com.wealthfront.magellan.navigation.NavigableCompat
 import com.wealthfront.magellan.navigation.NavigationDelegate
@@ -24,7 +24,7 @@ public class Navigator internal constructor(
   container: () -> ScreenContainer,
 ) : Navigator, LifecycleAwareComponent() {
 
-  private val delegate by lifecycle(NavigationDelegate(container))
+  private val delegate by attachFieldToLifecycle(NavigationDelegate(container))
 
   override val backStack: List<NavigationEvent>
     get() = delegate.backStack.toList()
