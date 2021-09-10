@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.ViewGroup;
 
+import com.wealthfront.magellan.test.DummyScreen;
+
 import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;

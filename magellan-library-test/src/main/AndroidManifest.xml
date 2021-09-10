@@ -1,9 +1,9 @@
-<manifest package="com.wealthfront.magellan"
+<manifest package="com.wealthfront.magellan.test"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
   <application>
     <activity
-        android:name="com.wealthfront.magellan.AttachingActivity"
+        android:name="com.wealthfront.magellan.test.AttachingActivity"
         android:exported="false"
         android:label="attaching"
         />

@@ -1,9 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
-group = GROUP
-version = VERSION_NAME
-
 android {
   compileSdkVersion Versions.compileSdkVersion
   buildToolsVersion Versions.buildToolsVersion
@@ -43,6 +40,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
 
 dependencies {
   implementation project(':magellan-library')
+  implementation project(':magellan-legacy')
 
   implementation Dependencies.kotlinStdLib
   implementation Dependencies.inject

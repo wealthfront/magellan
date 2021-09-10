@@ -48,6 +48,7 @@ dependencies {
   implementation Dependencies.coroutines
   implementation Dependencies.coroutinesAndroid
 
+  testImplementation project(':magellan-library-test')
   testImplementation Dependencies.testCore
   testImplementation Dependencies.junit
   testImplementation Dependencies.truth

@@ -7,8 +7,8 @@ import android.util.SparseArray
 import android.view.LayoutInflater.from
 import android.view.View
 import com.google.common.truth.Truth.assertThat
-import com.wealthfront.magellan.DummyStep
-import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
+import com.wealthfront.magellan.test.DummyStep
+import com.wealthfront.magellan.test.databinding.MagellanDummyLayoutBinding
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
