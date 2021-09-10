@@ -51,7 +51,6 @@ public class ShowTransitionTest {
           onAnimationEndCalled = true;
           return Unit.INSTANCE;
         });
-//    shadowOf(getMainLooper()).idle();
     flushForegroundThreadScheduler();
     assertThat(onAnimationEndCalled).isTrue();
   }

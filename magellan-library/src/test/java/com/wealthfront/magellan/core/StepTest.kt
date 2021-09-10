@@ -7,6 +7,7 @@ import android.util.SparseArray
 import android.view.LayoutInflater.from
 import android.view.View
 import com.google.common.truth.Truth.assertThat
+import com.wealthfront.magellan.DummyStep
 import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
 import org.junit.Before
 import org.junit.Test
@@ -79,5 +80,3 @@ internal class StepTest {
     assertThat(bundle.getString("key")).isEqualTo("value")
   }
 }
-
-internal class DummyStep : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
