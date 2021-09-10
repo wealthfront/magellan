@@ -14,7 +14,8 @@ import org.robolectric.RobolectricTestRunner
 @RunWith(RobolectricTestRunner::class)
 internal class LifecycleLimiterTest {
 
-  lateinit var lifecycleLimiter: LifecycleLimiter
+  private val lifecycleRegistry: LifecycleRegistry = LifecycleRegistry()
+  private lateinit var lifecycleLimiter: LifecycleLimiter
   private lateinit var dummyLifecycleComponent: DummyLifecycleComponent
   private lateinit var dummyLifecycleComponent2: DummyLifecycleComponent
   private lateinit var context: Context
@@ -23,7 +24,7 @@ internal class LifecycleLimiterTest {
   fun setUp() {
     initMocks(this)
     context = getApplicationContext()
-    lifecycleLimiter = LifecycleLimiter()
+    lifecycleLimiter = LifecycleLimiter(lifecycleRegistry)
     dummyLifecycleComponent = DummyLifecycleComponent()
     dummyLifecycleComponent2 = DummyLifecycleComponent()
   }
