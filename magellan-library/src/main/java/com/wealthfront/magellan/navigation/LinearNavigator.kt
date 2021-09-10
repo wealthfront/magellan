@@ -6,7 +6,7 @@ import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.lifecycle.LifecycleAware
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
-import com.wealthfront.magellan.lifecycle.lifecycle
+import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.transitions.MagellanTransition
 import java.util.Deque
 
@@ -15,7 +15,7 @@ public class LinearNavigator internal constructor(
   container: () -> ScreenContainer
 ) : Navigator, LifecycleAwareComponent() {
 
-  private val delegate by lifecycle(NavigationDelegate(container))
+  private val delegate by attachFieldToLifecycle(NavigationDelegate(container))
 
   override val backStack: List<NavigationEvent>
     get() = delegate.backStack.toList()

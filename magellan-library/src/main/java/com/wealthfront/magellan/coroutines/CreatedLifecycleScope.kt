@@ -26,6 +26,6 @@ public class CreatedLifecycleScope @Inject constructor() : LifecycleAware, Corou
   }
 
   override fun destroy(context: Context) {
-    cancel(CancellationException("Destroyed"))
+    job.cancel(CancellationException("Destroyed"))
   }
 }

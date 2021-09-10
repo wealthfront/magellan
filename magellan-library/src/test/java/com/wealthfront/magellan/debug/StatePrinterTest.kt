@@ -1,22 +1,26 @@
 package com.wealthfront.magellan.debug
 
 import android.content.Context
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.lifecycle.LifecycleAware
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
+import org.junit.runner.RunWith
 import org.mockito.MockitoAnnotations.initMocks
+import org.robolectric.RobolectricTestRunner
 
+@RunWith(RobolectricTestRunner::class)
 public class StatePrinterTest {
 
   private lateinit var root: LifecycleAwareComponent
-  @Mock internal lateinit var context: Context
+  private lateinit var context: Context
 
   @Before
   public fun setUp() {
     initMocks(this)
+    context = getApplicationContext()
     root = DummyLifecycleOwner()
   }
 

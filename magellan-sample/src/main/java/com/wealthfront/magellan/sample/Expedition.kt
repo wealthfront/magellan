@@ -2,7 +2,7 @@ package com.wealthfront.magellan.sample
 
 import android.content.Context
 import com.wealthfront.magellan.core.Journey
-import com.wealthfront.magellan.lifecycle.lateinitLifecycle
+import com.wealthfront.magellan.lifecycle.attachLateinitFieldToLifecycle
 import com.wealthfront.magellan.navigation.LoggingNavigableListener
 import com.wealthfront.magellan.sample.App.Provider.appComponent
 import com.wealthfront.magellan.sample.databinding.ExpeditionBinding
@@ -16,7 +16,7 @@ class Expedition : Journey<ExpeditionBinding>(
   ExpeditionBinding::container
 ) {
 
-  @set:Inject var navListener: LoggingNavigableListener by lateinitLifecycle()
+  @set:Inject var navListener: LoggingNavigableListener by attachLateinitFieldToLifecycle()
 
   override fun onCreate(context: Context) {
     appComponent.inject(this)

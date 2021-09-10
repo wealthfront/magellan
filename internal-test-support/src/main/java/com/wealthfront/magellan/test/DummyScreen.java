@@ -1,14 +1,17 @@
-package com.wealthfront.magellan;
+package com.wealthfront.magellan.test;
 
 import android.content.Context;
 
+import com.wealthfront.magellan.BaseScreenView;
+import com.wealthfront.magellan.Screen;
+
 import org.jetbrains.annotations.NotNull;
 
-class DummyScreen extends Screen<BaseScreenView<DummyScreen>> {
+public class DummyScreen extends Screen<BaseScreenView<DummyScreen>> {
 
   private BaseScreenView<DummyScreen> view;
 
-  DummyScreen(BaseScreenView<DummyScreen> view) {
+  public DummyScreen(BaseScreenView<DummyScreen> view) {
     this.view = view;
   }
 
