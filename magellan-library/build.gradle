@@ -59,7 +59,9 @@ dependencies {
   implementation Dependencies.coroutines
   implementation Dependencies.coroutinesAndroid
 
+  testImplementation project(':internal-test-support')
   testImplementation Dependencies.testCore
+  testImplementation Dependencies.testCoreKtx
   testImplementation Dependencies.junit
   testImplementation Dependencies.junitTestExt
   testImplementation Dependencies.truth

@@ -3,10 +3,13 @@ package com.wealthfront.magellan;
 import android.app.Activity;
 import android.content.Context;
 
+import com.wealthfront.magellan.test.DummyScreen;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
@@ -14,7 +17,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -24,7 +26,7 @@ public class ScreenTest {
 
   @Mock BaseScreenView<DummyScreen> view;
   private DummyScreen screen;
-  private final Context context = spy(new Activity());
+  private final Context context = Robolectric.buildActivity(Activity.class).get();
 
   @Before
   public void setUp() {

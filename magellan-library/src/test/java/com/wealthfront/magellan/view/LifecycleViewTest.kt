@@ -9,49 +9,49 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations.initMocks
 
-class LifecycleViewTest {
+public class LifecycleViewTest {
 
   private lateinit var lifecycleView: ShownFieldFromContext<FrameLayout>
 
-  @Mock lateinit var frameLayout: FrameLayout
-  @Mock lateinit var context: Context
+  @Mock private lateinit var frameLayout: FrameLayout
+  @Mock private lateinit var context: Context
 
   @Before
-  fun setUp() {
+  public fun setUp() {
     initMocks(this)
     lifecycleView = ShownFieldFromContext { frameLayout }
   }
 
   @Test
-  fun wholeLifecycle() {
+  public fun wholeLifecycle() {
     lifecycleView.create(context)
-    assertThat(lifecycleView.data).isEqualTo(null)
+    assertThat(lifecycleView.field).isEqualTo(null)
 
     lifecycleView.show(context)
-    assertThat(lifecycleView.data).isEqualTo(frameLayout)
+    assertThat(lifecycleView.field).isEqualTo(frameLayout)
 
     lifecycleView.resume(context)
-    assertThat(lifecycleView.data).isEqualTo(frameLayout)
+    assertThat(lifecycleView.field).isEqualTo(frameLayout)
 
     lifecycleView.pause(context)
-    assertThat(lifecycleView.data).isEqualTo(frameLayout)
+    assertThat(lifecycleView.field).isEqualTo(frameLayout)
 
     lifecycleView.hide(context)
-    assertThat(lifecycleView.data).isEqualTo(null)
+    assertThat(lifecycleView.field).isEqualTo(null)
 
     lifecycleView.destroy(context)
-    assertThat(lifecycleView.data).isEqualTo(null)
+    assertThat(lifecycleView.field).isEqualTo(null)
   }
 
   @Test
-  fun onCreateView() {
+  public fun onCreateView() {
     lifecycleView.show(context)
-    assertThat(lifecycleView.data).isEqualTo(frameLayout)
+    assertThat(lifecycleView.field).isEqualTo(frameLayout)
   }
 
   @Test
-  fun onDestroyView() {
+  public fun onDestroyView() {
     lifecycleView.hide(context)
-    assertThat(lifecycleView.data).isEqualTo(null)
+    assertThat(lifecycleView.field).isEqualTo(null)
   }
 }
