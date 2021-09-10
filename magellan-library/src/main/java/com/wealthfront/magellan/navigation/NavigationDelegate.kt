@@ -11,10 +11,8 @@ import com.wealthfront.magellan.init.shouldRunAnimations
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.LifecycleLimit.CREATED
 import com.wealthfront.magellan.lifecycle.LifecycleLimit.NO_LIMIT
-import com.wealthfront.magellan.lifecycle.LifecycleLimiter
 import com.wealthfront.magellan.lifecycle.LifecycleState
 import com.wealthfront.magellan.lifecycle.LifecycleState.Created
-import com.wealthfront.magellan.lifecycle.lifecycle
 import com.wealthfront.magellan.transitions.MagellanTransition
 import com.wealthfront.magellan.transitions.NoAnimationTransition
 import com.wealthfront.magellan.view.whenMeasured
@@ -30,8 +28,6 @@ public class NavigationDelegate(
   private var containerView: ScreenContainer? = null
   private val navigationPropagator = NavigationPropagator
   public val backStack: Deque<NavigationEvent> = ArrayDeque()
-
-  private val lifecycleLimiter by lifecycle(LifecycleLimiter())
 
   private val currentNavigable: NavigableCompat?
     get() {
@@ -125,6 +121,8 @@ public class NavigationDelegate(
       lifecycleLimiter.removeFromLifecycle(oldNavigable)
     }
 
+    // this is where steps, journeys, whatever are supposed to get attached to navigator's lifecycleregistery.
+    // Attached to 5479. What's up?
     (newNavigables - oldNavigables).forEach { newNavigable ->
       currentNavigableSetup?.invoke(newNavigable)
       lifecycleLimiter.attachToLifecycleWithMaxState(newNavigable, CREATED)

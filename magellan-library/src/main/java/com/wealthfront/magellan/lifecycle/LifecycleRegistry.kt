@@ -6,11 +6,11 @@ import com.wealthfront.magellan.lifecycle.LifecycleLimit.DESTROYED
 import com.wealthfront.magellan.lifecycle.LifecycleLimit.NO_LIMIT
 import com.wealthfront.magellan.lifecycle.LifecycleLimit.SHOWN
 
-internal class LifecycleRegistry : LifecycleAware {
+public class LifecycleRegistry : LifecycleAware {
 
-  val listeners: Set<LifecycleAware>
+  internal val listeners: Set<LifecycleAware>
     get() = listenersToMaxStates.keys
-  var listenersToMaxStates: Map<LifecycleAware, LifecycleLimit> = linkedMapOf()
+  internal var listenersToMaxStates: Map<LifecycleAware, LifecycleLimit> = linkedMapOf()
     private set
   private val lifecycleStateMachine = LifecycleStateMachine()
 
@@ -29,7 +29,7 @@ internal class LifecycleRegistry : LifecycleAware {
       }
     }
 
-  fun attachToLifecycle(
+  internal fun attachToLifecycle(
     lifecycleAware: LifecycleAware,
     detachedState: LifecycleState = LifecycleState.Destroyed,
     maxState: LifecycleLimit = NO_LIMIT
@@ -44,7 +44,7 @@ internal class LifecycleRegistry : LifecycleAware {
     listenersToMaxStates = listenersToMaxStates + (lifecycleAware to maxState)
   }
 
-  fun removeFromLifecycle(
+  internal fun removeFromLifecycle(
     lifecycleAware: LifecycleAware,
     detachedState: LifecycleState = LifecycleState.Destroyed
   ) {
@@ -59,7 +59,7 @@ internal class LifecycleRegistry : LifecycleAware {
     lifecycleStateMachine.transition(lifecycleAware, currentState.limitBy(maxState), detachedState)
   }
 
-  fun updateMaxState(lifecycleAware: LifecycleAware, maxState: LifecycleLimit) {
+  internal fun updateMaxState(lifecycleAware: LifecycleAware, maxState: LifecycleLimit) {
     if (!listenersToMaxStates.containsKey(lifecycleAware)) {
       throw IllegalArgumentException(
         "Cannot update the state of a lifecycleAware that is not a child: " +

@@ -4,9 +4,9 @@ import android.content.Context
 import com.wealthfront.magellan.OpenForMocking
 
 @OpenForMocking
-public class LifecycleLimiter : LifecycleOwner, LifecycleAware {
+public class LifecycleLimiter(private val lifecycleRegistry: LifecycleRegistry) : LifecycleOwner, LifecycleAware {
 
-  private val lifecycleRegistry = LifecycleRegistry()
+  public constructor(): this(LifecycleRegistry())
 
   override val children: List<LifecycleAware>
     get() = lifecycleRegistry.listenersToMaxStates.keys.toList()
