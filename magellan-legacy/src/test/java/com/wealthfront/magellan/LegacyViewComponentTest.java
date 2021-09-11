@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.SparseArray;
 
+import com.wealthfront.magellan.test.DummyScreen;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

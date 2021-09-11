@@ -5,10 +5,11 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.Direction.FORWARD
+import com.wealthfront.magellan.test.DummyStep
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.Step
-import com.wealthfront.magellan.databinding.MagellanDummyLayoutBinding
+import com.wealthfront.magellan.test.databinding.MagellanDummyLayoutBinding
 import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.transitions.ShowTransition
 import org.junit.Before
@@ -183,7 +184,6 @@ internal class LinearNavigatorTest {
 
 private open class FakeActivity : AppCompatActivity()
 
-private open class DummyStep : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
 private open class DummyJourney :
   Journey<MagellanDummyLayoutBinding>(
     MagellanDummyLayoutBinding::inflate,

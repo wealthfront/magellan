@@ -1,6 +1,6 @@
 object Versions {
   const val compileSdkVersion = 30
-  const val minSdkVersion = 15
+  const val minSdkVersion = 18
   const val targetSdkVersion = 30
 
   const val kotlinVersion = "1.4.30"
@@ -8,7 +8,7 @@ object Versions {
   const val buildToolsVersion = "29.0.2"
   const val detektVersion = "1.5.1"
   const val supportLibVersion = "1.1.0"
-  const val robolectricVersion = "4.3.1"
+  const val robolectricVersion = "4.4"
   const val archVersion = "2.1.0"
   const val lifecycleVersion = "2.2.0"
   const val butterKnifeVersion = "10.0.0"
@@ -26,15 +26,14 @@ object Versions {
   const val materialVersion = "1.1.0"
   const val coroutinesVersion = "1.4.3"
 
-  const val testCoreVersion = "1.2.0"
-  const val junitVersion = "4.13"
-  const val junitTestExtVersion = "1.1.2"
+  const val testCoreVersion = "1.4.0"
+  const val junitVersion = "4.13.2"
+  const val junitTestExtVersion = "1.1.3"
   const val truthVersion = "1.0"
   const val mockitoVersion = "2.23.4"
-  const val testRunnerVersion = "1.0.2"
+  const val testRunnerVersion = "1.4.0"
   const val uiAutomatorVersion = "2.2.0"
-  const val extVersion = "1.1.1"
-  const val espressoVersion = "3.0.2"
+  const val espressoVersion = "3.4.0"
 
   const val lintVersion = "27.0.1"
 }
