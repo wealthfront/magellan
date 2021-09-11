@@ -3,15 +3,15 @@ package com.wealthfront.magellan.view
 import android.content.Context
 import android.widget.FrameLayout
 import com.google.common.truth.Truth.assertThat
-import com.wealthfront.magellan.lifecycle.ShownFieldFromContext
+import com.wealthfront.magellan.lifecycle.CreateAndAttachFieldToLifecycleWhenShownDelegate
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations.initMocks
 
-public class LifecycleViewTest {
+public class CreateAndAttachFieldToLifecycleWhenShownDelegateTest {
 
-  private lateinit var lifecycleView: ShownFieldFromContext<FrameLayout>
+  private lateinit var lifecycleView: CreateAndAttachFieldToLifecycleWhenShownDelegate<FrameLayout>
 
   @Mock private lateinit var frameLayout: FrameLayout
   @Mock private lateinit var context: Context
@@ -19,7 +19,7 @@ public class LifecycleViewTest {
   @Before
   public fun setUp() {
     initMocks(this)
-    lifecycleView = ShownFieldFromContext { frameLayout }
+    lifecycleView = CreateAndAttachFieldToLifecycleWhenShownDelegate { frameLayout }
   }
 
   @Test

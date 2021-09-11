@@ -2,58 +2,58 @@ package com.wealthfront.magellan.lifecycle
 
 import kotlin.reflect.KProperty
 
-public fun <Child : LifecycleAware, Property> LifecycleOwner.attachFieldToLifecycle(lifecycleAware: Child, getter: (Child) -> Property): LifecycleChild<Child, Property> {
-  return LifecycleChild(
+public fun <ChildType : LifecycleAware, PropertyType> LifecycleOwner.attachFieldToLifecycle(lifecycleAware: ChildType, getter: (ChildType) -> PropertyType): AttachFieldToLifecycleDelegate<ChildType, PropertyType> {
+  return AttachFieldToLifecycleDelegate(
     this,
     lifecycleAware,
     getter
   )
 }
 
-public fun <Child : LifecycleAware> LifecycleOwner.attachFieldToLifecycle(lifecycleAware: Child): LifecycleChild<Child, Child> {
-  return LifecycleChild(
+public fun <ChildType : LifecycleAware> LifecycleOwner.attachFieldToLifecycle(lifecycleAware: ChildType): AttachFieldToLifecycleDelegate<ChildType, ChildType> {
+  return AttachFieldToLifecycleDelegate(
     this,
     lifecycleAware,
     { lifecycleAware }
   )
 }
 
-public class LifecycleChild<Child : LifecycleAware, Property>(
+public class AttachFieldToLifecycleDelegate<ChildType : LifecycleAware, PropertyType>(
   parent: LifecycleOwner,
-  private var lifecycleAware: Child,
-  public val valueGetter: (Child) -> Property
+  private var lifecycleAware: ChildType,
+  public val valueGetter: (ChildType) -> PropertyType
 ) {
 
-  private var overrideValue: Property? = null
+  private var overrideValue: PropertyType? = null
 
   init {
     parent.attachToLifecycle(lifecycleAware)
   }
 
-  public operator fun getValue(thisRef: Any?, property: KProperty<*>): Property {
+  public operator fun getValue(thisRef: Any?, property: KProperty<*>): PropertyType {
     return overrideValue ?: valueGetter(lifecycleAware)
   }
 
-  public operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Property) {
+  public operator fun setValue(thisRef: Any?, property: KProperty<*>, value: PropertyType) {
     overrideValue = value
   }
 }
 
-public fun <Child : LifecycleAware> LifecycleOwner.attachLateinitFieldToLifecycle(): LateinitLifecycleChild<Child> {
-  return LateinitLifecycleChild(this)
+public fun <ChildType : LifecycleAware> LifecycleOwner.attachLateinitFieldToLifecycle(): AttachLateinitFieldToLifecycleDelegate<ChildType> {
+  return AttachLateinitFieldToLifecycleDelegate(this)
 }
 
-public class LateinitLifecycleChild<Child : LifecycleAware>(private val parent: LifecycleOwner) {
+public class AttachLateinitFieldToLifecycleDelegate<ChildType : LifecycleAware>(private val parent: LifecycleOwner) {
 
-  private var lifecycleAware: Child? = null
+  private var lifecycleAware: ChildType? = null
 
-  public operator fun getValue(thisRef: Any?, property: KProperty<*>): Child {
+  public operator fun getValue(thisRef: Any?, property: KProperty<*>): ChildType {
     return lifecycleAware ?: error(
       "This lateinit LifecycleAware has not been set yet. (Has your dependency injection run yet?)"
     )
   }
 
-  public operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Child) {
+  public operator fun setValue(thisRef: Any?, property: KProperty<*>, value: ChildType) {
     if (value != lifecycleAware) {
       if (lifecycleAware != null) {
         parent.removeFromLifecycle(lifecycleAware!!)
