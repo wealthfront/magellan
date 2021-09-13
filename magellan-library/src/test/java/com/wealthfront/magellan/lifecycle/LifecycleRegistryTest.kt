@@ -17,6 +17,9 @@ internal class LifecycleRegistryTest {
   private val lifecycleRegistry = LifecycleRegistry()
   private val context = ApplicationProvider.getApplicationContext<Context>()
 
+  private lateinit var dummyLifecycleComponent1: DummyLifecycleComponent
+  private lateinit var dummyLifecycleComponent2: DummyLifecycleComponent
+
   @Mock lateinit var lifecycleAware1: LifecycleAware
   @Mock lateinit var lifecycleAware2: LifecycleAware
   @Mock lateinit var lifecycleAware3: LifecycleAware
@@ -26,6 +29,8 @@ internal class LifecycleRegistryTest {
   @Before
   fun setUp() {
     initMocks(this)
+    dummyLifecycleComponent1 = DummyLifecycleComponent()
+    dummyLifecycleComponent2 = DummyLifecycleComponent()
   }
 
   @Test(expected = IllegalStateException::class)
@@ -47,4 +52,135 @@ internal class LifecycleRegistryTest {
       )
     ).inOrder()
   }
+
+  @Test
+  fun attachToLifecycleWithMaxState() {
+    lifecycleRegistry.create(context)
+    lifecycleRegistry.show(context)
+    lifecycleRegistry.resume(context)
+
+    lifecycleRegistry.attachToLifecycle(dummyLifecycleComponent1)
+    lifecycleRegistry.attachToLifecycleWithMaxState(dummyLifecycleComponent2, LifecycleLimit.CREATED)
+
+    assertThat(dummyLifecycleComponent1.currentState).isEqualTo(LifecycleState.Resumed(context))
+    assertThat(dummyLifecycleComponent2.currentState).isEqualTo(LifecycleState.Created(context))
+  }
+
+  @Test
+  fun attachToLifecycleWithMaxState_notLimited() {
+    lifecycleRegistry.create(context)
+
+    lifecycleRegistry.attachToLifecycle(dummyLifecycleComponent1)
+    lifecycleRegistry.attachToLifecycleWithMaxState(dummyLifecycleComponent2, LifecycleLimit.SHOWN)
+
+    assertThat(dummyLifecycleComponent1.currentState).isEqualTo(LifecycleState.Created(context))
+    assertThat(dummyLifecycleComponent2.currentState).isEqualTo(LifecycleState.Created(context))
+  }
+
+  @Test
+  fun updateMaxStateForChild_beforeEvents() {
+    lifecycleRegistry.create(context)
+
+    lifecycleRegistry.attachToLifecycleWithMaxState(dummyLifecycleComponent1, LifecycleLimit.CREATED)
+
+    assertThat(dummyLifecycleComponent1.currentState).isEqualTo(LifecycleState.Created(context))
+
+    lifecycleRegistry.updateMaxState(dummyLifecycleComponent1, LifecycleLimit.SHOWN)
+
+    assertThat(dummyLifecycleComponent1.currentState).isEqualTo(LifecycleState.Created(context))
+
+    lifecycleRegistry.show(context)
+    lifecycleRegistry.resume(context)
+
+    assertThat(dummyLifecycleComponent1.currentState).isEqualTo(LifecycleState.Shown(context))
+  }
+
+  @Test
+  fun updateMaxStateForChild_afterEvents() {
+    lifecycleRegistry.create(context)
+    lifecycleRegistry.show(context)
+    lifecycleRegistry.resume(context)
+
+    lifecycleRegistry.attachToLifecycleWithMaxState(dummyLifecycleComponent1, LifecycleLimit.CREATED)
+
+    assertThat(dummyLifecycleComponent1.currentState).isEqualTo(LifecycleState.Created(context))
+
+    lifecycleRegistry.updateMaxState(dummyLifecycleComponent1, LifecycleLimit.SHOWN)
+
+    assertThat(dummyLifecycleComponent1.currentState).isEqualTo(LifecycleState.Shown(context))
+
+    lifecycleRegistry.updateMaxState(dummyLifecycleComponent1, LifecycleLimit.CREATED)
+
+    assertThat(dummyLifecycleComponent1.currentState).isEqualTo(LifecycleState.Created(context))
+  }
+
+  @Test
+  fun onBackPressed_limited() {
+    lifecycleRegistry.create(context)
+    lifecycleRegistry.show(context)
+    lifecycleRegistry.resume(context)
+
+    var unwantedBackPressed = false
+    var wantedBackPressed = false
+
+    lifecycleRegistry.attachToLifecycleWithMaxState(
+      DummyLifecycleComponent {
+        unwantedBackPressed = true
+        true
+      },
+      LifecycleLimit.CREATED
+    )
+    lifecycleRegistry.attachToLifecycleWithMaxState(
+      DummyLifecycleComponent {
+        wantedBackPressed = true
+        true
+      },
+      LifecycleLimit.NO_LIMIT
+    )
+
+    val backPressedHandled = lifecycleRegistry.backPressed()
+
+    assertThat(backPressedHandled).isTrue()
+    assertThat(wantedBackPressed).isTrue()
+    assertThat(unwantedBackPressed).isFalse()
+  }
+
+  @Test
+  fun onBackPressed_notLimited() {
+    lifecycleRegistry.create(context)
+    lifecycleRegistry.show(context)
+    lifecycleRegistry.resume(context)
+
+    var wantedBackPressed = false
+    var unwantedBackPressed = false
+
+    lifecycleRegistry.attachToLifecycleWithMaxState(
+      DummyLifecycleComponent {
+        wantedBackPressed = true
+        true
+      },
+      LifecycleLimit.NO_LIMIT
+    )
+    lifecycleRegistry.attachToLifecycleWithMaxState(
+      DummyLifecycleComponent {
+        unwantedBackPressed = true
+        true
+      },
+      LifecycleLimit.NO_LIMIT
+    )
+
+    val backPressedHandled = lifecycleRegistry.backPressed()
+
+    assertThat(backPressedHandled).isTrue()
+    assertThat(wantedBackPressed).isTrue()
+    assertThat(unwantedBackPressed).isFalse()
+  }
 }
+
+private class DummyLifecycleComponent(
+  val backPressedAction: () -> Boolean = { true }
+) : LifecycleAwareComponent() {
+
+  override fun onBackPressed(): Boolean = backPressedAction()
+}
+

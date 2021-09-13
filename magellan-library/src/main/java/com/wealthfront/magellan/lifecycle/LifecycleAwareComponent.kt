@@ -4,8 +4,7 @@ import android.content.Context
 
 public abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
 
-  private val lifecycleRegistry = LifecycleRegistry()
-  protected val lifecycleLimiter: LifecycleLimiter = LifecycleLimiter(lifecycleRegistry)
+  protected val lifecycleRegistry: LifecycleRegistry = LifecycleRegistry()
 
   override val children: List<LifecycleAware>
     get() = lifecycleRegistry.listeners.toList()

@@ -6,15 +6,17 @@ import com.wealthfront.magellan.lifecycle.LifecycleLimit.DESTROYED
 import com.wealthfront.magellan.lifecycle.LifecycleLimit.NO_LIMIT
 import com.wealthfront.magellan.lifecycle.LifecycleLimit.SHOWN
 
-public class LifecycleRegistry : LifecycleAware {
+public class LifecycleRegistry : LifecycleAware, LifecycleOwner {
 
   internal val listeners: Set<LifecycleAware>
     get() = listenersToMaxStates.keys
-  internal var listenersToMaxStates: Map<LifecycleAware, LifecycleLimit> = linkedMapOf()
-    private set
+  private var listenersToMaxStates: Map<LifecycleAware, LifecycleLimit> = linkedMapOf()
   private val lifecycleStateMachine = LifecycleStateMachine()
 
-  internal var currentState: LifecycleState = LifecycleState.Destroyed
+  override val children: List<LifecycleAware>
+    get() = listeners.toList()
+
+  override var currentState: LifecycleState = LifecycleState.Destroyed
     private set(newState) {
       val oldState = field
       field = newState
@@ -29,10 +31,14 @@ public class LifecycleRegistry : LifecycleAware {
       }
     }
 
-  internal fun attachToLifecycle(
+  override fun attachToLifecycle(lifecycleAware: LifecycleAware, detachedState: LifecycleState) {
+    attachToLifecycleWithMaxState(lifecycleAware, NO_LIMIT, detachedState)
+  }
+
+  public fun attachToLifecycleWithMaxState(
     lifecycleAware: LifecycleAware,
-    detachedState: LifecycleState = LifecycleState.Destroyed,
-    maxState: LifecycleLimit = NO_LIMIT
+    maxState: LifecycleLimit = NO_LIMIT,
+    detachedState: LifecycleState = LifecycleState.Destroyed
   ) {
     if (listenersToMaxStates.containsKey(lifecycleAware)) {
       throw IllegalStateException(
@@ -44,9 +50,9 @@ public class LifecycleRegistry : LifecycleAware {
     listenersToMaxStates = listenersToMaxStates + (lifecycleAware to maxState)
   }
 
-  internal fun removeFromLifecycle(
+  override fun removeFromLifecycle(
     lifecycleAware: LifecycleAware,
-    detachedState: LifecycleState = LifecycleState.Destroyed
+    detachedState: LifecycleState
   ) {
     if (!listenersToMaxStates.containsKey(lifecycleAware)) {
       throw IllegalStateException(

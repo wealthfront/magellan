@@ -53,7 +53,7 @@ public class NavigationDelegate(
   }
 
   override fun onDestroy(context: Context) {
-    backStack.navigables().forEach { lifecycleLimiter.removeFromLifecycle(it) }
+    backStack.navigables().forEach { lifecycleRegistry.removeFromLifecycle(it) }
     backStack.clear()
   }
 
@@ -118,12 +118,12 @@ public class NavigationDelegate(
     val newNavigables = newBackStack.toSet()
 
     (oldNavigables - newNavigables).forEach { oldNavigable ->
-      lifecycleLimiter.removeFromLifecycle(oldNavigable)
+      lifecycleRegistry.removeFromLifecycle(oldNavigable)
     }
 
     (newNavigables - oldNavigables).forEach { newNavigable ->
       currentNavigableSetup?.invoke(newNavigable)
-      lifecycleLimiter.attachToLifecycleWithMaxState(newNavigable, CREATED)
+      lifecycleRegistry.attachToLifecycleWithMaxState(newNavigable, CREATED)
     }
   }
 
@@ -151,7 +151,7 @@ public class NavigationDelegate(
   }
 
   private fun navigateTo(currentNavigable: NavigableCompat, direction: Direction): View? {
-    lifecycleLimiter.updateMaxStateForChild(currentNavigable, NO_LIMIT)
+    lifecycleRegistry.updateMaxState(currentNavigable, NO_LIMIT)
     navigationPropagator.onNavigatedTo(currentNavigable)
     when (currentState) {
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
@@ -169,7 +169,7 @@ public class NavigationDelegate(
   private fun navigateFrom(currentNavigable: NavigableCompat?): View? {
     return currentNavigable?.let { oldNavigable ->
       val currentView = oldNavigable.view
-      lifecycleLimiter.updateMaxStateForChild(oldNavigable, CREATED)
+      lifecycleRegistry.updateMaxState(oldNavigable, CREATED)
       navigationPropagator.onNavigatedFrom(oldNavigable)
       currentView
     }
