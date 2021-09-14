@@ -1,7 +1,7 @@
 package com.wealthfront.magellan;
 
-import android.view.View;
 import android.content.Context;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import org.jetbrains.annotations.NotNull;

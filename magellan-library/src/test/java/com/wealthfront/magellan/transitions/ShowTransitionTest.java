@@ -13,14 +13,12 @@ import org.robolectric.annotation.LooperMode;
 
 import kotlin.Unit;
 
-import static android.os.Looper.getMainLooper;
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static com.google.common.truth.Truth.assertThat;
 import static com.wealthfront.magellan.Direction.BACKWARD;
 import static com.wealthfront.magellan.Direction.FORWARD;
 import static org.robolectric.Robolectric.flushForegroundThreadScheduler;
 import static org.robolectric.Robolectric.getForegroundThreadScheduler;
-import static org.robolectric.Shadows.shadowOf;
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
