@@ -5,10 +5,10 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.Direction.FORWARD
-import com.wealthfront.magellan.test.DummyStep
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.Step
+import com.wealthfront.magellan.test.DummyStep
 import com.wealthfront.magellan.test.databinding.MagellanDummyLayoutBinding
 import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.transitions.ShowTransition
@@ -68,6 +68,12 @@ internal class LinearNavigatorTest {
     assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
+  @Test(expected = IllegalStateException::class)
+  fun goTo_existingStep() {
+    linearNavigator.goTo(step1)
+    linearNavigator.goTo(step1)
+  }
+
   @Test
   fun show() {
     linearNavigator.goTo(step1, ShowTransition())
@@ -95,6 +101,15 @@ internal class LinearNavigatorTest {
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step2)
     assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(ShowTransition::class.java)
+  }
+
+  @Test(expected = IllegalStateException::class)
+  fun navigate_duplicateStep() {
+    linearNavigator.navigate(FORWARD) { deque ->
+      deque.push(NavigationEvent(step1, DefaultTransition()))
+      deque.push(NavigationEvent(step1, DefaultTransition()))
+      deque.peek()!!
+    }
   }
 
   @Test
