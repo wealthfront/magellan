@@ -65,7 +65,7 @@ public class LifecycleRegistry : LifecycleAware, LifecycleOwner {
     lifecycleStateMachine.transition(lifecycleAware, currentState.limitBy(maxState), detachedState)
   }
 
-  internal fun updateMaxState(lifecycleAware: LifecycleAware, maxState: LifecycleLimit) {
+  public fun updateMaxState(lifecycleAware: LifecycleAware, maxState: LifecycleLimit) {
     if (!listenersToMaxStates.containsKey(lifecycleAware)) {
       throw IllegalArgumentException(
         "Cannot update the state of a lifecycleAware that is not a child: " +
