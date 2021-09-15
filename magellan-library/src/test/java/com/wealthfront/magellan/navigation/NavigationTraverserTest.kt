@@ -5,7 +5,7 @@ import android.content.Context
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.Step
-import com.wealthfront.magellan.lifecycle.LifecycleState.*
+import com.wealthfront.magellan.lifecycle.LifecycleState.Created
 import com.wealthfront.magellan.lifecycle.transitionToState
 import com.wealthfront.magellan.test.databinding.MagellanDummyLayoutBinding
 import org.junit.Before

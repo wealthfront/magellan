@@ -1,13 +1,13 @@
 package com.wealthfront.magellan.coroutines
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.google.common.truth.Truth.assertThat
-import com.wealthfront.magellan.lifecycle.LifecycleState
-import com.wealthfront.magellan.lifecycle.LifecycleState.*
+import com.wealthfront.magellan.lifecycle.LifecycleState.Created
+import com.wealthfront.magellan.lifecycle.LifecycleState.Destroyed
+import com.wealthfront.magellan.lifecycle.LifecycleState.Resumed
+import com.wealthfront.magellan.lifecycle.LifecycleState.Shown
 import com.wealthfront.magellan.lifecycle.transition
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -1,6 +1,5 @@
 package com.wealthfront.magellan.lifecycle
 
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.lifecycle.LifecycleState.Created
