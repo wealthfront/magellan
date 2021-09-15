@@ -5,6 +5,8 @@ import android.content.Context
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.core.Step
+import com.wealthfront.magellan.lifecycle.LifecycleState.*
+import com.wealthfront.magellan.lifecycle.transitionToState
 import com.wealthfront.magellan.test.databinding.MagellanDummyLayoutBinding
 import org.junit.Before
 import org.junit.Test
@@ -25,7 +27,7 @@ internal class NavigationTraverserTest {
   private lateinit var step3: Step<*>
   private lateinit var journey2: Journey<*>
   private lateinit var step4: Step<*>
-  private lateinit var journey3: Journey<*>
+  private lateinit var journey3: DummyJourney3
   private lateinit var context: Activity
 
   @Before
@@ -36,7 +38,7 @@ internal class NavigationTraverserTest {
     siblingRoot = SiblingJourney()
     journey1 = DummyJourney1()
     journey2 = DummyJourney2()
-    journey3 = DummyJourney3((siblingRoot as SiblingJourney)::goToSiblingJourney)
+    journey3 = DummyJourney3((siblingRoot as SiblingJourney)::goToJourney2)
     step1 = DummyStep1()
     step2 = DummyStep2()
     step3 = DummyStep3()
@@ -47,7 +49,7 @@ internal class NavigationTraverserTest {
   fun globalBackStackWithOneStep() {
     traverser = NavigationTraverser(oneStepRoot)
 
-    oneStepRoot.create(context)
+    oneStepRoot.transitionToState(Created(context))
 
     assertThat(traverser.getGlobalBackstackDescription()).isEqualTo(
       """
@@ -63,7 +65,7 @@ internal class NavigationTraverserTest {
   fun globalBackStackWithMultipleStep() {
     traverser = NavigationTraverser(multiStepRoot)
 
-    multiStepRoot.create(context)
+    multiStepRoot.transitionToState(Created(context))
 
     assertThat(traverser.getGlobalBackstackDescription()).isEqualTo(
       """
@@ -78,7 +80,10 @@ internal class NavigationTraverserTest {
 
   @Test
   fun globalBackStackWithSiblingJourney() {
-    siblingRoot.create(context)
+    traverser = NavigationTraverser(siblingRoot)
+
+    siblingRoot.transitionToState(Created(context))
+    journey3.goToAnotherJourney()
 
     assertThat(traverser.getGlobalBackstackDescription()).isEqualTo(
       """
@@ -123,7 +128,7 @@ internal class NavigationTraverserTest {
       navigator.goTo(journey3)
     }
 
-    fun goToSiblingJourney() {
+    fun goToJourney2() {
       navigator.goTo(journey2)
     }
   }
@@ -150,7 +155,7 @@ internal class NavigationTraverserTest {
   }
 
   private inner class DummyJourney3(
-    private val goToSiblingJourney: () -> Unit
+    private val goToOtherJourney: () -> Unit
   ) : Journey<MagellanDummyLayoutBinding>(
     MagellanDummyLayoutBinding::inflate,
     MagellanDummyLayoutBinding::container
@@ -159,8 +164,9 @@ internal class NavigationTraverserTest {
     override fun onCreate(context: Context) {
       navigator.goTo(step3)
       navigator.goTo(step4)
-      goToSiblingJourney()
     }
+
+    fun goToAnotherJourney() = goToOtherJourney()
   }
 
   private inner class DummyStep1 :

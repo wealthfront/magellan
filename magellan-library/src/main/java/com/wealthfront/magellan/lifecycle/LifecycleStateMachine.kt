@@ -9,6 +9,14 @@ import com.wealthfront.magellan.lifecycle.LifecycleStateDirection.BACKWARDS
 import com.wealthfront.magellan.lifecycle.LifecycleStateDirection.FORWARD
 import com.wealthfront.magellan.lifecycle.LifecycleStateDirection.NO_MOVEMENT
 
+public fun <T> T.transitionToState(newState: LifecycleState) where T : LifecycleAware, T : LifecycleOwner {
+  transition(this.currentState, newState)
+}
+
+public fun <T : LifecycleAware> T.transition(oldState: LifecycleState, newState: LifecycleState) {
+  LifecycleStateMachine().transition(this, oldState, newState)
+}
+
 internal class LifecycleStateMachine {
 
   fun transition(
