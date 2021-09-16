@@ -1,6 +1,8 @@
 package com.wealthfront.magellan.core
 
 import android.view.LayoutInflater
+import androidx.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting.PROTECTED
 import androidx.viewbinding.ViewBinding
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
@@ -11,5 +13,5 @@ public abstract class Journey<V : ViewBinding>(
   getContainer: V.() -> ScreenContainer
 ) : Step<V>(inflateBinding) {
 
-  protected var navigator: LinearNavigator by attachFieldToLifecycle(LinearNavigator { viewBinding!!.getContainer() })
+  @VisibleForTesting(otherwise = PROTECTED) public var navigator: LinearNavigator by attachFieldToLifecycle(LinearNavigator { viewBinding!!.getContainer() })
 }

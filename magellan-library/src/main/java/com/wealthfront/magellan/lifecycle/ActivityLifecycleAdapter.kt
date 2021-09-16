@@ -81,7 +81,7 @@ private fun Navigable.detachAndRemoveFromStaticMap(applicationContext: Context) 
   val (lifecycleAdapter, lifecycle) = adapterMap[this]!!
   lifecycle.removeObserver(lifecycleAdapter)
   if (this is LifecycleOwner && currentState !is Created) {
-    LifecycleStateMachine().transition(this, currentState, Created(applicationContext))
+    transitionToState(Created(applicationContext))
   }
   adapterMap = adapterMap - this
 }

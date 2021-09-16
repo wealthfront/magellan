@@ -7,6 +7,10 @@ import android.util.SparseArray
 import android.view.LayoutInflater.from
 import android.view.View
 import com.google.common.truth.Truth.assertThat
+import com.wealthfront.magellan.lifecycle.LifecycleState.Created
+import com.wealthfront.magellan.lifecycle.LifecycleState.Destroyed
+import com.wealthfront.magellan.lifecycle.LifecycleState.Shown
+import com.wealthfront.magellan.lifecycle.transitionToState
 import com.wealthfront.magellan.test.DummyStep
 import com.wealthfront.magellan.test.databinding.MagellanDummyLayoutBinding
 import org.junit.Before
@@ -29,7 +33,7 @@ import org.robolectric.annotation.Config
 internal class StepTest {
 
   private lateinit var context: Activity
-  private lateinit var screen: DummyStep
+  private lateinit var step: DummyStep
 
   @Captor lateinit var sparseArrayCaptor: ArgumentCaptor<SparseArray<Parcelable>>
   @Mock lateinit var view: View
@@ -37,25 +41,23 @@ internal class StepTest {
   @Before
   fun setUp() {
     initMocks(this)
-    screen = DummyStep()
-    screen.view = view
+    step = DummyStep()
+    step.view = view
     context = buildActivity(Activity::class.java).get()
-    screen.viewBinding = MagellanDummyLayoutBinding.inflate(from(context))
+    step.viewBinding = MagellanDummyLayoutBinding.inflate(from(context))
   }
 
   @Test
   fun onShow() {
-    screen.create(context)
-    screen.show(context)
+    step.transitionToState(Shown(context))
 
     verify(view, never()).restoreHierarchyState(any())
   }
 
   @Test
   fun onHide() {
-    screen.create(context)
-    screen.show(context)
-    screen.hide(context)
+    step.transitionToState(Shown(context))
+    step.transitionToState(Created(context))
 
     verify(view).saveHierarchyState(any())
   }
@@ -66,14 +68,12 @@ internal class StepTest {
     state.putString("key", "value")
     doAnswer { sparseArrayCaptor.value.put(42, state) }.`when`(view).saveHierarchyState(sparseArrayCaptor.capture())
 
-    screen.create(context)
-    screen.show(context)
-    screen.hide(context)
+    step.transitionToState(Shown(context))
+    step.transitionToState(Created(context))
     verify(view).saveHierarchyState(any())
 
-    screen.destroy(context)
-    screen.create(context)
-    screen.show(context)
+    step.transitionToState(Destroyed)
+    step.transitionToState(Shown(context))
     verify(view).restoreHierarchyState(sparseArrayCaptor.capture())
 
     val bundle = sparseArrayCaptor.value.get(42) as Bundle

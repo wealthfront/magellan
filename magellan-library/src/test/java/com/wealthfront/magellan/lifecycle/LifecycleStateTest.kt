@@ -14,9 +14,9 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations.initMocks
 
-class LifecycleStateTest {
+internal class LifecycleStateTest {
 
-  @Mock lateinit var context: Context
+  @Mock private lateinit var context: Context
   private lateinit var destroyed: Destroyed
   private lateinit var created: Created
   private lateinit var shown: Shown

@@ -11,7 +11,6 @@ public class LifecycleRegistry : LifecycleAware, LifecycleOwner {
   internal val listeners: Set<LifecycleAware>
     get() = listenersToMaxStates.keys
   private var listenersToMaxStates: Map<LifecycleAware, LifecycleLimit> = linkedMapOf()
-  private val lifecycleStateMachine = LifecycleStateMachine()
 
   override val children: List<LifecycleAware>
     get() = listeners.toList()
@@ -22,8 +21,7 @@ public class LifecycleRegistry : LifecycleAware, LifecycleOwner {
       field = newState
       listenersToMaxStates.forEach { (lifecycleAware, maxState) ->
         if (oldState.limitBy(maxState).order != newState.limitBy(maxState).order) {
-          lifecycleStateMachine.transition(
-            lifecycleAware,
+          lifecycleAware.transition(
             oldState.limitBy(maxState),
             newState.limitBy(maxState)
           )
@@ -46,7 +44,7 @@ public class LifecycleRegistry : LifecycleAware, LifecycleOwner {
           lifecycleAware::class.java.simpleName
       )
     }
-    lifecycleStateMachine.transition(lifecycleAware, detachedState, currentState.limitBy(maxState))
+    lifecycleAware.transition(detachedState, currentState.limitBy(maxState))
     listenersToMaxStates = listenersToMaxStates + (lifecycleAware to maxState)
   }
 
@@ -62,7 +60,7 @@ public class LifecycleRegistry : LifecycleAware, LifecycleOwner {
     }
     val maxState = listenersToMaxStates[lifecycleAware]!!
     listenersToMaxStates = listenersToMaxStates - lifecycleAware
-    lifecycleStateMachine.transition(lifecycleAware, currentState.limitBy(maxState), detachedState)
+    lifecycleAware.transition(currentState.limitBy(maxState), detachedState)
   }
 
   public fun updateMaxState(lifecycleAware: LifecycleAware, maxState: LifecycleLimit) {
@@ -76,8 +74,7 @@ public class LifecycleRegistry : LifecycleAware, LifecycleOwner {
     if (oldMaxState != maxState) {
       val needsToTransition = !currentState.isWithinLimit(minOf(maxState, oldMaxState))
       if (needsToTransition) {
-        lifecycleStateMachine.transition(
-          lifecycleAware,
+        lifecycleAware.transition(
           currentState.limitBy(oldMaxState),
           currentState.limitBy(maxState)
         )
