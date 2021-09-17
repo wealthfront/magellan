@@ -29,7 +29,7 @@ public class LinearNavigator internal constructor(
 
   public fun navigate(
     direction: Direction,
-    backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent
+    backStackOperation: (Deque<NavigationEvent>) -> MagellanTransition
   ) {
     delegate.navigate(direction, backStackOperation)
   }
