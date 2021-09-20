@@ -1,12 +1,26 @@
 # Changelog
 
-## 2.1.2
+## 2.1.3-beta
+  - Improve testing support
+    - Make `Journey.navigator` `@VisibleForTesting` so we can access it in tests for verification
+    - Make `transition` methods public, move from `LifecycleStateMachine` to extension functions on `LifecycleAware`
+    - Detach `LifecycleAware` objects attached using `by attachFieldToLifecycle` when field is set (usually in tests)
+    - [Full PR here](https://github.com/wealthfront/magellan/pull/204)
+  - Rename lifecycle-attaching delegates
+    - `by lifecycle(...)` -> `by attachFieldToLifecycle(...)`
+    - `by lateinitLifecycle(..)` -> `by attachLateinitFieldToLifecycle(...)`
+    - `by lifecycleWithContext(...)` -> `by createAndAttachFieldToLifecycleWhenShown(...)`
+  - Rename some constructor parameters
+    - `Step(createBinding: (LayoutInflater) -> V)` -> `Step(inflateBinding: (LayoutInflater) -> V)`
+    - `Journey(createBinding: (LayoutInflater) -> V, container: (V) -> ScreenContainer)` -> `Journey(inflateBinding: (LayoutInflater) -> V, getContainer: (V) -> ScreenContainer)`
+
+## 2.1.2 (beta)
   - Minor fix: Fix overlapping activities bug
 
-## 2.1.1
+## 2.1.1 (beta)
   - Minor fix: Update lifecycle logic when attaching to an Activity
 
-## 2.1.0
+## 2.1.0 (beta)
   - Release candidate for pushing to production
   - Minor bug fixes
     - Fix dialogs to show onResume
