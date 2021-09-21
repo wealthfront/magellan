@@ -68,6 +68,12 @@ internal class LinearNavigatorTest {
     assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
+  @Test(expected = IllegalStateException::class)
+  fun goTo_existingStep() {
+    linearNavigator.goTo(step1)
+    linearNavigator.goTo(step1)
+  }
+
   @Test
   fun show() {
     linearNavigator.goTo(step1, ShowTransition())
@@ -95,6 +101,15 @@ internal class LinearNavigatorTest {
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step2)
     assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(ShowTransition::class.java)
+  }
+
+  @Test(expected = IllegalStateException::class)
+  fun navigate_duplicateStep() {
+    linearNavigator.navigate(FORWARD) { deque ->
+      deque.push(NavigationEvent(step1, DefaultTransition()))
+      deque.push(NavigationEvent(step1, DefaultTransition()))
+      deque.peek()!!
+    }
   }
 
   @Test

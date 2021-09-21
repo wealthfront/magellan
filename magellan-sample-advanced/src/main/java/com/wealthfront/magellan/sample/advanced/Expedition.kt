@@ -33,6 +33,11 @@ class Expedition @Inject constructor() : LegacyExpedition<ExpeditionBinding>(
     navigator.showNow(DogListStep(::goToDetailsScreen))
   }
 
+  override fun onDestroy(context: Context) {
+    removeFromLifecycle(ToolbarHelper)
+    ToolbarHelper.onDestroy()
+  }
+
   private fun goToDetailsScreen(name: String) {
     navigator.show(DogDetailsScreen(name))
   }

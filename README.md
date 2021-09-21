@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/wealthfront/magellan.svg?branch=master)](https://travis-ci.org/wealthfront/magellan)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.wealthfront/magellan-library/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.wealthfront/magellan-library)
 [![Javadocs](https://www.javadoc.io/badge/com.wealthfront/magellan-library.svg)](https://www.javadoc.io/doc/com.wealthfront/magellan-library)
 

@@ -2,40 +2,63 @@ package com.wealthfront.magellan.lifecycle
 
 import kotlin.reflect.KProperty
 
-public fun <ChildType : LifecycleAware, PropertyType> LifecycleOwner.attachFieldToLifecycle(lifecycleAware: ChildType, getter: (ChildType) -> PropertyType): AttachFieldToLifecycleDelegate<ChildType, PropertyType> {
+public fun <ChildType : LifecycleAware, PropertyType> LifecycleOwner.attachFieldToLifecycle(
+  lifecycleAware: ChildType,
+  getPropertyType: (ChildType) -> PropertyType
+): AttachFieldToLifecycleDelegate<ChildType, PropertyType> {
   return AttachFieldToLifecycleDelegate(
-    this,
-    lifecycleAware,
-    getter
+    parent = this,
+    lifecycleAware = lifecycleAware,
+    getPropertyType = getPropertyType
   )
 }
 
-public fun <ChildType : LifecycleAware> LifecycleOwner.attachFieldToLifecycle(lifecycleAware: ChildType): AttachFieldToLifecycleDelegate<ChildType, ChildType> {
+public fun <ChildType : LifecycleAware> LifecycleOwner.attachFieldToLifecycle(
+  lifecycleAware: ChildType
+): AttachFieldToLifecycleDelegate<ChildType, ChildType> {
   return AttachFieldToLifecycleDelegate(
-    this,
-    lifecycleAware,
-    { lifecycleAware }
+    parent = this,
+    lifecycleAware = lifecycleAware,
+    getPropertyType = { lifecycleAware }
   )
 }
 
 public class AttachFieldToLifecycleDelegate<ChildType : LifecycleAware, PropertyType>(
-  parent: LifecycleOwner,
-  private var lifecycleAware: ChildType,
-  public val valueGetter: (ChildType) -> PropertyType
+  private val parent: LifecycleOwner,
+  private val lifecycleAware: ChildType,
+  private val getPropertyType: (ChildType) -> PropertyType
 ) {
 
+  private var hasOverrideValue = false
   private var overrideValue: PropertyType? = null
 
   init {
     parent.attachToLifecycle(lifecycleAware)
   }
 
+  @Suppress("UNCHECKED_CAST")
   public operator fun getValue(thisRef: Any?, property: KProperty<*>): PropertyType {
-    return overrideValue ?: valueGetter(lifecycleAware)
+    return if (hasOverrideValue) {
+      overrideValue as PropertyType
+    } else {
+      getPropertyType(lifecycleAware)
+    }
   }
 
   public operator fun setValue(thisRef: Any?, property: KProperty<*>, value: PropertyType) {
-    overrideValue = value
+    if (!hasOverrideValue) {
+      parent.removeFromLifecycle(lifecycleAware)
+    }
+    hasOverrideValue = true
+    if (overrideValue != value) {
+      if (overrideValue is LifecycleAware) {
+        parent.removeFromLifecycle(overrideValue as LifecycleAware)
+      }
+      overrideValue = value
+      if (value is LifecycleAware) {
+        parent.attachToLifecycle(value)
+      }
+    }
   }
 }
 
