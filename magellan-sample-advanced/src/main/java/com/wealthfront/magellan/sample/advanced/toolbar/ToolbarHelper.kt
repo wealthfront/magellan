@@ -21,14 +21,14 @@ object ToolbarHelper : LifecycleAwareComponent(), NavigationListener {
   fun init(toolbarView: ToolbarView, navigator: Navigator) {
     this.toolbarView = toolbarView
     toolbarView.binding.back.setOnClickListener { navigator.goBack() }
+  }
+
+  override fun onShow(context: Context) {
     NavigationPropagator.addNavigableListener(this)
   }
 
   override fun onHide(context: Context) {
     NavigationPropagator.removeNavigableListener(this)
-  }
-
-  fun onDestroy() {
     this.toolbarView = null
   }
 

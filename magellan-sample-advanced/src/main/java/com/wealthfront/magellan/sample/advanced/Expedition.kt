@@ -35,7 +35,6 @@ class Expedition @Inject constructor() : LegacyExpedition<ExpeditionBinding>(
 
   override fun onDestroy(context: Context) {
     removeFromLifecycle(ToolbarHelper)
-    ToolbarHelper.onDestroy()
   }
 
   private fun goToDetailsScreen(name: String) {
