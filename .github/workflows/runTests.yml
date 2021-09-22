@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2.3.4
     - name: Set up our JDK environment
@@ -18,6 +16,6 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Gradle
-    - uses: gradle/gradle-build-action@v1.5.1
+      uses: gradle/gradle-build-action@v1.5.1
       with:
         arguments: clean testDebugUnitTest lintRelease checkstyle lintKotlin
