@@ -56,5 +56,5 @@ dependencies {
   androidTestImplementation Dependencies.extJunit
   androidTestImplementation Dependencies.espressoCore
 
-  lintChecks project(':magellan-lint')
+  lintPublish project(':magellan-lint')
 }

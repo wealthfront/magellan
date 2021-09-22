@@ -4,6 +4,7 @@ import Versions.butterKnifeVersion
 import Versions.constraintLayoutVersion
 import Versions.coroutinesVersion
 import Versions.daggerVersion
+import Versions.detektVersion
 import Versions.espressoVersion
 import Versions.glideVersion
 import Versions.jacksonVersion
@@ -29,6 +30,13 @@ import Versions.testRunnerVersion
 import Versions.truthVersion
 import Versions.uiAutomatorVersion
 
+object Plugins {
+  const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+  const val kotlinterGradle = "org.jmailen.gradle:kotlinter-gradle:$kotlinterVersion"
+  const val kotlinAllOpen = "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
+  const val detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektVersion"
+}
+
 object Dependencies {
 
   const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
@@ -36,10 +44,6 @@ object Dependencies {
   const val constraintLayout = "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
   const val lifecycle = "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
   const val androidXCore = "androidx.core:core-ktx:$androidXCoreVersion"
-
-  const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-  const val kotlinterGradle = "org.jmailen.gradle:kotlinter-gradle:$kotlinterVersion"
-  const val kotlinAllOpen = "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
 
   const val material = "com.google.android.material:material:$materialVersion"
   const val junit = "junit:junit:$junitVersion"

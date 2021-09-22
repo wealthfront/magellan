@@ -4,19 +4,18 @@ buildscript {
   repositories {
     jcenter()
     mavenCentral()
+    maven { url "https://plugins.gradle.org/m2/" }
     google()
   }
   dependencies {
-    classpath(Dependencies.kotlinGradle)
-    classpath(Dependencies.kotlinterGradle)
-    classpath(Dependencies.kotlinAllOpen)
-    classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30'
+    classpath(Plugins.kotlinGradle)
+    classpath(Plugins.kotlinterGradle)
+    classpath(Plugins.kotlinAllOpen)
+    classpath(Plugins.detekt)
   }
 }
 
-plugins {
-  id 'io.gitlab.arturbosch.detekt' version '1.5.1'
-}
+apply plugin: 'io.gitlab.arturbosch.detekt'
 
 allprojects {
   apply from: "$rootDir/gradle/static-analysis.gradle"

@@ -5,7 +5,7 @@ object Versions {
 
   const val kotlinVersion = "1.5.30"
   const val kotlinterVersion = "3.4.0"
-  const val detektVersion = "1.5.1"
+  const val detektVersion = "1.18.1"
   const val supportLibVersion = "1.3.1"
   const val constraintLayoutVersion = "2.1.0"
   const val robolectricVersion = "4.4"
