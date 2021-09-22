@@ -40,7 +40,6 @@ dependencies {
   implementation project(':magellan-legacy')
   implementation project(':magellan-library')
 
-  implementation Dependencies.kotlinStdLib
   implementation Dependencies.rxjava2
   implementation Dependencies.inject
 

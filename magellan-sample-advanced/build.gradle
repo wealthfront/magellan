@@ -39,7 +39,6 @@ android {
 dependencies {
 
   implementation project(':magellan-library')
-  implementation Dependencies.kotlinStdLib
   implementation Dependencies.androidXCore
   implementation Dependencies.appCompat
   implementation Dependencies.material

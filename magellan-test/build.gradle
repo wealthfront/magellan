@@ -39,7 +39,6 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
 dependencies {
   implementation project(':magellan-library')
 
-  implementation Dependencies.kotlinStdLib
   implementation Dependencies.inject
 
   testImplementation Dependencies.junit

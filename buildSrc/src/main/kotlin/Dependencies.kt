@@ -39,7 +39,6 @@ object Plugins {
 
 object Dependencies {
 
-  const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
   const val appCompat = "androidx.appcompat:appcompat:$supportLibVersion"
   const val constraintLayout = "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
   const val lifecycle = "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"

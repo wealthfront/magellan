@@ -42,7 +42,6 @@ dependencies {
   implementation project(':magellan-library')
 
   implementation Dependencies.appCompat
-  implementation Dependencies.kotlinStdLib
   implementation Dependencies.inject
   implementation Dependencies.coroutines
   implementation Dependencies.coroutinesAndroid

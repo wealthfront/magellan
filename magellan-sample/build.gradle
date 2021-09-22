@@ -40,7 +40,6 @@ dependencies {
   implementation project(':magellan-legacy')
 
   implementation Dependencies.appCompat
-  implementation Dependencies.kotlinStdLib
   implementation Dependencies.material
   implementation Dependencies.coroutines
   implementation Dependencies.coroutinesAndroid

@@ -41,7 +41,6 @@ dependencies {
   implementation project(':magellan-library')
 
   implementation Dependencies.rxjava
-  implementation Dependencies.kotlinStdLib
   implementation Dependencies.inject
 
   testImplementation Dependencies.junit
