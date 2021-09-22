@@ -3,7 +3,7 @@ package com.wealthfront.magellan;
 import android.app.Activity;
 import android.content.Context;
 
-import com.wealthfront.magellan.test.DummyScreen;
+import com.wealthfront.magellan.internal.test.DummyScreen;
 
 import org.junit.Before;
 import org.junit.Test;

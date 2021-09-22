@@ -1,7 +1,6 @@
 package com.wealthfront.magellan.sample.advanced.toolbar
 
 import android.content.Context
-import androidx.lifecycle.LifecycleObserver
 import com.wealthfront.magellan.Navigator
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.navigation.NavigableCompat

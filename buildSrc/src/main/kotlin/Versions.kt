@@ -5,7 +5,6 @@ object Versions {
 
   const val kotlinVersion = "1.4.30"
   const val kotlinterVersion = "3.4.0"
-  const val buildToolsVersion = "29.0.2"
   const val detektVersion = "1.5.1"
   const val supportLibVersion = "1.1.0"
   const val robolectricVersion = "4.4"
@@ -35,5 +34,5 @@ object Versions {
   const val uiAutomatorVersion = "2.2.0"
   const val espressoVersion = "3.4.0"
 
-  const val lintVersion = "27.0.1"
+  const val lintVersion = "27.2.2"
 }

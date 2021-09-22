@@ -4,7 +4,6 @@ apply plugin: "org.jetbrains.kotlin.kapt"
 
 android {
   compileSdkVersion Versions.compileSdkVersion
-  buildToolsVersion Versions.buildToolsVersion
 
   defaultConfig {
     applicationId "com.wealthfront.magellan.sample"

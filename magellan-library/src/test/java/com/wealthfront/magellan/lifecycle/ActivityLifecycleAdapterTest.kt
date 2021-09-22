@@ -7,8 +7,8 @@ import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.core.Step
-import com.wealthfront.magellan.test.AttachingActivity
-import com.wealthfront.magellan.test.DummyStep
+import com.wealthfront.magellan.internal.test.AttachingActivity
+import com.wealthfront.magellan.internal.test.DummyStep
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

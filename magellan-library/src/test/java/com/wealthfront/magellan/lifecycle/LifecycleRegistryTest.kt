@@ -183,4 +183,3 @@ private class DummyLifecycleComponent(
 
   override fun onBackPressed(): Boolean = backPressedAction()
 }
-

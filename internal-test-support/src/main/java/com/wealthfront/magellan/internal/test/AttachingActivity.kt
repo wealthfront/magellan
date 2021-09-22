@@ -1,4 +1,4 @@
-package com.wealthfront.magellan.test
+package com.wealthfront.magellan.internal.test
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
