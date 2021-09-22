@@ -1,11 +1,11 @@
 package com.wealthfront.magellan.sample.advanced.suggestexhibit
 
 import android.content.Context
-import com.wealthfront.magellan.sample.advanced.ToolbarHelperProvider
-import com.wealthfront.magellan.sample.advanced.databinding.SuggestExhibitBinding
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.navigation.NavigationEvent
+import com.wealthfront.magellan.sample.advanced.ToolbarHelperProvider
+import com.wealthfront.magellan.sample.advanced.databinding.SuggestExhibitBinding
 import com.wealthfront.magellan.transitions.DefaultTransition
 
 class SuggestExhibitJourney(private val completeSuggestion: () -> Unit) :

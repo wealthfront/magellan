@@ -1,8 +1,8 @@
 package com.wealthfront.magellan.sample.advanced
 
 import android.content.Context
-import com.wealthfront.magellan.sample.advanced.databinding.MainMenuBinding
 import com.wealthfront.magellan.core.Step
+import com.wealthfront.magellan.sample.advanced.databinding.MainMenuBinding
 
 class MainMenuStep(
   private val goToCollection: () -> Unit,

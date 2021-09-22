@@ -1,9 +1,9 @@
 package com.wealthfront.magellan.sample.advanced.designcereal
 
 import android.content.Context
+import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.sample.advanced.ToolbarHelperProvider
 import com.wealthfront.magellan.sample.advanced.databinding.DesignCerealBinding
-import com.wealthfront.magellan.core.Journey
 
 class DesignCerealJourney(private val cerealComplete: () -> Unit) : Journey<DesignCerealBinding>(
   DesignCerealBinding::inflate,

@@ -1,20 +1,18 @@
 package com.wealthfront.magellan.sample.advanced.ordertickets
 
 import android.content.Context
+import com.wealthfront.magellan.Direction
+import com.wealthfront.magellan.core.Journey
+import com.wealthfront.magellan.navigation.NavigationEvent
 import com.wealthfront.magellan.sample.advanced.ToolbarHelperProvider
 import com.wealthfront.magellan.sample.advanced.databinding.OrderTicketsBinding
 import com.wealthfront.magellan.sample.advanced.paymentinfo.PaymentInfoJourney
 import com.wealthfront.magellan.sample.advanced.paymentinfo.PaymentMethod
-import com.wealthfront.magellan.sample.advanced.suggestexhibit.SuggestConfirmationStep
-import com.wealthfront.magellan.Direction
-import com.wealthfront.magellan.core.Journey
-import com.wealthfront.magellan.navigation.NavigationEvent
 import com.wealthfront.magellan.transitions.DefaultTransition
 
-class OrderTicketsJourney(private val onOrderComplete: () -> Unit) : Journey<OrderTicketsBinding>(
-  OrderTicketsBinding::inflate,
-  OrderTicketsBinding::orderTicketsContainer
-), BasketStepListener {
+class OrderTicketsJourney(private val onOrderComplete: () -> Unit) :
+  Journey<OrderTicketsBinding>(OrderTicketsBinding::inflate, OrderTicketsBinding::orderTicketsContainer),
+  BasketStepListener {
 
   private var ticketOrder = TicketOrder(0, 0)
 

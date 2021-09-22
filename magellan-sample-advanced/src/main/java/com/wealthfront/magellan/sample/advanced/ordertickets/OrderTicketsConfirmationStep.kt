@@ -1,11 +1,11 @@
 package com.wealthfront.magellan.sample.advanced.ordertickets
 
 import android.content.Context
+import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.sample.advanced.R
 import com.wealthfront.magellan.sample.advanced.ToolbarHelperProvider
 import com.wealthfront.magellan.sample.advanced.databinding.OrderTicketsConfirmationBinding
 import com.wealthfront.magellan.sample.advanced.paymentinfo.PaymentMethod
-import com.wealthfront.magellan.core.Step
 
 class OrderTicketsConfirmationStep(
   private val ticketOrder: TicketOrder,

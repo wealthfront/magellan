@@ -3,9 +3,9 @@ package com.wealthfront.magellan.sample.advanced.paymentinfo
 import android.app.AlertDialog
 import android.content.Context
 import androidx.core.widget.doAfterTextChanged
-import com.wealthfront.magellan.sample.advanced.databinding.PaymentMethodCreditCardBinding
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
+import com.wealthfront.magellan.sample.advanced.databinding.PaymentMethodCreditCardBinding
 import com.wealthfront.magellan.view.DialogComponent
 
 class PaymentMethodCreditCardDetailsStep(private val onComplete: (PaymentMethod.CreditCard) -> Unit) :

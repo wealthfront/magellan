@@ -1,9 +1,9 @@
 package com.wealthfront.magellan.sample.advanced.paymentinfo
 
 import android.content.Context
+import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.sample.advanced.R
 import com.wealthfront.magellan.sample.advanced.databinding.PaymentMethodMenuBinding
-import com.wealthfront.magellan.core.Step
 
 class PaymentMethodSelectionStep(
   private val paymentMethodJourney: PaymentInfoJourney

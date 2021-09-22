@@ -3,9 +3,9 @@ package com.wealthfront.magellan.sample.advanced.ordertickets
 import android.content.Context
 import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
+import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.sample.advanced.R
 import com.wealthfront.magellan.sample.advanced.databinding.OrderTicketsBasketBinding
-import com.wealthfront.magellan.core.Step
 import java.math.BigDecimal
 
 val adultTicketCost: BigDecimal = BigDecimal("8.50")

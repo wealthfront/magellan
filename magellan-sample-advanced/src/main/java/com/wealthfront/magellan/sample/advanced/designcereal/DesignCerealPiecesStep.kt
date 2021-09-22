@@ -1,11 +1,11 @@
 package com.wealthfront.magellan.sample.advanced.designcereal
 
 import android.content.Context
+import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.sample.advanced.R
 import com.wealthfront.magellan.sample.advanced.databinding.DesignCerealPiecesBinding
 import com.wealthfront.magellan.sample.advanced.designcereal.CerealPieceType.CORN_FLAKE
 import com.wealthfront.magellan.sample.advanced.designcereal.CerealPieceType.RINGS
-import com.wealthfront.magellan.core.Step
 
 class DesignCerealPiecesStep(
   private val pieceTypeSelected: (CerealPieceType) -> Unit

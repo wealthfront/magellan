@@ -3,8 +3,8 @@ package com.wealthfront.magellan.sample.advanced
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.wealthfront.magellan.sample.advanced.ToolbarHelperProvider.toolbarHelper
 import com.wealthfront.magellan.lifecycle.setContentScreen
+import com.wealthfront.magellan.sample.advanced.ToolbarHelperProvider.toolbarHelper
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,10 +1,10 @@
 package com.wealthfront.magellan.sample.advanced.paymentinfo
 
 import android.content.Context
+import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.sample.advanced.ToolbarHelperProvider
 import com.wealthfront.magellan.sample.advanced.databinding.PaymentMethodBinding
 import com.wealthfront.magellan.sample.advanced.ordertickets.TicketOrder
-import com.wealthfront.magellan.core.Journey
 
 class PaymentInfoJourney(
   ticketOrder: TicketOrder,

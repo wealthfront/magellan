@@ -2,8 +2,8 @@ package com.wealthfront.magellan.sample.advanced.cerealcollection
 
 import android.content.Context
 import androidx.annotation.StringRes
-import com.wealthfront.magellan.sample.advanced.databinding.CerealDetailBinding
 import com.wealthfront.magellan.core.Step
+import com.wealthfront.magellan.sample.advanced.databinding.CerealDetailBinding
 
 class CerealDetailStep(private val cerealDetails: CerealDetails) :
   Step<CerealDetailBinding>(CerealDetailBinding::inflate) {

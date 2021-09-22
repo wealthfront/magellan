@@ -1,10 +1,12 @@
 package com.wealthfront.magellan.sample.advanced.cerealcollection
 
 import android.content.Context
-import com.wealthfront.magellan.sample.advanced.R
-import com.wealthfront.magellan.sample.advanced.cerealcollection.CerealStatus.*
-import com.wealthfront.magellan.sample.advanced.databinding.BrowseCollectionBinding
 import com.wealthfront.magellan.core.Journey
+import com.wealthfront.magellan.sample.advanced.R
+import com.wealthfront.magellan.sample.advanced.cerealcollection.CerealStatus.ACTIVE
+import com.wealthfront.magellan.sample.advanced.cerealcollection.CerealStatus.DISCONTINUED
+import com.wealthfront.magellan.sample.advanced.cerealcollection.CerealStatus.LIMITED
+import com.wealthfront.magellan.sample.advanced.databinding.BrowseCollectionBinding
 import com.wealthfront.magellan.transitions.NoAnimationTransition
 
 class BrowseCollectionJourney : Journey<BrowseCollectionBinding>(

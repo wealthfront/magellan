@@ -1,13 +1,13 @@
 package com.wealthfront.magellan.sample.advanced.designcereal
 
 import android.content.Context
+import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.sample.advanced.R
 import com.wealthfront.magellan.sample.advanced.databinding.DesignCerealStyleBinding
 import com.wealthfront.magellan.sample.advanced.designcereal.CerealPieceColor.NATURAL
 import com.wealthfront.magellan.sample.advanced.designcereal.CerealPieceColor.RAINBOW
 import com.wealthfront.magellan.sample.advanced.designcereal.CerealPieceStyle.FROSTED
 import com.wealthfront.magellan.sample.advanced.designcereal.CerealPieceStyle.PLAIN
-import com.wealthfront.magellan.core.Step
 
 class DesignCerealStyleStep(
   private val goToConfirmation: (CerealPieceStyle, CerealPieceColor) -> Unit

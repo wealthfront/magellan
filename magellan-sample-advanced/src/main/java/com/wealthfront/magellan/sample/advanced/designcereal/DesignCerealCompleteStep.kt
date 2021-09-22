@@ -1,10 +1,10 @@
 package com.wealthfront.magellan.sample.advanced.designcereal
 
 import android.content.Context
+import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.sample.advanced.databinding.DesignCerealCompleteBinding
 import com.wealthfront.magellan.sample.advanced.designcereal.CerealPieceType.CORN_FLAKE
 import com.wealthfront.magellan.sample.advanced.designcereal.CerealPieceType.RINGS
-import com.wealthfront.magellan.core.Step
 
 class DesignCerealCompleteStep(
   private val customCereal: CustomCereal,

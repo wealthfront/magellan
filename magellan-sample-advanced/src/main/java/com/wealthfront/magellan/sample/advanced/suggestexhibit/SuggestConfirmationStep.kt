@@ -1,9 +1,9 @@
 package com.wealthfront.magellan.sample.advanced.suggestexhibit
 
 import android.content.Context
+import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.sample.advanced.ToolbarHelperProvider
 import com.wealthfront.magellan.sample.advanced.databinding.SuggestExhibitConfirmationBinding
-import com.wealthfront.magellan.core.Step
 
 class SuggestConfirmationStep(
   private val finishFlow: () -> Unit
