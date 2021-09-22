@@ -18,4 +18,4 @@ jobs:
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v1.5.1
       with:
-        arguments: clean testDebugUnitTest lintRelease checkstyle lintKotlin
+        arguments: checkstyle --stacktrace
