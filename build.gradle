@@ -10,6 +10,7 @@ buildscript {
     classpath(Dependencies.kotlinGradle)
     classpath(Dependencies.kotlinterGradle)
     classpath(Dependencies.kotlinAllOpen)
+    classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30'
   }
 }
 

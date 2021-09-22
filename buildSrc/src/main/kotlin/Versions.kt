@@ -3,13 +3,15 @@ object Versions {
   const val minSdkVersion = 18
   const val targetSdkVersion = 30
 
-  const val kotlinVersion = "1.4.30"
+  const val kotlinVersion = "1.5.30"
   const val kotlinterVersion = "3.4.0"
   const val detektVersion = "1.5.1"
-  const val supportLibVersion = "1.1.0"
+  const val supportLibVersion = "1.3.1"
+  const val constraintLayoutVersion = "2.1.0"
   const val robolectricVersion = "4.4"
   const val archVersion = "2.1.0"
   const val lifecycleVersion = "2.2.0"
+  const val androidXCoreVersion = "1.6.0"
   const val butterKnifeVersion = "10.0.0"
   const val daggerVersion = "2.24"
   const val javaInject = "1"
@@ -22,7 +24,7 @@ object Versions {
   const val jacksonVersion = "2.7.2"
   const val okhttpVersion = "4.4.0"
   const val javaInjectVersion = "1"
-  const val materialVersion = "1.1.0"
+  const val materialVersion = "1.4.0"
   const val coroutinesVersion = "1.4.3"
 
   const val testCoreVersion = "1.4.0"

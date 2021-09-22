@@ -1,5 +1,7 @@
+import Versions.androidXCoreVersion
 import Versions.archVersion
 import Versions.butterKnifeVersion
+import Versions.constraintLayoutVersion
 import Versions.coroutinesVersion
 import Versions.daggerVersion
 import Versions.espressoVersion
@@ -31,7 +33,9 @@ object Dependencies {
 
   const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
   const val appCompat = "androidx.appcompat:appcompat:$supportLibVersion"
+  const val constraintLayout = "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
   const val lifecycle = "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+  const val androidXCore = "androidx.core:core-ktx:$androidXCoreVersion"
 
   const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   const val kotlinterGradle = "org.jmailen.gradle:kotlinter-gradle:$kotlinterVersion"
@@ -68,7 +72,7 @@ object Dependencies {
   const val testRules = "com.android.support.test:rules:$testRunnerVersion"
   const val uiAutomator ="androidx.test.uiautomator:uiautomator:$uiAutomatorVersion"
   const val extJunit = "androidx.test.ext:junit:$junitTestExtVersion"
-  const val espressoCore = "com.android.support.test.espresso:espresso-core:$espressoVersion"
+  const val espressoCore = "androidx.test.espresso:espresso-core:$espressoVersion"
 
   const val lintApi = "com.android.tools.lint:lint-api:$lintVersion"
   const val lintChecks = "com.android.tools.lint:lint-checks:$lintVersion"

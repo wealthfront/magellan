@@ -7,7 +7,7 @@
     android:orientation="vertical"
     >
 
-  <com.wealthfront.magellan.sample.advanced.toolbar.ToolbarView
+  <com.wealthfront.magellan.sample.migration.toolbar.ToolbarView
       android:id="@+id/menu"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"

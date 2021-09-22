@@ -1,0 +1,52 @@
+plugins {
+  id 'com.android.application'
+  id 'kotlin-android'
+  id 'kotlin-kapt'
+}
+
+android {
+  compileSdkVersion 30
+
+  defaultConfig {
+    applicationId "com.wealthfront.magellan.sample.advanced"
+    minSdkVersion 24
+    targetSdkVersion 30
+    versionCode 1
+    versionName "1.0"
+
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+  }
+
+  buildFeatures {
+    viewBinding = true
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+  kotlinOptions {
+    jvmTarget = '1.8'
+  }
+}
+
+dependencies {
+
+  implementation project(':magellan-library')
+  implementation Dependencies.kotlinStdLib
+  implementation Dependencies.androidXCore
+  implementation Dependencies.appCompat
+  implementation Dependencies.material
+  implementation Dependencies.constraintLayout
+
+  testImplementation Dependencies.junit
+
+  androidTestImplementation Dependencies.extJunit
+  androidTestImplementation Dependencies.espressoCore
+}
