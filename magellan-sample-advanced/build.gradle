@@ -21,16 +21,24 @@ android {
     viewBinding = true
   }
 
+  testOptions {
+    unitTests {
+      includeAndroidResources = true
+    }
+  }
+
   buildTypes {
     release {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
     }
   }
+
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
   }
+
   kotlinOptions {
     jvmTarget = '1.8'
   }
@@ -45,6 +53,10 @@ dependencies {
   implementation Dependencies.constraintLayout
 
   testImplementation Dependencies.junit
+  testImplementation Dependencies.testCore
+  testImplementation Dependencies.truth
+  testImplementation Dependencies.mockito
+  testImplementation Dependencies.robolectric
 
   androidTestImplementation Dependencies.extJunit
   androidTestImplementation Dependencies.espressoCore
