@@ -37,8 +37,4 @@ class DesignCerealJourneyTest {
       assertThat(backstack[2].navigable).isInstanceOf(DesignCerealPiecesStep::class.java)
     }
   }
-
-  @Test
-  fun piecesSelected() {
-  }
 }
