@@ -2,9 +2,11 @@ package com.wealthfront.magellan.sample.advanced.paymentinfo
 
 import android.content.Context
 import com.wealthfront.magellan.core.Journey
-import com.wealthfront.magellan.sample.advanced.ToolbarHelperProvider
+import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
+import com.wealthfront.magellan.sample.advanced.ToolbarHelper
 import com.wealthfront.magellan.sample.advanced.databinding.PaymentMethodBinding
 import com.wealthfront.magellan.sample.advanced.ordertickets.TicketOrder
+import javax.inject.Inject
 
 class PaymentInfoJourney(
   ticketOrder: TicketOrder,
@@ -14,16 +16,19 @@ class PaymentInfoJourney(
   PaymentMethodBinding::paymentMethodContainer
 ) {
 
+  @Inject lateinit var toolbarHelper: ToolbarHelper
+
   var paymentMethod: PaymentMethod? = ticketOrder.paymentMethod
     private set
 
   override fun onCreate(context: Context) {
+    app(context).injector().inject(this)
     navigator.goTo(PaymentMethodSelectionStep(this))
   }
 
   override fun onShow(context: Context, binding: PaymentMethodBinding) {
-    ToolbarHelperProvider.toolbarHelper.setTitle("Payment method")
-    ToolbarHelperProvider.toolbarHelper.showToolbar()
+    toolbarHelper.setTitle("Payment method")
+    toolbarHelper.showToolbar()
   }
 
   fun goToCreditCardDetails() {

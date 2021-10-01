@@ -4,25 +4,29 @@ import android.content.Context
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.navigation.NavigationEvent
-import com.wealthfront.magellan.sample.advanced.ToolbarHelperProvider
+import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
+import com.wealthfront.magellan.sample.advanced.ToolbarHelper
 import com.wealthfront.magellan.sample.advanced.databinding.OrderTicketsBinding
 import com.wealthfront.magellan.sample.advanced.paymentinfo.PaymentInfoJourney
 import com.wealthfront.magellan.sample.advanced.paymentinfo.PaymentMethod
 import com.wealthfront.magellan.transitions.DefaultTransition
+import javax.inject.Inject
 
 class OrderTicketsJourney(private val onOrderComplete: () -> Unit) :
   Journey<OrderTicketsBinding>(OrderTicketsBinding::inflate, OrderTicketsBinding::orderTicketsContainer),
   BasketStepListener {
 
+  @Inject lateinit var toolbarHelper: ToolbarHelper
   private var ticketOrder = TicketOrder(0, 0)
 
   override fun onCreate(context: Context) {
+    app(context).injector().inject(this)
     navigator.goTo(OrderTicketsBasketStep(this, ticketOrder))
   }
 
   override fun onShow(context: Context, binding: OrderTicketsBinding) {
-    ToolbarHelperProvider.toolbarHelper.setTitle("Order tickets")
-    ToolbarHelperProvider.toolbarHelper.showToolbar()
+    toolbarHelper.setTitle("Order tickets")
+    toolbarHelper.showToolbar()
   }
 
   override fun onBasketFilled(adultTicketCount: Int, childTicketCount: Int) {

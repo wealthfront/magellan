@@ -5,12 +5,12 @@ plugins {
 }
 
 android {
-  compileSdkVersion 30
+  compileSdkVersion Versions.compileSdkVersion
 
   defaultConfig {
     applicationId "com.wealthfront.magellan.sample.advanced"
-    minSdkVersion 24
-    targetSdkVersion 30
+    minSdkVersion 21
+    targetSdkVersion Versions.targetSdkVersion
     versionCode 1
     versionName "1.0"
 
@@ -47,10 +47,25 @@ android {
 dependencies {
 
   implementation project(':magellan-library')
+  implementation project(':magellan-rx2')
+
   implementation Dependencies.androidXCore
   implementation Dependencies.appCompat
   implementation Dependencies.material
   implementation Dependencies.constraintLayout
+
+  implementation Dependencies.dagger
+  kapt Dependencies.daggerCompiler
+
+  implementation Dependencies.retrofit
+  implementation Dependencies.rxjava
+  implementation Dependencies.rxAndroid2
+  implementation Dependencies.retrofitMock
+  implementation Dependencies.rxJava2Adapter
+  implementation Dependencies.jackson
+  implementation Dependencies.okhttp
+  implementation Dependencies.coroutines
+  implementation Dependencies.coroutinesAndroid
 
   testImplementation Dependencies.junit
   testImplementation Dependencies.testCore

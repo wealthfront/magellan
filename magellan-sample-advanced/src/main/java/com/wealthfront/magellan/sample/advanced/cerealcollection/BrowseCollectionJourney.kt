@@ -1,82 +1,66 @@
 package com.wealthfront.magellan.sample.advanced.cerealcollection
 
 import android.content.Context
+import androidx.appcompat.widget.AppCompatButton
+import androidx.core.view.children
+import com.google.android.material.button.MaterialButton
 import com.wealthfront.magellan.core.Journey
-import com.wealthfront.magellan.sample.advanced.R
-import com.wealthfront.magellan.sample.advanced.cerealcollection.CerealStatus.ACTIVE
-import com.wealthfront.magellan.sample.advanced.cerealcollection.CerealStatus.DISCONTINUED
-import com.wealthfront.magellan.sample.advanced.cerealcollection.CerealStatus.LIMITED
+import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
+import com.wealthfront.magellan.rx2.RxDisposer
+import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
+import com.wealthfront.magellan.sample.advanced.api.ApiClient
 import com.wealthfront.magellan.sample.advanced.databinding.BrowseCollectionBinding
+import com.wealthfront.magellan.transitions.CrossfadeTransition
 import com.wealthfront.magellan.transitions.NoAnimationTransition
+import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
+import javax.inject.Inject
 
 class BrowseCollectionJourney : Journey<BrowseCollectionBinding>(
   BrowseCollectionBinding::inflate,
   BrowseCollectionBinding::cerealDetailContainer
 ) {
 
-  val monsterCerealDetails =
-    CerealDetails(R.string.monster_cereals_title, R.string.monster_cereals_description, LIMITED)
+  private val rxUnsubscriber by attachFieldToLifecycle(RxDisposer())
+  @Inject lateinit var apiClient: ApiClient
 
   override fun onCreate(context: Context) {
-    super.onCreate(context)
-    navigator.goTo(CerealDetailStep(monsterCerealDetails), NoAnimationTransition())
+    app(context).injector().inject(this)
   }
 
   override fun onShow(context: Context, binding: BrowseCollectionBinding) {
-    binding.monsterCereals.isEnabled = false
-    binding.monsterCereals.setOnClickListener {
-      enableMenuChoices(binding)
-      binding.monsterCereals.isEnabled = false
+    rxUnsubscriber.autoDispose(
+      apiClient.getCollection()
+        .observeOn(mainThread())
+        .doOnSubscribe { binding.loadingLayout.showLoading() }
+        .doOnTerminate { binding.loadingLayout.hideLoading() }
+        .subscribe { cereals ->
+          cereals.forEachIndexed { index, cerealDetails ->
+            val cerealButton = createCerealButton(context, cerealDetails)
+            binding.cerealButtonContainer.addView(cerealButton)
 
-      navigator.replace(CerealDetailStep(monsterCerealDetails), NoAnimationTransition())
-    }
+            if (index == 0) {
+              cerealButton.isEnabled = false
+              navigator.goTo(CerealDetailStep(cereals[0]), NoAnimationTransition())
+            }
+          }
+        }
+    )
+  }
 
-    binding.cornflakes.setOnClickListener {
-      enableMenuChoices(binding)
-      binding.cornflakes.isEnabled = false
-
-      val cerealDetails = CerealDetails(
-        R.string.cornflakes_title,
-        R.string.cornflakes_description,
-        ACTIVE
-      )
-      binding.monsterCereals.isEnabled = false
-      navigator.replace(CerealDetailStep(cerealDetails), NoAnimationTransition())
-    }
-
-    binding.dunkABalls.setOnClickListener {
-      enableMenuChoices(binding)
-      binding.dunkABalls.isEnabled = false
-
-      val cerealDetails = CerealDetails(
-        R.string.dunk_a_balls_title,
-        R.string.dunk_a_balls_description,
-        DISCONTINUED
-      )
-      navigator.replace(CerealDetailStep(cerealDetails), NoAnimationTransition())
-    }
-
-    binding.oreoOs.setOnClickListener {
-      enableMenuChoices(binding)
-      binding.oreoOs.isEnabled = false
-
-      val cerealDetails = CerealDetails(
-        R.string.oreo_os_title,
-        R.string.oreo_os_description,
-        ACTIVE
-      )
-      navigator.replace(CerealDetailStep(cerealDetails), NoAnimationTransition())
+  private fun createCerealButton(context: Context, cerealDetails: CerealDetails): AppCompatButton {
+    return MaterialButton(context).apply {
+      setText(cerealDetails.title)
+      setOnClickListener {
+        enableMenuChoices()
+        it.isEnabled = false
+        navigator.replace(CerealDetailStep(cerealDetails), CrossfadeTransition())
+      }
     }
   }
 
-  private fun enableMenuChoices(binding: BrowseCollectionBinding) {
-    setOf(
-      binding.monsterCereals,
-      binding.cornflakes,
-      binding.dunkABalls,
-      binding.oreoOs
-    ).forEach { button ->
-      button.isEnabled = true
+  private fun enableMenuChoices() {
+    this.viewBinding!!.cerealButtonContainer.children.forEach {
+      it.isEnabled = true
     }
   }
 }

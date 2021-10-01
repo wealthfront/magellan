@@ -20,6 +20,7 @@ import Versions.mockitoVersion
 import Versions.okhttpVersion
 import Versions.retrofitVersion
 import Versions.robolectricVersion
+import Versions.rxAndroid2Version
 import Versions.rxandroidVersion
 import Versions.rxjava2Version
 import Versions.rxjavaAdapterVersion
@@ -62,10 +63,13 @@ object Dependencies {
 
   const val glide = "com.github.bumptech.glide:glide:$glideVersion"
   const val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
+  const val retrofitMock = "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
+  const val rxjavaAdapter = "com.squareup.retrofit2:adapter-rxjava:$rxjavaAdapterVersion"
+  const val rxJava2Adapter = "com.squareup.retrofit2:adapter-rxjava2:$rxjavaAdapterVersion"
   const val rxjava = "io.reactivex:rxjava:$rxjavaVersion"
   const val rxjava2 = "io.reactivex.rxjava2:rxjava:$rxjava2Version"
-  const val rxjavaAdapter = "com.squareup.retrofit2:adapter-rxjava:$rxjavaAdapterVersion"
   const val rxandroid = "io.reactivex:rxandroid:$rxandroidVersion"
+  const val rxAndroid2 = "io.reactivex.rxjava2:rxandroid:$rxAndroid2Version"
   const val jackson = "com.squareup.retrofit2:converter-jackson:$jacksonVersion"
   const val okhttp = "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
 

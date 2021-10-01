@@ -3,18 +3,26 @@ package com.wealthfront.magellan.sample.advanced.ordertickets
 import android.content.Context
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.sample.advanced.R
-import com.wealthfront.magellan.sample.advanced.ToolbarHelperProvider
+import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
+import com.wealthfront.magellan.sample.advanced.ToolbarHelper
 import com.wealthfront.magellan.sample.advanced.databinding.OrderTicketsConfirmationBinding
 import com.wealthfront.magellan.sample.advanced.paymentinfo.PaymentMethod
+import javax.inject.Inject
 
 class OrderTicketsConfirmationStep(
   private val ticketOrder: TicketOrder,
   private val onTicketsOrdered: () -> Unit
 ) : Step<OrderTicketsConfirmationBinding>(OrderTicketsConfirmationBinding::inflate) {
 
+  @Inject lateinit var toolbarHelper: ToolbarHelper
+
+  override fun onCreate(context: Context) {
+    app(context).injector().inject(this)
+  }
+
   override fun onShow(context: Context, binding: OrderTicketsConfirmationBinding) {
-    ToolbarHelperProvider.toolbarHelper.setTitle("Confirm order")
-    ToolbarHelperProvider.toolbarHelper.showToolbar()
+    toolbarHelper.setTitle("Confirm order")
+    toolbarHelper.showToolbar()
 
     val adultTicketSummary = if (ticketOrder.adultTickets > 0) {
       context.resources.getQuantityString(

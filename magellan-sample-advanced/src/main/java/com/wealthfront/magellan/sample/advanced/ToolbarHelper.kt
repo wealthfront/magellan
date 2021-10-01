@@ -8,11 +8,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 
-object ToolbarHelperProvider {
-
-  var toolbarHelper = ToolbarHelper()
-}
-
 class ToolbarHelper : LifecycleEventObserver {
 
   private var toolbar: Toolbar? = null

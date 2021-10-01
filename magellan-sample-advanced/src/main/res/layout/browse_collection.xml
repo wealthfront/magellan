@@ -1,46 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.wealthfront.magellan.sample.advanced.views.LoadingLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/loadingLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/normalSpacing"
     >
 
-  <com.wealthfront.magellan.ScreenContainer
-      android:id="@+id/cerealDetailContainer"
+  <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginBottom="@dimen/largeSpacing"
-      android:background="@color/purple_200"
+      android:layout_height="match_parent"
       android:padding="@dimen/normalSpacing"
-      />
+      >
 
-  <Button
-      android:id="@+id/monsterCereals"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Monster Cereals"
-      />
+    <com.wealthfront.magellan.ScreenContainer
+        android:id="@+id/cerealDetailContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/largeSpacing"
+        android:background="@color/purple_200"
+        android:padding="@dimen/normalSpacing"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
-  <Button
-      android:id="@+id/dunkABalls"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Dunk-A-Balls"
-      />
-
-  <Button
-      android:id="@+id/cornflakes"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Cornflakes"
-      />
-
-  <Button
-      android:id="@+id/oreoOs"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Oreo O's"
-      />
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/cerealButtonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</com.wealthfront.magellan.sample.advanced.views.LoadingLayout>

@@ -21,6 +21,7 @@ object Versions {
   const val rxjava2Version = "2.2.19"
   const val rxjavaAdapterVersion = "2.3.0"
   const val rxandroidVersion = "1.2.1"
+  const val rxAndroid2Version = "2.1.1"
   const val jacksonVersion = "2.7.2"
   const val okhttpVersion = "4.4.0"
   const val javaInjectVersion = "1"
