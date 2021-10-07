@@ -40,7 +40,6 @@ dependencies {
   implementation project(':magellan-legacy')
 
   implementation Dependencies.appCompat
-  implementation Dependencies.kotlinStdLib
   implementation Dependencies.material
   implementation Dependencies.coroutines
   implementation Dependencies.coroutinesAndroid
@@ -56,5 +55,5 @@ dependencies {
   androidTestImplementation Dependencies.extJunit
   androidTestImplementation Dependencies.espressoCore
 
-  lintChecks project(':magellan-lint')
+  lintPublish project(':magellan-lint')
 }

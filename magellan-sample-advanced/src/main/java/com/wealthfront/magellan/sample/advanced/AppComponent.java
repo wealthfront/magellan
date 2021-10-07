@@ -1,8 +1,13 @@
 package com.wealthfront.magellan.sample.advanced;
 
-import com.wealthfront.magellan.sample.advanced.tide.DogBreedsStep;
-import com.wealthfront.magellan.sample.advanced.tide.DogDetailsScreen;
-import com.wealthfront.magellan.sample.advanced.tide.HelpScreen;
+import com.wealthfront.magellan.sample.advanced.cerealcollection.BrowseCollectionJourney;
+import com.wealthfront.magellan.sample.advanced.designcereal.DesignCerealJourney;
+import com.wealthfront.magellan.sample.advanced.ordertickets.OrderTicketsConfirmationStep;
+import com.wealthfront.magellan.sample.advanced.ordertickets.OrderTicketsJourney;
+import com.wealthfront.magellan.sample.advanced.ordertickets.OrderTicketsSuccessStep;
+import com.wealthfront.magellan.sample.advanced.paymentinfo.PaymentInfoJourney;
+import com.wealthfront.magellan.sample.advanced.suggestexhibit.SuggestConfirmationStep;
+import com.wealthfront.magellan.sample.advanced.suggestexhibit.SuggestExhibitJourney;
 
 import javax.inject.Singleton;
 
@@ -12,13 +17,23 @@ import dagger.Component;
 @Singleton
 public interface AppComponent {
 
-  void inject(MainActivity activity);
+  void inject(MainActivity mainActivity);
 
-  void inject(DogDetailsScreen screen);
+  void inject(MainMenuStep mainMenuStep);
 
-  void inject(DogBreedsStep step);
+  void inject(OrderTicketsJourney orderTicketsJourney);
 
-  void inject(HelpScreen screen);
+  void inject(OrderTicketsSuccessStep orderTicketsSuccessStep);
 
-  void inject(Expedition expedition);
+  void inject(OrderTicketsConfirmationStep orderTicketsConfirmationStep);
+
+  void inject(SuggestExhibitJourney suggestExhibitJourney);
+
+  void inject(SuggestConfirmationStep suggestConfirmationStep);
+
+  void inject(PaymentInfoJourney paymentInfoJourney);
+
+  void inject(DesignCerealJourney mainMenuStep);
+
+  void inject(BrowseCollectionJourney journey);
 }

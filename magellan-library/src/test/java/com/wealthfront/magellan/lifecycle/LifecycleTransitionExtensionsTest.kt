@@ -9,10 +9,10 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.InOrder
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
 import org.mockito.Mockito.inOrder
 import org.mockito.Mockito.verifyNoMoreInteractions
 import org.mockito.Mockito.verifyZeroInteractions
+import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations.initMocks
 
 internal class LifecycleTransitionExtensionsTest {

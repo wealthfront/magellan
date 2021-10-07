@@ -1,9 +1,29 @@
 <resources>
-  <string name="app_name">Magellan Advanced Sample</string>
-  <string name="tide_location_image">Tide Location Image</string>
-  <string name="current_water_level">Current Water Level:</string>
-  <string name="cannot_retrieve_tide_info">Cannot retrieve tide info</string>
-  <string name="help">Help</string>
-  <string name="show_dialog">Show additional info</string>
-  <string name="notification">Notifications</string>
+  <string name="app_name">Cereal Museum</string>
+
+  <string name="suggest_exhibit_title">Have an idea for an exhibit? Let us know!</string>
+  <string name="suggest_exhibit_submit">Submit</string>
+  <string name="suggest_exhibit_success">Suggestion submitted!</string>
+  <string name="suggest_exhibit_success_acknowledge">Go back</string>
+
+  <string name="order_tickets_adults_label">Adults:</string>
+  <string name="order_tickets_children_label">Children (12 and under):</string>
+  <string name="order_tickets_price_label">x %1$s</string>
+  <string name="order_tickets_total_price">Your total: $%1$s</string>
+  <plurals name="order_tickets_order_summary">
+    <item quantity="one">%1$d %2$s ticket</item>
+    <item quantity="other">%1$d %2$s tickets</item>
+  </plurals>
+
+  <string name="dunk_a_balls_title">Dunk-A-Balls</string>
+  <string name="dunk_a_balls_description">This Wheaties spin-off had a specially-designed box, so you could shoot hoops at the breakfast table.</string>
+
+  <string name="monster_cereals_title">Monster Cereals</string>
+  <string name="monster_cereals_description">This set of themed cereals appears around Halloween every year. While Count Chocula is the best known, there are five varieties to collect.</string>
+
+  <string name="cornflakes_title">Cornflakes</string>
+  <string name="cornflakes_description">These flakes epitomise the simplistic diets advocated by their inventor, J.H. Kellogg.</string>
+
+  <string name="oreo_os_title">Oreo O\'s</string>
+  <string name="oreo_os_description">Launched in 1997, and discontinued in 2007 before being re-introduced another ten years later.</string>
 </resources>
