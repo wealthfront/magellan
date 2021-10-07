@@ -148,7 +148,7 @@ public class NavigationDelegate(
         NoAnimationTransition()
       }
       transition.animate(from, to, direction) {
-        if (context != null) {
+        if (context != null && containerView != null) {
           containerView!!.removeView(from)
           currentNavigable!!.transitionFinished()
           containerView!!.setInterceptTouchEvents(false)
