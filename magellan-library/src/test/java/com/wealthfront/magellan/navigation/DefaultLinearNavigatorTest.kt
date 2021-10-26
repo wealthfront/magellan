@@ -23,7 +23,7 @@ import org.robolectric.android.controller.ActivityController
 import org.robolectric.fakes.RoboMenu
 
 @RunWith(RobolectricTestRunner::class)
-internal class LinearNavigatorTest {
+internal class DefaultLinearNavigatorTest {
 
   private val fakeId = 1000
 
@@ -37,7 +37,7 @@ internal class LinearNavigatorTest {
   private lateinit var step3: Step<*>
   private lateinit var journey2: Journey<*>
   private lateinit var step4: Step<*>
-  private lateinit var linearNavigator: LinearNavigator
+  private lateinit var linearNavigator: DefaultLinearNavigator
   private lateinit var context: Activity
 
   @Before
@@ -54,7 +54,7 @@ internal class LinearNavigatorTest {
     menu = RoboMenu(context)
     menu.add(0, fakeId, 0, "some string")
 
-    linearNavigator = LinearNavigator { screenContainer }
+    linearNavigator = DefaultLinearNavigator { screenContainer }
     linearNavigator.create(context)
   }
 
