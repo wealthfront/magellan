@@ -1,15 +1,13 @@
 package com.wealthfront.magellan.sample.advanced
 
 import android.content.Context
-import com.wealthfront.magellan.core.Journey
+import com.wealthfront.magellan.core.SimpleJourney
 import com.wealthfront.magellan.sample.advanced.cerealcollection.BrowseCollectionJourney
-import com.wealthfront.magellan.sample.advanced.databinding.RootJourneyBinding
 import com.wealthfront.magellan.sample.advanced.designcereal.DesignCerealJourney
 import com.wealthfront.magellan.sample.advanced.ordertickets.OrderTicketsJourney
 import com.wealthfront.magellan.sample.advanced.suggestexhibit.SuggestExhibitJourney
 
-class RootJourney :
-  Journey<RootJourneyBinding>(RootJourneyBinding::inflate, RootJourneyBinding::rootJourney) {
+class RootJourney : SimpleJourney() {
 
   override fun onCreate(context: Context) {
     super.onCreate(context)

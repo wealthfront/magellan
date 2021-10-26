@@ -2,16 +2,13 @@ package com.wealthfront.magellan.sample.advanced.designcereal
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
-import com.wealthfront.magellan.core.Journey
+import com.wealthfront.magellan.core.SimpleJourney
+import com.wealthfront.magellan.databinding.MagellanSimpleJourneyBinding
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.advanced.ToolbarHelper
-import com.wealthfront.magellan.sample.advanced.databinding.DesignCerealBinding
 import javax.inject.Inject
 
-class DesignCerealJourney(private val cerealComplete: () -> Unit) : Journey<DesignCerealBinding>(
-  DesignCerealBinding::inflate,
-  DesignCerealBinding::container
-) {
+class DesignCerealJourney(private val cerealComplete: () -> Unit) : SimpleJourney() {
 
   @Inject lateinit var toolbarHelper: ToolbarHelper
   private var customCereal: CustomCereal? = null
@@ -22,7 +19,7 @@ class DesignCerealJourney(private val cerealComplete: () -> Unit) : Journey<Desi
     navigator.goTo(piecesStep)
   }
 
-  override fun onShow(context: Context, binding: DesignCerealBinding) {
+  override fun onShow(context: Context, binding: MagellanSimpleJourneyBinding) {
     toolbarHelper.hideToolbar()
   }
 

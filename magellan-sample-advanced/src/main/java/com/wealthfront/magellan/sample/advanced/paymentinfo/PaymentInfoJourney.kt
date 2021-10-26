@@ -1,20 +1,17 @@
 package com.wealthfront.magellan.sample.advanced.paymentinfo
 
 import android.content.Context
-import com.wealthfront.magellan.core.Journey
+import com.wealthfront.magellan.core.SimpleJourney
+import com.wealthfront.magellan.databinding.MagellanSimpleJourneyBinding
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.advanced.ToolbarHelper
-import com.wealthfront.magellan.sample.advanced.databinding.PaymentMethodBinding
 import com.wealthfront.magellan.sample.advanced.ordertickets.TicketOrder
 import javax.inject.Inject
 
 class PaymentInfoJourney(
   ticketOrder: TicketOrder,
   private val onPaymentMethodCollected: (PaymentMethod) -> Unit
-) : Journey<PaymentMethodBinding>(
-  PaymentMethodBinding::inflate,
-  PaymentMethodBinding::paymentMethodContainer
-) {
+) : SimpleJourney() {
 
   @Inject lateinit var toolbarHelper: ToolbarHelper
 
@@ -26,7 +23,7 @@ class PaymentInfoJourney(
     navigator.goTo(PaymentMethodSelectionStep(this))
   }
 
-  override fun onShow(context: Context, binding: PaymentMethodBinding) {
+  override fun onShow(context: Context, binding: MagellanSimpleJourneyBinding) {
     toolbarHelper.setTitle("Payment method")
     toolbarHelper.showToolbar()
   }
