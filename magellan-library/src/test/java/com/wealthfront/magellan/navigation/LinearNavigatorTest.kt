@@ -64,8 +64,7 @@ internal class LinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(
-      DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test(expected = IllegalStateException::class)
@@ -88,8 +87,7 @@ internal class LinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(
-      ShowTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(ShowTransition::class.java)
   }
 
   @Test
@@ -99,8 +97,7 @@ internal class LinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(
-      DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
@@ -110,8 +107,7 @@ internal class LinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(
-      ShowTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(ShowTransition::class.java)
   }
 
   @Test(expected = IllegalStateException::class)
@@ -132,8 +128,7 @@ internal class LinearNavigatorTest {
     assertThat(didNavigate).isTrue()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(
-      DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
@@ -144,8 +139,7 @@ internal class LinearNavigatorTest {
     assertThat(didNavigate).isFalse()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(
-      DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
@@ -165,8 +159,7 @@ internal class LinearNavigatorTest {
     assertThat(didNavigate).isTrue()
     assertThat(linearNavigator.backStack.size).isEqualTo(2)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(
-      DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
