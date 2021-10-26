@@ -114,21 +114,21 @@ public class NavigationDelegate(
     oldBackStack: List<NavigableCompat>,
     newBackStack: List<NavigableCompat>
   ) {
-    val oldNavigables = oldBackStack.toSet()
-    val newNavigables = newBackStack.toSet()
-    if (newNavigables.size != newBackStack.size) {
-      val numExtraNavigables = newNavigables.size - newBackStack.size
+    val oldNavigableSet = oldBackStack.toSet()
+    val newNavigableSet = newBackStack.toSet()
+    if (newNavigableSet.size != newBackStack.size) {
+      val numExtraNavigables = newBackStack.size - newNavigableSet.size
       throw IllegalStateException(
         "Cannot have multiple of the same Navigable in the backstack. " +
-          "Have $numExtraNavigables extra Navigables in: $newNavigables"
+          "Have $numExtraNavigables extra Navigables in: $newBackStack"
       )
     }
 
-    (oldNavigables - newNavigables).forEach { oldNavigable ->
+    (oldNavigableSet - newNavigableSet).forEach { oldNavigable ->
       lifecycleRegistry.removeFromLifecycle(oldNavigable)
     }
 
-    (newNavigables - oldNavigables).forEach { newNavigable ->
+    (newNavigableSet - oldNavigableSet).forEach { newNavigable ->
       currentNavigableSetup?.invoke(newNavigable)
       lifecycleRegistry.attachToLifecycleWithMaxState(newNavigable, CREATED)
     }
