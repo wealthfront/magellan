@@ -6,10 +6,16 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.util.Property
 import android.view.View
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
 
+/**
+ * A vertical version of [DefaultTransition]. Performs a bottom-to-top slide on entrance and a
+ * top-to-bottom slide on exit. Uses a [FastOutSlowInInterpolator] for both per
+ * [the Material Design guidelines](https://material.io/design/motion/speed.html#easing).
+ */
 public class ShowTransition : MagellanTransition {
 
   override fun animate(
@@ -40,6 +46,7 @@ public class ShowTransition : MagellanTransition {
       set.play(ObjectAnimator.ofFloat(from, axis, 0f, fromTranslation.toFloat()))
     }
     set.play(ObjectAnimator.ofFloat(to, axis, toTranslation.toFloat(), 0f))
+    set.interpolator = FastOutSlowInInterpolator()
     return set
   }
 }

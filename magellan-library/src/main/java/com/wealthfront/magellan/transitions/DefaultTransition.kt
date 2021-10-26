@@ -12,7 +12,8 @@ import com.wealthfront.magellan.navigation.NavigationEvent
 
 /**
  * The default transition for all [NavigationEvent]s where another [MagellanTransition] isn't
- * defined. Uses a [FastOutSlowInInterpolator] per
+ * defined. Performs a right-to-left slide on entrance and a left-to-right slide on exit. Uses a
+ * [FastOutSlowInInterpolator] for both per
  * [the Material Design guidelines](https://material.io/design/motion/speed.html#easing).
  */
 public class DefaultTransition : MagellanTransition {
