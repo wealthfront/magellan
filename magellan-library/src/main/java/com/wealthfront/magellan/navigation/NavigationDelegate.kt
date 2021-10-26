@@ -43,8 +43,10 @@ public class NavigationDelegate(
 
   override fun onShow(context: Context) {
     containerView = container()
-    currentNavigable?.let {
-      containerView!!.addView(currentNavigable!!.view!!)
+    currentNavigable?.let { currentNavigable ->
+      containerView!!.addView(currentNavigable.view!!)
+      currentNavigable.transitionStarted()
+      currentNavigable.transitionFinished()
     }
   }
 
