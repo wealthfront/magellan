@@ -3,7 +3,7 @@ package com.wealthfront.magellan.sample.advanced.ordertickets
 import android.content.Context
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.core.SimpleJourney
-import com.wealthfront.magellan.databinding.MagellanRootBinding
+import com.wealthfront.magellan.databinding.MagellanSimpleJourneyBinding
 import com.wealthfront.magellan.navigation.NavigationEvent
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.advanced.ToolbarHelper
@@ -24,7 +24,7 @@ class OrderTicketsJourney(
     navigator.goTo(OrderTicketsBasketStep(this, ticketOrder))
   }
 
-  override fun onShow(context: Context, binding: MagellanRootBinding) {
+  override fun onShow(context: Context, binding: MagellanSimpleJourneyBinding) {
     toolbarHelper.setTitle("Order tickets")
     toolbarHelper.showToolbar()
   }

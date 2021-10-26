@@ -1,8 +1,8 @@
 package com.wealthfront.magellan.core
 
-import com.wealthfront.magellan.databinding.MagellanRootBinding
+import com.wealthfront.magellan.databinding.MagellanSimpleJourneyBinding
 
-public open class SimpleJourney : Journey<MagellanRootBinding>(
-  MagellanRootBinding::inflate,
-  MagellanRootBinding::magellanContainer
+public open class SimpleJourney : Journey<MagellanSimpleJourneyBinding>(
+  MagellanSimpleJourneyBinding::inflate,
+  MagellanSimpleJourneyBinding::magellanContainer
 )

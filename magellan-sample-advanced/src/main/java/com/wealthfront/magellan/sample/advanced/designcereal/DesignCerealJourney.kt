@@ -3,7 +3,7 @@ package com.wealthfront.magellan.sample.advanced.designcereal
 import android.content.Context
 import androidx.annotation.VisibleForTesting
 import com.wealthfront.magellan.core.SimpleJourney
-import com.wealthfront.magellan.databinding.MagellanRootBinding
+import com.wealthfront.magellan.databinding.MagellanSimpleJourneyBinding
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.advanced.ToolbarHelper
 import javax.inject.Inject
@@ -19,7 +19,7 @@ class DesignCerealJourney(private val cerealComplete: () -> Unit) : SimpleJourne
     navigator.goTo(piecesStep)
   }
 
-  override fun onShow(context: Context, binding: MagellanRootBinding) {
+  override fun onShow(context: Context, binding: MagellanSimpleJourneyBinding) {
     toolbarHelper.hideToolbar()
   }
 
