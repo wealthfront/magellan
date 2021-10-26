@@ -16,7 +16,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.spy
 import org.mockito.MockitoAnnotations.initMocks
 import org.robolectric.Robolectric.buildActivity
 import org.robolectric.RobolectricTestRunner
@@ -44,14 +43,14 @@ internal class LinearNavigatorTest {
   @Before
   fun setUp() {
     initMocks(this)
-    step1 = spy(DummyStep())
-    journey1 = spy(DummyJourney())
+    step1 = DummyStep()
+    journey1 = DummyJourney()
     step2 = DummyStep()
     step3 = DummyStep()
     journey2 = DummyJourney()
     step4 = DummyStep()
     activityController = buildActivity(FakeActivity::class.java)
-    context = spy(activityController.get())
+    context = activityController.get()
     menu = RoboMenu(context)
     menu.add(0, fakeId, 0, "some string")
 
@@ -65,13 +64,22 @@ internal class LinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(
+      DefaultTransition::class.java)
   }
 
   @Test(expected = IllegalStateException::class)
   fun goTo_existingStep() {
-    linearNavigator.goTo(step1)
-    linearNavigator.goTo(step1)
+    try {
+      linearNavigator.goTo(step1)
+      linearNavigator.goTo(step1)
+    } catch (exception: IllegalStateException) {
+      assertThat(exception.message).isEqualTo(
+        "Cannot have multiple of the same Navigable in the backstack. " +
+          "Have 1 extra Navigables in: [DummyStep, DummyStep]"
+      )
+      throw exception
+    }
   }
 
   @Test
@@ -80,7 +88,8 @@ internal class LinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(ShowTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(
+      ShowTransition::class.java)
   }
 
   @Test
@@ -90,7 +99,8 @@ internal class LinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(
+      DefaultTransition::class.java)
   }
 
   @Test
@@ -100,7 +110,8 @@ internal class LinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(ShowTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(
+      ShowTransition::class.java)
   }
 
   @Test(expected = IllegalStateException::class)
@@ -121,7 +132,8 @@ internal class LinearNavigatorTest {
     assertThat(didNavigate).isTrue()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(
+      DefaultTransition::class.java)
   }
 
   @Test
@@ -132,7 +144,8 @@ internal class LinearNavigatorTest {
     assertThat(didNavigate).isFalse()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(
+      DefaultTransition::class.java)
   }
 
   @Test
@@ -152,7 +165,8 @@ internal class LinearNavigatorTest {
     assertThat(didNavigate).isTrue()
     assertThat(linearNavigator.backStack.size).isEqualTo(2)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(
+      DefaultTransition::class.java)
   }
 
   @Test

@@ -120,7 +120,7 @@ public class NavigationDelegate(
       val numExtraNavigables = newBackStack.size - newNavigableSet.size
       throw IllegalStateException(
         "Cannot have multiple of the same Navigable in the backstack. " +
-          "Have $numExtraNavigables extra Navigables in: $newBackStack"
+          "Have $numExtraNavigables extra Navigables in: ${newBackStack.toReadableString()}"
       )
     }
 
@@ -133,6 +133,9 @@ public class NavigationDelegate(
       lifecycleRegistry.attachToLifecycleWithMaxState(newNavigable, CREATED)
     }
   }
+
+  private fun List<NavigableCompat>.toReadableString() =
+    joinToString(prefix = "[", postfix = "]") { it::class.java.simpleName }
 
   private fun animateAndRemove(
     from: View?,
