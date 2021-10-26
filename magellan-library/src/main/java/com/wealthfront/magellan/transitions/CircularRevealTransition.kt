@@ -7,9 +7,16 @@ import android.os.Build
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.wealthfront.magellan.Direction
 import kotlin.math.hypot
 
+/**
+ * A [MagellanTransition] that reveals the next screen circularly outward from the middle of the
+ * [clickedView].
+ *
+ * @property clickedView the view on which this circular reveal is centered
+ */
 public class CircularRevealTransition(private val clickedView: View) : MagellanTransition {
 
   override fun animate(
@@ -32,6 +39,7 @@ public class CircularRevealTransition(private val clickedView: View) : MagellanT
           onAnimationEndCallback()
         }
       })
+      anim.interpolator = FastOutSlowInInterpolator()
       anim.start()
     } else {
       onAnimationEndCallback()
