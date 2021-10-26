@@ -17,7 +17,7 @@ import java.util.Deque
  * the lifecycle, avoiding the need to satisfy their dependencies. Holds state; should be
  * re-instantiated, [destroy]ed, or [clear]ed between tests.
  */
-public class TestLinearNavigator : LinearNavigator {
+public class FakeLinearNavigator : LinearNavigator {
 
   public override var backStack: List<NavigationEvent> = emptyList()
 

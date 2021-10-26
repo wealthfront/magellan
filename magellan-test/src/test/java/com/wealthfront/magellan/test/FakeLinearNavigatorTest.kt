@@ -10,15 +10,15 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations.initMocks
 
-public class TestLinearNavigatorTest {
+public class FakeLinearNavigatorTest {
 
-  private lateinit var navigator: TestLinearNavigator
+  private lateinit var navigator: FakeLinearNavigator
   @Mock internal lateinit var context: Context
 
   @Before
   public fun setUp() {
     initMocks(this)
-    navigator = TestLinearNavigator()
+    navigator = FakeLinearNavigator()
   }
 
   @Test
