@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.1.4-beta
+  - Further improve testing support
+    - Make `LinearNavigator` an interface, and make `DefaultLinearNavigator`'s constructor public
+    - Create a `FakeLinearNavigator` as a test double, in the `magellan-test` module
+  - Create a `SimpleJourney` for `Journey`s that don't need custom display logic
+  - Misc
+    - Fix a crash when navigating while the app is in the background
+    - Fix exception message for duplicate `Navigable`s in a `DefaultLinearNavigator` backstack
+    - Update built-in transitions to use `FastInSlowOutInterpolator`
+
 ## 2.1.3-beta
   - Improve testing support
     - Make `Journey.navigator` `@VisibleForTesting` so we can access it in tests for verification
