@@ -18,7 +18,6 @@ import com.wealthfront.magellan.transitions.ShowTransition
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
 import org.mockito.MockitoAnnotations.initMocks
 import org.robolectric.Robolectric.buildActivity
 import org.robolectric.RobolectricTestRunner
@@ -27,9 +26,8 @@ import org.robolectric.android.controller.ActivityController
 @RunWith(RobolectricTestRunner::class)
 internal class DefaultLinearNavigatorTest {
 
-  @Mock lateinit var screenContainer: ScreenContainer
-
   private lateinit var activityController: ActivityController<FakeActivity>
+  private lateinit var screenContainer: ScreenContainer
   private lateinit var step1: DummyStep
   private lateinit var step2: DummyStep
   private lateinit var journey1: DummyJourney
@@ -50,6 +48,7 @@ internal class DefaultLinearNavigatorTest {
     step4 = DummyStep()
     activityController = buildActivity(FakeActivity::class.java)
     context = activityController.get()
+    screenContainer = ScreenContainer(context)
 
     linearNavigator = DefaultLinearNavigator { screenContainer }
     linearNavigator.create(context)

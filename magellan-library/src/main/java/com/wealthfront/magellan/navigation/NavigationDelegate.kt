@@ -145,7 +145,9 @@ public class NavigationDelegate(
     direction: Direction,
     magellanTransition: MagellanTransition
   ) {
-    currentNavigable!!.transitionStarted()
+    if (to != null) {
+      currentNavigable!!.transitionStarted()
+    }
     to?.whenMeasured {
       val transition = if (shouldRunAnimations()) {
         magellanTransition
