@@ -66,7 +66,7 @@ public class FakeLinearNavigatorTest {
       it.push(NavigationEvent(newBottomNavigable, getDefaultTransition()))
       it.push(NavigationEvent(originalBottomNavigable, getDefaultTransition()))
       it.push(NavigationEvent(newTopNavigable, getDefaultTransition()))
-      it.peek()!!
+      getDefaultTransition()
     }
     assertThat(navigator.backStack.map { it.navigable }).containsExactly(
       newTopNavigable,

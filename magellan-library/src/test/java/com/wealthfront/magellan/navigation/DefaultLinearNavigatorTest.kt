@@ -115,7 +115,7 @@ internal class DefaultLinearNavigatorTest {
     linearNavigator.navigate(FORWARD) { deque ->
       deque.push(NavigationEvent(step1, DefaultTransition()))
       deque.push(NavigationEvent(step1, DefaultTransition()))
-      deque.peek()!!
+      deque.peek()!!.magellanTransition
     }
   }
 
@@ -151,7 +151,7 @@ internal class DefaultLinearNavigatorTest {
       it.push(NavigationEvent(step1, DefaultTransition()))
       it.push(NavigationEvent(step2, DefaultTransition()))
       it.push(NavigationEvent(journey1, ShowTransition()))
-      it.first()!!
+      it.first()!!.magellanTransition
     }
 
     val didNavigate = linearNavigator.goBack()
@@ -171,7 +171,7 @@ internal class DefaultLinearNavigatorTest {
       it.push(NavigationEvent(step1, DefaultTransition()))
       it.push(NavigationEvent(step2, DefaultTransition()))
       it.push(NavigationEvent(journey1, ShowTransition()))
-      it.first()!!
+      it.first()!!.magellanTransition
     }
 
     assertThat(linearNavigator.backStack.size).isEqualTo(3)
@@ -187,7 +187,7 @@ internal class DefaultLinearNavigatorTest {
   fun goBack_backOutOfJourney() {
     linearNavigator.navigate(FORWARD) {
       it.push(NavigationEvent(journey1, ShowTransition()))
-      it.first()!!
+      it.first()!!.magellanTransition
     }
 
     val didNavigate = linearNavigator.goBack()

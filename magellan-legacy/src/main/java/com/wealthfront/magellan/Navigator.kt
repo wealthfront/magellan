@@ -50,7 +50,8 @@ public class Navigator internal constructor(
     direction: Direction,
     backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent
   ) {
-    delegate.navigate(direction, backStackOperation)
+    val compatLambda = { backstack: Deque<NavigationEvent> -> backStackOperation(backstack).magellanTransition }
+    delegate.navigate(direction, compatLambda)
   }
 
   public fun replace(navigable: NavigableCompat) {

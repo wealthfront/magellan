@@ -14,6 +14,6 @@ public interface LinearNavigator : Navigator, LifecycleAware {
 
   public fun navigate(
     direction: Direction,
-    backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent
+    backStackOperation: (Deque<NavigationEvent>) -> MagellanTransition
   )
 }

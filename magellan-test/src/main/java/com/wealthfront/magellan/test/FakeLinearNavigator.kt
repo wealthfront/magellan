@@ -43,7 +43,7 @@ public class FakeLinearNavigator : LinearNavigator {
           overrideMagellanTransition ?: getDefaultTransition()
         )
       )
-      backStack.peek()!!
+      backStack.peek()!!.magellanTransition
     }
   }
 
@@ -56,13 +56,13 @@ public class FakeLinearNavigator : LinearNavigator {
           overrideMagellanTransition ?: getDefaultTransition()
         )
       )
-      backStack.peek()!!
+      backStack.peek()!!.magellanTransition
     }
   }
 
   public override fun navigate(
     direction: Direction,
-    backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent
+    backStackOperation: (Deque<NavigationEvent>) -> MagellanTransition
   ) {
     val tempBackStack: Deque<NavigationEvent> = ArrayDeque(backStack)
     backStackOperation(tempBackStack)
@@ -71,7 +71,7 @@ public class FakeLinearNavigator : LinearNavigator {
 
   public override fun goBack(): Boolean {
     return if (backStack.size > 1) {
-      navigate(BACKWARD) { backStack -> backStack.pop() }
+      navigate(BACKWARD) { backStack -> backStack.pop().magellanTransition }
       true
     } else {
       false

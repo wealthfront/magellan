@@ -29,7 +29,7 @@ class SuggestExhibitJourney(private val completeSuggestion: () -> Unit) : Simple
       backstack.clear()
       val next = NavigationEvent(SuggestConfirmationStep(completeSuggestion), DefaultTransition())
       backstack.push(next)
-      next
+      next.magellanTransition
     }
   }
 }

@@ -40,7 +40,7 @@ class OrderTicketsJourney(
       backstack.clear()
       val next = NavigationEvent(successStep, DefaultTransition())
       backstack.push(next)
-      next
+      next.magellanTransition
     }
   }
 
@@ -57,7 +57,7 @@ class OrderTicketsJourney(
       }
       val nextEvent = NavigationEvent(confirmationStep, DefaultTransition())
       backstack.push(nextEvent)
-      nextEvent
+      nextEvent.magellanTransition
     }
   }
 }

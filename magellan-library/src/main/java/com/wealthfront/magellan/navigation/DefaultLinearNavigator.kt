@@ -35,7 +35,7 @@ public class DefaultLinearNavigator constructor(
 
   public override fun navigate(
     direction: Direction,
-    backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent
+    backStackOperation: (Deque<NavigationEvent>) -> MagellanTransition
   ) {
     delegate.navigate(direction, backStackOperation)
   }

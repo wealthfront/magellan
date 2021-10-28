@@ -30,7 +30,7 @@ class PaymentMethodSelectionStep(
       }
     }
 
-    binding.paymentMethodMenu.setOnCheckedChangeListener { group, checkedId ->
+    binding.paymentMethodMenu.setOnCheckedChangeListener { _, checkedId ->
       if (checkedId == R.id.creditCard) {
         creditCardSelected()
       }

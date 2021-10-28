@@ -68,7 +68,7 @@ public class NavigationDelegate(
           overrideMagellanTransition ?: getDefaultTransition()
         )
       )
-      backStack.peek()!!
+      backStack.peek()!!.magellanTransition
     }
   }
 
@@ -84,25 +84,25 @@ public class NavigationDelegate(
           overrideMagellanTransition ?: getDefaultTransition()
         )
       )
-      backStack.peek()!!
+      backStack.peek()!!.magellanTransition
     }
   }
 
   private fun navigateBack() {
     navigate(BACKWARD) { backStack ->
-      backStack.pop()
+      backStack.pop().magellanTransition
     }
   }
 
   public fun navigate(
     direction: Direction,
-    backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent
+    backStackOperation: (Deque<NavigationEvent>) -> MagellanTransition
   ) {
     containerView?.setInterceptTouchEvents(true)
     navigationPropagator.beforeNavigation()
     val from = navigateFrom(currentNavigable)
     val oldBackStack = backStack.map { it.navigable }
-    val transition = backStackOperation.invoke(backStack).magellanTransition
+    val transition = backStackOperation.invoke(backStack)
     val newBackStack = backStack.map { it.navigable }
     findBackstackChangesAndUpdateStates(oldBackStack = oldBackStack, newBackStack = newBackStack)
     val to = navigateTo(currentNavigable!!, direction)
@@ -190,7 +190,7 @@ public class NavigationDelegate(
       while (navigable != backStack.peek()!!.navigable) {
         backStack.pop()
       }
-      backStack.peek()!!
+      backStack.peek()!!.magellanTransition
     }
   }
 
@@ -198,7 +198,7 @@ public class NavigationDelegate(
     navigate(FORWARD) { backStack ->
       backStack.clear()
       backStack.push(NavigationEvent(navigable, NoAnimationTransition()))
-      backStack.peek()!!
+      backStack.peek()!!.magellanTransition
     }
   }
 
