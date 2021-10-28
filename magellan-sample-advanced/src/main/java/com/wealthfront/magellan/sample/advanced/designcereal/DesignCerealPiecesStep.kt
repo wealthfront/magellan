@@ -12,7 +12,7 @@ class DesignCerealPiecesStep(
 ) : Step<DesignCerealPiecesBinding>(DesignCerealPiecesBinding::inflate) {
 
   override fun onShow(context: Context, binding: DesignCerealPiecesBinding) {
-    binding.piecesSelection.setOnCheckedChangeListener { group, checkedId ->
+    binding.piecesSelection.setOnCheckedChangeListener { _, checkedId ->
       if (checkedId == R.id.cornflakes) {
         pieceTypeSelected(CORN_FLAKE)
       } else if (checkedId == R.id.rings) {
