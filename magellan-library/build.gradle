@@ -6,7 +6,6 @@ version = VERSION_NAME
 
 android {
   compileSdkVersion Versions.compileSdkVersion
-  buildToolsVersion Versions.buildToolsVersion
 
   resourcePrefix 'magellan_'
 
@@ -52,7 +51,6 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
 }
 
 dependencies {
-  implementation Dependencies.kotlinStdLib
   implementation Dependencies.appCompat
   implementation Dependencies.lifecycle
   implementation Dependencies.inject

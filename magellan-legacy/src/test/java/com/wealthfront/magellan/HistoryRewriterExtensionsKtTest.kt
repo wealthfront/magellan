@@ -2,9 +2,9 @@ package com.wealthfront.magellan
 
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.core.Journey
+import com.wealthfront.magellan.internal.test.DummyScreen
+import com.wealthfront.magellan.internal.test.databinding.MagellanDummyLayoutBinding
 import com.wealthfront.magellan.navigation.NavigationEvent
-import com.wealthfront.magellan.test.DummyScreen
-import com.wealthfront.magellan.test.databinding.MagellanDummyLayoutBinding
 import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.transitions.ShowTransition
 import org.junit.Before

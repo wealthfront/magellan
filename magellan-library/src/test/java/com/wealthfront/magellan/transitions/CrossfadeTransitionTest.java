@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.LooperMode;
 
 import kotlin.Unit;
 
@@ -21,6 +22,7 @@ import static org.robolectric.Robolectric.flushForegroundThreadScheduler;
 import static org.robolectric.Robolectric.getForegroundThreadScheduler;
 
 @RunWith(RobolectricTestRunner.class)
+@LooperMode(LooperMode.Mode.LEGACY)
 public class CrossfadeTransitionTest {
 
   boolean onAnimationEndCalled;

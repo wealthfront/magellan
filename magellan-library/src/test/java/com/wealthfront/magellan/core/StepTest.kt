@@ -7,12 +7,12 @@ import android.util.SparseArray
 import android.view.LayoutInflater.from
 import android.view.View
 import com.google.common.truth.Truth.assertThat
+import com.wealthfront.magellan.internal.test.DummyStep
+import com.wealthfront.magellan.internal.test.databinding.MagellanDummyLayoutBinding
 import com.wealthfront.magellan.lifecycle.LifecycleState.Created
 import com.wealthfront.magellan.lifecycle.LifecycleState.Destroyed
 import com.wealthfront.magellan.lifecycle.LifecycleState.Shown
 import com.wealthfront.magellan.lifecycle.transitionToState
-import com.wealthfront.magellan.test.DummyStep
-import com.wealthfront.magellan.test.databinding.MagellanDummyLayoutBinding
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

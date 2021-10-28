@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/normalSpacing"
+    >
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="@dimen/normalSpacing"
+      android:text="Please choose a payment method"
+      android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+      />
+
+  <RadioGroup
+      android:id="@+id/paymentMethodMenu"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      >
+
+    <RadioButton
+        android:id="@+id/creditCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Add new credit card"
+        />
+
+    <RadioButton
+        android:id="@+id/payPal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="PayPal (Coming soon)"
+        />
+
+    <RadioButton
+        android:id="@+id/bitcoin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="Bitcoin (Coming soon)"
+        />
+  </RadioGroup>
+</LinearLayout>

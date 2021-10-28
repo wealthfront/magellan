@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/normalSpacing"
+    >
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="@dimen/normalSpacing"
+      android:text="Welcome to the Cereal Museum!"
+      android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+      />
+
+  <Button
+      android:id="@+id/browseCollection"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Browse Collection"
+      />
+
+  <Button
+      android:id="@+id/designCereal"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Build Your Own"
+      />
+
+  <Button
+      android:id="@+id/orderTickets"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Order Tickets"
+      />
+
+  <Button
+      android:id="@+id/suggestExhibit"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Suggest Exhibit"
+      />
+</LinearLayout>

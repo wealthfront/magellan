@@ -1,70 +1,75 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: "org.jetbrains.kotlin.kapt"
+plugins {
+  id 'com.android.application'
+  id 'kotlin-android'
+  id 'kotlin-kapt'
+}
 
 android {
   compileSdkVersion Versions.compileSdkVersion
-  buildToolsVersion Versions.buildToolsVersion
 
   defaultConfig {
-    applicationId "com.wealthfront.magellan.sample"
-    minSdkVersion Versions.minSdkVersion
+    applicationId "com.wealthfront.magellan.sample.advanced"
+    minSdkVersion 21
     targetSdkVersion Versions.targetSdkVersion
     versionCode 1
     versionName "1.0"
-    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-  }
 
-  compileOptions {
-    setSourceCompatibility(JavaVersion.VERSION_1_8)
-    setTargetCompatibility(JavaVersion.VERSION_1_8)
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
 
   buildFeatures {
     viewBinding = true
   }
 
-  buildTypes {
-    release {
-      minifyEnabled false
+  testOptions {
+    unitTests {
+      includeAndroidResources = true
     }
   }
 
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+
   kotlinOptions {
-    jvmTarget = "1.8"
-  }
-
-  packagingOptions {
-    exclude 'META-INF/LICENSE'
-  }
-
-  lintOptions {
-    disable 'InvalidPackage','IconDensities', 'ObsoleteLintCustomCheck', 'IconMissingDensityFolder', 'AllowBackup'
+    jvmTarget = '1.8'
   }
 }
 
 dependencies {
-  implementation project(':magellan-library')
-  implementation project(':magellan-legacy')
-  implementation project(':magellan-rx')
 
+  implementation project(':magellan-library')
+  implementation project(':magellan-rx2')
+
+  implementation Dependencies.androidXCore
   implementation Dependencies.appCompat
-  implementation Dependencies.butterknife
-  kapt Dependencies.butterknifeCompiler
+  implementation Dependencies.material
+  implementation Dependencies.constraintLayout
 
   implementation Dependencies.dagger
   kapt Dependencies.daggerCompiler
 
-  implementation Dependencies.glide
   implementation Dependencies.retrofit
-  implementation Dependencies.rxjavaAdapter
-  implementation Dependencies.rxandroid
+  implementation Dependencies.rxjava
+  implementation Dependencies.rxAndroid2
+  implementation Dependencies.retrofitMock
+  implementation Dependencies.rxJava2Adapter
   implementation Dependencies.jackson
   implementation Dependencies.okhttp
   implementation Dependencies.coroutines
   implementation Dependencies.coroutinesAndroid
 
   testImplementation Dependencies.junit
+  testImplementation Dependencies.testCore
+  testImplementation Dependencies.truth
   testImplementation Dependencies.mockito
   testImplementation Dependencies.robolectric
 

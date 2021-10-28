@@ -48,7 +48,7 @@ internal class ActivityLifecycleAdapter(
 
 public fun ComponentActivity.setContentScreen(
   navigable: Navigable,
-  @LayoutRes root: Int = R.layout.magellan_root
+  @LayoutRes root: Int = R.layout.magellan_simple_journey
 ) {
   setContentView(root)
   @Suppress("DEPRECATION") setExpedition(navigable)

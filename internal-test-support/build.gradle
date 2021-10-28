@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 
 android {
   compileSdkVersion Versions.compileSdkVersion
-  buildToolsVersion Versions.buildToolsVersion
 
   defaultConfig {
     minSdkVersion Versions.minSdkVersion
@@ -42,7 +41,6 @@ dependencies {
   implementation project(':magellan-library')
   implementation project(':magellan-legacy')
 
-  implementation Dependencies.kotlinStdLib
   implementation Dependencies.inject
   implementation Dependencies.appCompat
 }

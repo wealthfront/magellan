@@ -6,6 +6,7 @@ import androidx.annotation.VisibleForTesting.PROTECTED
 import androidx.viewbinding.ViewBinding
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
+import com.wealthfront.magellan.navigation.DefaultLinearNavigator
 import com.wealthfront.magellan.navigation.LinearNavigator
 
 public abstract class Journey<V : ViewBinding>(
@@ -13,5 +14,5 @@ public abstract class Journey<V : ViewBinding>(
   getContainer: V.() -> ScreenContainer
 ) : Step<V>(inflateBinding) {
 
-  @VisibleForTesting(otherwise = PROTECTED) public var navigator: LinearNavigator by attachFieldToLifecycle(LinearNavigator { viewBinding!!.getContainer() })
+  @VisibleForTesting(otherwise = PROTECTED) public var navigator: LinearNavigator by attachFieldToLifecycle(DefaultLinearNavigator { viewBinding!!.getContainer() })
 }

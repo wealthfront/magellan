@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/normalSpacing"
+    >
+
+  <LinearLayout
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Adults:"
+          android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+          />
+
+      <EditText
+          android:id="@+id/adultTicketCount"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:inputType="number"
+          />
+
+      <TextView
+          android:id="@+id/adultTicketPriceLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          tools:text="x $8.50"
+          />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Children (12 and under):"
+          android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+          />
+
+      <EditText
+          android:id="@+id/childTicketCount"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:inputType="number"
+          />
+
+      <TextView
+          android:id="@+id/childTicketPriceLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          tools:text="x $5.00"
+          />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/totalTicketCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Total: $599"
+        />
+  </LinearLayout>
+
+  <Button
+      android:id="@+id/next"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:enabled="false"
+      android:text="Next"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      />
+</androidx.constraintlayout.widget.ConstraintLayout>

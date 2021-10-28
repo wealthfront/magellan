@@ -1,7 +1,10 @@
+import Versions.androidXCoreVersion
 import Versions.archVersion
 import Versions.butterKnifeVersion
+import Versions.constraintLayoutVersion
 import Versions.coroutinesVersion
 import Versions.daggerVersion
+import Versions.detektVersion
 import Versions.espressoVersion
 import Versions.glideVersion
 import Versions.jacksonVersion
@@ -17,6 +20,7 @@ import Versions.mockitoVersion
 import Versions.okhttpVersion
 import Versions.retrofitVersion
 import Versions.robolectricVersion
+import Versions.rxAndroid2Version
 import Versions.rxandroidVersion
 import Versions.rxjava2Version
 import Versions.rxjavaAdapterVersion
@@ -27,15 +31,19 @@ import Versions.testRunnerVersion
 import Versions.truthVersion
 import Versions.uiAutomatorVersion
 
-object Dependencies {
-
-  const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-  const val appCompat = "androidx.appcompat:appcompat:$supportLibVersion"
-  const val lifecycle = "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
-
+object Plugins {
   const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   const val kotlinterGradle = "org.jmailen.gradle:kotlinter-gradle:$kotlinterVersion"
   const val kotlinAllOpen = "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
+  const val detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektVersion"
+}
+
+object Dependencies {
+
+  const val appCompat = "androidx.appcompat:appcompat:$supportLibVersion"
+  const val constraintLayout = "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+  const val lifecycle = "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+  const val androidXCore = "androidx.core:core-ktx:$androidXCoreVersion"
 
   const val material = "com.google.android.material:material:$materialVersion"
   const val junit = "junit:junit:$junitVersion"
@@ -55,10 +63,13 @@ object Dependencies {
 
   const val glide = "com.github.bumptech.glide:glide:$glideVersion"
   const val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
+  const val retrofitMock = "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
+  const val rxjavaAdapter = "com.squareup.retrofit2:adapter-rxjava:$rxjavaAdapterVersion"
+  const val rxJava2Adapter = "com.squareup.retrofit2:adapter-rxjava2:$rxjavaAdapterVersion"
   const val rxjava = "io.reactivex:rxjava:$rxjavaVersion"
   const val rxjava2 = "io.reactivex.rxjava2:rxjava:$rxjava2Version"
-  const val rxjavaAdapter = "com.squareup.retrofit2:adapter-rxjava:$rxjavaAdapterVersion"
   const val rxandroid = "io.reactivex:rxandroid:$rxandroidVersion"
+  const val rxAndroid2 = "io.reactivex.rxjava2:rxandroid:$rxAndroid2Version"
   const val jackson = "com.squareup.retrofit2:converter-jackson:$jacksonVersion"
   const val okhttp = "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
 
@@ -68,7 +79,7 @@ object Dependencies {
   const val testRules = "com.android.support.test:rules:$testRunnerVersion"
   const val uiAutomator ="androidx.test.uiautomator:uiautomator:$uiAutomatorVersion"
   const val extJunit = "androidx.test.ext:junit:$junitTestExtVersion"
-  const val espressoCore = "com.android.support.test.espresso:espresso-core:$espressoVersion"
+  const val espressoCore = "androidx.test.espresso:espresso-core:$espressoVersion"
 
   const val lintApi = "com.android.tools.lint:lint-api:$lintVersion"
   const val lintChecks = "com.android.tools.lint:lint-checks:$lintVersion"

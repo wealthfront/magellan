@@ -1,8 +1,8 @@
 package com.wealthfront.magellan.core
 
 import com.google.common.truth.Truth.assertThat
+import com.wealthfront.magellan.internal.test.databinding.MagellanDummyLayoutBinding
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
-import com.wealthfront.magellan.test.databinding.MagellanDummyLayoutBinding
 import org.junit.Test
 
 public class NavigableExtensionsKtTest {
