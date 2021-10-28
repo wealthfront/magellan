@@ -42,15 +42,16 @@ public class Navigator internal constructor(
     }
   }
 
-  public fun navigate(backStackOperation: (Deque<NavigationEvent>) -> MagellanTransition) {
+  public fun navigate(backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent) {
     navigate(FORWARD, backStackOperation)
   }
 
   public fun navigate(
     direction: Direction,
-    backStackOperation: (Deque<NavigationEvent>) -> MagellanTransition
+    backStackOperation: (Deque<NavigationEvent>) -> NavigationEvent
   ) {
-    delegate.navigate(direction, backStackOperation)
+    val compatLambda = { backstack:Deque<NavigationEvent> -> backStackOperation(backstack).magellanTransition }
+    delegate.navigate(direction, compatLambda)
   }
 
   public fun replace(navigable: NavigableCompat) {
@@ -93,10 +94,11 @@ public class Navigator internal constructor(
 
   public fun goBackToRoot() {
     navigate(BACKWARD) { history ->
+      var navigable: NavigableCompat? = null
       while (history.size > 1) {
-        history.pop().navigable
+        navigable = history.pop().navigable
       }
-      getDefaultTransition()
+      NavigationEvent(navigable!!, getDefaultTransition())
     }
   }
 
@@ -124,21 +126,21 @@ public class Navigator internal constructor(
   public fun navigate(historyRewriter: HistoryRewriter) {
     navigate(FORWARD) { backStack ->
       historyRewriter.rewriteHistoryWithNavigationEvents(backStack, null)
-      backStack.peek()!!.magellanTransition
+      backStack.peek()!!
     }
   }
 
   public fun navigate(historyRewriter: HistoryRewriter, magellanTransition: MagellanTransition? = null) {
     navigate(FORWARD) { backStack ->
       historyRewriter.rewriteHistoryWithNavigationEvents(backStack, magellanTransition)
-      backStack.peek()!!.magellanTransition
+      backStack.peek()!!
     }
   }
 
   public fun navigate(historyRewriter: HistoryRewriter, navType: NavigationType) {
     navigate(FORWARD) { backStack ->
       historyRewriter.rewriteHistoryWithNavigationEvents(backStack, null, navType)
-      backStack.peek()!!.magellanTransition
+      backStack.peek()!!
     }
   }
 
@@ -165,7 +167,7 @@ public class Navigator internal constructor(
   ) {
     navigate(direction) { backStack ->
       historyRewriter.rewriteHistoryWithNavigationEvents(backStack, magellanTransition)
-      backStack.peek()!!.magellanTransition
+      backStack.peek()!!
     }
   }
 
@@ -176,7 +178,7 @@ public class Navigator internal constructor(
   ) {
     navigate(direction) { backStack ->
       historyRewriter.rewriteHistoryWithNavigationEvents(backStack, null, navType)
-      backStack.peek()!!.magellanTransition
+      backStack.peek()!!
     }
   }
 }
