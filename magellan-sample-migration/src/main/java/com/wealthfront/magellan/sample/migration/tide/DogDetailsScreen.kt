@@ -40,6 +40,6 @@ class DogDetailsScreen(private val breed: String) : Screen<DogDetailsView>() {
   }
 
   fun goToHelpScreen() {
-    navigator.goTo(HelpScreen())
+    navigator.goTo(HelpScreen(navigator))
   }
 }

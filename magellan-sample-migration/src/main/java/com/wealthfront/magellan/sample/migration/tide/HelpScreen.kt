@@ -3,7 +3,8 @@ package com.wealthfront.magellan.sample.migration.tide
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import com.wealthfront.magellan.Screen
+import com.wealthfront.magellan.LegacyStep
+import com.wealthfront.magellan.Navigator
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.rx.RxUnsubscriber
 import com.wealthfront.magellan.sample.migration.SampleApplication.Companion.app
@@ -12,14 +13,14 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import javax.inject.Inject
 
-class HelpScreen : Screen<HelpView>() {
+class HelpScreen(navigator: Navigator) : LegacyStep<HelpView>(navigator) {
 
   @Inject lateinit var api: DogApi
   private val rxUnsubscriber by attachFieldToLifecycle(RxUnsubscriber())
 
   override fun createView(context: Context): HelpView {
     app(context).injector().inject(this)
-    return HelpView(context)
+    return HelpView(context, this)
   }
 
   override fun onShow(context: Context) {
@@ -35,7 +36,7 @@ class HelpScreen : Screen<HelpView>() {
   }
 
   fun showHelpDialog() {
-    showDialog { context ->
+    dialogComponent.showDialog { context ->
       AlertDialog.Builder(context)
         .setTitle("Hello")
         .setMessage("Did you find the dog you were looking for?")

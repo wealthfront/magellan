@@ -1,20 +1,20 @@
 package com.wealthfront.magellan.sample.migration.tide
 
 import android.content.Context
+import android.widget.FrameLayout
 import android.widget.ImageView
 import butterknife.BindView
 import butterknife.ButterKnife.bind
 import butterknife.OnClick
 import com.bumptech.glide.Glide
-import com.wealthfront.magellan.BaseScreenView
 import com.wealthfront.magellan.sample.migration.R
 
-class HelpView(context: Context) : BaseScreenView<HelpScreen>(context) {
+class HelpView(context: Context, private val screen: HelpScreen) : FrameLayout(context) {
 
   @BindView(R.id.dogImage) lateinit var dogImage: ImageView
 
   init {
-    inflate(R.layout.help)
+    inflate(getContext(), R.layout.help, this)
     bind(this)
   }
 

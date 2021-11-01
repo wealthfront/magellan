@@ -9,11 +9,13 @@ import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.lifecycle.createAndAttachFieldToLifecycleWhenShown
 import com.wealthfront.magellan.view.DialogComponent
 
-public abstract class LegacyStep<V: View>(protected val navigator: Navigator): LifecycleAwareComponent(), Navigable {
+public abstract class LegacyStep<V : View>(protected val navigator: Navigator) :
+  LifecycleAwareComponent(), Navigable {
+
   protected val dialogComponent: DialogComponent by attachFieldToLifecycle(DialogComponent())
-  
+
   override var view: V? by createAndAttachFieldToLifecycleWhenShown { context ->
-    createView(context) 
+    createView(context)
   }
     @VisibleForTesting set
 
