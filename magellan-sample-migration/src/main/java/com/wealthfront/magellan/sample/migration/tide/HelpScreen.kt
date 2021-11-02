@@ -5,26 +5,30 @@ import android.content.Context
 import android.content.DialogInterface
 import com.wealthfront.magellan.LegacyStep
 import com.wealthfront.magellan.Navigator
+import com.wealthfront.magellan.OpenForMocking
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.rx.RxUnsubscriber
-import com.wealthfront.magellan.sample.migration.SampleApplication.Companion.app
+import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.api.DogApi
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import javax.inject.Inject
 
+@OpenForMocking
 class HelpScreen(navigator: Navigator) : LegacyStep<HelpView>(navigator) {
 
   @Inject lateinit var api: DogApi
   private val rxUnsubscriber by attachFieldToLifecycle(RxUnsubscriber())
 
+  override fun onCreate(context: Context) {
+    (context.applicationContext as AppComponentContainer).injector().inject(this)
+  }
+
   override fun createView(context: Context): HelpView {
-    app(context).injector().inject(this)
     return HelpView(context, this)
   }
 
   override fun onShow(context: Context) {
-    super.onShow(context)
     rxUnsubscriber.autoUnsubscribe(
       api.getRandomImageForBreed("husky")
         .subscribeOn(Schedulers.io())

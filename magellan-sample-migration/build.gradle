@@ -23,6 +23,12 @@ android {
     viewBinding = true
   }
 
+  testOptions {
+    unitTests {
+      includeAndroidResources = true
+    }
+  }
+
   buildTypes {
     release {
       minifyEnabled false
@@ -63,7 +69,10 @@ dependencies {
   implementation Dependencies.coroutines
   implementation Dependencies.coroutinesAndroid
 
+  kaptTest Dependencies.daggerCompiler
   testImplementation Dependencies.junit
+  testImplementation Dependencies.testCore
+  testImplementation Dependencies.truth
   testImplementation Dependencies.mockito
   testImplementation Dependencies.robolectric
 

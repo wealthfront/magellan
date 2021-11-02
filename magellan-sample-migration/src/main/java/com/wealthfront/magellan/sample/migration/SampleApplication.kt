@@ -3,7 +3,7 @@ package com.wealthfront.magellan.sample.migration
 import android.app.Application
 import android.content.Context
 
-class SampleApplication : Application() {
+class SampleApplication : Application(), AppComponentContainer {
 
   private lateinit var appComponent: AppComponent
 
@@ -14,7 +14,7 @@ class SampleApplication : Application() {
       .build()
   }
 
-  fun injector(): AppComponent {
+  override fun injector(): AppComponent {
     return appComponent
   }
 
