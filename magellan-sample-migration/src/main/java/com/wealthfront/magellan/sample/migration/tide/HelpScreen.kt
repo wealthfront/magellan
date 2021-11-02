@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import com.wealthfront.magellan.LegacyStep
-import com.wealthfront.magellan.Navigator
 import com.wealthfront.magellan.OpenForMocking
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.rx.RxUnsubscriber
@@ -15,7 +14,7 @@ import rx.schedulers.Schedulers
 import javax.inject.Inject
 
 @OpenForMocking
-class HelpScreen(navigator: Navigator) : LegacyStep<HelpView>(navigator) {
+class HelpScreen(private val goToBreedsStep: () -> Unit) : LegacyStep<HelpView>() {
 
   @Inject lateinit var api: DogApi
   private val rxUnsubscriber by attachFieldToLifecycle(RxUnsubscriber())
@@ -45,7 +44,7 @@ class HelpScreen(navigator: Navigator) : LegacyStep<HelpView>(navigator) {
         .setTitle("Hello")
         .setMessage("Did you find the dog you were looking for?")
         .setPositiveButton("Find all breeds of retriever") { _: DialogInterface, _: Int ->
-          navigator.show(DogBreedsStep())
+          goToBreedsStep()
         }
         .create()
     }

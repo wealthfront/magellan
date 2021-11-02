@@ -6,7 +6,6 @@ import android.os.Looper.getMainLooper
 import androidx.test.core.app.ApplicationProvider
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
-import com.wealthfront.magellan.Navigator
 import com.wealthfront.magellan.lifecycle.LifecycleState
 import com.wealthfront.magellan.lifecycle.transitionToState
 import com.wealthfront.magellan.sample.migration.AppComponentContainer
@@ -19,8 +18,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mock
-import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations.initMocks
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
@@ -32,7 +31,6 @@ import javax.inject.Inject
 @Config(application = TestSampleApplication::class)
 class HelpScreenTest {
 
-  @Mock lateinit var navigator: Navigator
   @Mock lateinit var view: HelpView
   @Mock lateinit var glideRequest: RequestManager
   @Mock lateinit var drawableRequest: RequestBuilder<Drawable>
@@ -45,7 +43,7 @@ class HelpScreenTest {
   @Before
   fun setup() {
     initMocks(this)
-    helpScreen = HelpScreen(navigator)
+    helpScreen = HelpScreen { }
     context = ApplicationProvider.getApplicationContext()
     ((context as AppComponentContainer).injector() as TestAppComponent).inject(this)
 
