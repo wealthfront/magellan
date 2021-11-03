@@ -11,6 +11,7 @@
  9. `git push && git push --tags`
  10. Visit [Sonatype Nexus](https://oss.sonatype.org/) and promote the artifact.
  11. Visit [the GitHub releases page](https://github.com/wealthfront/magellan/releases) and create a new release, copying the changelog from `CHANGELOG.md`.
+ 12. Visit [Maven Central Repository Search](https://search.maven.org/search?q=magellan) to check when the artifact is live. It may take a few hours.
 
 If step 6 or 7 fails, drop the Sonatype repo, fix the problem, commit, and start again at step 5.
 
