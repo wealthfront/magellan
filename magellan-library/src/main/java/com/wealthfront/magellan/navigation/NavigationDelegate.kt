@@ -43,8 +43,10 @@ public class NavigationDelegate(
 
   override fun onShow(context: Context) {
     containerView = container()
-    currentNavigable?.let {
-      containerView!!.addView(currentNavigable!!.view!!)
+    currentNavigable?.let { currentNavigable ->
+      containerView!!.addView(currentNavigable.view!!)
+      currentNavigable.transitionStarted()
+      currentNavigable.transitionFinished()
     }
   }
 
@@ -143,7 +145,9 @@ public class NavigationDelegate(
     direction: Direction,
     magellanTransition: MagellanTransition
   ) {
-    currentNavigable!!.transitionStarted()
+    if (to != null) {
+      currentNavigable!!.transitionStarted()
+    }
     to?.whenMeasured {
       val transition = if (shouldRunAnimations()) {
         magellanTransition
