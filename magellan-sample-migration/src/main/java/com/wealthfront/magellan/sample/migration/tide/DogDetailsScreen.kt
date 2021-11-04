@@ -10,7 +10,6 @@ import com.wealthfront.magellan.sample.migration.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.migration.api.DogApi
 import com.wealthfront.magellan.sample.migration.toolbar.ToolbarHelper
 import rx.android.schedulers.AndroidSchedulers.mainThread
-import rx.schedulers.Schedulers
 import javax.inject.Inject
 
 class DogDetailsScreen(private val breed: String) : Screen<DogDetailsView>() {
@@ -31,7 +30,6 @@ class DogDetailsScreen(private val breed: String) : Screen<DogDetailsView>() {
     ToolbarHelper.setMenuColor(R.color.water)
     rxUnsubscriber.autoUnsubscribe(
       api.getRandomImageForBreed(breed)
-        .subscribeOn(Schedulers.io())
         .observeOn(mainThread())
         .subscribe {
           view!!.setDogPic(it.message)
@@ -40,6 +38,6 @@ class DogDetailsScreen(private val breed: String) : Screen<DogDetailsView>() {
   }
 
   fun goToHelpScreen() {
-    navigator.goTo(HelpScreen())
+    navigator.goTo(HelpJourney())
   }
 }
