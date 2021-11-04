@@ -10,7 +10,6 @@ import com.wealthfront.magellan.rx.RxUnsubscriber
 import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.api.DogApi
 import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import javax.inject.Inject
 
 @OpenForMocking
@@ -30,7 +29,6 @@ class HelpScreen(private val goToBreedsStep: () -> Unit) : LegacyStep<HelpView>(
   override fun onShow(context: Context) {
     rxUnsubscriber.autoUnsubscribe(
       api.getRandomImageForBreed("husky")
-        .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe {
           view!!.setDogPic(it.message)
