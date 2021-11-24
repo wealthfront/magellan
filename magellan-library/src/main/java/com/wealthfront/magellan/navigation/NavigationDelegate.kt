@@ -19,17 +19,17 @@ import com.wealthfront.magellan.view.whenMeasured
 import java.util.ArrayDeque
 import java.util.Deque
 
-public class NavigationDelegate(
-  private val container: () -> ScreenContainer
+public open class NavigationDelegate(
+  protected val container: () -> ScreenContainer
 ) : LifecycleAwareComponent() {
 
   public var currentNavigableSetup: ((NavigableCompat) -> Unit)? = null
 
-  private var containerView: ScreenContainer? = null
-  private val navigationPropagator = NavigationPropagator
+  protected var containerView: ScreenContainer? = null
+  protected val navigationPropagator: NavigationPropagator = NavigationPropagator
   public val backStack: Deque<NavigationEvent> = ArrayDeque()
 
-  private val currentNavigable: NavigableCompat?
+  protected val currentNavigable: NavigableCompat?
     get() {
       return if (backStack.isNotEmpty()) {
         backStack.peek()?.navigable
@@ -38,7 +38,7 @@ public class NavigationDelegate(
       }
     }
 
-  private val context: Context?
+  protected val context: Context?
     get() = currentState.context
 
   override fun onShow(context: Context) {
@@ -57,43 +57,6 @@ public class NavigationDelegate(
   override fun onDestroy(context: Context) {
     backStack.navigables().forEach { lifecycleRegistry.removeFromLifecycle(it) }
     backStack.clear()
-  }
-
-  public fun goTo(
-    nextNavigableCompat: NavigableCompat,
-    overrideMagellanTransition: MagellanTransition? = null
-  ) {
-    navigate(FORWARD) { backStack ->
-      backStack.push(
-        NavigationEvent(
-          nextNavigableCompat,
-          overrideMagellanTransition ?: getDefaultTransition()
-        )
-      )
-      backStack.peek()!!.magellanTransition
-    }
-  }
-
-  public fun replace(
-    nextNavigableCompat: NavigableCompat,
-    overrideMagellanTransition: MagellanTransition? = null
-  ) {
-    navigate(FORWARD) { backStack ->
-      backStack.pop()
-      backStack.push(
-        NavigationEvent(
-          nextNavigableCompat,
-          overrideMagellanTransition ?: getDefaultTransition()
-        )
-      )
-      backStack.peek()!!.magellanTransition
-    }
-  }
-
-  private fun navigateBack() {
-    navigate(BACKWARD) { backStack ->
-      backStack.pop().magellanTransition
-    }
   }
 
   public fun navigate(
@@ -139,7 +102,7 @@ public class NavigationDelegate(
   private fun List<NavigableCompat>.toReadableString() =
     joinToString(prefix = "[", postfix = "]") { it::class.java.simpleName }
 
-  private fun animateAndRemove(
+  protected open fun animateAndRemove(
     from: View?,
     to: View?,
     direction: Direction,
@@ -164,7 +127,7 @@ public class NavigationDelegate(
     }
   }
 
-  private fun navigateTo(currentNavigable: NavigableCompat, direction: Direction): View? {
+  protected open fun navigateTo(currentNavigable: NavigableCompat, direction: Direction): View? {
     lifecycleRegistry.updateMaxState(currentNavigable, NO_LIMIT)
     navigationPropagator.onNavigatedTo(currentNavigable)
     when (currentState) {
@@ -180,29 +143,12 @@ public class NavigationDelegate(
     return currentNavigable.view
   }
 
-  private fun navigateFrom(currentNavigable: NavigableCompat?): View? {
+  protected open fun navigateFrom(currentNavigable: NavigableCompat?): View? {
     return currentNavigable?.let { oldNavigable ->
       val currentView = oldNavigable.view
       lifecycleRegistry.updateMaxState(oldNavigable, CREATED)
       navigationPropagator.onNavigatedFrom(oldNavigable)
       currentView
-    }
-  }
-
-  public fun goBackTo(navigable: NavigableCompat) {
-    navigate(BACKWARD) { backStack ->
-      while (navigable != backStack.peek()!!.navigable) {
-        backStack.pop()
-      }
-      backStack.peek()!!.magellanTransition
-    }
-  }
-
-  public fun resetWithRoot(navigable: NavigableCompat) {
-    navigate(FORWARD) { backStack ->
-      backStack.clear()
-      backStack.push(NavigationEvent(navigable, NoAnimationTransition()))
-      backStack.peek()!!.magellanTransition
     }
   }
 
@@ -218,4 +164,58 @@ public class NavigationDelegate(
   }
 
   public fun atRoot(): Boolean = backStack.size <= 1
+}
+
+public fun NavigationDelegate.goTo(
+  nextNavigableCompat: NavigableCompat,
+  overrideMagellanTransition: MagellanTransition? = null
+) {
+  navigate(FORWARD) { backStack ->
+    backStack.push(
+      NavigationEvent(
+        nextNavigableCompat,
+        overrideMagellanTransition ?: getDefaultTransition()
+      )
+    )
+    backStack.peek()!!.magellanTransition
+  }
+}
+
+public fun NavigationDelegate.replace(
+  nextNavigableCompat: NavigableCompat,
+  overrideMagellanTransition: MagellanTransition? = null
+) {
+  navigate(FORWARD) { backStack ->
+    backStack.pop()
+    backStack.push(
+      NavigationEvent(
+        nextNavigableCompat,
+        overrideMagellanTransition ?: getDefaultTransition()
+      )
+    )
+    backStack.peek()!!.magellanTransition
+  }
+}
+
+private fun NavigationDelegate.navigateBack() {
+  navigate(BACKWARD) { backStack ->
+    backStack.pop().magellanTransition
+  }
+}
+
+public fun NavigationDelegate.goBackTo(navigable: NavigableCompat) {
+  navigate(BACKWARD) { backStack ->
+    while (navigable != backStack.peek()!!.navigable) {
+      backStack.pop()
+    }
+    backStack.peek()!!.magellanTransition
+  }
+}
+
+public fun NavigationDelegate.resetWithRoot(navigable: NavigableCompat) {
+  navigate(FORWARD) { backStack ->
+    backStack.clear()
+    backStack.push(NavigationEvent(navigable, NoAnimationTransition()))
+    backStack.peek()!!.magellanTransition
+  }
 }

@@ -3,28 +3,43 @@ package com.wealthfront.magellan
 import android.app.Activity
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
+import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.init.getDefaultTransition
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
+import com.wealthfront.magellan.lifecycle.LifecycleState
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.navigation.CurrentNavigableProvider
+import com.wealthfront.magellan.navigation.LinearNavigator
 import com.wealthfront.magellan.navigation.NavigableCompat
 import com.wealthfront.magellan.navigation.NavigationDelegate
 import com.wealthfront.magellan.navigation.NavigationEvent
 import com.wealthfront.magellan.navigation.NavigationListener
 import com.wealthfront.magellan.navigation.NavigationPropagator
 import com.wealthfront.magellan.navigation.Navigator
+import com.wealthfront.magellan.navigation.goBackTo
+import com.wealthfront.magellan.navigation.goTo
+import com.wealthfront.magellan.navigation.replace
+import com.wealthfront.magellan.navigation.resetWithRoot
 import com.wealthfront.magellan.transitions.MagellanTransition
 import com.wealthfront.magellan.transitions.NoAnimationTransition
 import com.wealthfront.magellan.transitions.ShowTransition
 import rewriteHistoryWithNavigationEvents
 import java.util.Deque
 
+/**
+ * A [Navigator] implementation provided for backwards compatibility. Allows navigation between
+ * [Screen]s and [Navigable]s (collectively [NavigableCompat]s), and allows for both to coexist on
+ * the [backStack]. Otherwise copies the API of [LinearNavigator].
+ *
+ * @param container a lambda that gets the [ScreenContainer] to put children in. Only called when
+ *   [LifecycleState.Shown] or later.
+ */
 @OpenForMocking
-public class Navigator internal constructor(
+public class Navigator(
   container: () -> ScreenContainer,
 ) : Navigator, LifecycleAwareComponent() {
 
-  private val delegate by attachFieldToLifecycle(NavigationDelegate(container))
+  protected var delegate: NavigationDelegate by attachFieldToLifecycle(NavigationDelegate(container))
 
   override val backStack: List<NavigationEvent>
     get() = delegate.backStack.toList()
@@ -32,6 +47,10 @@ public class Navigator internal constructor(
   internal var currentNavigableProvider: CurrentNavigableProvider? = null
 
   init {
+    setUpCurrentNavigableSetup()
+  }
+
+  protected fun setUpCurrentNavigableSetup() {
     delegate.currentNavigableSetup = { navItem ->
       if (navItem is Screen<*>) {
         navItem.navigator = this
