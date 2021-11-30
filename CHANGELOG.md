@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.1.5-beta
+  - Add `LegacyStep` for easier migration from 1.x
+    - Includes most things that a `Screen` had, including a similar `Screen`/`View` class split
+  - Open up navigator to allow for easier extension
+
 ## 2.1.4-beta
   - Further improve testing support
     - Make `LinearNavigator` an interface, and make `DefaultLinearNavigator`'s constructor public
