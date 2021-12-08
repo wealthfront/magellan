@@ -1,54 +1,69 @@
-package com.wealthfront.magellan.transitions;
+package com.wealthfront.magellan.transitions
 
-import android.view.View;
+import android.view.View
+import android.widget.FrameLayout
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
+import com.google.common.truth.Truth.assertThat
+import com.wealthfront.blend.mock.ImmediateBlend
+import com.wealthfront.magellan.Direction.BACKWARD
+import com.wealthfront.magellan.Direction.FORWARD
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 
-import com.wealthfront.magellan.Direction;
+@RunWith(RobolectricTestRunner::class)
+internal class DefaultTransitionTest {
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.LooperMode;
-
-import kotlin.Unit;
-
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
-import static com.google.common.truth.Truth.assertThat;
-import static com.wealthfront.magellan.Direction.BACKWARD;
-import static com.wealthfront.magellan.Direction.FORWARD;
-import static org.robolectric.Robolectric.flushForegroundThreadScheduler;
-import static org.robolectric.Robolectric.getForegroundThreadScheduler;
-
-@RunWith(RobolectricTestRunner.class)
-@LooperMode(LooperMode.Mode.LEGACY)
-public class DefaultTransitionTest {
-
-  private boolean onAnimationEndCalled;
+  private lateinit var transition: DefaultTransition
+  private val blend = ImmediateBlend()
+  private var onAnimationEndCalled = false
 
   @Before
-  public void setUp() {
-    onAnimationEndCalled = false;
-    getForegroundThreadScheduler().pause();
+  fun setUp() {
+    transition = DefaultTransition(blend)
+    onAnimationEndCalled = false
   }
 
   @Test
-  public void animateGoTo() throws Exception {
-    checkAnimate(FORWARD);
+  fun animateGoTo() {
+    val parent = FrameLayout(getApplicationContext())
+    val from = View(getApplicationContext())
+    val to = View(getApplicationContext())
+    parent.addView(from)
+    parent.addView(to)
+
+    transition.animate(
+      from = from,
+      to = to,
+      direction = FORWARD,
+      onAnimationEndCallback = { onAnimationEndCalled = true }
+    )
+
+    assertThat(to.scaleX).isWithin(0.01f).of(1f)
+    assertThat(to.scaleY).isWithin(0.01f).of(1f)
+    assertThat(to.alpha).isWithin(0.01f).of(1f)
+    assertThat(onAnimationEndCalled).isTrue()
   }
 
   @Test
-  public void animateGoBack() throws Exception {
-    checkAnimate(BACKWARD);
-  }
+  fun animateGoBack() {
+    val parent = FrameLayout(getApplicationContext())
+    val from = View(getApplicationContext())
+    val to = View(getApplicationContext())
+    parent.addView(from)
+    parent.addView(to)
 
-  private void checkAnimate(Direction direction) {
-    new DefaultTransition().animate(new View(getApplicationContext()),
-        new View(getApplicationContext()), direction, () -> {
-          onAnimationEndCalled = true;
-          return Unit.INSTANCE;
-        });
-    flushForegroundThreadScheduler();
-    assertThat(onAnimationEndCalled).isTrue();
-  }
+    transition.animate(
+      from = from,
+      to = to,
+      direction = BACKWARD,
+      onAnimationEndCallback = { onAnimationEndCalled = true }
+    )
 
+    assertThat(to.scaleX).isWithin(0.01f).of(1f)
+    assertThat(to.scaleY).isWithin(0.01f).of(1f)
+    assertThat(to.alpha).isWithin(0.01f).of(1f)
+    assertThat(onAnimationEndCalled).isTrue()
+  }
 }

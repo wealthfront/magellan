@@ -48,6 +48,7 @@ object Dependencies {
 
   const val material = "com.google.android.material:material:$materialVersion"
   const val blend = "com.wealthfront:blend-library:$blendVersion"
+  const val blendTest = "com.wealthfront:blend-test:$blendVersion"
   const val junit = "junit:junit:$junitVersion"
   const val junitTestExt = "androidx.test.ext:junit-ktx:$junitTestExtVersion"
   const val truth = "com.google.truth:truth:$truthVersion"

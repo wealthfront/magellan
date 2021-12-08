@@ -68,6 +68,7 @@ dependencies {
   testImplementation Dependencies.archTesting
   testImplementation Dependencies.robolectric
   testImplementation Dependencies.coroutinesTest
+  testImplementation Dependencies.blendTest
 
 // Bug in AGP: Follow this issue - https://issuetracker.google.com/issues/141840950
 // lintPublish project(':magellan-lint')
