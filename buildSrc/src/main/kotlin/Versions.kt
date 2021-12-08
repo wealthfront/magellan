@@ -1,6 +1,6 @@
 object Versions {
   const val compileSdkVersion = 30
-  const val minSdkVersion = 18
+  const val minSdkVersion = 21
   const val targetSdkVersion = 30
 
   const val kotlinVersion = "1.5.20"
@@ -26,6 +26,7 @@ object Versions {
   const val okhttpVersion = "4.4.0"
   const val javaInjectVersion = "1"
   const val materialVersion = "1.4.0"
+  const val blendVersion = "0.2.2"
   const val coroutinesVersion = "1.4.3"
 
   const val testCoreVersion = "1.4.0"

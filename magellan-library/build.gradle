@@ -56,6 +56,7 @@ dependencies {
   implementation Dependencies.inject
   implementation Dependencies.coroutines
   implementation Dependencies.coroutinesAndroid
+  api Dependencies.blend
 
   testImplementation project(':internal-test-support')
   testImplementation Dependencies.testCore
