@@ -11,7 +11,7 @@ android {
     targetSdkVersion Versions.targetSdkVersion
     versionCode 1
     versionName "1.0"
-    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner "com.wealthfront.magellan.SampleTestRunner"
   }
 
   compileOptions {
@@ -33,6 +33,17 @@ android {
       minifyEnabled false
     }
   }
+
+  packagingOptions {
+    exclude("META-INF/AL2.0")
+    exclude("META-INF/LGPL2.1")
+  }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+  kotlinOptions.freeCompilerArgs = ['-Xjvm-default=compatibility', '-Xopt-in=kotlin.RequiresOptIn']
+  kotlinOptions.allWarningsAsErrors = true
+  kotlinOptions.jvmTarget = "1.8"
 }
 
 dependencies {
@@ -54,6 +65,7 @@ dependencies {
   androidTestImplementation Dependencies.uiAutomator
   androidTestImplementation Dependencies.extJunit
   androidTestImplementation Dependencies.espressoCore
+  androidTestImplementation Dependencies.coroutinesTest
 
   lintPublish project(':magellan-lint')
 }

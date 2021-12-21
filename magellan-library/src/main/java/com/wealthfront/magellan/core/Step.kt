@@ -8,6 +8,8 @@ import android.view.View
 import androidx.annotation.VisibleForTesting
 import androidx.viewbinding.ViewBinding
 import com.wealthfront.magellan.coroutines.ShownLifecycleScope
+import com.wealthfront.magellan.init.Magellan
+import com.wealthfront.magellan.lifecycle.LifecycleAware
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.lifecycle.createAndAttachFieldToLifecycleWhenShown
@@ -25,7 +27,7 @@ public abstract class Step<V : ViewBinding>(
   final override var view: View? by createAndAttachFieldToLifecycleWhenShown { viewBinding!!.root }
     @VisibleForTesting set
 
-  public var shownScope: CoroutineScope by attachFieldToLifecycle(ShownLifecycleScope()) { it }
+  public var shownScope: LifecycleAware by attachFieldToLifecycle(Magellan.shownScopeProvider())
     @VisibleForTesting set
 
   final override fun onShow(context: Context) {
