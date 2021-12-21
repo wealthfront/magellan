@@ -57,7 +57,7 @@ class NavigationTest {
     pressBack()
     assertShown { text(R.string.intro_view_text) }
     pressBackUnconditionally()
-    assert(activityRule.activity.isDestroyed)
+    assert(activityRule.activity.isFinishing)
   }
 
   private fun reopenApp() {

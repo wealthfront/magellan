@@ -5,23 +5,30 @@ import com.wealthfront.magellan.lifecycle.LifecycleAware
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlin.coroutines.CoroutineContext
 
 @OptIn(ExperimentalCoroutinesApi::class)
-public class SyncLifecycleScope : LifecycleAware, CoroutineScope {
+public class TestShownLifecycleScope : LifecycleAware, CoroutineScope {
   private val testCoroutineDispatcher = TestCoroutineDispatcher()
   private var testCoroutineScope: TestCoroutineScope = TestCoroutineScope(testCoroutineDispatcher)
 
-  override var coroutineContext: CoroutineContext = testCoroutineScope.coroutineContext
+  private var job = SupervisorJob().apply { cancel(CancellationException("Not shown yet")) }
+    set(value) {
+      field = value
+      coroutineContext = value + testCoroutineDispatcher
+    }
+
+  override var coroutineContext: CoroutineContext = job + testCoroutineScope.coroutineContext
+
 
   override fun show(context: Context) {
-    testCoroutineScope = TestCoroutineScope(testCoroutineDispatcher)
+    job = SupervisorJob()
   }
 
   override fun hide(context: Context) {
-    testCoroutineScope.cancel(CancellationException("Hidden"))
+    job.cancel(CancellationException("Hidden"))
   }
 }
