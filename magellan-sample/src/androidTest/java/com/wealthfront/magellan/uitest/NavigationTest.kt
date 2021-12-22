@@ -1,7 +1,6 @@
 package com.wealthfront.magellan.uitest
 
 import android.content.Intent
-import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.Espresso.pressBackUnconditionally
 import androidx.test.espresso.action.ViewActions.click
@@ -10,6 +9,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.UiDevice
 import com.wealthfront.magellan.assertions.assertShown
+import com.wealthfront.magellan.onView
 import com.wealthfront.magellan.sample.MainActivity
 import com.wealthfront.magellan.sample.R
 import org.junit.Rule
@@ -57,7 +57,7 @@ class NavigationTest {
     pressBack()
     assertShown { text(R.string.intro_view_text) }
     pressBackUnconditionally()
-    assert(activityRule.activity.isFinishing)
+    assert(activityRule.activity.isDestroyed)
   }
 
   private fun reopenApp() {
