@@ -7,6 +7,8 @@ import android.content.Context;
 import android.view.ViewGroup;
 
 import com.wealthfront.magellan.coroutines.ShownLifecycleScope;
+import com.wealthfront.magellan.init.Magellan;
+import com.wealthfront.magellan.lifecycle.LifecycleAware;
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent;
 import com.wealthfront.magellan.navigation.NavigableCompat;
 import com.wealthfront.magellan.view.DialogComponent;
@@ -43,7 +45,7 @@ import kotlinx.coroutines.CoroutineScope;
 public abstract class Screen<V extends ViewGroup & ScreenView> extends LifecycleAwareComponent implements NavigableCompat {
 
   private final DialogComponent dialogComponent = new DialogComponent();
-  private final ShownLifecycleScope shownScope = new ShownLifecycleScope();
+  private final ShownLifecycleScope shownScope = Magellan.getShownScopeProvider().invoke();
   private CoroutineScope overrideScope = null;
 
   private @Nullable Activity activity;

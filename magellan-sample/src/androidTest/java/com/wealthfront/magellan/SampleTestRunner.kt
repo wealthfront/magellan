@@ -2,7 +2,7 @@ package com.wealthfront.magellan
 
 import android.os.Bundle
 import androidx.test.runner.AndroidJUnitRunner
-import com.wealthfront.magellan.coroutines.ShownLifecycleScope
+import com.wealthfront.magellan.coroutines.ShownLifecycleScopeImpl
 import com.wealthfront.magellan.init.Magellan
 
 class SampleTestRunner : AndroidJUnitRunner() {
@@ -13,7 +13,7 @@ class SampleTestRunner : AndroidJUnitRunner() {
   }
 
   override fun finish(resultCode: Int, results: Bundle) {
-    Magellan.shownScopeProvider = { ShownLifecycleScope() }
+    Magellan.shownScopeProvider = { ShownLifecycleScopeImpl() }
     super.finish(resultCode, results)
   }
 }

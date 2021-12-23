@@ -1,9 +1,8 @@
 package com.wealthfront.magellan
 
 import android.content.Context
-import com.wealthfront.magellan.lifecycle.LifecycleAware
+import com.wealthfront.magellan.coroutines.ShownLifecycleScope
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -11,7 +10,7 @@ import kotlinx.coroutines.test.TestCoroutineScope
 import kotlin.coroutines.CoroutineContext
 
 @OptIn(ExperimentalCoroutinesApi::class)
-public class TestShownLifecycleScope : LifecycleAware, CoroutineScope {
+public class TestShownLifecycleScope : ShownLifecycleScope {
   private val testCoroutineDispatcher = TestCoroutineDispatcher()
   private var testCoroutineScope: TestCoroutineScope = TestCoroutineScope(testCoroutineDispatcher)
 

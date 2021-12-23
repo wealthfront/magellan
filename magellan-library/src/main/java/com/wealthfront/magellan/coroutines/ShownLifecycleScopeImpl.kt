@@ -9,7 +9,9 @@ import kotlinx.coroutines.SupervisorJob
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-public class ShownLifecycleScope @Inject constructor() : LifecycleAware, CoroutineScope {
+public interface ShownLifecycleScope: LifecycleAware, CoroutineScope
+
+public class ShownLifecycleScopeImpl @Inject constructor() : ShownLifecycleScope {
 
   private var job = SupervisorJob().apply { cancel(CancellationException("Not shown yet")) }
     set(value) {

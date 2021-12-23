@@ -27,12 +27,12 @@ import org.robolectric.RobolectricTestRunner
 @RunWith(RobolectricTestRunner::class)
 internal class ShownLifecycleScopeTest {
 
-  private lateinit var shownScope: ShownLifecycleScope
+  private lateinit var shownScope: ShownLifecycleScopeImpl
   private val context: Context = getApplicationContext<Application>()
 
   @Before
   fun setUp() {
-    shownScope = ShownLifecycleScope()
+    shownScope = ShownLifecycleScopeImpl()
     Dispatchers.setMain(Dispatchers.Unconfined)
   }
 
