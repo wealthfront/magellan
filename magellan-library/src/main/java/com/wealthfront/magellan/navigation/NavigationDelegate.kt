@@ -32,8 +32,8 @@ public open class NavigationDelegate(
 
   protected val Deque<NavigationEvent>.currentNavigable: NavigableCompat?
     get() {
-      return if (backStack.isNotEmpty()) {
-        backStack.peek()?.navigable
+      return if (isNotEmpty()) {
+        peek()?.navigable
       } else {
         null
       }
@@ -70,12 +70,12 @@ public open class NavigationDelegate(
     backStackOperation: (Deque<NavigationEvent>) -> MagellanTransition
   ) {
     navigationRequestHandler?.let { navRequestHandler ->
-      // Do a "dry run" of the backStackOperation, on a copy of the real backstack
-      // Callback implementations can then determine if nav operation should be overridden
+      // Perform a "dry run" of the backStackOperation, on a copy of the real backstack
       val backstackCopy = ArrayDeque(backStack)
       backStackOperation.invoke(backstackCopy)
+      // onNavigationRequested implementation determines whether nav operation should be skipped.
       if (backstackCopy.currentNavigable != null &&
-        navRequestHandler.onNavigationRequested(backstackCopy.currentNavigable!!)) {
+        navRequestHandler.onNavigationRequested(this, backstackCopy.currentNavigable!!)) {
         return
       }
     }
