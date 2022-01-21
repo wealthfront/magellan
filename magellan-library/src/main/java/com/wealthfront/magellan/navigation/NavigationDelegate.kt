@@ -70,10 +70,9 @@ public open class NavigationDelegate(
     backStackOperation: (Deque<NavigationEvent>) -> MagellanTransition
   ) {
     navigationRequestHandler?.let { navRequestHandler ->
-      // Perform a "dry run" of the backStackOperation, on a copy of the real backstack
       val backstackCopy = ArrayDeque(backStack)
       backStackOperation.invoke(backstackCopy)
-      // onNavigationRequested implementation determines whether nav operation should be skipped.
+      // onNavigationRequested implementation determines whether nav operation should be skipped
       if (backstackCopy.currentNavigable != null &&
         navRequestHandler.onNavigationRequested(this, backstackCopy.currentNavigable!!)) {
         return

@@ -6,6 +6,7 @@ import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Journey
+import com.wealthfront.magellan.init.Magellan
 import com.wealthfront.magellan.internal.test.DummyStep
 import com.wealthfront.magellan.internal.test.TransitionState.FINISHED
 import com.wealthfront.magellan.internal.test.TransitionState.NOT_STARTED
@@ -50,7 +51,12 @@ internal class DefaultLinearNavigatorTest {
     context = activityController.get()
     screenContainer = ScreenContainer(context)
 
-    linearNavigator = DefaultLinearNavigator { screenContainer }
+    linearNavigator = DefaultLinearNavigator({ screenContainer }, object : NavigationRequestHandler {
+      override fun onNavigationRequested(
+        navigationDelegate: NavigationDelegate,
+        navigable: NavigableCompat
+      ): Boolean = false
+    })
     linearNavigator.create(context)
   }
 
@@ -84,6 +90,29 @@ internal class DefaultLinearNavigatorTest {
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
     assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(ShowTransition::class.java)
+  }
+
+  @Test
+  fun show_navigationRequestHandler() {
+    linearNavigator = DefaultLinearNavigator({ screenContainer }, object : NavigationRequestHandler {
+      override fun onNavigationRequested(
+        navigationDelegate: NavigationDelegate,
+        navigable: NavigableCompat
+      ): Boolean {
+        if (navigable == step2) {
+          navigationDelegate.goTo(step3)
+          return true
+        }
+        return false
+      }
+    })
+    linearNavigator.create(context)
+
+    linearNavigator.goTo(step1, ShowTransition())
+    linearNavigator.goTo(step2, ShowTransition())
+
+    assertThat(linearNavigator.backStack.map { it.navigable })
+      .containsExactly(step3, step1)
   }
 
   @Test
