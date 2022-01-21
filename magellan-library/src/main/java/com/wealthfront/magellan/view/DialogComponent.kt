@@ -16,23 +16,24 @@ public class DialogComponent @Inject constructor() : LifecycleAware {
   public var context: Context? = null
 
   @VisibleForTesting
-  internal var dialogIsShowing: Boolean = false
+  internal var shouldRestoreDialog: Boolean = false
 
   public fun showDialog(dialogCreator: DialogCreator) {
     this.dialogCreator = dialogCreator
-    this.dialogIsShowing = true
     createDialog()
   }
 
   public fun showDialog(dialogCreator: (Activity) -> Dialog) {
     this.dialogCreator = DialogCreator { dialogCreator.invoke(it) }
-    this.dialogIsShowing = true
     createDialog()
   }
 
   override fun resume(context: Context) {
     this.context = context
-    createDialog()
+    if (shouldRestoreDialog) {
+      createDialog()
+      shouldRestoreDialog = false
+    }
   }
 
   override fun pause(context: Context) {
@@ -41,7 +42,7 @@ public class DialogComponent @Inject constructor() : LifecycleAware {
   }
 
   private fun createDialog() {
-    if (dialogCreator != null && context != null && dialogIsShowing) {
+    if (dialogCreator != null && context != null) {
       dialog = dialogCreator!!.createDialog(context as Activity)
       dialog!!.show()
     }
@@ -49,7 +50,7 @@ public class DialogComponent @Inject constructor() : LifecycleAware {
 
   private fun destroyDialog() {
     if (dialog != null) {
-      dialogIsShowing = dialog!!.isShowing
+      shouldRestoreDialog = dialog!!.isShowing
       dialog!!.setOnDismissListener(null)
       dialog!!.dismiss()
       dialog = null
