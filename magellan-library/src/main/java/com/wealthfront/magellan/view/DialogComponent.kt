@@ -3,6 +3,7 @@ package com.wealthfront.magellan.view
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import com.wealthfront.magellan.DialogCreator
 import com.wealthfront.magellan.lifecycle.LifecycleAware
 import javax.inject.Inject
@@ -14,7 +15,8 @@ public class DialogComponent @Inject constructor() : LifecycleAware {
     private set
   public var context: Context? = null
 
-  public var dialogIsShowing: Boolean = false
+  @VisibleForTesting
+  internal var dialogIsShowing: Boolean = false
 
   public fun showDialog(dialogCreator: DialogCreator) {
     this.dialogCreator = dialogCreator
