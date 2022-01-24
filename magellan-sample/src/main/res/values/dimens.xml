@@ -1,3 +1,4 @@
 <resources>
-  <dimen name="largePadding">25dp</dimen>
+  <dimen name="normalPadding">16dp</dimen>
+  <dimen name="largePadding">24dp</dimen>
 </resources>
