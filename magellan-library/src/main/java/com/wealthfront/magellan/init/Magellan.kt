@@ -14,7 +14,6 @@ public object Magellan {
   internal var logDebugInfo: Boolean = false
   internal var disableAnimations: Boolean = false
   internal var customDefaultTransition: MagellanTransition = DefaultTransition()
-
   public var navigationRequestHandler: NavigationRequestHandler? = null
 
   @JvmStatic
@@ -23,10 +22,12 @@ public object Magellan {
     disableAnimations: Boolean = false,
     logDebugInfo: Boolean = false,
     defaultTransition: MagellanTransition = DefaultTransition(),
+    navigationRequestHandler: NavigationRequestHandler? = null
   ) {
     this.logDebugInfo = logDebugInfo
     this.disableAnimations = disableAnimations
     this.customDefaultTransition = defaultTransition
+    this.navigationRequestHandler = navigationRequestHandler
   }
 }
 

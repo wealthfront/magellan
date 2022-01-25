@@ -6,14 +6,16 @@ import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.init.Magellan
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.navigation.CurrentNavigableProvider
+import com.wealthfront.magellan.navigation.NavigationRequestHandler
 
 public abstract class LegacyExpedition<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V,
-  container: V.() -> ScreenContainer
+  container: V.() -> ScreenContainer,
+  navigationRequestHandler: NavigationRequestHandler? = Magellan.navigationRequestHandler
 ) : Step<V>(createBinding) {
 
   public var navigator: Navigator by attachFieldToLifecycle(
-    Navigator({ viewBinding!!.container() }, Magellan.navigationRequestHandler)
+    Navigator({ viewBinding!!.container() }, navigationRequestHandler)
   )
 
   public fun setCurrentNavProvider(currentNavigableProvider: CurrentNavigableProvider) {

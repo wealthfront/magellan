@@ -74,7 +74,8 @@ public open class NavigationDelegate(
       backStackOperation.invoke(backstackCopy)
       // onNavigationRequested implementation determines whether nav operation should be skipped
       if (backstackCopy.currentNavigable != null &&
-        navRequestHandler.onNavigationRequested(this, backstackCopy.currentNavigable!!)) {
+        navRequestHandler.onNavigationRequested(this, backstackCopy.currentNavigable!!)
+      ) {
         return
       }
     }
