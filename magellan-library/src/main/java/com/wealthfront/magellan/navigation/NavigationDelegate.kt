@@ -20,7 +20,8 @@ import java.util.ArrayDeque
 import java.util.Deque
 
 public open class NavigationDelegate(
-  protected val container: () -> ScreenContainer
+  protected val container: () -> ScreenContainer,
+  private val navigationRequestHandler: NavigationRequestHandler?
 ) : LifecycleAwareComponent() {
 
   public var currentNavigableSetup: ((NavigableCompat) -> Unit)? = null
@@ -29,13 +30,18 @@ public open class NavigationDelegate(
   protected val navigationPropagator: NavigationPropagator = NavigationPropagator
   public val backStack: Deque<NavigationEvent> = ArrayDeque()
 
-  protected val currentNavigable: NavigableCompat?
+  protected val Deque<NavigationEvent>.currentNavigable: NavigableCompat?
     get() {
-      return if (backStack.isNotEmpty()) {
-        backStack.peek()?.navigable
+      return if (isNotEmpty()) {
+        peek()?.navigable
       } else {
         null
       }
+    }
+
+  protected val currentNavigable: NavigableCompat?
+    get() {
+      return backStack.currentNavigable
     }
 
   protected val context: Context?
@@ -63,6 +69,17 @@ public open class NavigationDelegate(
     direction: Direction,
     backStackOperation: (Deque<NavigationEvent>) -> MagellanTransition
   ) {
+    navigationRequestHandler?.let { navRequestHandler ->
+      val backstackCopy = ArrayDeque(backStack)
+      backStackOperation.invoke(backstackCopy)
+      // onNavigationRequested implementation determines whether nav operation should be skipped
+      if (backstackCopy.currentNavigable != null &&
+        navRequestHandler.onNavigationRequested(this, backstackCopy.currentNavigable!!)
+      ) {
+        return
+      }
+    }
+
     containerView?.setInterceptTouchEvents(true)
     navigationPropagator.beforeNavigation()
     val from = navigateFrom(currentNavigable)
