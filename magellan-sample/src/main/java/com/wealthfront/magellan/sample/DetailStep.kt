@@ -14,25 +14,39 @@ class DetailStep(
   private val startSecondJourney: () -> Unit
 ) : Step<DetailBinding>(DetailBinding::inflate) {
 
-  @set:Inject var dialogComponent: DialogComponent by attachLateinitFieldToLifecycle()
+  @set:Inject var dialogComponent1: DialogComponent by attachLateinitFieldToLifecycle()
+  @set:Inject var dialogComponent2: DialogComponent by attachLateinitFieldToLifecycle()
 
   override fun onCreate(context: Context) {
     appComponent.inject(this)
   }
 
   override fun onShow(context: Context, binding: DetailBinding) {
-    binding.dialog.setOnClickListener {
-      dialogComponent.showDialog(DialogCreator { activity -> getDialog(activity) })
+    binding.dialog1.setOnClickListener {
+      dialogComponent1.showDialog(DialogCreator { activity -> getHelloDialog(activity) })
+    }
+
+    binding.dialog2.setOnClickListener {
+      dialogComponent2.showDialog(DialogCreator { activity -> getOrderDialog(activity) })
     }
     binding.nextJourney.setOnClickListener {
       startSecondJourney()
     }
   }
 
-  private fun getDialog(context: Context): AlertDialog {
+  private fun getHelloDialog(context: Context): AlertDialog {
     return AlertDialog.Builder(context)
       .setTitle("Hello")
       .setMessage("Are you sure about this?")
+      .create()
+  }
+
+  private fun getOrderDialog(context: Context): AlertDialog {
+    return AlertDialog.Builder(context)
+      .setTitle("Can I take your order?")
+      .setMessage("Would you like fries with that?")
+      .setPositiveButton(R.string.response_affirmative, null)
+      .setNegativeButton(R.string.response_negative, null)
       .create()
   }
 }
