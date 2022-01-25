@@ -1,26 +1,28 @@
 package com.wealthfront.magellan.view
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Dialog
+import android.os.Looper
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.DialogCreator
+import com.wealthfront.magellan.lifecycle.LifecycleState
+import com.wealthfront.magellan.lifecycle.transition
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations.initMocks
+import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.Shadows
 
 @RunWith(RobolectricTestRunner::class)
 internal class DialogComponentTest {
 
-  @Mock lateinit var dialog1: Dialog
-  @Mock lateinit var dialog2: Dialog
+  lateinit var dialog1: Dialog
+  lateinit var dialog2: Dialog
 
-  private val context = Activity()
+  private val context = Robolectric.buildActivity(Activity::class.java).get()
   private val dialogComponent = DialogComponent()
 
   private lateinit var dialogCreator1: DialogCreator
@@ -29,80 +31,64 @@ internal class DialogComponentTest {
   @Before
   fun setUp() {
     initMocks(this)
-    dialogCreator1 = DialogCreator { dialog1 }
-    dialogCreator2 = DialogCreator { dialog2 }
+    dialogCreator1 = DialogCreator {
+      AlertDialog.Builder(context).create().also { dialog1 = it }
+    }
+    dialogCreator2 = DialogCreator {
+      AlertDialog.Builder(context).create().also { dialog2 = it }
+    }
   }
 
   @Test
   fun showDialog() {
-    `when`(dialog1.isShowing).thenReturn(true)
-
-    dialogComponent.show(context)
-    dialogComponent.resume(context)
+    dialogComponent.transition(LifecycleState.Created(context), LifecycleState.Shown(context))
+    dialogComponent.transition(LifecycleState.Shown(context), LifecycleState.Resumed(context))
     dialogComponent.showDialog(dialogCreator1)
-
-    verify(dialog1).show()
-    assertThat(dialogComponent.dialogIsShowing).isTrue()
+    assertThat(dialog1.isShowing).isTrue()
   }
 
   @Test
-  fun showDialog_hidden() {
-    `when`(dialog1.isShowing).thenReturn(true)
-
-    dialogComponent.show(context)
-    dialogComponent.resume(context)
+  fun showDialog_manuallyDismissed() {
+    dialogComponent.transition(LifecycleState.Created(context), LifecycleState.Shown(context))
+    dialogComponent.transition(LifecycleState.Shown(context), LifecycleState.Resumed(context))
     dialogComponent.showDialog(dialogCreator1)
+    assertThat(dialog1.isShowing).isTrue()
 
-    verify(dialog1).show()
-    assertThat(dialogComponent.dialogIsShowing).isTrue()
-
-    `when`(dialog1.isShowing).thenReturn(false)
-    dialogComponent.pause(context)
-    dialogComponent.hide(context)
-
-    verify(dialog1).dismiss()
-    assertThat(dialogComponent.dialogIsShowing).isFalse()
+    dialog1.dismiss()
+    dialogComponent.transition(LifecycleState.Resumed(context), LifecycleState.Shown(context))
+    assertThat(dialogComponent.shouldRestoreDialog).isFalse()
   }
 
   @Test
   fun showDialog_rotation() {
-    `when`(dialog1.isShowing).thenReturn(true)
-    dialogComponent.show(context)
-    dialogComponent.resume(context)
+    dialogComponent.transition(LifecycleState.Created(context), LifecycleState.Shown(context))
+    dialogComponent.transition(LifecycleState.Shown(context), LifecycleState.Resumed(context))
     dialogComponent.showDialog(dialogCreator1)
+    assertThat(dialog1.isShowing).isTrue()
 
-    verify(dialog1).show()
-    assertThat(dialogComponent.dialogIsShowing).isTrue()
+    dialogComponent.transition(LifecycleState.Resumed(context), LifecycleState.Shown(context))
+    dialogComponent.transition(LifecycleState.Shown(context), LifecycleState.Created(context))
+    assertThat(dialog1.isShowing).isFalse()
+    assertThat(dialogComponent.shouldRestoreDialog).isTrue()
 
-    dialogComponent.pause(context)
-    dialogComponent.hide(context)
-    dialogComponent.destroy(context)
-
-    `when`(dialog1.isShowing).thenReturn(false)
-    dialogComponent.create(context)
-    dialogComponent.show(context)
-    dialogComponent.resume(context)
-
-    verify(dialog1).dismiss()
-    verify(dialog1, times(2)).show()
-    assertThat(dialogComponent.dialogIsShowing).isTrue()
+    dialogComponent.transition(LifecycleState.Created(context), LifecycleState.Shown(context))
+    dialogComponent.transition(LifecycleState.Shown(context), LifecycleState.Resumed(context))
+    assertThat(dialog1.isShowing).isTrue()
   }
 
   @Test
   fun showDialog_diffDialog() {
-    `when`(dialog1.isShowing).thenReturn(true)
-    `when`(dialog2.isShowing).thenReturn(true)
-
-    dialogComponent.show(context)
-    dialogComponent.resume(context)
+    dialogComponent.transition(LifecycleState.Created(context), LifecycleState.Shown(context))
+    dialogComponent.transition(LifecycleState.Shown(context), LifecycleState.Resumed(context))
     dialogComponent.showDialog(dialogCreator1)
-
-    verify(dialog1).show()
-    assertThat(dialogComponent.dialogIsShowing).isTrue()
+    assertThat(dialog1.isShowing).isTrue()
 
     dialogComponent.showDialog(dialogCreator2)
+    Shadows.shadowOf(Looper.getMainLooper()).idle()
+    assertThat(dialog2.isShowing).isTrue()
 
-    verify(dialog2).show()
-    assertThat(dialogComponent.dialogIsShowing).isTrue()
+    assertThat(dialogComponent.shouldRestoreDialog).isFalse()
+    dialogComponent.transition(LifecycleState.Resumed(context), LifecycleState.Shown(context))
+    assertThat(dialogComponent.shouldRestoreDialog).isTrue()
   }
 }
