@@ -6,7 +6,6 @@ import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Journey
-import com.wealthfront.magellan.init.Magellan
 import com.wealthfront.magellan.internal.test.DummyStep
 import com.wealthfront.magellan.internal.test.TransitionState.FINISHED
 import com.wealthfront.magellan.internal.test.TransitionState.NOT_STARTED
@@ -51,12 +50,15 @@ internal class DefaultLinearNavigatorTest {
     context = activityController.get()
     screenContainer = ScreenContainer(context)
 
-    linearNavigator = DefaultLinearNavigator({ screenContainer }, object : NavigationRequestHandler {
-      override fun onNavigationRequested(
-        navigationDelegate: NavigationDelegate,
-        navigable: NavigableCompat
-      ): Boolean = false
-    })
+    linearNavigator = DefaultLinearNavigator(
+      { screenContainer },
+      object : NavigationRequestHandler {
+        override fun onNavigationRequested(
+          navigationDelegate: NavigationDelegate,
+          navigable: NavigableCompat
+        ): Boolean = false
+      }
+    )
     linearNavigator.create(context)
   }
 
@@ -66,7 +68,8 @@ internal class DefaultLinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass)
+      .isEqualTo(DefaultTransition::class.java)
   }
 
   @Test(expected = IllegalStateException::class)
@@ -89,23 +92,27 @@ internal class DefaultLinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(ShowTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass)
+      .isEqualTo(ShowTransition::class.java)
   }
 
   @Test
   fun show_navigationRequestHandler() {
-    linearNavigator = DefaultLinearNavigator({ screenContainer }, object : NavigationRequestHandler {
-      override fun onNavigationRequested(
-        navigationDelegate: NavigationDelegate,
-        navigable: NavigableCompat
-      ): Boolean {
-        if (navigable == step2) {
-          navigationDelegate.goTo(step3)
-          return true
+    linearNavigator = DefaultLinearNavigator(
+      { screenContainer },
+      object : NavigationRequestHandler {
+        override fun onNavigationRequested(
+          navigationDelegate: NavigationDelegate,
+          navigable: NavigableCompat
+        ): Boolean {
+          if (navigable == step2) {
+            navigationDelegate.goTo(step3)
+            return true
+          }
+          return false
         }
-        return false
       }
-    })
+    )
     linearNavigator.create(context)
 
     linearNavigator.goTo(step1, ShowTransition())
@@ -122,7 +129,8 @@ internal class DefaultLinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass)
+      .isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
@@ -132,7 +140,8 @@ internal class DefaultLinearNavigatorTest {
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(ShowTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass)
+      .isEqualTo(ShowTransition::class.java)
   }
 
   @Test(expected = IllegalStateException::class)
@@ -153,7 +162,8 @@ internal class DefaultLinearNavigatorTest {
     assertThat(didNavigate).isTrue()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass)
+      .isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
@@ -164,7 +174,8 @@ internal class DefaultLinearNavigatorTest {
     assertThat(didNavigate).isFalse()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass)
+      .isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
@@ -184,7 +195,8 @@ internal class DefaultLinearNavigatorTest {
     assertThat(didNavigate).isTrue()
     assertThat(linearNavigator.backStack.size).isEqualTo(2)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step2)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass).isEqualTo(DefaultTransition::class.java)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass)
+      .isEqualTo(DefaultTransition::class.java)
   }
 
   @Test

@@ -20,7 +20,7 @@ class SampleApplication : Application() {
       .appModule(AppModule())
       .build()
 
-    Magellan.navigationRequestHandler = object: NavigationRequestHandler {
+    Magellan.navigationRequestHandler = object : NavigationRequestHandler {
       override fun onNavigationRequested(
         navigationDelegate: NavigationDelegate,
         navigable: NavigableCompat
