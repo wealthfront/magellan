@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.6-beta
+- Don't expose dialog state publicly
+- Add `NavigationRequestHandler` to override navigation intents
+
 ## 2.1.5-beta
   - Add `LegacyStep` for easier migration from 1.x
     - Includes most things that a `Screen` had, including a similar `Screen`/`View` class split
