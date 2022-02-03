@@ -21,7 +21,8 @@ import java.util.Deque
 
 public open class NavigationDelegate(
   protected val container: () -> ScreenContainer,
-  private val navigationRequestHandler: NavigationRequestHandler?
+  private val navigationRequestHandler: NavigationRequestHandler?,
+  private val templateApplier: ViewTemplateApplier?
 ) : LifecycleAwareComponent() {
 
   public var currentNavigableSetup: ((NavigableCompat) -> Unit)? = null
@@ -149,10 +150,8 @@ public open class NavigationDelegate(
     navigationPropagator.onNavigatedTo(currentNavigable)
     when (currentState) {
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
-        containerView!!.addView(
-          currentNavigable.view!!,
-          direction.indexToAddView(containerView!!)
-        )
+        val templatedView = templateApplier?.onViewCreated(currentNavigable.view!!) ?: currentNavigable.view!!
+        containerView!!.addView(templatedView, direction.indexToAddView(containerView!!))
       }
       is LifecycleState.Destroyed, is Created -> {
       }
