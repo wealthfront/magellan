@@ -18,7 +18,7 @@ public abstract class Journey<V : ViewBinding>(
 ) : Step<V>(inflateBinding) {
 
   @VisibleForTesting(otherwise = PROTECTED)
-  public var navigator: LinearNavigator by attachFieldToLifecycle(
+  public open var navigator: LinearNavigator by attachFieldToLifecycle(
     DefaultLinearNavigator({ viewBinding!!.getContainer() }, navigationRequestHandler)
   )
 }
