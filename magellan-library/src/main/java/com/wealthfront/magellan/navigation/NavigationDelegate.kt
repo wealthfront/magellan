@@ -150,18 +150,19 @@ public open class NavigationDelegate(
     navigationPropagator.onNavigatedTo(currentNavigable)
     when (currentState) {
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
-        val templatedView = templateApplier?.onViewCreated(currentNavigable.view!!) ?: currentNavigable.view!!
+        val templatedView = templateApplier?.onViewCreated(currentState.context!!, currentNavigable.view!!) ?: currentNavigable.view!!
+        currentNavigable.templatedView = templatedView
         containerView!!.addView(templatedView, direction.indexToAddView(containerView!!))
       }
       is LifecycleState.Destroyed, is Created -> {
       }
     }
-    return currentNavigable.view
+    return currentNavigable.templatedView
   }
 
   protected open fun navigateFrom(currentNavigable: NavigableCompat?): View? {
     return currentNavigable?.let { oldNavigable ->
-      val currentView = oldNavigable.view
+      val currentView = oldNavigable.templatedView
       lifecycleRegistry.updateMaxState(oldNavigable, CREATED)
       navigationPropagator.onNavigatedFrom(oldNavigable)
       currentView

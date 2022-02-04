@@ -1,5 +1,6 @@
 package com.wealthfront.magellan.navigation
 
+import android.content.Context
 import android.view.View
 
 public interface NavigationRequestHandler {
@@ -10,7 +11,7 @@ public interface NavigationRequestHandler {
 }
 
 public interface ViewTemplateApplier {
-  public fun onViewCreated(view: View): View
+  public fun onViewCreated(context: Context, view: View): View
 }
 
 public interface Navigator {
