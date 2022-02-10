@@ -11,7 +11,6 @@ import com.wealthfront.magellan.coroutines.ShownLifecycleScope
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.lifecycle.createAndAttachFieldToLifecycleWhenShown
-import com.wealthfront.magellan.lifecycle.createAndAttachOverridableFieldToLifecycleWhenShown
 import kotlinx.coroutines.CoroutineScope
 
 public abstract class Step<V : ViewBinding>(
@@ -24,9 +23,6 @@ public abstract class Step<V : ViewBinding>(
     @VisibleForTesting set
 
   final override var view: View? by createAndAttachFieldToLifecycleWhenShown { viewBinding!!.root }
-    @VisibleForTesting set
-
-  final override var templatedView: View? by createAndAttachOverridableFieldToLifecycleWhenShown { view }
     @VisibleForTesting set
 
   public var shownScope: CoroutineScope by attachFieldToLifecycle(ShownLifecycleScope()) { it }

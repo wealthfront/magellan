@@ -1,14 +1,38 @@
 package com.wealthfront.magellan.sample.advanced.designcereal
 
 import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
 import androidx.annotation.VisibleForTesting
 import com.wealthfront.magellan.core.SimpleJourney
 import com.wealthfront.magellan.databinding.MagellanSimpleJourneyBinding
+import com.wealthfront.magellan.init.Magellan
+import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
+import com.wealthfront.magellan.navigation.DefaultLinearNavigator
+import com.wealthfront.magellan.navigation.LinearNavigator
+import com.wealthfront.magellan.navigation.ViewTemplateApplier
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.advanced.ToolbarHelper
+import com.wealthfront.magellan.sample.advanced.databinding.DesignCerealTemplateBinding
 import javax.inject.Inject
 
 class DesignCerealJourney(private val cerealComplete: () -> Unit) : SimpleJourney() {
+
+  override var navigator: LinearNavigator by attachFieldToLifecycle(
+    DefaultLinearNavigator(
+      { viewBinding!!.getContainer() },
+      Magellan.navigationRequestHandler,
+      object : ViewTemplateApplier {
+        override fun onViewCreated(context: Context, view: View): View {
+          val inflater = LayoutInflater.from(context)
+          val template = DesignCerealTemplateBinding.inflate(inflater).apply {
+            this.content.addView(view)
+          }
+          return template.root
+        }
+      }
+    )
+  )
 
   @Inject lateinit var toolbarHelper: ToolbarHelper
   private var customCereal: CustomCereal? = null

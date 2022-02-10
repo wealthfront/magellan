@@ -14,7 +14,7 @@ import com.wealthfront.magellan.navigation.ViewTemplateApplier
 
 public abstract class Journey<V : ViewBinding>(
   inflateBinding: (LayoutInflater) -> V,
-  getContainer: V.() -> ScreenContainer,
+  protected val getContainer: V.() -> ScreenContainer,
   navigationRequestHandler: NavigationRequestHandler? = Magellan.navigationRequestHandler,
   templateApplier: ViewTemplateApplier? = null
 ) : Step<V>(inflateBinding) {

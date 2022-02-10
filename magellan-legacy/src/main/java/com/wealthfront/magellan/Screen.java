@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.wealthfront.magellan.coroutines.ShownLifecycleScope;
@@ -49,7 +48,6 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
 
   private @Nullable Activity activity;
   private @Nullable V view;
-  private @Nullable View templatedView;
   private boolean isTransitioning;
   private final Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
   private Navigator navigator;
@@ -68,12 +66,6 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   @Override
   public V getView() {
     return view;
-  }
-
-  @Nullable
-  @Override
-  public View getTemplatedView() {
-    return templatedView != null ? templatedView : view;
   }
 
   /**
@@ -224,10 +216,6 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
 
   public final void setView(@Nullable V view) {
     this.view = view;
-  }
-
-  public final void setTemplatedView(@Nullable View templatedView) {
-    this.templatedView = templatedView;
   }
 
   public final void setActivity(@Nullable Activity activity) {

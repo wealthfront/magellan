@@ -6,8 +6,6 @@ public interface Displayable {
 
   public val view: View?
 
-  public var templatedView: View?
-
   public fun transitionStarted() {}
 
   public fun transitionFinished() {}

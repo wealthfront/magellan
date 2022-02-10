@@ -39,7 +39,6 @@ public class LegacyViewComponent<V extends ViewGroup & ScreenView> implements Li
       view.saveHierarchyState(viewState);
     }
     screen.setView(null);
-    screen.setTemplatedView(null);
     screen.setActivity(null);
   }
 
