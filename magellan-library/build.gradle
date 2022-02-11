@@ -61,7 +61,7 @@ dependencies {
   testImplementation Dependencies.testCore
   testImplementation Dependencies.testCoreKtx
   testImplementation Dependencies.junit
-  testImplementation Dependencies.junitTestExt
+  testImplementation Dependencies.extJunitKtx
   testImplementation Dependencies.truth
   testImplementation Dependencies.mockito
   testImplementation Dependencies.archTesting
