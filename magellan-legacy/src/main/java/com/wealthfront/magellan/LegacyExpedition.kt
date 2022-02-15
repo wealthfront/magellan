@@ -7,15 +7,17 @@ import com.wealthfront.magellan.init.Magellan
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.navigation.CurrentNavigableProvider
 import com.wealthfront.magellan.navigation.NavigationRequestHandler
+import com.wealthfront.magellan.navigation.ViewTemplateApplier
 
 public abstract class LegacyExpedition<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V,
   container: V.() -> ScreenContainer,
-  navigationRequestHandler: NavigationRequestHandler? = Magellan.navigationRequestHandler
+  navigationRequestHandler: NavigationRequestHandler? = Magellan.navigationRequestHandler,
+  templateApplier: ViewTemplateApplier? = null
 ) : Step<V>(createBinding) {
 
-  public var navigator: Navigator by attachFieldToLifecycle(
-    Navigator({ viewBinding!!.container() }, navigationRequestHandler)
+  public open var navigator: Navigator by attachFieldToLifecycle(
+    Navigator({ viewBinding!!.container() }, navigationRequestHandler, templateApplier)
   )
 
   public fun setCurrentNavProvider(currentNavigableProvider: CurrentNavigableProvider) {

@@ -63,6 +63,7 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
    * {@link #onHide(Context)}.
    */
   @Nullable
+  @Override
   public V getView() {
     return view;
   }

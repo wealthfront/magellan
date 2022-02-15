@@ -18,7 +18,8 @@ class ApiClient constructor(private val retrofit: BehaviorDelegate<ApiContract>)
 
   val ALL_CEREALS = listOf(
     CerealDetails(
-      R.string.monster_cereals_title, R.string.monster_cereals_description,
+      R.string.monster_cereals_title,
+      R.string.monster_cereals_description,
       CerealStatus.LIMITED
     ),
     CerealDetails(

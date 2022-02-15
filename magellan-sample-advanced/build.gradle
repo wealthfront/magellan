@@ -14,7 +14,7 @@ android {
     versionCode 1
     versionName "1.0"
 
-    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner "com.wealthfront.magellan.IntegrationTestRunner"
   }
 
   buildFeatures {
@@ -73,6 +73,10 @@ dependencies {
   testImplementation Dependencies.mockito
   testImplementation Dependencies.robolectric
 
-  androidTestImplementation Dependencies.extJunit
+  androidTestImplementation Dependencies.rx2idler
+  androidTestImplementation Dependencies.testCore
+  androidTestImplementation Dependencies.testCoreKtx
   androidTestImplementation Dependencies.espressoCore
+  androidTestImplementation Dependencies.testRunner
+  androidTestImplementation Dependencies.testRules
 }

@@ -47,7 +47,6 @@ object Dependencies {
 
   const val material = "com.google.android.material:material:$materialVersion"
   const val junit = "junit:junit:$junitVersion"
-  const val junitTestExt = "androidx.test.ext:junit-ktx:$junitTestExtVersion"
   const val truth = "com.google.truth:truth:$truthVersion"
   const val mockito = "org.mockito:mockito-core:$mockitoVersion"
   const val archTesting = "androidx.arch.core:core-testing:$archVersion"
@@ -79,7 +78,9 @@ object Dependencies {
   const val testRules = "com.android.support.test:rules:$testRunnerVersion"
   const val uiAutomator ="androidx.test.uiautomator:uiautomator:$uiAutomatorVersion"
   const val extJunit = "androidx.test.ext:junit:$junitTestExtVersion"
+  const val extJunitKtx = "androidx.test.ext:junit-ktx:$junitTestExtVersion"
   const val espressoCore = "androidx.test.espresso:espresso-core:$espressoVersion"
+  const val rx2idler = "com.squareup.rx.idler:rx2-idler:0.11.0"
 
   const val lintApi = "com.android.tools.lint:lint-api:$lintVersion"
   const val lintChecks = "com.android.tools.lint:lint-checks:$lintVersion"
