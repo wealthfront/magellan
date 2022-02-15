@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.7-beta
+- Add `ViewTemplateApplier` to manipulate Navigable views at Navigator level
+
 ## 2.1.6-beta
 - Don't expose dialog state publicly
 - Add `NavigationRequestHandler` to override navigation intents
