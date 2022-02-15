@@ -55,16 +55,12 @@ class NavigationTest {
   fun browseCollection() {
     onView(withId(R.id.browseCollection)).perform(click())
 
-    onView(allOf(withText(R.string.monster_cereals_title), withId(R.id.cerealTitle))).check(
-      matches(
-        isDisplayed()))
-    onView(
-      allOf(
-        withText(R.string.cornflakes_title),
-        isAssignableFrom(AppCompatButton::class.java))).perform(click())
-    onView(allOf(withText(R.string.cornflakes_title), withId(R.id.cerealTitle))).check(
-      matches(
-        isDisplayed()))
+    onView(allOf(withText(R.string.monster_cereals_title), withId(R.id.cerealTitle)))
+      .check(matches(isDisplayed()))
+    onView(allOf(withText(R.string.cornflakes_title), isAssignableFrom(AppCompatButton::class.java)))
+      .perform(click())
+    onView(allOf(withText(R.string.cornflakes_title), withId(R.id.cerealTitle)))
+      .check(matches(isDisplayed()))
 
     pressBack()
     onView(withText("Welcome to the Cereal Museum!")).check(matches(isDisplayed()))
