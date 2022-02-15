@@ -21,10 +21,13 @@ import java.util.Deque
 
 public open class NavigationDelegate(
   protected val container: () -> ScreenContainer,
-  private val navigationRequestHandler: NavigationRequestHandler?
+  private val navigationRequestHandler: NavigationRequestHandler?,
+  private val templateApplier: ViewTemplateApplier?
 ) : LifecycleAwareComponent() {
 
   public var currentNavigableSetup: ((NavigableCompat) -> Unit)? = null
+
+  private var templatedViewMap = HashMap<NavigableCompat, View>()
 
   protected var containerView: ScreenContainer? = null
   protected val navigationPropagator: NavigationPropagator = NavigationPropagator
@@ -50,7 +53,11 @@ public open class NavigationDelegate(
   override fun onShow(context: Context) {
     containerView = container()
     currentNavigable?.let { currentNavigable ->
-      containerView!!.addView(currentNavigable.view!!)
+      val templatedView = templateApplier?.onViewCreated(currentState.context!!, currentNavigable.view!!)
+      if (templatedView != null) {
+        templatedViewMap[currentNavigable] = templatedView
+      }
+      containerView!!.addView(templatedView ?: currentNavigable.view!!)
       currentNavigable.transitionStarted()
       currentNavigable.transitionFinished()
     }
@@ -58,6 +65,7 @@ public open class NavigationDelegate(
 
   override fun onHide(context: Context) {
     containerView = null
+    templatedViewMap.clear()
   }
 
   override fun onDestroy(context: Context) {
@@ -149,22 +157,24 @@ public open class NavigationDelegate(
     navigationPropagator.onNavigatedTo(currentNavigable)
     when (currentState) {
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
-        containerView!!.addView(
-          currentNavigable.view!!,
-          direction.indexToAddView(containerView!!)
-        )
+        val templatedView = templateApplier?.onViewCreated(currentState.context!!, currentNavigable.view!!)
+        if (templatedView != null) {
+          templatedViewMap[currentNavigable] = templatedView
+        }
+        containerView!!.addView(templatedView ?: currentNavigable.view!!, direction.indexToAddView(containerView!!))
       }
       is LifecycleState.Destroyed, is Created -> {
       }
     }
-    return currentNavigable.view
+    return templatedViewMap[currentNavigable] ?: currentNavigable.view
   }
 
   protected open fun navigateFrom(currentNavigable: NavigableCompat?): View? {
     return currentNavigable?.let { oldNavigable ->
-      val currentView = oldNavigable.view
+      val currentView = templatedViewMap[oldNavigable] ?: oldNavigable.view
       lifecycleRegistry.updateMaxState(oldNavigable, CREATED)
       navigationPropagator.onNavigatedFrom(oldNavigable)
+      templatedViewMap.remove(oldNavigable)
       currentView
     }
   }

@@ -12,10 +12,11 @@ import java.util.Deque
 @OpenForMocking
 public class DefaultLinearNavigator constructor(
   container: () -> ScreenContainer,
-  navigationRequestHandler: NavigationRequestHandler?
+  navigationRequestHandler: NavigationRequestHandler?,
+  templateApplier: ViewTemplateApplier? = null
 ) : LinearNavigator, LifecycleAwareComponent() {
 
-  private val delegate by attachFieldToLifecycle(NavigationDelegate(container, navigationRequestHandler))
+  private val delegate by attachFieldToLifecycle(NavigationDelegate(container, navigationRequestHandler, templateApplier))
 
   override val backStack: List<NavigationEvent>
     get() = delegate.backStack.toList()

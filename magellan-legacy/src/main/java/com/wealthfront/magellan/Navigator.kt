@@ -17,6 +17,7 @@ import com.wealthfront.magellan.navigation.NavigationListener
 import com.wealthfront.magellan.navigation.NavigationPropagator
 import com.wealthfront.magellan.navigation.NavigationRequestHandler
 import com.wealthfront.magellan.navigation.Navigator
+import com.wealthfront.magellan.navigation.ViewTemplateApplier
 import com.wealthfront.magellan.navigation.goBackTo
 import com.wealthfront.magellan.navigation.goTo
 import com.wealthfront.magellan.navigation.replace
@@ -38,10 +39,11 @@ import java.util.Deque
 @OpenForMocking
 public class Navigator(
   container: () -> ScreenContainer,
-  navigationRequestHandler: NavigationRequestHandler?
+  navigationRequestHandler: NavigationRequestHandler?,
+  templateApplier: ViewTemplateApplier?
 ) : Navigator, LifecycleAwareComponent() {
 
-  protected var delegate: NavigationDelegate by attachFieldToLifecycle(NavigationDelegate(container, navigationRequestHandler))
+  protected var delegate: NavigationDelegate by attachFieldToLifecycle(NavigationDelegate(container, navigationRequestHandler, templateApplier))
 
   override val backStack: List<NavigationEvent>
     get() = delegate.backStack.toList()
