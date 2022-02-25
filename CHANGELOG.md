@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.1.7-beta
+## 2.1.7
 - Add `ViewTemplateApplier` to manipulate Navigable views at Navigator level
 
 ## 2.1.6-beta
