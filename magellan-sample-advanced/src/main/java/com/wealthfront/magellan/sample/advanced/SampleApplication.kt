@@ -21,15 +21,18 @@ class SampleApplication : Application() {
       .build()
 
     Magellan.navigationRequestHandler = object : NavigationRequestHandler {
-      override fun onNavigationRequested(
+      override fun overrideNavigationRequest(
+        navigationDelegate: NavigationDelegate,
+        navigable: NavigableCompat
+      ) {
+        navigationDelegate.goTo(UpdateAppStep())
+      }
+
+      override fun shouldOverrideNavigation(
         navigationDelegate: NavigationDelegate,
         navigable: NavigableCompat
       ): Boolean {
-        if (navigable is SuggestExhibitJourney) {
-          navigationDelegate.goTo(UpdateAppStep())
-          return true
-        }
-        return false
+        return navigable is SuggestExhibitJourney
       }
     }
   }

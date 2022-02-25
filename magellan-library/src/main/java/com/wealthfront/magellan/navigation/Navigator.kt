@@ -4,10 +4,16 @@ import android.content.Context
 import android.view.View
 
 public interface NavigationRequestHandler {
-  public fun onNavigationRequested(
+  public fun shouldOverrideNavigation(
     navigationDelegate: NavigationDelegate,
     navigable: NavigableCompat
   ): Boolean
+
+  // what if this supplied a backstack operation, instead?
+  public fun overrideNavigationRequest(
+    navigationDelegate: NavigationDelegate,
+    navigable: NavigableCompat
+  )
 }
 
 public interface ViewTemplateApplier {
