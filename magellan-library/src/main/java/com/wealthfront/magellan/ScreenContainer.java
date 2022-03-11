@@ -1,7 +1,9 @@
 package com.wealthfront.magellan;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
@@ -35,4 +37,14 @@ public class ScreenContainer extends FrameLayout {
     this.interceptTouchEvents = interceptTouchEvents;
   }
 
+  @Override
+  protected void dispatchRestoreInstanceState(
+      SparseArray<Parcelable> container) {
+    dispatchThawSelfOnly(container);
+  }
+
+  @Override
+  protected void dispatchSaveInstanceState(SparseArray<Parcelable> container) {
+    dispatchFreezeSelfOnly(container);
+  }
 }
