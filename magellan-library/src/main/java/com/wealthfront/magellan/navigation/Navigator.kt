@@ -2,19 +2,8 @@ package com.wealthfront.magellan.navigation
 
 import android.content.Context
 import android.view.View
-
-public interface NavigationRequestHandler {
-  public fun shouldOverrideNavigation(
-    navigationDelegate: NavigationDelegate,
-    navigable: NavigableCompat
-  ): Boolean
-
-  // what if this supplied a backstack operation, instead?
-  public fun overrideNavigationRequest(
-    navigationDelegate: NavigationDelegate,
-    navigable: NavigableCompat
-  )
-}
+import com.wealthfront.magellan.Direction
+import java.util.Deque
 
 public interface ViewTemplateApplier {
   public fun onViewCreated(context: Context, view: View): View

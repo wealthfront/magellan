@@ -6,6 +6,8 @@ import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.ScreenContainer
+import com.wealthfront.magellan.init.Magellan
+import com.wealthfront.magellan.init.NavigationOverride
 import com.wealthfront.magellan.init.getDefaultTransition
 import com.wealthfront.magellan.init.shouldRunAnimations
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
@@ -21,7 +23,7 @@ import java.util.Deque
 
 public open class NavigationDelegate(
   protected val container: () -> ScreenContainer,
-  private val navigationRequestHandler: NavigationRequestHandler?,
+  private val navigationOverrides: Set<NavigationOverride> = Magellan.navigationOverrides,
   private val templateApplier: ViewTemplateApplier?
 ) : LifecycleAwareComponent() {
 
@@ -83,13 +85,12 @@ public open class NavigationDelegate(
     val oldBackStackCopy = ArrayDeque(backStack)
 
     val transition = backStackOperation.invoke(backStack)
-    navigationRequestHandler?.let { navRequestHandler ->
+    navigationOverrides.forEach { override ->
       if (backStack.currentNavigable != null &&
-        navRequestHandler.shouldOverrideNavigation(this, backStack.currentNavigable!!)
-      ) {
+        override.conditions(this, backStack.currentNavigable!!)) {
         backStack.clear()
         backStack.addAll(oldBackStackCopy)
-        navRequestHandler.overrideNavigationRequest(this, backStack.currentNavigable!!)
+        override.navigationOperation(this)
         return
       }
     }
@@ -195,19 +196,25 @@ public open class NavigationDelegate(
   public fun atRoot(): Boolean = backStack.size <= 1
 }
 
+internal fun goToOperation(
+  nextNavigableCompat: NavigableCompat,
+  overrideMagellanTransition: MagellanTransition? = null
+): (Deque<NavigationEvent>) -> MagellanTransition = { backStack ->
+  backStack.push(
+    NavigationEvent(
+      nextNavigableCompat,
+      overrideMagellanTransition ?: getDefaultTransition()
+    )
+  )
+  backStack.peek()!!.magellanTransition
+}
+
 public fun NavigationDelegate.goTo(
   nextNavigableCompat: NavigableCompat,
   overrideMagellanTransition: MagellanTransition? = null
 ) {
-  navigate(FORWARD) { backStack ->
-    backStack.push(
-      NavigationEvent(
-        nextNavigableCompat,
-        overrideMagellanTransition ?: getDefaultTransition()
-      )
-    )
-    backStack.peek()!!.magellanTransition
-  }
+  val backstackOperation = goToOperation(nextNavigableCompat, overrideMagellanTransition)
+  navigate(FORWARD, backstackOperation)
 }
 
 public fun NavigationDelegate.replace(
