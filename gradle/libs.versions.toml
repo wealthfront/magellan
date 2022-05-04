@@ -1,0 +1,71 @@
+[versions]
+kotlin = "1.6.10"
+coroutines = "1.6.0"
+kotest = "5.1.0"
+ksp = "1.6.10-1.0.2"
+compose = "1.2.0-alpha05"
+activity = "1.4.0"
+accompanist = "0.24.4-alpha"
+material = "1.5.0"
+appcompat = "1.4.1"
+constraintlayout = "2.1.3"
+inject = "0.4.1"
+sqldelight = "1.5.3"
+datetime = "0.3.2"
+
+[plugins]
+kotest = { id = "io.kotest.multiplatform", version.ref = "kotest" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+sqldelight = { id = "com.squareup.sqldelight", version.ref = "sqldelight" }
+
+[libraries]
+# Kotlin
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+
+# Injection
+kotlin-inject-runtime = { module = "me.tatarka.inject:kotlin-inject-runtime", version.ref = "inject" }
+kotlin-inject-compiler-ksp = { module = "me.tatarka.inject:kotlin-inject-compiler-ksp", version.ref = "inject" }
+
+# Database
+sqldelight-driver-android = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqldelight" }
+sqldelight-driver-native = { module = "com.squareup.sqldelight:native-driver", version.ref = "sqldelight" }
+sqldelight-coroutines-extensions = { module = "com.squareup.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
+uuid = { module = "com.benasher44:uuid", version = "0.4.0" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
+
+# Testing
+kotest-framework-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
+kotest-framework-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
+kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-extensions-robolectric = { module = "io.kotest.extensions:kotest-extensions-robolectric", version = "0.5.0" }
+
+robolectric = { module = "org.robolectric:robolectric", version = "4.6" }
+androidx-test-core = { module = "androidx.test:core-ktx", version = "1.4.0" }
+androidx-test-core-ktx = { module = "androidx.test:core-ktx", version = "1.4.0" }
+
+# Compose
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
+compose-material3 = { module = "androidx.compose.material3:material3", version = "1.0.0-alpha07" }
+compose-material2 = { module = "androidx.compose.material:material", version.ref = "compose" }
+compose-material-icons-core = { module = "androidx.compose.material:material-icons-core", version.ref = "compose" }
+compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }
+compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
+
+accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
+accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanist" }
+
+# Android
+material = { module = "com.google.android.material:material", version.ref = "material" }
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+ktx-core = { module = "androidx.core:core-ktx", version = "1.7.0" }
+
+# Sentry
+sentry-android = { module = "io.sentry:sentry-android", version = "5.7.0" }
+
