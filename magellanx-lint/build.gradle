@@ -1,0 +1,33 @@
+apply plugin: "java-library"
+apply plugin: "kotlin"
+apply plugin: "com.android.lint"
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_1_8
+  targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+lintOptions {
+  htmlReport true
+  htmlOutput file("lint-report.html")
+  textReport true
+  absolutePaths false
+  ignoreTestSources true
+}
+
+dependencies {
+  compileOnly(libs.lint.api)
+  compileOnly(libs.lint.checks)
+
+  testImplementation(libs.junit)
+  testImplementation(libs.kotest.assertions.core)
+  testImplementation(libs.lint)
+  testImplementation(libs.lint.tests)
+  testImplementation(libs.test.utils)
+}
+
+jar {
+  manifest {
+    attributes("Lint-Registry-v2": "com.ryanmoelter.magellanx.LintRegistry")
+  }
+}

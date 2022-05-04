@@ -10,7 +10,7 @@
 8. `git commit -am "Prepare next development version"`
 9. `git push && git push --tags`
 10. Visit [Sonatype Nexus](https://oss.sonatype.org/) and promote the artifact.
-11. Visit [the GitHub releases page](https://github.com/wealthfront/magellan/releases) and create a new release, copying the changelog from `CHANGELOG.md`.
+11. Visit [the GitHub releases page](https://github.com/ryanmoelter/magellan-x/releases) and create a new release, copying the changelog from `CHANGELOG.md`.
 12. Visit [Maven Central Repository Search](https://search.maven.org/search?q=magellan) to check when the artifact is live. It may take a few hours.
 
 If step 6 or 7 fails, drop the Sonatype repo, fix the problem, commit, and start again at step 5.
@@ -20,4 +20,4 @@ If step 6 or 7 fails, drop the Sonatype repo, fix the problem, commit, and start
 1. Set up [signatory credentials](https://docs.gradle.org/current/userguide/signing_plugin.html#sec:signatory_credentials), or temporarily comment out the `signing` block in `gradle/gradle-mvn-push.gradle`.
 2. Run `./gradlew publishToMavenLocal`.
 3. In the other project, add `mavenLocal()` as a repository (likely in `allProjects.repositories` of the root `build.gradle` file).
-4. Update `com.wealthfront:magellanx-compose:X.Y.Z` to `com.wealthfront:magellanx-compose:SNAPSHOT_VERSION`, where `SNAPSHOT_VERSION` is the `VERSION_NAME` defined in this project's `./gradle.properties`.
+4. Update `com.ryanmoelter:magellanx-compose:X.Y.Z` to `com.ryanmoelter:magellanx-compose:SNAPSHOT_VERSION`, where `SNAPSHOT_VERSION` is the `VERSION_NAME` defined in this project's `./gradle.properties`.

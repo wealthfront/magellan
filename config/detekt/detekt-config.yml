@@ -320,7 +320,6 @@ style:
     active: false
   WildcardImport:
     active: true
-    excludeImports: 'java.util.*,com.wealthfront.model.*,kotlinx.android.synthetic.*'
   MaxLineLength:
     active: true
     maxLineLength: 200

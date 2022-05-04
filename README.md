@@ -23,7 +23,7 @@ Add the dependencies you need in your `build.gradle`:
 
 ```kotlin
 val magellanXVersion = "0.1.0"
-implementation("com.wealthfront:magellan-library:${magellanVersion}")
+implementation("com.ryanmoelter:magellanx-library:${magellanVersion}")
 ```
 
 ### Optional add-ons
@@ -31,13 +31,13 @@ implementation("com.wealthfront:magellan-library:${magellanVersion}")
 > Note: This library is currently unpublished. We will publish it very soon.
 
 ```groovy
-implementation "com.wealthfront:magellan-support:${magellanVersion}"
-implementation "com.wealthfront:magellan-rx:${magellanVersion}"
-implementation "com.wealthfront:magellan-rx2:${magellanVersion}"
-testImplementation "com.wealthfront:magellan-test:${magellanVersion}"
+implementation "com.ryanmoelter:magellanx-support:${magellanVersion}"
+implementation "com.ryanmoelter:magellanx-rx:${magellanVersion}"
+implementation "com.ryanmoelter:magellanx-rx2:${magellanVersion}"
+testImplementation "com.ryanmoelter:magellanx-test:${magellanVersion}"
 
 // For support of older version:
-implementation "com.wealthfront:magellan-legacy:${magellanVersion}"
+implementation "com.ryanmoelter:magellanx-legacy:${magellanVersion}"
 ```
 
 ## Learning

@@ -18,7 +18,6 @@ testCore = "1.4.0"
 lint = "30.0.2"
 
 [plugins]
-kotlin-allOpen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin"}
 kotest = { id = "io.kotest.multiplatform", version.ref = "kotest" }
 sqldelight = { id = "com.squareup.sqldelight", version.ref = "sqldelight" }
 kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinter"}
