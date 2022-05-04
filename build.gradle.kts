@@ -8,6 +8,7 @@ buildscript {
   }
   dependencies {
     classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
+    classpath("com.android.tools.build:gradle:7.2.0-rc02")
     classpath("org.jetbrains.kotlin:kotlin-allopen:${libs.versions.kotlin.get()}")
     classpath("org.jmailen.gradle:kotlinter-gradle:${libs.versions.kotlinter.get()}")
     classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${libs.versions.detekt.get()}")
@@ -43,7 +44,7 @@ allprojects {
 //  }
 
   detekt {
-    toolVersion = libs.versions.detekt.get()
+//    toolVersion = libs.versions.detekt.get()
     config = files("$rootDir/config/detekt/detekt-config.yml")
     parallel = true
     autoCorrect = true
