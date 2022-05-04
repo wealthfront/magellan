@@ -5,7 +5,6 @@ buildscript {
     mavenCentral()
     gradlePluginPortal()
     google()
-    jcenter()
   }
   dependencies {
     classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
@@ -31,7 +30,6 @@ allprojects {
   repositories {
     mavenCentral()
     google()
-    jcenter()
   }
 
   allOpen {
