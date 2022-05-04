@@ -1,19 +1,17 @@
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.wealthfront/magellan-library/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.wealthfront/magellan-library)
-
-# Magellan
+# Magellan X
 
 <img src="assets/magellan_icon_web_hi_res_512.png" width="200" align="right" />
 
-A simple, flexible, and practical navigation framework for Android.
+A simple, flexible, and practical navigation framework for Android using Jetpack Compose.
 
-> Note: This library is currently under development for the next major version.
+> Note: This library is currently unpublished. We will publish it very soon.
 
 ## Why would I use Magellan?
 
 - **Simple**: Intuitive abstractions and encapsulation make it easy to reason through code.
 - **Flexible**: The infinitely-nestable structure allows for many different styles of structuring an app and navigating between pages.
 - **Practical**: We pay special attention to simplifying common patterns and removing day-to-day boilerplate.
-- **Testable**: Plain objects that are easy to instantiate make testing simple.
+- **Testable**: Plain objects that are easy to instantiate and control make testing simple.
  
 ## Download
 
@@ -21,12 +19,16 @@ Add the dependencies you need in your `build.gradle`:
 
 ### Core library
 
-```groovy
-def magellanVersion = '2.1.7'
-implementation "com.wealthfront:magellan-library:${magellanVersion}"
+> Note: This library is currently unpublished. We will publish it very soon.
+
+```kotlin
+val magellanXVersion = "0.1.0"
+implementation("com.wealthfront:magellan-library:${magellanVersion}")
 ```
 
 ### Optional add-ons
+
+> Note: This library is currently unpublished. We will publish it very soon.
 
 ```groovy
 implementation "com.wealthfront:magellan-support:${magellanVersion}"
@@ -40,9 +42,11 @@ implementation "com.wealthfront:magellan-legacy:${magellanVersion}"
 
 ## Learning
 
-For an explanation of the core concepts of Magellan, see our [wiki](https://github.com/wealthfront/magellan/wiki), starting with [Thinking in Magellan](https://github.com/wealthfront/magellan/wiki/Thinking-in-Magellan).
+> Note: This library is a fork of [wealthfront/magellan](https://github.com/wealthfront/magellan), and is in the process of getting published. In the meantime, you can refer to the original's wiki pages below.
 
-If you're eager to start, check out our [Quickstart wiki page](https://github.com/wealthfront/magellan/wiki/Quickstart).
+For an explanation of the core concepts of Magellan, see the source repo's [wiki](https://github.com/wealthfront/magellan/wiki), starting with [Thinking in Magellan](https://github.com/wealthfront/magellan/wiki/Thinking-in-Magellan).
+
+If you're eager to start, check out the source repo's [Quickstart wiki page](https://github.com/wealthfront/magellan/wiki/Quickstart).
 
 ## License
 
