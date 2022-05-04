@@ -47,11 +47,11 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
 dependencies {
   implementation(project(":magellanx-compose"))
 
-  implementation(Dependencies.inject)
+  implementation(libs.javax.inject)
 
   testImplementation(Dependencies.junit)
   testImplementation(Dependencies.truth)
-  testImplementation(Dependencies.mockito)
+  testImplementation(libs.mockito)
 }
 
 apply(from = rootProject.file("gradle/gradle-mvn-push.gradle"))

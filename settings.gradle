@@ -10,5 +10,6 @@ enableFeaturePreview("VERSION_CATALOGS")
 rootProject.name = "Magellan X"
 include ':magellanx-core'
 include ':magellanx-compose'
+include ':magellan-lint'
 include ':magellan-test'
 
