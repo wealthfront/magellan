@@ -1,7 +1,7 @@
 object Versions {
-  const val compileSdkVersion = 30
-  const val minSdkVersion = 18
-  const val targetSdkVersion = 30
+  const val compileSdkVersion = 31
+  const val minSdkVersion = 23
+  const val targetSdkVersion = 31
 
   const val kotlinVersion = "1.5.20"
   const val kotlinterVersion = "3.6.0"

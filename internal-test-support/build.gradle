@@ -1,5 +1,7 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+plugins {
+  kotlin("android")
+  id("com.android.library")
+}
 
 android {
   compileSdkVersion Versions.compileSdkVersion
@@ -38,7 +40,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
 }
 
 dependencies {
-  implementation project(':magellan-library')
+  implementation project(':magellanx-compose')
 
   implementation Dependencies.inject
   implementation Dependencies.appCompat

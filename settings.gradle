@@ -1,7 +1,14 @@
+pluginManagement {
+  repositories {
+    google()
+    gradlePluginPortal()
+    mavenCentral()
+  }
+}
+
 enableFeaturePreview("VERSION_CATALOGS")
 rootProject.name = "Magellan X"
-include ':magellan-library'
-include ':magellan-lint'
+include ':magellanx-core'
+include ':magellanx-compose'
 include ':magellan-test'
-include ':internal-test-support'
 
