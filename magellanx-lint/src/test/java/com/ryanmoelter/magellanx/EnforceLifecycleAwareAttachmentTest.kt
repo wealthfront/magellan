@@ -50,6 +50,7 @@ class EnforceLifecycleAwareAttachmentTest {
   @Test
   fun testThatInstanceCreationIsDetected() {
     lint()
+      .allowMissingSdk()
       .files(
         *LIFECYCLE_FILES,
         kt(
@@ -82,6 +83,7 @@ class EnforceLifecycleAwareAttachmentTest {
   @Test
   fun testThatProperInstanceCreationIsNotDetected() {
     lint()
+      .allowMissingSdk()
       .files(
         *LIFECYCLE_FILES,
         kt(

@@ -37,7 +37,7 @@ internal class EnforceLifecycleAwareAttachment : Detector(), Detector.UastScanne
           context.getLocation(node),
           "In order to make this lifecycle aware work as expected, " +
             "please attach it to the lifecycle owner with a lifecycle delegate. " +
-            "Eg. val someObject by lifecycle(SomeObject()) or lateinit var someObject: SomeObject by lateinitLifecycle()"
+            "Eg. `val someObject by lifecycle(SomeObject())` or `lateinit var someObject: SomeObject by lateinitLifecycle()`"
         )
       }
     }

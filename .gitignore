@@ -34,3 +34,6 @@ output.json
 #NDK
 obj/
 .externalNativeBuild
+
+#Lint
+**/lint-report.html

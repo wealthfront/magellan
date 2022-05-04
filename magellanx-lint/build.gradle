@@ -26,6 +26,10 @@ dependencies {
   testImplementation(libs.test.utils)
 }
 
+tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile).configureEach {
+  kotlinOptions.freeCompilerArgs = ["-Xopt-in=kotlin.RequiresOptIn"]
+}
+
 jar {
   manifest {
     attributes("Lint-Registry-v2": "com.ryanmoelter.magellanx.LintRegistry")
