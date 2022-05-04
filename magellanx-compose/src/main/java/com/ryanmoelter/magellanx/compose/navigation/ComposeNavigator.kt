@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
 @OptIn(ExperimentalAnimationApi::class)
-public class ComposeNavigator : LifecycleAwareComponent(), Displayable<@Composable () -> Unit> {
+public open class ComposeNavigator : LifecycleAwareComponent(), Displayable<@Composable () -> Unit> {
 
   /**
    * The backstack. The last item in each list is the top of the stack.
@@ -36,7 +36,7 @@ public class ComposeNavigator : LifecycleAwareComponent(), Displayable<@Composab
   /**
    * Get a snapshot of the current item in [backStackFlow]. The last item is the top of the stack.
    */
-  public val backStack: List<ComposeNavigationEvent>
+  public open val backStack: List<ComposeNavigationEvent>
     get() = backStackFlow.value
 
   /**
@@ -102,7 +102,7 @@ public class ComposeNavigator : LifecycleAwareComponent(), Displayable<@Composab
     backStackFlow.value = emptyList()
   }
 
-  public fun goTo(
+  public open fun goTo(
     navigable: Navigable<@Composable () -> Unit>,
     overrideTransitionSpec: MagellanComposeTransition? = null
   ) {
@@ -114,7 +114,7 @@ public class ComposeNavigator : LifecycleAwareComponent(), Displayable<@Composab
     }
   }
 
-  public fun replace(
+  public open fun replace(
     navigable: Navigable<@Composable () -> Unit>,
     overrideTransitionSpec: MagellanComposeTransition? = null
   ) {
@@ -126,7 +126,7 @@ public class ComposeNavigator : LifecycleAwareComponent(), Displayable<@Composab
     }
   }
 
-  public fun goBack(): Boolean {
+  public open fun goBack(): Boolean {
     return if (!atRoot()) {
       navigate(BACKWARD) { backStack ->
         backStack - backStack.last()
@@ -137,7 +137,7 @@ public class ComposeNavigator : LifecycleAwareComponent(), Displayable<@Composab
     }
   }
 
-  public fun goBackTo(navigable: Navigable<@Composable () -> Unit>) {
+  public open fun goBackTo(navigable: Navigable<@Composable () -> Unit>) {
     navigate(BACKWARD) { backStack ->
       val mutableBackstack = backStack.toMutableList()
       while (navigable !== mutableBackstack.last().navigable) {
@@ -147,13 +147,13 @@ public class ComposeNavigator : LifecycleAwareComponent(), Displayable<@Composab
     }
   }
 
-  public fun resetWithRoot(navigable: Navigable<@Composable () -> Unit>) {
+  public open fun resetWithRoot(navigable: Navigable<@Composable () -> Unit>) {
     navigate(FORWARD) {
       listOf(ComposeNavigationEvent(navigable, noTransition))
     }
   }
 
-  public fun navigate(
+  public open fun navigate(
     direction: Direction,
     backStackOperation: (backStack: List<ComposeNavigationEvent>) -> List<ComposeNavigationEvent>
   ) {
@@ -203,7 +203,7 @@ public class ComposeNavigator : LifecycleAwareComponent(), Displayable<@Composab
 
   override fun onBackPressed(): Boolean = currentNavigable?.backPressed() ?: false || goBack()
 
-  public fun atRoot(): Boolean = backStack.size <= 1
+  public open fun atRoot(): Boolean = backStack.size <= 1
 }
 
 @ExperimentalAnimationApi

@@ -43,7 +43,7 @@ allprojects {
 //  }
 
   detekt {
-    toolVersion = Versions.detektVersion
+    toolVersion = libs.versions.detekt.get()
     config = files("$rootDir/config/detekt/detekt-config.yml")
     parallel = true
     autoCorrect = true

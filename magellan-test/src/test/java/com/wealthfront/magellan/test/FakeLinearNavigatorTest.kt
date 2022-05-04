@@ -1,54 +1,62 @@
 package com.wealthfront.magellan.test
 
 import android.content.Context
-import com.google.common.truth.Truth.assertThat
-import com.wealthfront.magellan.Direction
-import com.wealthfront.magellan.init.getDefaultTransition
-import com.wealthfront.magellan.navigation.NavigationEvent
+import androidx.compose.animation.ExperimentalAnimationApi
+import com.ryanmoelter.magellanx.compose.navigation.ComposeNavigationEvent
+import com.ryanmoelter.magellanx.compose.navigation.Direction
+import com.ryanmoelter.magellanx.compose.transitions.defaultTransition
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.types.shouldBeSameInstanceAs
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations.initMocks
 
+@OptIn(ExperimentalAnimationApi::class)
 public class FakeLinearNavigatorTest {
 
-  private lateinit var navigator: FakeLinearNavigator
+  private lateinit var navigator: FakeComposeNavigator
   @Mock internal lateinit var context: Context
 
   @Before
   public fun setUp() {
     initMocks(this)
-    navigator = FakeLinearNavigator()
+    navigator = FakeComposeNavigator()
   }
 
   @Test
   public fun clear() {
-    navigator.backStack = listOf(NavigationEvent(TestNavigable(), getDefaultTransition()))
+    navigator.backStack = listOf(ComposeNavigationEvent(TestNavigable(), defaultTransition))
     navigator.clear()
-    assertThat(navigator.backStack).isEmpty()
-    assertThat(navigator.currentNavigable).isNull()
+    navigator.backStack.shouldBeEmpty()
+    navigator.currentNavigable.shouldBeNull()
   }
 
   @Test
   public fun goTo() {
     navigator.goTo(TestNavigable())
-    assertThat(navigator.backStack).hasSize(1)
+    navigator.backStack shouldHaveSize 1
 
     val topNavigable = TestNavigable()
     navigator.goTo(topNavigable)
-    assertThat(navigator.backStack).hasSize(2)
-    assertThat(navigator.currentNavigable).isSameInstanceAs(topNavigable)
+    navigator.backStack shouldHaveSize 2
+    navigator.currentNavigable shouldBeSameInstanceAs topNavigable
   }
 
   @Test
   public fun replace() {
     navigator.goTo(TestNavigable())
-    assertThat(navigator.backStack).hasSize(1)
+    navigator.backStack shouldHaveSize 1
 
     val topNavigable = TestNavigable()
     navigator.replace(topNavigable)
-    assertThat(navigator.backStack).hasSize(1)
-    assertThat(navigator.currentNavigable).isSameInstanceAs(topNavigable)
+    navigator.backStack shouldHaveSize 1
+    navigator.currentNavigable shouldBeSameInstanceAs topNavigable
   }
 
   @Test
@@ -57,50 +65,50 @@ public class FakeLinearNavigatorTest {
     val newBottomNavigable = TestNavigable()
     val newTopNavigable = TestNavigable()
     navigator.backStack = listOf(
-      NavigationEvent(TestNavigable(), getDefaultTransition()),
-      NavigationEvent(originalBottomNavigable, getDefaultTransition()),
+      ComposeNavigationEvent(TestNavigable(), defaultTransition),
+      ComposeNavigationEvent(originalBottomNavigable, defaultTransition),
     )
 
     navigator.navigate(Direction.FORWARD) {
-      it.clear()
-      it.push(NavigationEvent(newBottomNavigable, getDefaultTransition()))
-      it.push(NavigationEvent(originalBottomNavigable, getDefaultTransition()))
-      it.push(NavigationEvent(newTopNavigable, getDefaultTransition()))
-      getDefaultTransition()
+      listOf(
+        ComposeNavigationEvent(newBottomNavigable, defaultTransition),
+        ComposeNavigationEvent(originalBottomNavigable, defaultTransition),
+        ComposeNavigationEvent(newTopNavigable, defaultTransition)
+      )
     }
-    assertThat(navigator.backStack.map { it.navigable }).containsExactly(
+    navigator.backStack.map { it.navigable } shouldContainExactly listOf(
       newTopNavigable,
       originalBottomNavigable,
       newBottomNavigable,
-    ).inOrder()
-    assertThat(navigator.currentNavigable).isSameInstanceAs(newTopNavigable)
+    )
+    navigator.currentNavigable shouldBeSameInstanceAs newTopNavigable
   }
 
   @Test
   public fun goBack_noop() {
-    assertThat(navigator.goBack()).isFalse()
+    navigator.goBack().shouldBeFalse()
     navigator.goTo(TestNavigable())
-    assertThat(navigator.goBack()).isFalse()
-    assertThat(navigator.backStack).hasSize(1)
+    navigator.goBack().shouldBeFalse()
+    navigator.backStack shouldHaveSize 1
   }
 
   @Test
   public fun goBack_success() {
     val bottomNavigable = TestNavigable()
     navigator.backStack = listOf(
-      NavigationEvent(TestNavigable(), getDefaultTransition()),
-      NavigationEvent(bottomNavigable, getDefaultTransition())
+      ComposeNavigationEvent(TestNavigable(), defaultTransition),
+      ComposeNavigationEvent(bottomNavigable, defaultTransition)
     )
-    assertThat(navigator.goBack()).isTrue()
-    assertThat(navigator.backStack).hasSize(1)
-    assertThat(navigator.currentNavigable).isSameInstanceAs(bottomNavigable)
+    navigator.goBack().shouldBeTrue()
+    navigator.backStack shouldHaveSize 1
+    navigator.currentNavigable shouldBeSameInstanceAs bottomNavigable
   }
 
   @Test
   public fun destroy() {
-    navigator.backStack = listOf(NavigationEvent(TestNavigable(), getDefaultTransition()))
+    navigator.backStack = listOf(ComposeNavigationEvent(TestNavigable(), defaultTransition))
     navigator.destroy(context)
-    assertThat(navigator.backStack).isEmpty()
-    assertThat(navigator.currentNavigable).isNull()
+    navigator.backStack.shouldBeEmpty()
+    navigator.currentNavigable.shouldBeNull()
   }
 }

@@ -1,14 +1,16 @@
 package com.wealthfront.magellan.test
 
-import android.view.View
-import com.wealthfront.magellan.core.Navigable
-import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
-import com.wealthfront.magellan.lifecycle.createAndAttachFieldToLifecycleWhenShown
+import androidx.compose.runtime.Composable
+import com.ryanmoelter.magellanx.core.Navigable
+import com.ryanmoelter.magellanx.core.lifecycle.LifecycleAwareComponent
+import com.ryanmoelter.magellanx.core.lifecycle.createAndAttachFieldToLifecycleWhenShown
 
 /**
  * A simple [Navigable] implementation for use in tests.
  */
-public class TestNavigable : Navigable, LifecycleAwareComponent() {
+public class TestNavigable : Navigable<@Composable () -> Unit>, LifecycleAwareComponent() {
 
-  public override val view: View? by createAndAttachFieldToLifecycleWhenShown { context -> View(context) }
+  public override val view: (@Composable () -> Unit)? by createAndAttachFieldToLifecycleWhenShown {
+    { }
+  }
 }

@@ -57,10 +57,20 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
 dependencies {
   implementation(project(":magellanx-compose"))
 
-  implementation(libs.javax.inject)
+  // Compose
+  implementation(libs.compose.ui)
+  implementation(libs.compose.ui.tooling)
+  implementation(libs.compose.foundation)
+  implementation(libs.compose.material3)
+  implementation(libs.compose.material.icons.core)
+  implementation(libs.compose.material.icons.extended)
+  implementation(libs.activity.compose)
+  androidTestImplementation(libs.compose.ui.test)
+  implementation(libs.accompanist.systemuicontroller)
+  implementation(libs.accompanist.drawablepainter)
 
-  testImplementation(Dependencies.junit)
-  testImplementation(Dependencies.truth)
+  testImplementation(libs.junit)
+  testImplementation(libs.kotest.assertions.core)
   testImplementation(libs.mockito)
 }
 
