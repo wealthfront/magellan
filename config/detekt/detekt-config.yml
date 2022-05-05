@@ -320,7 +320,6 @@ style:
     active: false
   WildcardImport:
     active: true
-    excludeImports: 'java.util.*,com.wealthfront.model.*,kotlinx.android.synthetic.*'
   MaxLineLength:
     active: true
     maxLineLength: 200
@@ -402,8 +401,8 @@ naming:
     active: true
     enumEntryPattern: '^[A-Z$][a-zA-Z0-9_$]*$'
   FunctionNaming:
-    active: true
-    functionPattern: '^([a-z$][a-zA-Z$0-9]*)|(`.*`)$'
+    active: false
+    functionPattern: '^([a-zA-Z$][a-zA-Z$0-9]*)|(`.*`)$'
   FunctionMaxLength:
     active: false
     maximumFunctionNameLength: 30
@@ -412,8 +411,8 @@ naming:
     minimumFunctionNameLength: 3
   ConstructorParameterNaming:
     active: true
-    parameterPattern: '[a-z][A-Za-z0-9]*'
-    privateParameterPattern: '[a-z][A-Za-z0-9]*'
+    parameterPattern: '[a-zA-Z][A-Za-z0-9]*'
+    privateParameterPattern: '[a-zA-Z][A-Za-z0-9]*'
     excludeClassPattern: '$^'
     ignoreOverridden: true
   ForbiddenClassName:
@@ -421,7 +420,7 @@ naming:
     forbiddenName: ''
   FunctionParameterNaming:
     active: true
-    parameterPattern: '[a-z][A-Za-z0-9]*'
+    parameterPattern: '[a-zA-Z][A-Za-z0-9]*'
     excludeClassPattern: '$^'
     ignoreOverridden: true
   InvalidPackageDeclaration:
@@ -439,7 +438,7 @@ naming:
     privatePropertyPattern: '(_)?[a-z][A-Za-z0-9]*'
   ObjectPropertyNaming:
     active: true
-    propertyPattern: '[A-Za-z][_A-Za-z0-9]*'
+    propertyPattern: '[_A-Za-z][_A-Za-z0-9]*'
   PackageNaming:
     active: true
     packagePattern: '^[a-z]+(\.[a-z][a-z0-9]*)*$'

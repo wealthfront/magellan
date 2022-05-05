@@ -1,12 +1,15 @@
-include ':magellan-library'
-include ':magellan-lint'
-include ':magellan-legacy'
-include ':magellan-rx'
-include ':magellan-rx2'
-include ':magellan-sample'
-include ':magellan-sample-migration'
-include ':magellan-sample-advanced'
-include ':magellan-support'
-include ':magellan-test'
-include ':internal-test-support'
+pluginManagement {
+  repositories {
+    google()
+    gradlePluginPortal()
+    mavenCentral()
+  }
+}
+
+enableFeaturePreview("VERSION_CATALOGS")
+rootProject.name = "Magellan X"
+include ':magellanx-core'
+include ':magellanx-compose'
+include ':magellanx-lint'
+include ':magellanx-test'
 
