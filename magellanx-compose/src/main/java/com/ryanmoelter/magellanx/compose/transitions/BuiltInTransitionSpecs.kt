@@ -84,5 +84,3 @@ public val showTransition: SimpleComposeTransition = SimpleComposeTransition { d
 public val noTransition: SimpleComposeTransition = SimpleComposeTransition {
   EnterTransition.None with ExitTransition.None
 }
-
-// TODO: Add more transition specs

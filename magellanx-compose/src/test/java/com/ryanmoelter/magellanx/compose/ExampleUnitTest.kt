@@ -1,4 +1,4 @@
-package com.ryanmoelter.magellanx_compose
+package com.ryanmoelter.magellanx.compose
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
