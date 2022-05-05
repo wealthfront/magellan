@@ -93,10 +93,12 @@ internal class DefaultLinearNavigatorTest {
   fun show_navigationRequestHandler() {
     linearNavigator = DefaultLinearNavigator(
       { screenContainer },
-      setOf(NavigationOverride(
-        { _, navigable -> navigable == step2 },
-        { delegate -> delegate.goTo(step3) }
-      ))
+      setOf(
+        NavigationOverride(
+          { _, navigable -> navigable == step2 },
+          { delegate -> delegate.goTo(step3) }
+        )
+      )
     )
     linearNavigator.create(context)
 

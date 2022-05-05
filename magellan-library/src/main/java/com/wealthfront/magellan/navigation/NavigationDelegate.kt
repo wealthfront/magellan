@@ -88,7 +88,8 @@ public open class NavigationDelegate(
     val transition = backStackOperation.invoke(backStack)
     navigationOverrides.forEach { override ->
       if (backStack.currentNavigable != null &&
-        override.conditions(this, backStack.currentNavigable!!)) {
+        override.conditions(this, backStack.currentNavigable!!)
+      ) {
         backStack.clear()
         backStack.addAll(oldBackStackCopy)
         override.navigationOperation(this)

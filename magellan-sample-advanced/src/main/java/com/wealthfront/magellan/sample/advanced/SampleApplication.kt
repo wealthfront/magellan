@@ -18,15 +18,17 @@ class SampleApplication : Application() {
       .appModule(AppModule())
       .build()
 
-    Magellan.registerNavigationOverrides(setOf(
-      NavigationOverride(
-        { _, navigable ->
-          navigable is SuggestExhibitJourney
-        }, { navigationDelegate ->
+    Magellan.registerNavigationOverrides(
+      setOf(
+        NavigationOverride(
+          { _, navigable ->
+            navigable is SuggestExhibitJourney
+          }, { navigationDelegate ->
           navigationDelegate.goTo(UpdateAppStep())
         }
+        )
       )
-    ))
+    )
   }
 
   fun injector(): AppComponent {

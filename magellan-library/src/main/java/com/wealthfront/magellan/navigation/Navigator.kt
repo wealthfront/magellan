@@ -2,8 +2,6 @@ package com.wealthfront.magellan.navigation
 
 import android.content.Context
 import android.view.View
-import com.wealthfront.magellan.Direction
-import java.util.Deque
 
 public interface ViewTemplateApplier {
   public fun onViewCreated(context: Context, view: View): View
