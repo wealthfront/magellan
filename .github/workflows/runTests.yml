@@ -14,8 +14,9 @@ jobs:
     - name: Set up our JDK environment
       uses: actions/setup-java@v3.3.0
       with:
-        java-version: 13
-    - name: Setup Gradle
+        distribution: 'zulu'
+        java-version: '11'
+    - name: Build with Gradle
       uses: gradle/gradle-build-action@v2.1.5
-    - name: Execute gradle build
-      run: ./gradlew build
+      with:
+        arguments: build
