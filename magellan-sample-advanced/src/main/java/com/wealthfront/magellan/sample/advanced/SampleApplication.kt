@@ -18,8 +18,8 @@ class SampleApplication : Application() {
       .appModule(AppModule())
       .build()
 
-    Magellan.registerNavigationOverrides(
-      setOf(
+    Magellan.init(
+      navigationOverrides = listOf(
         NavigationOverride(
           { _, navigable ->
             navigable is SuggestExhibitJourney

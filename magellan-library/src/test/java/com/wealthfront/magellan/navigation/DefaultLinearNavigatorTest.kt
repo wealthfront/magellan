@@ -51,7 +51,7 @@ internal class DefaultLinearNavigatorTest {
     context = activityController.get()
     screenContainer = ScreenContainer(context)
 
-    linearNavigator = DefaultLinearNavigator({ screenContainer }, emptySet())
+    linearNavigator = DefaultLinearNavigator({ screenContainer }, emptyList())
     linearNavigator.create(context)
   }
 
@@ -93,7 +93,7 @@ internal class DefaultLinearNavigatorTest {
   fun show_navigationRequestHandler() {
     linearNavigator = DefaultLinearNavigator(
       { screenContainer },
-      setOf(
+      listOf(
         NavigationOverride(
           { _, navigable -> navigable == step2 },
           { delegate -> delegate.goTo(step3) }

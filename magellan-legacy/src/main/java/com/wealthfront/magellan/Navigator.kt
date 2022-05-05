@@ -40,7 +40,7 @@ import java.util.Deque
 @OpenForMocking
 public class Navigator(
   container: () -> ScreenContainer,
-  navigationOverrides: Set<NavigationOverride> = Magellan.navigationOverrides,
+  navigationOverrides: List<NavigationOverride> = Magellan.getNavigationOverrides(),
   templateApplier: ViewTemplateApplier?
 ) : Navigator, LifecycleAwareComponent() {
 

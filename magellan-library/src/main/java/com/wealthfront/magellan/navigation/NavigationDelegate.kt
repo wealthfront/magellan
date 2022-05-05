@@ -23,7 +23,7 @@ import java.util.Deque
 
 public open class NavigationDelegate(
   protected val container: () -> ScreenContainer,
-  private val navigationOverrides: Set<NavigationOverride> = Magellan.navigationOverrides,
+  private val navigationOverrides: List<NavigationOverride> = Magellan.getNavigationOverrides(),
   private val templateApplier: ViewTemplateApplier?
 ) : LifecycleAwareComponent() {
 
@@ -82,7 +82,6 @@ public open class NavigationDelegate(
     containerView?.setInterceptTouchEvents(true)
     navigationPropagator.beforeNavigation()
     val oldBackStack = backStack.map { it.navigable }
-    // TODO make sure we are copying navigables by reference here
     val oldBackStackCopy = ArrayDeque(backStack)
 
     val transition = backStackOperation.invoke(backStack)

@@ -15,7 +15,7 @@ public object Magellan {
   internal var logDebugInfo: Boolean = false
   internal var disableAnimations: Boolean = false
   internal var customDefaultTransition: MagellanTransition = DefaultTransition()
-  public var navigationOverrides: Set<NavigationOverride> = emptySet()
+  internal var navigationOverrides: List<NavigationOverride> = emptyList()
 
   @JvmStatic
   @JvmOverloads
@@ -23,7 +23,7 @@ public object Magellan {
     disableAnimations: Boolean = false,
     logDebugInfo: Boolean = false,
     defaultTransition: MagellanTransition = DefaultTransition(),
-    navigationOverrides: Set<NavigationOverride> = emptySet()
+    navigationOverrides: List<NavigationOverride> = emptyList()
   ) {
     this.logDebugInfo = logDebugInfo
     this.disableAnimations = disableAnimations
@@ -31,8 +31,12 @@ public object Magellan {
     this.navigationOverrides = navigationOverrides
   }
 
-  public fun registerNavigationOverrides(overrides: Set<NavigationOverride>) {
+  public fun setNavigationOverrides(overrides: List<NavigationOverride>) {
     this.navigationOverrides = overrides
+  }
+
+  public fun getNavigationOverrides(): List<NavigationOverride> {
+    return this.navigationOverrides
   }
 }
 

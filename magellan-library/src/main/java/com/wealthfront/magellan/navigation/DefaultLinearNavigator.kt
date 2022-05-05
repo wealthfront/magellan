@@ -14,7 +14,7 @@ import java.util.Deque
 @OpenForMocking
 public class DefaultLinearNavigator constructor(
   container: () -> ScreenContainer,
-  navigationOverrides: Set<NavigationOverride> = Magellan.navigationOverrides,
+  navigationOverrides: List<NavigationOverride> = Magellan.getNavigationOverrides(),
   templateApplier: ViewTemplateApplier? = null
 ) : LinearNavigator, LifecycleAwareComponent() {
 

@@ -12,7 +12,7 @@ import com.wealthfront.magellan.navigation.ViewTemplateApplier
 public abstract class LegacyExpedition<V : ViewBinding>(
   createBinding: (LayoutInflater) -> V,
   container: V.() -> ScreenContainer,
-  navigationOverrides: Set<NavigationOverride> = Magellan.navigationOverrides,
+  navigationOverrides: List<NavigationOverride> = Magellan.getNavigationOverrides(),
   templateApplier: ViewTemplateApplier? = null
 ) : Step<V>(createBinding) {
 
