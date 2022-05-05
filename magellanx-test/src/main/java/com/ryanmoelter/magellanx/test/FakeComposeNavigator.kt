@@ -23,7 +23,7 @@ public class FakeComposeNavigator : ComposeNavigator() {
    * The [Navigable] that's currently on the top of the [backStack]
    */
   public val currentNavigable: Navigable<@Composable () -> Unit>?
-    get() = backStack.firstOrNull()?.navigable
+    get() = backStack.lastOrNull()?.navigable
 
   /**
    * Clear this navigator for the next test. [destroy] will do the same thing, and it's also safe to

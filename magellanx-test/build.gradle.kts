@@ -43,12 +43,14 @@ android {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
-  if (!name.contains("UnitTest")) {
-    kotlinOptions.freeCompilerArgs = listOf(
+  kotlinOptions.freeCompilerArgs = if (!name.contains("UnitTest")) {
+    listOf(
       "-Xjvm-default=compatibility",
       "-Xexplicit-api=strict",
       "-Xopt-in=kotlin.RequiresOptIn"
     )
+  } else {
+    listOf("-Xopt-in=kotlin.RequiresOptIn")
   }
   kotlinOptions.allWarningsAsErrors = true
   kotlinOptions.jvmTarget = "1.8"
