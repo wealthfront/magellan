@@ -21,7 +21,7 @@ class DesignCerealJourney(private val cerealComplete: () -> Unit) : SimpleJourne
   override var navigator: LinearNavigator by attachFieldToLifecycle(
     DefaultLinearNavigator(
       { viewBinding!!.getContainer() },
-      Magellan.getNavigationOverrides(),
+      Magellan.getNavigationOverrideProvider(),
       object : ViewTemplateApplier {
         override fun onViewCreated(context: Context, view: View): View {
           val inflater = LayoutInflater.from(context)

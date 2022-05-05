@@ -5,7 +5,6 @@ import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.init.Magellan
-import com.wealthfront.magellan.init.NavigationOverride
 import com.wealthfront.magellan.init.getDefaultTransition
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.LifecycleState
@@ -16,6 +15,7 @@ import com.wealthfront.magellan.navigation.NavigableCompat
 import com.wealthfront.magellan.navigation.NavigationDelegate
 import com.wealthfront.magellan.navigation.NavigationEvent
 import com.wealthfront.magellan.navigation.NavigationListener
+import com.wealthfront.magellan.navigation.NavigationOverrideProvider
 import com.wealthfront.magellan.navigation.NavigationPropagator
 import com.wealthfront.magellan.navigation.Navigator
 import com.wealthfront.magellan.navigation.ViewTemplateApplier
@@ -40,7 +40,7 @@ import java.util.Deque
 @OpenForMocking
 public class Navigator(
   container: () -> ScreenContainer,
-  navigationOverrides: List<NavigationOverride> = Magellan.getNavigationOverrides(),
+  navigationOverrides: NavigationOverrideProvider? = Magellan.getNavigationOverrideProvider(),
   templateApplier: ViewTemplateApplier?
 ) : Navigator, LifecycleAwareComponent() {
 

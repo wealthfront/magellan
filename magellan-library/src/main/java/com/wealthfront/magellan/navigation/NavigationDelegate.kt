@@ -7,7 +7,6 @@ import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.init.Magellan
-import com.wealthfront.magellan.init.NavigationOverride
 import com.wealthfront.magellan.init.getDefaultTransition
 import com.wealthfront.magellan.init.shouldRunAnimations
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
@@ -23,7 +22,7 @@ import java.util.Deque
 
 public open class NavigationDelegate(
   protected val container: () -> ScreenContainer,
-  private val navigationOverrides: List<NavigationOverride> = Magellan.getNavigationOverrides(),
+  private val navigationOverrideProvider: NavigationOverrideProvider? = Magellan.getNavigationOverrideProvider(),
   private val templateApplier: ViewTemplateApplier?
 ) : LifecycleAwareComponent() {
 
@@ -85,13 +84,12 @@ public open class NavigationDelegate(
     val oldBackStackCopy = ArrayDeque(backStack)
 
     val transition = backStackOperation.invoke(backStack)
-    navigationOverrides.forEach { override ->
-      if (backStack.currentNavigable != null &&
-        override.conditions(this, backStack.currentNavigable!!)
-      ) {
+    val currentNavigable = backStack.currentNavigable
+    navigationOverrideProvider?.getNavigationOverrides()?.forEach { override ->
+      if (currentNavigable != null && override.conditions(this, currentNavigable)) {
         backStack.clear()
         backStack.addAll(oldBackStackCopy)
-        override.navigationOperation(this)
+        override.navigationOperation(this, currentNavigable)
         return
       }
     }

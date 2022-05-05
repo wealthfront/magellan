@@ -5,7 +5,6 @@ import com.wealthfront.magellan.OpenForMocking
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.init.Magellan
-import com.wealthfront.magellan.init.NavigationOverride
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.transitions.MagellanTransition
@@ -14,7 +13,7 @@ import java.util.Deque
 @OpenForMocking
 public class DefaultLinearNavigator constructor(
   container: () -> ScreenContainer,
-  navigationOverrides: List<NavigationOverride> = Magellan.getNavigationOverrides(),
+  navigationOverrides: NavigationOverrideProvider? = Magellan.getNavigationOverrideProvider(),
   templateApplier: ViewTemplateApplier? = null
 ) : LinearNavigator, LifecycleAwareComponent() {
 
