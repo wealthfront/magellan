@@ -4,6 +4,7 @@
   <string name="suggest_exhibit_title">Have an idea for an exhibit? Let us know!</string>
   <string name="suggest_exhibit_submit">Submit</string>
   <string name="suggest_exhibit_success">Suggestion submitted!</string>
+  <string name="suggest_exhibit_quota_reached">"Already submitted"</string>
   <string name="suggest_exhibit_success_acknowledge">Go back</string>
 
   <string name="order_tickets_adults_label">Adults:</string>

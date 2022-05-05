@@ -6,6 +6,7 @@ import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.core.Journey
+import com.wealthfront.magellan.init.NavigationOverride
 import com.wealthfront.magellan.internal.test.DummyStep
 import com.wealthfront.magellan.internal.test.TransitionState.FINISHED
 import com.wealthfront.magellan.internal.test.TransitionState.NOT_STARTED
@@ -50,15 +51,7 @@ internal class DefaultLinearNavigatorTest {
     context = activityController.get()
     screenContainer = ScreenContainer(context)
 
-    linearNavigator = DefaultLinearNavigator(
-      { screenContainer },
-      object : NavigationRequestHandler {
-        override fun onNavigationRequested(
-          navigationDelegate: NavigationDelegate,
-          navigable: NavigableCompat
-        ): Boolean = false
-      }
-    )
+    linearNavigator = DefaultLinearNavigator({ screenContainer }, emptySet())
     linearNavigator.create(context)
   }
 
@@ -100,18 +93,10 @@ internal class DefaultLinearNavigatorTest {
   fun show_navigationRequestHandler() {
     linearNavigator = DefaultLinearNavigator(
       { screenContainer },
-      object : NavigationRequestHandler {
-        override fun onNavigationRequested(
-          navigationDelegate: NavigationDelegate,
-          navigable: NavigableCompat
-        ): Boolean {
-          if (navigable == step2) {
-            navigationDelegate.goTo(step3)
-            return true
-          }
-          return false
-        }
-      }
+      setOf(NavigationOverride(
+        { _, navigable -> navigable == step2 },
+        { delegate -> delegate.goTo(step3) }
+      ))
     )
     linearNavigator.create(context)
 

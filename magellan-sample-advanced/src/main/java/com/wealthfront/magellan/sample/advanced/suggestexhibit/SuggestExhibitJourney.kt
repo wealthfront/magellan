@@ -27,7 +27,7 @@ class SuggestExhibitJourney(private val completeSuggestion: () -> Unit) : Simple
   private fun goToConfirmation() {
     navigator.navigate(Direction.FORWARD) { backstack ->
       backstack.clear()
-      val next = NavigationEvent(SuggestConfirmationStep(completeSuggestion), DefaultTransition())
+      val next = NavigationEvent(SuggestConfirmationStep(false, completeSuggestion), DefaultTransition())
       backstack.push(next)
       next.magellanTransition
     }

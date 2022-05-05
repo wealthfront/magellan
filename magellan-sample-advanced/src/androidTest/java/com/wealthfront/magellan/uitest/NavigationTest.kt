@@ -94,4 +94,9 @@ class NavigationTest {
     pressBack()
     onView(withText("Welcome to the Cereal Museum!")).check(matches(isDisplayed()))
   }
+
+  @Test
+  fun suggestExhibit_nonIdempotentNavigation() {
+    // TODO
+  }
 }

@@ -82,6 +82,7 @@ public open class NavigationDelegate(
     containerView?.setInterceptTouchEvents(true)
     navigationPropagator.beforeNavigation()
     val oldBackStack = backStack.map { it.navigable }
+    // TODO make sure we are copying navigables by reference here
     val oldBackStackCopy = ArrayDeque(backStack)
 
     val transition = backStackOperation.invoke(backStack)
@@ -196,25 +197,19 @@ public open class NavigationDelegate(
   public fun atRoot(): Boolean = backStack.size <= 1
 }
 
-internal fun goToOperation(
-  nextNavigableCompat: NavigableCompat,
-  overrideMagellanTransition: MagellanTransition? = null
-): (Deque<NavigationEvent>) -> MagellanTransition = { backStack ->
-  backStack.push(
-    NavigationEvent(
-      nextNavigableCompat,
-      overrideMagellanTransition ?: getDefaultTransition()
-    )
-  )
-  backStack.peek()!!.magellanTransition
-}
-
 public fun NavigationDelegate.goTo(
   nextNavigableCompat: NavigableCompat,
   overrideMagellanTransition: MagellanTransition? = null
 ) {
-  val backstackOperation = goToOperation(nextNavigableCompat, overrideMagellanTransition)
-  navigate(FORWARD, backstackOperation)
+  navigate(FORWARD) { backStack ->
+    backStack.push(
+      NavigationEvent(
+        nextNavigableCompat,
+        overrideMagellanTransition ?: getDefaultTransition()
+      )
+    )
+    backStack.peek()!!.magellanTransition
+  }
 }
 
 public fun NavigationDelegate.replace(
