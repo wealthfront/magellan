@@ -97,6 +97,10 @@ class NavigationTest {
 
   @Test
   fun suggestExhibit_nonIdempotentNavigation() {
-    // TODO
+    onView(withId(R.id.suggestExhibit)).perform(click())
+    onView(withText("Download the latest version")).check(matches(isDisplayed()))
+    pressBack()
+    onView(withId(R.id.suggestExhibit)).perform(click())
+    onView(withText("Already submitted")).check(matches(isDisplayed()))
   }
 }

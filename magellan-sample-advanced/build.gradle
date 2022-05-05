@@ -15,6 +15,7 @@ android {
     versionName "1.0"
 
     testInstrumentationRunner "com.wealthfront.magellan.IntegrationTestRunner"
+    testInstrumentationRunnerArguments clearPackageData: 'true'
   }
 
   buildFeatures {
@@ -24,6 +25,9 @@ android {
   testOptions {
     unitTests {
       includeAndroidResources = true
+    }
+    testOptions {
+      execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
   }
 
@@ -79,4 +83,7 @@ dependencies {
   androidTestImplementation Dependencies.espressoCore
   androidTestImplementation Dependencies.testRunner
   androidTestImplementation Dependencies.testRules
+
+  androidTestImplementation 'androidx.test:runner:1.4.0'
+  androidTestUtil 'androidx.test:orchestrator:1.4.1'
 }
