@@ -1,10 +1,8 @@
+[![Run tests](https://github.com/ryanmoelter/magellan-x/actions/workflows/runTests.yml/badge.svg?branch=main)](https://github.com/ryanmoelter/magellan-x/actions/workflows/runTests.yml)
+
 # Magellan X
 
-<img src="assets/magellan_icon_web_hi_res_512.png" width="200" align="right" />
-
 A simple, flexible, and practical navigation framework for Android using Jetpack Compose.
-
-> Note: This library is currently unpublished. We will publish it very soon.
 
 ## Why would I use Magellan?
 
@@ -15,30 +13,13 @@ A simple, flexible, and practical navigation framework for Android using Jetpack
  
 ## Download
 
-Add the dependencies you need in your `build.gradle`:
-
-### Core library
-
-> Note: This library is currently unpublished. We will publish it very soon.
+Add the dependency you need in your `build.gradle`:
 
 ```kotlin
-val magellanXVersion = "0.1.0"
-implementation("com.ryanmoelter:magellanx-library:${magellanVersion}")
+implementation("com.github.ryanmoelter:magellan-x:0.1.0")
 ```
 
-### Optional add-ons
-
-> Note: This library is currently unpublished. We will publish it very soon.
-
-```groovy
-implementation "com.ryanmoelter:magellanx-support:${magellanVersion}"
-implementation "com.ryanmoelter:magellanx-rx:${magellanVersion}"
-implementation "com.ryanmoelter:magellanx-rx2:${magellanVersion}"
-testImplementation "com.ryanmoelter:magellanx-test:${magellanVersion}"
-
-// For support of older version:
-implementation "com.ryanmoelter:magellanx-legacy:${magellanVersion}"
-```
+> Note: JitPack seems to package all modules together, so the test library is bundled with the main library for now
 
 ## Learning
 
