@@ -6,6 +6,7 @@ import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.Direction.BACKWARD
 import com.wealthfront.magellan.Direction.FORWARD
 import com.wealthfront.magellan.ScreenContainer
+import com.wealthfront.magellan.init.Magellan
 import com.wealthfront.magellan.init.getDefaultTransition
 import com.wealthfront.magellan.init.shouldRunAnimations
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
@@ -21,7 +22,7 @@ import java.util.Deque
 
 public open class NavigationDelegate(
   protected val container: () -> ScreenContainer,
-  private val navigationRequestHandler: NavigationRequestHandler?,
+  private val navigationOverrideProvider: NavigationOverrideProvider? = Magellan.getNavigationOverrideProvider(),
   private val templateApplier: ViewTemplateApplier?
 ) : LifecycleAwareComponent() {
 
@@ -77,25 +78,26 @@ public open class NavigationDelegate(
     direction: Direction,
     backStackOperation: (Deque<NavigationEvent>) -> MagellanTransition
   ) {
-    navigationRequestHandler?.let { navRequestHandler ->
-      val backstackCopy = ArrayDeque(backStack)
-      backStackOperation.invoke(backstackCopy)
-      // onNavigationRequested implementation determines whether nav operation should be skipped
-      if (backstackCopy.currentNavigable != null &&
-        navRequestHandler.onNavigationRequested(this, backstackCopy.currentNavigable!!)
-      ) {
+    containerView?.setInterceptTouchEvents(true)
+    navigationPropagator.beforeNavigation()
+    val oldBackStack = backStack.map { it.navigable }
+    val oldBackStackCopy = ArrayDeque(backStack)
+
+    val transition = backStackOperation.invoke(backStack)
+    val currentNavigable = backStack.currentNavigable
+    navigationOverrideProvider?.getNavigationOverrides()?.forEach { override ->
+      if (currentNavigable != null && override.conditions(this, currentNavigable)) {
+        backStack.clear()
+        backStack.addAll(oldBackStackCopy)
+        override.navigationOperation(this, currentNavigable)
         return
       }
     }
 
-    containerView?.setInterceptTouchEvents(true)
-    navigationPropagator.beforeNavigation()
-    val from = navigateFrom(currentNavigable)
-    val oldBackStack = backStack.map { it.navigable }
-    val transition = backStackOperation.invoke(backStack)
+    val from = navigateFrom(oldBackStackCopy.currentNavigable)
     val newBackStack = backStack.map { it.navigable }
     findBackstackChangesAndUpdateStates(oldBackStack = oldBackStack, newBackStack = newBackStack)
-    val to = navigateTo(currentNavigable!!, direction)
+    val to = navigateTo(backStack.currentNavigable!!, direction)
     navigationPropagator.afterNavigation()
     animateAndRemove(from, to, direction, transition)
   }

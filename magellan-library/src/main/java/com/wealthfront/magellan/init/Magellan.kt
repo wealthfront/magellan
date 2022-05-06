@@ -5,7 +5,7 @@ import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP_PREFIX
 import com.wealthfront.magellan.init.Magellan.customDefaultTransition
 import com.wealthfront.magellan.init.Magellan.disableAnimations
 import com.wealthfront.magellan.init.Magellan.logDebugInfo
-import com.wealthfront.magellan.navigation.NavigationRequestHandler
+import com.wealthfront.magellan.navigation.NavigationOverrideProvider
 import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.transitions.MagellanTransition
 
@@ -14,7 +14,7 @@ public object Magellan {
   internal var logDebugInfo: Boolean = false
   internal var disableAnimations: Boolean = false
   internal var customDefaultTransition: MagellanTransition = DefaultTransition()
-  public var navigationRequestHandler: NavigationRequestHandler? = null
+  private var navigationOverrideProvider: NavigationOverrideProvider? = null
 
   @JvmStatic
   @JvmOverloads
@@ -22,12 +22,16 @@ public object Magellan {
     disableAnimations: Boolean = false,
     logDebugInfo: Boolean = false,
     defaultTransition: MagellanTransition = DefaultTransition(),
-    navigationRequestHandler: NavigationRequestHandler? = null
+    navigationOverrideProvider: NavigationOverrideProvider? = null
   ) {
     this.logDebugInfo = logDebugInfo
     this.disableAnimations = disableAnimations
     this.customDefaultTransition = defaultTransition
-    this.navigationRequestHandler = navigationRequestHandler
+    this.navigationOverrideProvider = navigationOverrideProvider
+  }
+
+  public fun getNavigationOverrideProvider(): NavigationOverrideProvider? {
+    return navigationOverrideProvider
   }
 }
 

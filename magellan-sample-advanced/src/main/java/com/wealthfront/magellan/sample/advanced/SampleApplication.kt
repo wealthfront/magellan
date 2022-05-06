@@ -3,9 +3,8 @@ package com.wealthfront.magellan.sample.advanced
 import android.app.Application
 import android.content.Context
 import com.wealthfront.magellan.init.Magellan
-import com.wealthfront.magellan.navigation.NavigableCompat
-import com.wealthfront.magellan.navigation.NavigationDelegate
-import com.wealthfront.magellan.navigation.NavigationRequestHandler
+import com.wealthfront.magellan.navigation.NavigationOverride
+import com.wealthfront.magellan.navigation.NavigationOverrideProvider
 import com.wealthfront.magellan.navigation.goTo
 import com.wealthfront.magellan.sample.advanced.suggestexhibit.SuggestExhibitJourney
 import com.wealthfront.magellan.sample.advanced.update.UpdateAppStep
@@ -20,18 +19,21 @@ class SampleApplication : Application() {
       .appModule(AppModule())
       .build()
 
-    Magellan.navigationRequestHandler = object : NavigationRequestHandler {
-      override fun onNavigationRequested(
-        navigationDelegate: NavigationDelegate,
-        navigable: NavigableCompat
-      ): Boolean {
-        if (navigable is SuggestExhibitJourney) {
-          navigationDelegate.goTo(UpdateAppStep())
-          return true
+    Magellan.init(
+      navigationOverrideProvider = object : NavigationOverrideProvider {
+        override fun getNavigationOverrides(): List<NavigationOverride> {
+          return listOf(
+            NavigationOverride(
+              { _, navigable ->
+                navigable is SuggestExhibitJourney
+              }, { navigationDelegate, _ ->
+              navigationDelegate.goTo(UpdateAppStep())
+            }
+            )
+          )
         }
-        return false
       }
-    }
+    )
   }
 
   fun injector(): AppComponent {
@@ -39,6 +41,7 @@ class SampleApplication : Application() {
   }
 
   companion object {
+
     @JvmStatic
     fun app(context: Context): SampleApplication {
       return context.applicationContext as SampleApplication

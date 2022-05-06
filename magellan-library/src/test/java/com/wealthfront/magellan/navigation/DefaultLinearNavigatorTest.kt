@@ -50,15 +50,7 @@ internal class DefaultLinearNavigatorTest {
     context = activityController.get()
     screenContainer = ScreenContainer(context)
 
-    linearNavigator = DefaultLinearNavigator(
-      { screenContainer },
-      object : NavigationRequestHandler {
-        override fun onNavigationRequested(
-          navigationDelegate: NavigationDelegate,
-          navigable: NavigableCompat
-        ): Boolean = false
-      }
-    )
+    linearNavigator = DefaultLinearNavigator({ screenContainer })
     linearNavigator.create(context)
   }
 
@@ -100,16 +92,14 @@ internal class DefaultLinearNavigatorTest {
   fun show_navigationRequestHandler() {
     linearNavigator = DefaultLinearNavigator(
       { screenContainer },
-      object : NavigationRequestHandler {
-        override fun onNavigationRequested(
-          navigationDelegate: NavigationDelegate,
-          navigable: NavigableCompat
-        ): Boolean {
-          if (navigable == step2) {
-            navigationDelegate.goTo(step3)
-            return true
-          }
-          return false
+      object : NavigationOverrideProvider {
+        override fun getNavigationOverrides(): List<NavigationOverride> {
+          return listOf(
+            NavigationOverride(
+              { _, navigable -> navigable == step2 },
+              { delegate, _ -> delegate.goTo(step3) }
+            )
+          )
         }
       }
     )
