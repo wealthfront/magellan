@@ -1,6 +1,9 @@
 # Changelog
 
-## 2.1.7
+## 2.1.8-beta
+- Support non-idempotent navigation operations for `NavigationRequestHandler`. Operations will now be run once at most.
+
+## 2.1.7-beta
 - Add `ViewTemplateApplier` to manipulate Navigable views at Navigator level
 
 ## 2.1.6-beta
