@@ -1,4 +1,5 @@
-[![Run tests](https://github.com/ryanmoelter/magellanx/actions/workflows/runTests.yml/badge.svg?branch=main)](https://github.com/ryanmoelter/magellanx/actions/workflows/runTests.yml)
+[![Latest release on Jitpack](https://jitpack.io/v/com.ryanmoelter/magellanx.svg)](https://jitpack.io/#com.ryanmoelter/magellanx)
+[![Test results](https://github.com/ryanmoelter/magellanx/actions/workflows/runTests.yml/badge.svg?branch=main)](https://github.com/ryanmoelter/magellanx/actions/workflows/runTests.yml)
 
 # Magellan X
 
@@ -28,6 +29,8 @@ allprojects {
 
 Add the dependencies you need in your `dependencies` block:
 
+[![Latest release on Jitpack](https://jitpack.io/v/com.ryanmoelter/magellanx.svg)](https://jitpack.io/#com.ryanmoelter/magellanx)
+
 ```kotlin
 val magellanxVersion = "0.1.1"
 implementation("com.ryanmoelter.magellanx:magellanx-compose:${magellanxVersion}")
@@ -42,6 +45,27 @@ implementation("com.github.ryanmoelter.magellanx:magellanx-core:0.1.1")
 
 > Note: `magellanx-core` is included in and exposed by `magellanx-compose`, and `magellan-test` only
 > applies to `magellanx-compose`.
+
+<details>
+  <summary>Version catalogs</summary>
+  
+  ### Version catalogs
+  
+  To use in [gradle's version catalogs](https://docs.gradle.org/current/userguide/platforms.html),
+  add the following to your `libs.versions.toml`:
+  
+  ```toml
+  [versions]
+  magellanx = "0.1.1"
+  # ...
+  
+  [libraries]
+  magellanx-compose = { module = "com.ryanmoelter.magellanx:magellanx-compose", version.ref = "magellanx" }
+  magellanx-test = { module = "com.ryanmoelter.magellanx:magellanx-test", version.ref = "magellanx" }
+  # Alternatively:
+  # magellanx-core = { module = "com.ryanmoelter.magellanx:magellanx-core", version.ref = "magellanx" }
+  ```
+</details>
 
 ## Learning
 
