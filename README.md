@@ -29,7 +29,7 @@ allprojects {
 Add the dependencies you need in your `dependencies` block:
 
 ```kotlin
-val magellanxVersion = "0.1.0"
+val magellanxVersion = "0.1.1"
 implementation("com.ryanmoelter.magellanx:magellanx-compose:${magellanxVersion}")
 testImplementation("com.ryanmoelter.magellanx:magellanx-test:${magellanxVersion}")
 ```
@@ -37,7 +37,7 @@ testImplementation("com.ryanmoelter.magellanx:magellanx-test:${magellanxVersion}
 Alternatively, if you only want the core library without the Compose implementation, you can use:
 
 ```kotlin
-implementation("com.github.ryanmoelter.magellanx:magellanx-core:0.1.0")
+implementation("com.github.ryanmoelter.magellanx:magellanx-core:0.1.1")
 ```
 
 > Note: `magellanx-core` is included in and exposed by `magellanx-compose`, and `magellan-test` only
