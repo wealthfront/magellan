@@ -1,4 +1,4 @@
-[![Run tests](https://github.com/ryanmoelter/magellan-x/actions/workflows/runTests.yml/badge.svg?branch=main)](https://github.com/ryanmoelter/magellan-x/actions/workflows/runTests.yml)
+[![Run tests](https://github.com/ryanmoelter/magellanx/actions/workflows/runTests.yml/badge.svg?branch=main)](https://github.com/ryanmoelter/magellanx/actions/workflows/runTests.yml)
 
 # Magellan X
 
@@ -7,27 +7,54 @@ A simple, flexible, and practical navigation framework for Android using Jetpack
 ## Why would I use Magellan?
 
 - **Simple**: Intuitive abstractions and encapsulation make it easy to reason through code.
-- **Flexible**: The infinitely-nestable structure allows for many different styles of structuring an app and navigating between pages.
-- **Practical**: We pay special attention to simplifying common patterns and removing day-to-day boilerplate.
+- **Flexible**: The infinitely-nestable structure allows for many different styles of structuring an
+  app and navigating between pages.
+- **Practical**: We pay special attention to simplifying common patterns and removing day-to-day
+  boilerplate.
 - **Testable**: Plain objects that are easy to instantiate and control make testing simple.
- 
+
 ## Download
 
-Add the dependency you need in your `build.gradle`:
+Add jitpack to your `repositories` (in your root `build.gradle.kts` file):
 
 ```kotlin
-implementation("com.github.ryanmoelter:magellan-x:0.1.0")
+allprojects {
+  repositories {
+    // ...
+    maven("https://jitpack.io")
+  }
+}
 ```
 
-> Note: JitPack seems to package all modules together, so the test library is bundled with the main library for now
+Add the dependencies you need in your `dependencies` block:
+
+```kotlin
+val magellanxVersion = "0.1.0"
+implementation("com.ryanmoelter.magellanx:magellanx-compose:${magellanxVersion}")
+testImplementation("com.ryanmoelter.magellanx:magellanx-test:${magellanxVersion}")
+```
+
+Alternatively, if you only want the core library without the Compose implementation, you can use:
+
+```kotlin
+implementation("com.github.ryanmoelter.magellanx:magellanx-core:0.1.0")
+```
+
+> Note: `magellanx-core` is included in and exposed by `magellanx-compose`, and `magellan-test` only
+> applies to `magellanx-compose`.
 
 ## Learning
 
-> Note: This library is a fork of [wealthfront/magellan](https://github.com/wealthfront/magellan), and is in the process of getting published. In the meantime, you can refer to the original's wiki pages below.
+> Note: This library is a fork of [wealthfront/magellan](https://github.com/wealthfront/magellan),
+> and is in the process of getting published. In the meantime, you can refer to the original's wiki
+> pages below.
 
-For an explanation of the core concepts of Magellan, see the source repo's [wiki](https://github.com/wealthfront/magellan/wiki), starting with [Thinking in Magellan](https://github.com/wealthfront/magellan/wiki/Thinking-in-Magellan).
+For an explanation of the core concepts of Magellan, see the source
+repo's [wiki](https://github.com/wealthfront/magellan/wiki), starting
+with [Thinking in Magellan](https://github.com/wealthfront/magellan/wiki/Thinking-in-Magellan).
 
-If you're eager to start, check out the source repo's [Quickstart wiki page](https://github.com/wealthfront/magellan/wiki/Quickstart).
+If you're eager to start, check out the source
+repo's [Quickstart wiki page](https://github.com/wealthfront/magellan/wiki/Quickstart).
 
 ## License
 
