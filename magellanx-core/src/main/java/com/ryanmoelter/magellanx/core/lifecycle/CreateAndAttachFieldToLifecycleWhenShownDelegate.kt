@@ -1,7 +1,5 @@
 package com.ryanmoelter.magellanx.core.lifecycle
 
-import android.content.Context
-
 public class CreateAndAttachFieldToLifecycleWhenShownDelegate<Field>(
   public val fieldSupplier: () -> Field
 ) : LifecycleAware {

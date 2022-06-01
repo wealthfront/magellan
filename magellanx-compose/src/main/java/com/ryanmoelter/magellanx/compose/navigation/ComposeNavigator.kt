@@ -1,7 +1,6 @@
 @file:Suppress("ForbiddenComment")
 package com.ryanmoelter.magellanx.compose.navigation
 
-import android.content.Context
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box

@@ -1,7 +1,6 @@
 package com.ryanmoelter.magellanx.compose
 
 import android.app.Activity
-import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable

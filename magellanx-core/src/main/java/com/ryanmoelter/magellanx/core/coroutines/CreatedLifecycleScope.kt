@@ -1,6 +1,5 @@
 package com.ryanmoelter.magellanx.core.coroutines
 
-import android.content.Context
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleAware
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope

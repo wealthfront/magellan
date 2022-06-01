@@ -1,6 +1,5 @@
 package com.ryanmoelter.magellanx.core.lifecycle
 
-import android.content.Context
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleLimit.CREATED
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleLimit.DESTROYED
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleLimit.NO_LIMIT

@@ -1,6 +1,5 @@
 package com.ryanmoelter.magellanx.core.lifecycle
 
-import android.content.Context
 import kotlinx.coroutines.flow.StateFlow
 
 public abstract class LifecycleAwareComponent : LifecycleAware, LifecycleOwner {
