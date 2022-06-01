@@ -1,29 +1,21 @@
 package com.ryanmoelter.magellanx.core.debug
 
-import android.content.Context
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleAware
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleAwareComponent
 import io.kotest.matchers.shouldBe
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.MockitoAnnotations.openMocks
-import org.robolectric.RobolectricTestRunner
 
-@RunWith(RobolectricTestRunner::class)
 public class StatePrinterTest {
 
   private lateinit var root: LifecycleAwareComponent
-  private lateinit var context: Context
-
   private lateinit var mockSession: AutoCloseable
 
   @Before
   public fun setUp() {
     mockSession = openMocks(this)
-    context = getApplicationContext()
     root = DummyLifecycleOwner()
   }
 
@@ -51,8 +43,8 @@ public class StatePrinterTest {
   public fun multipleChildren() {
     root.attachToLifecycle(MyStep())
     root.attachToLifecycle(MyStep())
-    root.create(context)
-    root.show(context)
+    root.create()
+    root.show()
 
     root.getLifecycleStateSnapshot() shouldBe """
       DummyLifecycleOwner (Shown)
@@ -68,7 +60,7 @@ public class StatePrinterTest {
     root.attachToLifecycle(MyJourney().apply { attachToLifecycle(step) })
     step.attachToLifecycle(MySection())
     root.attachToLifecycle(MyJourney().apply { attachToLifecycle(MyLifecycleAwareThing()) })
-    root.create(context)
+    root.create()
 
     root.getLifecycleStateSnapshot() shouldBe """
       DummyLifecycleOwner (Created)

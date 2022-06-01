@@ -33,8 +33,8 @@ public fun LifecycleOwner.WhenShown(Content: @Composable () -> Unit) {
     currentStateFlow
       .map { lifecycleState ->
         when (lifecycleState) {
-          is Destroyed, is Created -> false
-          is Shown, is Resumed -> true
+          Destroyed, Created -> false
+          Shown, Resumed -> true
         }
       }
   }

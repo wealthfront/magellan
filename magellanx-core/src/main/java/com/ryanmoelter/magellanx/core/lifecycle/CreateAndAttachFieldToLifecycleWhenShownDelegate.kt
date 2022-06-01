@@ -3,23 +3,23 @@ package com.ryanmoelter.magellanx.core.lifecycle
 import android.content.Context
 
 public class CreateAndAttachFieldToLifecycleWhenShownDelegate<Field>(
-  public val fieldSupplier: (Context) -> Field
+  public val fieldSupplier: () -> Field
 ) : LifecycleAware {
 
   public var field: Field? = null
     protected set
 
-  override fun show(context: Context) {
-    field = fieldSupplier(context)
+  override fun show() {
+    field = fieldSupplier()
   }
 
-  override fun hide(context: Context) {
+  override fun hide() {
     field = null
   }
 }
 
 public fun <Field> LifecycleOwner.createAndAttachFieldToLifecycleWhenShown(
-  fieldSupplier: (Context) -> Field
+  fieldSupplier: () -> Field
 ): AttachFieldToLifecycleDelegate<CreateAndAttachFieldToLifecycleWhenShownDelegate<Field>, Field?> =
   attachFieldToLifecycle(
     CreateAndAttachFieldToLifecycleWhenShownDelegate(fieldSupplier),

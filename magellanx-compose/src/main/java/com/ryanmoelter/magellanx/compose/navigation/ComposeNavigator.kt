@@ -96,7 +96,7 @@ public open class ComposeNavigator : LifecycleAwareComponent(), Displayable<@Com
     }
   }
 
-  override fun onDestroy(context: Context) {
+  override fun onDestroy() {
     backStack
       .map { it.navigable }
       .forEach { lifecycleRegistry.removeFromLifecycle(it) }

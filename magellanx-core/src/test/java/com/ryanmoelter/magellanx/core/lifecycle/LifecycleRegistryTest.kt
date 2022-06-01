@@ -1,7 +1,5 @@
 package com.ryanmoelter.magellanx.core.lifecycle
 
-import android.content.Context
-import androidx.test.core.app.ApplicationProvider
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleState.Created
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleState.Resumed
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleState.Shown
@@ -12,16 +10,12 @@ import io.kotest.matchers.shouldBe
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations.openMocks
-import org.robolectric.RobolectricTestRunner
 
-@RunWith(RobolectricTestRunner::class)
 internal class LifecycleRegistryTest {
 
   private val lifecycleRegistry = LifecycleRegistry()
-  private val context = ApplicationProvider.getApplicationContext<Context>()
 
   private lateinit var dummyLifecycleComponent1: DummyLifecycleComponent
   private lateinit var dummyLifecycleComponent2: DummyLifecycleComponent
@@ -57,12 +51,12 @@ internal class LifecycleRegistryTest {
 
   @Test(expected = IllegalStateException::class)
   fun throwsSinceWeAttachToLifecycleWhenAlreadyAttached() {
-    lifecycleRegistry.attachToLifecycle(lifecycleAware1, Created(context))
-    lifecycleRegistry.attachToLifecycle(lifecycleAware2, Created(context))
-    lifecycleRegistry.attachToLifecycle(lifecycleAware3, Created(context))
-    lifecycleRegistry.attachToLifecycle(lifecycleAware5, Created(context))
-    lifecycleRegistry.attachToLifecycle(lifecycleAware4, Created(context))
-    lifecycleRegistry.attachToLifecycle(lifecycleAware5, Created(context))
+    lifecycleRegistry.attachToLifecycle(lifecycleAware1, Created)
+    lifecycleRegistry.attachToLifecycle(lifecycleAware2, Created)
+    lifecycleRegistry.attachToLifecycle(lifecycleAware3, Created)
+    lifecycleRegistry.attachToLifecycle(lifecycleAware5, Created)
+    lifecycleRegistry.attachToLifecycle(lifecycleAware4, Created)
+    lifecycleRegistry.attachToLifecycle(lifecycleAware5, Created)
 
     lifecycleRegistry.listeners shouldContainExactly
       setOf(
@@ -76,9 +70,9 @@ internal class LifecycleRegistryTest {
 
   @Test
   fun attachToLifecycleWithMaxState() {
-    lifecycleRegistry.create(context)
-    lifecycleRegistry.show(context)
-    lifecycleRegistry.resume(context)
+    lifecycleRegistry.create()
+    lifecycleRegistry.show()
+    lifecycleRegistry.resume()
 
     lifecycleRegistry.attachToLifecycle(dummyLifecycleComponent1)
     lifecycleRegistry.attachToLifecycleWithMaxState(
@@ -86,69 +80,69 @@ internal class LifecycleRegistryTest {
       LifecycleLimit.CREATED
     )
 
-    dummyLifecycleComponent1.currentState shouldBe Resumed(context)
-    dummyLifecycleComponent2.currentState shouldBe Created(context)
+    dummyLifecycleComponent1.currentState shouldBe Resumed
+    dummyLifecycleComponent2.currentState shouldBe Created
   }
 
   @Test
   fun attachToLifecycleWithMaxState_notLimited() {
-    lifecycleRegistry.create(context)
+    lifecycleRegistry.create()
 
     lifecycleRegistry.attachToLifecycle(dummyLifecycleComponent1)
     lifecycleRegistry.attachToLifecycleWithMaxState(dummyLifecycleComponent2, LifecycleLimit.SHOWN)
 
-    dummyLifecycleComponent1.currentState shouldBe Created(context)
-    dummyLifecycleComponent2.currentState shouldBe Created(context)
+    dummyLifecycleComponent1.currentState shouldBe Created
+    dummyLifecycleComponent2.currentState shouldBe Created
   }
 
   @Test
   fun updateMaxStateForChild_beforeEvents() {
-    lifecycleRegistry.create(context)
+    lifecycleRegistry.create()
 
     lifecycleRegistry.attachToLifecycleWithMaxState(
       dummyLifecycleComponent1,
       LifecycleLimit.CREATED
     )
 
-    dummyLifecycleComponent1.currentState shouldBe Created(context)
+    dummyLifecycleComponent1.currentState shouldBe Created
 
     lifecycleRegistry.updateMaxState(dummyLifecycleComponent1, LifecycleLimit.SHOWN)
 
-    dummyLifecycleComponent1.currentState shouldBe Created(context)
+    dummyLifecycleComponent1.currentState shouldBe Created
 
-    lifecycleRegistry.show(context)
-    lifecycleRegistry.resume(context)
+    lifecycleRegistry.show()
+    lifecycleRegistry.resume()
 
-    dummyLifecycleComponent1.currentState shouldBe Shown(context)
+    dummyLifecycleComponent1.currentState shouldBe Shown
   }
 
   @Test
   fun updateMaxStateForChild_afterEvents() {
-    lifecycleRegistry.create(context)
-    lifecycleRegistry.show(context)
-    lifecycleRegistry.resume(context)
+    lifecycleRegistry.create()
+    lifecycleRegistry.show()
+    lifecycleRegistry.resume()
 
     lifecycleRegistry.attachToLifecycleWithMaxState(
       dummyLifecycleComponent1,
       LifecycleLimit.CREATED
     )
 
-    dummyLifecycleComponent1.currentState shouldBe Created(context)
+    dummyLifecycleComponent1.currentState shouldBe Created
 
     lifecycleRegistry.updateMaxState(dummyLifecycleComponent1, LifecycleLimit.SHOWN)
 
-    dummyLifecycleComponent1.currentState shouldBe Shown(context)
+    dummyLifecycleComponent1.currentState shouldBe Shown
 
     lifecycleRegistry.updateMaxState(dummyLifecycleComponent1, LifecycleLimit.CREATED)
 
-    dummyLifecycleComponent1.currentState shouldBe Created(context)
+    dummyLifecycleComponent1.currentState shouldBe Created
   }
 
   @Test
   fun onBackPressed_limited() {
-    lifecycleRegistry.create(context)
-    lifecycleRegistry.show(context)
-    lifecycleRegistry.resume(context)
+    lifecycleRegistry.create()
+    lifecycleRegistry.show()
+    lifecycleRegistry.resume()
 
     var unwantedBackPressed = false
     var wantedBackPressed = false
@@ -177,9 +171,9 @@ internal class LifecycleRegistryTest {
 
   @Test
   fun onBackPressed_notLimited() {
-    lifecycleRegistry.create(context)
-    lifecycleRegistry.show(context)
-    lifecycleRegistry.resume(context)
+    lifecycleRegistry.create()
+    lifecycleRegistry.show()
+    lifecycleRegistry.resume()
 
     var wantedBackPressed = false
     var unwantedBackPressed = false

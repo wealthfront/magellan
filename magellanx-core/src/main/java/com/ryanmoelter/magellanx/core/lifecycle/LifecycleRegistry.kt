@@ -91,27 +91,27 @@ public class LifecycleRegistry : LifecycleAware, LifecycleOwner {
     }
   }
 
-  override fun create(context: Context) {
-    currentState = LifecycleState.Created(context.applicationContext)
+  override fun create() {
+    currentState = LifecycleState.Created
   }
 
-  override fun show(context: Context) {
-    currentState = LifecycleState.Shown(context)
+  override fun show() {
+    currentState = LifecycleState.Shown
   }
 
-  override fun resume(context: Context) {
-    currentState = LifecycleState.Resumed(context)
+  override fun resume() {
+    currentState = LifecycleState.Resumed
   }
 
-  override fun pause(context: Context) {
-    currentState = LifecycleState.Shown(context)
+  override fun pause() {
+    currentState = LifecycleState.Shown
   }
 
-  override fun hide(context: Context) {
-    currentState = LifecycleState.Created(context.applicationContext)
+  override fun hide() {
+    currentState = LifecycleState.Created
   }
 
-  override fun destroy(context: Context) {
+  override fun destroy() {
     currentState = LifecycleState.Destroyed
   }
 
@@ -136,12 +136,12 @@ private fun LifecycleState.limitBy(limit: LifecycleLimit): LifecycleState =
   if (isWithinLimit(limit)) {
     this
   } else {
-    limit.getMaxLifecycleState(context!!)
+    limit.getMaxLifecycleState()
   }
 
-private fun LifecycleLimit.getMaxLifecycleState(context: Context): LifecycleState = when (this) {
+private fun LifecycleLimit.getMaxLifecycleState(): LifecycleState = when (this) {
   DESTROYED -> LifecycleState.Destroyed
-  CREATED -> LifecycleState.Created(context)
-  SHOWN -> LifecycleState.Shown(context)
-  NO_LIMIT -> LifecycleState.Resumed(context)
+  CREATED -> LifecycleState.Created
+  SHOWN -> LifecycleState.Shown
+  NO_LIMIT -> LifecycleState.Resumed
 }

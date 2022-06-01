@@ -19,11 +19,11 @@ public class CreatedLifecycleScope : LifecycleAware, CoroutineScope {
   override var coroutineContext: CoroutineContext = job + Dispatchers.Main
     private set
 
-  override fun create(context: Context) {
+  override fun create() {
     job = SupervisorJob()
   }
 
-  override fun destroy(context: Context) {
+  override fun destroy() {
     job.cancel(CancellationException("Destroyed"))
   }
 }

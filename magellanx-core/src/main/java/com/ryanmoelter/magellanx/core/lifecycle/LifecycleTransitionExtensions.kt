@@ -1,6 +1,5 @@
 package com.ryanmoelter.magellanx.core.lifecycle
 
-import android.content.Context
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleState.Created
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleState.Destroyed
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleState.Resumed
@@ -23,8 +22,8 @@ public fun Iterable<LifecycleAware>.transition(oldState: LifecycleState, newStat
   var currentState = oldState
   while (currentState.order != newState.order) {
     currentState = when (currentState.getDirectionForMovement(newState)) {
-      FORWARD -> next(this, currentState, newState.context!!)
-      BACKWARDS -> previous(this, currentState, oldState.context!!)
+      FORWARD -> next(this, currentState)
+      BACKWARDS -> previous(this, currentState)
       NO_MOVEMENT -> throw IllegalStateException(
         "Attempting to transition from $currentState to $newState"
       )
@@ -34,23 +33,22 @@ public fun Iterable<LifecycleAware>.transition(oldState: LifecycleState, newStat
 
 private fun next(
   subjects: Iterable<LifecycleAware>,
-  currentState: LifecycleState,
-  context: Context
+  currentState: LifecycleState
 ): LifecycleState {
   return when (currentState) {
-    is Destroyed -> {
-      subjects.forEach { it.create(context.applicationContext) }
-      Created(context.applicationContext)
+    Destroyed -> {
+      subjects.forEach { it.create() }
+      Created
     }
-    is Created -> {
-      subjects.forEach { it.show(context) }
-      Shown(context)
+    Created -> {
+      subjects.forEach { it.show() }
+      Shown
     }
-    is Shown -> {
-      subjects.forEach { it.resume(context) }
-      Resumed(context)
+    Shown -> {
+      subjects.forEach { it.resume() }
+      Resumed
     }
-    is Resumed -> {
+    Resumed -> {
       throw IllegalStateException("Cannot go forward from resumed")
     }
   }
@@ -58,24 +56,23 @@ private fun next(
 
 private fun previous(
   subjects: Iterable<LifecycleAware>,
-  currentState: LifecycleState,
-  context: Context
+  currentState: LifecycleState
 ): LifecycleState {
   return when (currentState) {
-    is Destroyed -> {
+    Destroyed -> {
       throw IllegalStateException("Cannot go backward from destroyed")
     }
-    is Created -> {
-      subjects.forEach { it.destroy(context.applicationContext) }
+    Created -> {
+      subjects.forEach { it.destroy() }
       Destroyed
     }
-    is Shown -> {
-      subjects.forEach { it.hide(context) }
-      Created(context.applicationContext)
+    Shown -> {
+      subjects.forEach { it.hide() }
+      Created
     }
-    is Resumed -> {
-      subjects.forEach { it.pause(context) }
-      Shown(context)
+    Resumed -> {
+      subjects.forEach { it.pause() }
+      Shown
     }
   }
 }

@@ -40,7 +40,7 @@ public class FakeComposeNavigator : ComposeNavigator() {
     backStack = backStackOperation(backStack)
   }
 
-  public override fun onDestroy(context: Context) {
+  public override fun onDestroy() {
     clear()
   }
 }

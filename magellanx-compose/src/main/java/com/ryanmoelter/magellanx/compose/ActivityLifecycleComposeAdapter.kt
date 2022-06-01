@@ -24,34 +24,34 @@ public class ActivityLifecycleComposeAdapter(
 ) : DefaultLifecycleObserver {
 
   override fun onStart(owner: ActivityLifecycleOwner) {
-    navigable.show(context)
+    navigable.show()
   }
 
   override fun onResume(owner: ActivityLifecycleOwner) {
-    navigable.resume(context)
+    navigable.resume()
   }
 
   override fun onPause(owner: ActivityLifecycleOwner) {
-    navigable.pause(context)
+    navigable.pause()
   }
 
   override fun onStop(owner: ActivityLifecycleOwner) {
-    navigable.hide(context)
+    navigable.hide()
   }
 
   override fun onDestroy(owner: ActivityLifecycleOwner) {
     if (context.isFinishing) {
-      navigable.destroy(context.applicationContext)
+      navigable.destroy()
     }
   }
 }
 
 public fun ComponentActivity.setContentNavigable(navigable: Navigable<@Composable () -> Unit>) {
   if (navigable is LifecycleOwner && navigable.currentState == Destroyed) {
-    navigable.create(applicationContext)
+    navigable.create()
   }
   if (adapterMap.containsKey(navigable)) {
-    navigable.detachAndRemoveFromStaticMap(applicationContext)
+    navigable.detachAndRemoveFromStaticMap()
   }
   val lifecycleAdapter = ActivityLifecycleComposeAdapter(navigable, this)
   navigable.attachAndAddToStaticMap(lifecycleAdapter, lifecycle)
@@ -66,13 +66,11 @@ private fun Navigable<@Composable () -> Unit>.attachAndAddToStaticMap(
   adapterMap = adapterMap + (this to (lifecycleAdapter to lifecycle))
 }
 
-private fun Navigable<@Composable () -> Unit>.detachAndRemoveFromStaticMap(
-  applicationContext: Context
-) {
+private fun Navigable<@Composable () -> Unit>.detachAndRemoveFromStaticMap() {
   val (lifecycleAdapter, lifecycle) = adapterMap[this]!!
   lifecycle.removeObserver(lifecycleAdapter)
-  if (this is LifecycleOwner && currentState !is Created) {
-    transition(this.currentState, Created(applicationContext))
+  if (this is LifecycleOwner && currentState != Created) {
+    transition(this.currentState, Created)
   }
   adapterMap = adapterMap - this
 }
