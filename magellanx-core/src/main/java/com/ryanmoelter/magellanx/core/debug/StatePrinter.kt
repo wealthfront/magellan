@@ -56,10 +56,10 @@ private fun LifecycleAware.getLifecycleStateSnapshotRecursive(
 }
 
 private fun LifecycleOwner.describeSelf(indent: String): String =
-  "$indent${this::class.java.simpleName} (${currentState::class.java.simpleName})\n"
+  "$indent${this::class.java.simpleName} (${currentState.name})\n"
 
 private fun LifecycleAware.describeSelf(
   indent: String,
   parentLifecycleState: LifecycleState
 ): String =
-  "$indent${this::class.java.simpleName} (${parentLifecycleState::class.java.simpleName}?)\n"
+  "$indent${this::class.java.simpleName} (${parentLifecycleState.name}?)\n"

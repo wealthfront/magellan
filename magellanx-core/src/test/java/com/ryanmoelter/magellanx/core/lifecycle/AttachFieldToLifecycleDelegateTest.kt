@@ -1,19 +1,13 @@
 package com.ryanmoelter.magellanx.core.lifecycle
 
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleState.Created
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleState.Destroyed
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleState.Resumed
-import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.beInstanceOf
 import io.kotest.matchers.types.shouldBeSameInstanceAs
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
 
-@RunWith(RobolectricTestRunner::class)
 internal class AttachFieldToLifecycleDelegateTest {
 
   private lateinit var parent: DummyLifecycleAwareComponent
@@ -32,13 +26,13 @@ internal class AttachFieldToLifecycleDelegateTest {
     val attachedChild by parent.attachFieldToLifecycle(child)
 
     attachedChild shouldBeSameInstanceAs child
-    child.currentState should beInstanceOf<Destroyed>()
+    child.currentState shouldBe Destroyed
 
-    parent.transitionToState(Resumed(getApplicationContext()))
-    child.currentState should beInstanceOf<Resumed>()
+    parent.transitionToState(Resumed)
+    child.currentState shouldBe Resumed
 
-    parent.transitionToState(Created(getApplicationContext()))
-    child.currentState should beInstanceOf<Created>()
+    parent.transitionToState(Created)
+    child.currentState shouldBe Created
   }
 
   @Test
@@ -46,13 +40,13 @@ internal class AttachFieldToLifecycleDelegateTest {
     val attachedCurrentState by parent.attachFieldToLifecycle(child) { it.currentState }
 
     attachedCurrentState shouldBeSameInstanceAs child.currentState
-    child.currentState should beInstanceOf<Destroyed>()
+    child.currentState shouldBe Destroyed
 
-    parent.transitionToState(Resumed(getApplicationContext()))
-    child.currentState should beInstanceOf<Resumed>()
+    parent.transitionToState(Resumed)
+    child.currentState shouldBe Resumed
 
-    parent.transitionToState(Created(getApplicationContext()))
-    child.currentState should beInstanceOf<Created>()
+    parent.transitionToState(Created)
+    child.currentState shouldBe Created
   }
 
   @Test
@@ -61,37 +55,37 @@ internal class AttachFieldToLifecycleDelegateTest {
 
     attachedChild = otherChild
     attachedChild shouldBeSameInstanceAs otherChild
-    otherChild.currentState should beInstanceOf<Destroyed>()
-    child.currentState should beInstanceOf<Destroyed>()
+    otherChild.currentState shouldBe Destroyed
+    child.currentState shouldBe Destroyed
 
-    parent.transitionToState(Resumed(getApplicationContext()))
-    otherChild.currentState should beInstanceOf<Resumed>()
-    child.currentState should beInstanceOf<Destroyed>()
+    parent.transitionToState(Resumed)
+    otherChild.currentState shouldBe Resumed
+    child.currentState shouldBe Destroyed
 
-    parent.transitionToState(Created(getApplicationContext()))
-    otherChild.currentState should beInstanceOf<Created>()
-    child.currentState should beInstanceOf<Destroyed>()
+    parent.transitionToState(Created)
+    otherChild.currentState shouldBe Created
+    child.currentState shouldBe Destroyed
   }
 
   @Test
   fun overrideValue_afterLifecycleEvents() {
     var attachedChild by parent.attachFieldToLifecycle(child)
 
-    otherChild.currentState should beInstanceOf<Destroyed>()
-    child.currentState should beInstanceOf<Destroyed>()
+    otherChild.currentState shouldBe Destroyed
+    child.currentState shouldBe Destroyed
 
-    parent.transitionToState(Resumed(getApplicationContext()))
-    otherChild.currentState should beInstanceOf<Destroyed>()
-    child.currentState should beInstanceOf<Resumed>()
+    parent.transitionToState(Resumed)
+    otherChild.currentState shouldBe Destroyed
+    child.currentState shouldBe Resumed
 
     attachedChild = otherChild
     attachedChild shouldBeSameInstanceAs otherChild
-    otherChild.currentState should beInstanceOf<Resumed>()
-    child.currentState should beInstanceOf<Destroyed>()
+    otherChild.currentState shouldBe Resumed
+    child.currentState shouldBe Destroyed
 
-    parent.transitionToState(Created(getApplicationContext()))
-    otherChild.currentState should beInstanceOf<Created>()
-    child.currentState should beInstanceOf<Destroyed>()
+    parent.transitionToState(Created)
+    otherChild.currentState shouldBe Created
+    child.currentState shouldBe Destroyed
   }
 
   @Test
@@ -101,20 +95,20 @@ internal class AttachFieldToLifecycleDelegateTest {
     overriddenProperty shouldBe 0
     overriddenProperty = 20
     overriddenProperty shouldBe 20
-    child.currentState should beInstanceOf<Destroyed>()
-    otherChild.currentState should beInstanceOf<Destroyed>()
+    child.currentState shouldBe Destroyed
+    otherChild.currentState shouldBe Destroyed
 
     child.dummyProperty = 30
     overriddenProperty shouldBe 20
 
-    parent.transitionToState(Resumed(getApplicationContext()))
+    parent.transitionToState(Resumed)
     overriddenProperty shouldBe 20
-    child.currentState should beInstanceOf<Destroyed>()
-    otherChild.currentState should beInstanceOf<Destroyed>()
+    child.currentState shouldBe Destroyed
+    otherChild.currentState shouldBe Destroyed
 
-    parent.transitionToState(Created(getApplicationContext()))
+    parent.transitionToState(Created)
     overriddenProperty shouldBe 20
-    child.currentState should beInstanceOf<Destroyed>()
-    otherChild.currentState should beInstanceOf<Destroyed>()
+    child.currentState shouldBe Destroyed
+    otherChild.currentState shouldBe Destroyed
   }
 }

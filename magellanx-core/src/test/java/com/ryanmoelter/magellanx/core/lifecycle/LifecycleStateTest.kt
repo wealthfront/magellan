@@ -1,6 +1,5 @@
 package com.ryanmoelter.magellanx.core.lifecycle
 
-import android.content.Context
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleState.Created
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleState.Destroyed
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleState.Resumed
@@ -9,31 +8,18 @@ import com.ryanmoelter.magellanx.core.lifecycle.LifecycleStateDirection.BACKWARD
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleStateDirection.FORWARD
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleStateDirection.NO_MOVEMENT
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeInstanceOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 internal class LifecycleStateTest {
-
-  @Mock
-  private lateinit var context: Context
-  private lateinit var destroyed: Destroyed
-  private lateinit var created: Created
-  private lateinit var shown: Shown
-  private lateinit var resumed: Resumed
 
   private lateinit var mockSession: AutoCloseable
 
   @Before
   fun setUp() {
     mockSession = MockitoAnnotations.openMocks(this)
-    destroyed = Destroyed
-    created = Created(context)
-    shown = Shown(context)
-    resumed = Resumed(context)
   }
 
   @After
@@ -42,33 +28,25 @@ internal class LifecycleStateTest {
   }
 
   @Test
-  fun getEarlierOfCurrentState() {
-    destroyed.getEarlierOfCurrentState().shouldBeInstanceOf<Destroyed>()
-    created.getEarlierOfCurrentState().shouldBeInstanceOf<Created>()
-    shown.getEarlierOfCurrentState().shouldBeInstanceOf<Created>()
-    resumed.getEarlierOfCurrentState().shouldBeInstanceOf<Created>()
-  }
-
-  @Test
   fun getTheDirectionIShouldGoToGetTo() {
-    destroyed.getDirectionForMovement(destroyed) shouldBe NO_MOVEMENT
-    destroyed.getDirectionForMovement(created) shouldBe FORWARD
-    destroyed.getDirectionForMovement(shown) shouldBe FORWARD
-    destroyed.getDirectionForMovement(resumed) shouldBe FORWARD
+    Destroyed.getDirectionForMovement(Destroyed) shouldBe NO_MOVEMENT
+    Destroyed.getDirectionForMovement(Created) shouldBe FORWARD
+    Destroyed.getDirectionForMovement(Shown) shouldBe FORWARD
+    Destroyed.getDirectionForMovement(Resumed) shouldBe FORWARD
 
-    created.getDirectionForMovement(destroyed) shouldBe BACKWARDS
-    created.getDirectionForMovement(created) shouldBe NO_MOVEMENT
-    created.getDirectionForMovement(shown) shouldBe FORWARD
-    created.getDirectionForMovement(resumed) shouldBe FORWARD
+    Created.getDirectionForMovement(Destroyed) shouldBe BACKWARDS
+    Created.getDirectionForMovement(Created) shouldBe NO_MOVEMENT
+    Created.getDirectionForMovement(Shown) shouldBe FORWARD
+    Created.getDirectionForMovement(Resumed) shouldBe FORWARD
 
-    shown.getDirectionForMovement(destroyed) shouldBe BACKWARDS
-    shown.getDirectionForMovement(created) shouldBe BACKWARDS
-    shown.getDirectionForMovement(shown) shouldBe NO_MOVEMENT
-    shown.getDirectionForMovement(resumed) shouldBe FORWARD
+    Shown.getDirectionForMovement(Destroyed) shouldBe BACKWARDS
+    Shown.getDirectionForMovement(Created) shouldBe BACKWARDS
+    Shown.getDirectionForMovement(Shown) shouldBe NO_MOVEMENT
+    Shown.getDirectionForMovement(Resumed) shouldBe FORWARD
 
-    resumed.getDirectionForMovement(destroyed) shouldBe BACKWARDS
-    resumed.getDirectionForMovement(created) shouldBe BACKWARDS
-    resumed.getDirectionForMovement(shown) shouldBe BACKWARDS
-    resumed.getDirectionForMovement(resumed) shouldBe NO_MOVEMENT
+    Resumed.getDirectionForMovement(Destroyed) shouldBe BACKWARDS
+    Resumed.getDirectionForMovement(Created) shouldBe BACKWARDS
+    Resumed.getDirectionForMovement(Shown) shouldBe BACKWARDS
+    Resumed.getDirectionForMovement(Resumed) shouldBe NO_MOVEMENT
   }
 }

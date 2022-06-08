@@ -1,7 +1,5 @@
 package com.ryanmoelter.magellanx.core.coroutines
 
-import android.app.Application
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleState.Created
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleState.Destroyed
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleState.Resumed
@@ -15,21 +13,19 @@ import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
 
 @OptIn(ExperimentalCoroutinesApi::class, InternalCoroutinesApi::class)
-@RunWith(RobolectricTestRunner::class)
 internal class CreatedLifecycleScopeTest {
 
   private lateinit var createdScope: CreatedLifecycleScope
-  private val context = getApplicationContext<Application>()
 
   @Before
   fun setUp() {
     createdScope = CreatedLifecycleScope()
+    Dispatchers.setMain(Dispatchers.Default.limitedParallelism(1))
   }
 
   @Test
@@ -40,11 +36,11 @@ internal class CreatedLifecycleScopeTest {
       async.isCancelled shouldBe true
       async.getCancellationException().message shouldContain "Not created yet"
 
-      createdScope.transition(Destroyed, Resumed(context))
+      createdScope.transition(Destroyed, Resumed)
 
       async.isCancelled shouldBe true
 
-      createdScope.transition(Resumed(context), Created(context))
+      createdScope.transition(Resumed, Created)
 
       async.isCancelled shouldBe true
       async.getCancellationException().message shouldContain "Not created yet"
@@ -54,20 +50,20 @@ internal class CreatedLifecycleScopeTest {
   @Test
   fun cancelAfterCreated() {
     runTest {
-      createdScope.transition(Destroyed, Created(context))
+      createdScope.transition(Destroyed, Created)
 
       val async = createdScope.async(Dispatchers.Default) { delay(5000) }
       async.isCancelled shouldBe false
 
-      createdScope.transition(Created(context), Resumed(context))
+      createdScope.transition(Created, Resumed)
 
       async.isCancelled shouldBe false
 
-      createdScope.transition(Resumed(context), Created(context))
+      createdScope.transition(Resumed, Created)
 
       async.isCancelled shouldBe false
 
-      createdScope.transition(Created(context), Destroyed)
+      createdScope.transition(Created, Destroyed)
 
       async.isCancelled shouldBe true
       async.getCancellationException().message shouldContain "Destroyed"
@@ -77,20 +73,20 @@ internal class CreatedLifecycleScopeTest {
   @Test
   fun cancelAfterShown() {
     runTest {
-      createdScope.transition(Destroyed, Shown(context))
+      createdScope.transition(Destroyed, Shown)
 
       val async = createdScope.async(Dispatchers.Default) { delay(5000) }
       async.isCancelled shouldBe false
 
-      createdScope.transition(Shown(context), Resumed(context))
+      createdScope.transition(Shown, Resumed)
 
       async.isCancelled shouldBe false
 
-      createdScope.transition(Resumed(context), Created(context))
+      createdScope.transition(Resumed, Created)
 
       async.isCancelled shouldBe false
 
-      createdScope.transition(Created(context), Destroyed)
+      createdScope.transition(Created, Destroyed)
 
       async.isCancelled shouldBe true
       async.getCancellationException().message shouldContain "Destroyed"
@@ -100,16 +96,16 @@ internal class CreatedLifecycleScopeTest {
   @Test
   fun cancelAfterResumed() {
     runTest {
-      createdScope.transition(Destroyed, Resumed(context))
+      createdScope.transition(Destroyed, Resumed)
 
       val async = createdScope.async(Dispatchers.Default) { delay(5000) }
       async.isCancelled shouldBe false
 
-      createdScope.transition(Resumed(context), Created(context))
+      createdScope.transition(Resumed, Created)
 
       async.isCancelled shouldBe false
 
-      createdScope.transition(Created(context), Destroyed)
+      createdScope.transition(Created, Destroyed)
       async.isCancelled shouldBe true
       async.getCancellationException().message shouldContain "Destroyed"
     }

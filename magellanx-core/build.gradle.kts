@@ -71,8 +71,6 @@ dependencies {
 
   // Testing
   testImplementation(libs.kotest.assertions.core)
-  testImplementation(libs.kotest.extensions.robolectric)
-  testImplementation(libs.robolectric)
   testImplementation(libs.androidx.test.core)
   testImplementation(libs.androidx.test.core.ktx)
   testImplementation("org.mockito:mockito-core:4.3.1")

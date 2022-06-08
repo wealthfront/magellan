@@ -1,7 +1,6 @@
 @file:Suppress("ForbiddenComment")
 package com.ryanmoelter.magellanx.compose.navigation
 
-import android.content.Context
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
@@ -26,7 +25,6 @@ import com.ryanmoelter.magellanx.core.lifecycle.LifecycleLimit
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
-@OptIn(ExperimentalAnimationApi::class)
 public open class ComposeNavigator : LifecycleAwareComponent(), Displayable<@Composable () -> Unit> {
 
   /**
@@ -67,6 +65,7 @@ public open class ComposeNavigator : LifecycleAwareComponent(), Displayable<@Com
     val currentTransitionSpec by transitionFlow.collectAsState()
     val currentDirection by directionFlow.collectAsState()
 
+    @OptIn(ExperimentalAnimationApi::class)
     AnimatedContent(
       targetState = currentNavigable,
       transitionSpec = currentTransitionSpec.getTransitionForDirection(currentDirection)
@@ -96,7 +95,7 @@ public open class ComposeNavigator : LifecycleAwareComponent(), Displayable<@Com
     }
   }
 
-  override fun onDestroy(context: Context) {
+  override fun onDestroy() {
     backStack
       .map { it.navigable }
       .forEach { lifecycleRegistry.removeFromLifecycle(it) }
@@ -207,7 +206,6 @@ public open class ComposeNavigator : LifecycleAwareComponent(), Displayable<@Com
   public open fun atRoot(): Boolean = backStack.size <= 1
 }
 
-@ExperimentalAnimationApi
 public data class ComposeNavigationEvent(
   val navigable: Navigable<@Composable () -> Unit>,
   val transitionSpec: MagellanComposeTransition

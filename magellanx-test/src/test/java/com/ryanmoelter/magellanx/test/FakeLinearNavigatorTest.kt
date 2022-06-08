@@ -1,7 +1,5 @@
 package com.ryanmoelter.magellanx.test
 
-import android.content.Context
-import androidx.compose.animation.ExperimentalAnimationApi
 import com.ryanmoelter.magellanx.compose.navigation.ComposeNavigationEvent
 import com.ryanmoelter.magellanx.compose.navigation.Direction
 import com.ryanmoelter.magellanx.compose.transitions.defaultTransition
@@ -16,21 +14,16 @@ import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.types.shouldBeSameInstanceAs
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations.initMocks
 
-@OptIn(ExperimentalAnimationApi::class)
 public class FakeLinearNavigatorTest {
 
   private lateinit var navigator: FakeComposeNavigator
-  @Mock internal lateinit var context: Context
 
   @Before
   public fun setUp() {
     initMocks(this)
     navigator = FakeComposeNavigator()
-    `when`(context.applicationContext).thenReturn(context)
   }
 
   @Test
@@ -111,8 +104,8 @@ public class FakeLinearNavigatorTest {
   @Test
   public fun destroy() {
     navigator.backStack = listOf(ComposeNavigationEvent(TestNavigable(), defaultTransition))
-    navigator.transitionToState(LifecycleState.Created(context))
-    navigator.destroy(context)
+    navigator.transitionToState(LifecycleState.Created)
+    navigator.destroy()
     navigator.backStack.shouldBeEmpty()
     navigator.currentNavigable.shouldBeNull()
   }

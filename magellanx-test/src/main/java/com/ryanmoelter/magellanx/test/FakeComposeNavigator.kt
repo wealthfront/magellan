@@ -1,6 +1,5 @@
 package com.ryanmoelter.magellanx.test
 
-import android.content.Context
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import com.ryanmoelter.magellanx.compose.navigation.ComposeNavigationEvent
@@ -40,7 +39,7 @@ public class FakeComposeNavigator : ComposeNavigator() {
     backStack = backStackOperation(backStack)
   }
 
-  public override fun onDestroy(context: Context) {
+  public override fun onDestroy() {
     clear()
   }
 }

@@ -1,6 +1,5 @@
 package com.ryanmoelter.magellanx.core.lifecycle
 
-import android.content.Context
 import android.widget.FrameLayout
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
@@ -17,9 +16,6 @@ public class CreateAndAttachFieldToLifecycleWhenShownDelegateTest {
   @Mock
   private lateinit var frameLayout: FrameLayout
 
-  @Mock
-  private lateinit var context: Context
-
   private lateinit var mockSession: AutoCloseable
 
   @Before
@@ -35,34 +31,34 @@ public class CreateAndAttachFieldToLifecycleWhenShownDelegateTest {
 
   @Test
   public fun wholeLifecycle() {
-    lifecycleView.create(context)
+    lifecycleView.create()
     lifecycleView.field.shouldBeNull()
 
-    lifecycleView.show(context)
+    lifecycleView.show()
     lifecycleView.field shouldBe frameLayout
 
-    lifecycleView.resume(context)
+    lifecycleView.resume()
     lifecycleView.field shouldBe frameLayout
 
-    lifecycleView.pause(context)
+    lifecycleView.pause()
     lifecycleView.field shouldBe frameLayout
 
-    lifecycleView.hide(context)
+    lifecycleView.hide()
     lifecycleView.field.shouldBeNull()
 
-    lifecycleView.destroy(context)
+    lifecycleView.destroy()
     lifecycleView.field.shouldBeNull()
   }
 
   @Test
   public fun onCreateView() {
-    lifecycleView.show(context)
+    lifecycleView.show()
     lifecycleView.field shouldBe frameLayout
   }
 
   @Test
   public fun onDestroyView() {
-    lifecycleView.hide(context)
+    lifecycleView.hide()
     lifecycleView.field.shouldBeNull()
   }
 }

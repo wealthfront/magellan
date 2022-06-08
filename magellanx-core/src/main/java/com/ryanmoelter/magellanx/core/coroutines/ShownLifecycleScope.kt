@@ -1,6 +1,5 @@
 package com.ryanmoelter.magellanx.core.coroutines
 
-import android.content.Context
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleAware
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -19,11 +18,11 @@ public class ShownLifecycleScope : LifecycleAware, CoroutineScope {
   override var coroutineContext: CoroutineContext = job + Dispatchers.Main
     private set
 
-  override fun show(context: Context) {
+  override fun show() {
     job = SupervisorJob()
   }
 
-  override fun hide(context: Context) {
+  override fun hide() {
     job.cancel(CancellationException("Hidden"))
   }
 }

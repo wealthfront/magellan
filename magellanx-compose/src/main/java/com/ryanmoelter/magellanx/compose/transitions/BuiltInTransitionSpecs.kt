@@ -16,23 +16,24 @@ import com.ryanmoelter.magellanx.compose.navigation.Direction
 import com.ryanmoelter.magellanx.core.Navigable
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalAnimationApi::class)
 public interface MagellanComposeTransition {
 
   @Composable
+  @OptIn(ExperimentalAnimationApi::class)
   public fun getTransitionForDirection(
     direction: Direction
   ): AnimatedContentScope<Navigable<@Composable () -> Unit>?>.() -> ContentTransform
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 public class SimpleComposeTransition(
+  @OptIn(ExperimentalAnimationApi::class)
   /* ktlint-disable max-line-length */
   public val transitionSpec: AnimatedContentScope<Navigable<@Composable () -> Unit>?>.(Direction) -> ContentTransform
   /* ktlint-enable max-line-length */
 ) : MagellanComposeTransition {
 
   @Composable
+  @OptIn(ExperimentalAnimationApi::class)
   public override fun getTransitionForDirection(
     direction: Direction
   ): AnimatedContentScope<Navigable<@Composable () -> Unit>?>.() -> ContentTransform {
@@ -44,7 +45,7 @@ private const val SCALE_DOWN_FACTOR = 0.85f
 private const val SCALE_UP_FACTOR = 1.15f
 
 @OptIn(ExperimentalAnimationApi::class)
-public val defaultTransition: SimpleComposeTransition = SimpleComposeTransition {
+public val defaultTransition: MagellanComposeTransition = SimpleComposeTransition {
   when (it) {
     Direction.FORWARD -> {
       fadeIn() + scaleIn(initialScale = SCALE_DOWN_FACTOR) with
@@ -60,7 +61,7 @@ public val defaultTransition: SimpleComposeTransition = SimpleComposeTransition 
 private const val HEIGHT_OFFSET_FACTOR = 0.8f
 
 @OptIn(ExperimentalAnimationApi::class)
-public val showTransition: SimpleComposeTransition = SimpleComposeTransition { direction ->
+public val showTransition: MagellanComposeTransition = SimpleComposeTransition { direction ->
   when (direction) {
     Direction.FORWARD -> {
       fadeIn() +
@@ -81,6 +82,6 @@ public val showTransition: SimpleComposeTransition = SimpleComposeTransition { d
 }
 
 @OptIn(ExperimentalAnimationApi::class)
-public val noTransition: SimpleComposeTransition = SimpleComposeTransition {
+public val noTransition: MagellanComposeTransition = SimpleComposeTransition {
   EnterTransition.None with ExitTransition.None
 }
