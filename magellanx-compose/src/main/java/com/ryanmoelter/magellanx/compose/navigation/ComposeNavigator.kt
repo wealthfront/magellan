@@ -25,7 +25,6 @@ import com.ryanmoelter.magellanx.core.lifecycle.LifecycleLimit
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
-@OptIn(ExperimentalAnimationApi::class)
 public open class ComposeNavigator : LifecycleAwareComponent(), Displayable<@Composable () -> Unit> {
 
   /**
@@ -66,6 +65,7 @@ public open class ComposeNavigator : LifecycleAwareComponent(), Displayable<@Com
     val currentTransitionSpec by transitionFlow.collectAsState()
     val currentDirection by directionFlow.collectAsState()
 
+    @OptIn(ExperimentalAnimationApi::class)
     AnimatedContent(
       targetState = currentNavigable,
       transitionSpec = currentTransitionSpec.getTransitionForDirection(currentDirection)
@@ -206,7 +206,6 @@ public open class ComposeNavigator : LifecycleAwareComponent(), Displayable<@Com
   public open fun atRoot(): Boolean = backStack.size <= 1
 }
 
-@ExperimentalAnimationApi
 public data class ComposeNavigationEvent(
   val navigable: Navigable<@Composable () -> Unit>,
   val transitionSpec: MagellanComposeTransition
