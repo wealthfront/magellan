@@ -32,7 +32,7 @@ Add the dependencies you need in your `dependencies` block:
 [![Latest release on Jitpack](https://jitpack.io/v/com.ryanmoelter/magellanx.svg)](https://jitpack.io/#com.ryanmoelter/magellanx)
 
 ```kotlin
-val magellanxVersion = "0.1.1"
+val magellanxVersion = "0.1.2"
 implementation("com.ryanmoelter.magellanx:magellanx-compose:${magellanxVersion}")
 testImplementation("com.ryanmoelter.magellanx:magellanx-test:${magellanxVersion}")
 ```
@@ -40,7 +40,7 @@ testImplementation("com.ryanmoelter.magellanx:magellanx-test:${magellanxVersion}
 Alternatively, if you only want the core library without the Compose implementation, you can use:
 
 ```kotlin
-implementation("com.github.ryanmoelter.magellanx:magellanx-core:0.1.1")
+implementation("com.github.ryanmoelter.magellanx:magellanx-core:0.1.2")
 ```
 
 > Note: `magellanx-core` is included in and exposed by `magellanx-compose`, and `magellan-test` only
@@ -56,7 +56,7 @@ implementation("com.github.ryanmoelter.magellanx:magellanx-core:0.1.1")
   
   ```toml
   [versions]
-  magellanx = "0.1.1"
+  magellanx = "0.1.2"
   # ...
   
   [libraries]
