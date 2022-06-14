@@ -29,13 +29,11 @@ public open class DummyStep(
     whenTransitionFinished(doWhenTransitionFinished)
   }
 
-  override fun transitionStarted() {
-    super.transitionStarted()
+  override fun onTransitionStarted() {
     currentTransitionState = STARTED
   }
 
-  override fun transitionFinished() {
-    super.transitionFinished()
+  override fun onTransitionFinished() {
     currentTransitionState = FINISHED
   }
 }

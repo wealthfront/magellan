@@ -5,7 +5,6 @@ import android.os.Parcelable
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
-import androidx.annotation.CallSuper
 import androidx.annotation.VisibleForTesting
 import androidx.viewbinding.ViewBinding
 import com.wealthfront.magellan.TransitionFinishedHelper
@@ -50,6 +49,16 @@ public abstract class Step<V : ViewBinding>(
     saveViewState()
   }
 
+  final override fun transitionStarted() {
+    transitionFinishedHelper.transitionStarted()
+    onTransitionStarted()
+  }
+
+  final override fun transitionFinished() {
+    transitionFinishedHelper.transitionFinished()
+    onTransitionFinished()
+  }
+
   private fun restoreViewState() {
     if (viewState != null) {
       view!!.restoreHierarchyState(viewState)
@@ -70,11 +79,9 @@ public abstract class Step<V : ViewBinding>(
 
   protected open fun onHide(context: Context, binding: V) {}
 
-  @CallSuper
-  override fun transitionStarted(): Unit = transitionFinishedHelper.transitionStarted()
+  protected open fun onTransitionStarted() {}
 
-  @CallSuper
-  override fun transitionFinished(): Unit = transitionFinishedHelper.transitionFinished()
+  protected open fun onTransitionFinished() {}
 
   protected fun whenTransitionFinished(listener: () -> Unit) {
     transitionFinishedHelper.whenTransitionFinished(listener)
