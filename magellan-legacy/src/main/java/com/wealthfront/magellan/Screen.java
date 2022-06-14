@@ -14,10 +14,8 @@ import com.wealthfront.magellan.view.DialogComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 import androidx.annotation.VisibleForTesting;
+import kotlin.Unit;
 import kotlinx.coroutines.CoroutineScope;
 
 /**
@@ -44,12 +42,11 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
 
   private final DialogComponent dialogComponent = new DialogComponent();
   private final ShownLifecycleScope shownScope = new ShownLifecycleScope();
+  private final TransitionFinishedHelper transitionFinishedHelper = new TransitionFinishedHelper();
   private CoroutineScope overrideScope = null;
 
   private @Nullable Activity activity;
   private @Nullable V view;
-  private boolean isTransitioning;
-  private final Queue<TransitionFinishedListener> transitionFinishedListeners = new LinkedList<>();
   private Navigator navigator;
 
   public Screen() {
@@ -104,29 +101,24 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
 
   @Override
   public final void transitionStarted() {
-    isTransitioning = true;
-    transitionFinishedListeners.clear();
+    transitionFinishedHelper.transitionStarted();
   }
 
   @Override
   public final void transitionFinished() {
-    isTransitioning = false;
-    while (transitionFinishedListeners.size() > 0) {
-      transitionFinishedListeners.remove().onTransitionFinished();
-    }
+    transitionFinishedHelper.transitionFinished();
   }
 
   /**
-   * Adds a {@link TransitionFinishedListener} to be called when the navigation transition into this screen is finished,
-   * or immediately if the transition is already finished.
+   * Adds a {@link TransitionFinishedListener} to be called when the navigation transition into this
+   * screen is finished, or immediately if the transition is already finished.
    * @param listener The listener to be called when the transition is finished or immediately.
    */
   protected final void whenTransitionFinished(TransitionFinishedListener listener) {
-    if (isTransitioning) {
-      transitionFinishedListeners.add(listener);
-    } else {
+    transitionFinishedHelper.whenTransitionFinished(() -> {
       listener.onTransitionFinished();
-    }
+      return Unit.INSTANCE;
+    });
   }
 
   /**
@@ -228,8 +220,8 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   }
 
   /**
-   * A simple interface with a method to be run when the transition to this screen is finished, or immediately if it's
-   * already finished.
+   * A simple interface with a method to be run when the transition to this screen is finished,
+   * or immediately if it's already finished.
    */
   public interface TransitionFinishedListener {
 

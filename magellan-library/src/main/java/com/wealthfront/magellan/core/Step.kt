@@ -5,8 +5,10 @@ import android.os.Parcelable
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
+import androidx.annotation.CallSuper
 import androidx.annotation.VisibleForTesting
 import androidx.viewbinding.ViewBinding
+import com.wealthfront.magellan.TransitionFinishedHelper
 import com.wealthfront.magellan.coroutines.ShownLifecycleScope
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
@@ -16,6 +18,8 @@ import kotlinx.coroutines.CoroutineScope
 public abstract class Step<V : ViewBinding>(
   inflateBinding: (LayoutInflater) -> V
 ) : Navigable, LifecycleAwareComponent() {
+
+  private val transitionFinishedHelper = TransitionFinishedHelper()
 
   private var viewState: SparseArray<Parcelable>? = null
 
@@ -65,4 +69,14 @@ public abstract class Step<V : ViewBinding>(
   protected open fun onPause(context: Context, binding: V) {}
 
   protected open fun onHide(context: Context, binding: V) {}
+
+  @CallSuper
+  override fun transitionStarted(): Unit = transitionFinishedHelper.transitionStarted()
+
+  @CallSuper
+  override fun transitionFinished(): Unit = transitionFinishedHelper.transitionFinished()
+
+  protected fun whenTransitionFinished(listener: () -> Unit) {
+    transitionFinishedHelper.whenTransitionFinished(listener)
+  }
 }
