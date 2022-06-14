@@ -5,7 +5,6 @@ import androidx.viewbinding.ViewBinding
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.init.Magellan
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
-import com.wealthfront.magellan.navigation.CurrentNavigableProvider
 import com.wealthfront.magellan.navigation.NavigationOverrideProvider
 import com.wealthfront.magellan.navigation.ViewTemplateApplier
 
