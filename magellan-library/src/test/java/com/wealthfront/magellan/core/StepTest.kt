@@ -37,11 +37,13 @@ internal class StepTest {
 
   @Captor lateinit var sparseArrayCaptor: ArgumentCaptor<SparseArray<Parcelable>>
   @Mock lateinit var view: View
+  private var transitionFinished = false
 
   @Before
   fun setUp() {
     initMocks(this)
-    step = DummyStep()
+    transitionFinished = false
+    step = DummyStep { transitionFinished = true }
     step.view = view
     context = buildActivity(Activity::class.java).get()
     step.viewBinding = MagellanDummyLayoutBinding.inflate(from(context))
@@ -78,5 +80,42 @@ internal class StepTest {
 
     val bundle = sparseArrayCaptor.value.get(42) as Bundle
     assertThat(bundle.getString("key")).isEqualTo("value")
+  }
+
+  @Test
+  fun whenTransitionFinished() {
+    step.transitionStarted()
+    step.transitionToState(Shown(context))
+    assertThat(transitionFinished).isFalse()
+    step.transitionFinished()
+    assertThat(transitionFinished).isTrue()
+
+    step.transitionToState(Created(context))
+    transitionFinished = false
+
+    step.transitionStarted()
+    step.transitionToState(Shown(context))
+    step.transitionFinished()
+    assertThat(transitionFinished).isTrue()
+  }
+
+  @Test
+  fun whenTransitionFinished_beforeTransitionStarted() {
+    step.transitionToState(Shown(context))
+    step.transitionFinished()
+    assertThat(transitionFinished).isTrue()
+
+    transitionFinished = false
+    step.transitionStarted()
+    step.transitionFinished()
+    assertThat(transitionFinished).isFalse()
+  }
+
+  @Test
+  fun whenTransitionFinished_afterTransitionFinished() {
+    step.transitionStarted()
+    step.transitionFinished()
+    step.transitionToState(Shown(context))
+    assertThat(transitionFinished).isTrue()
   }
 }
