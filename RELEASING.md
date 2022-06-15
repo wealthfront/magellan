@@ -11,15 +11,13 @@
 Someone with the necessary permissions publishes the repo:
 5a.) `./gradlew clean publish`
 5b.) Visit [Sonatype Nexus](https://oss.sonatype.org/) and promote the artifact.
+If this step fails: drop the Sonatype repo, fix the problem, commit, and start again.
+Visit [Maven Central Repository Search](https://search.maven.org/search?q=magellan) to verify the artifact is live. Note that it may take a few hours.
 
 6.) Visit [the GitHub releases page](https://github.com/wealthfront/magellan/releases) and create a new release, copying the changelog from CHANGELOG.md.
 7a.) Change the gradle.properties to the next SNAPSHOT version.
 7b.) git commit -am "Prepare next development version"
 8.) Open a Pull Request with the above changes. Get it merged
-
-Visit [Maven Central Repository Search](https://search.maven.org/search?q=magellan) to check when the artifact is live. Note: it may take a few hours.
-
-If step 5 fails, drop the Sonatype repo, fix the problem, commit, and start again at step 4.
 
 ## Publish to local maven repo
 
