@@ -2,6 +2,7 @@ package com.wealthfront.magellan.navigation
 
 import android.content.Context
 import android.view.View
+import androidx.annotation.VisibleForTesting
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.init.shouldRunAnimations
@@ -20,7 +21,8 @@ public open class LazySetNavigator(
   private var currentNavigableSetup: ((NavigableCompat) -> Unit)? = null
   private val navigationPropagator: NavigationPropagator = NavigationPropagator
 
-  private var containerView: ScreenContainer? = null
+  @VisibleForTesting
+  internal var containerView: ScreenContainer? = null
   private var currentNavigable: NavigableCompat? = null
 
   protected val context: Context?
@@ -47,6 +49,10 @@ public open class LazySetNavigator(
 
   override fun onHide(context: Context) {
     containerView = null
+  }
+
+  override fun onDestroy(context: Context) {
+    lifecycleRegistry.children.forEach { lifecycleRegistry.removeFromLifecycle(it) }
   }
 
   public fun replace(
