@@ -10,6 +10,7 @@ import com.wealthfront.magellan.sample.advanced.databinding.MainMenuBinding
 import com.wealthfront.magellan.sample.advanced.designcereal.DesignCerealStartStep
 import com.wealthfront.magellan.sample.advanced.ordertickets.OrderTicketsStartStep
 import com.wealthfront.magellan.sample.advanced.suggestexhibit.SuggestExhibitStartStep
+import com.wealthfront.magellan.transitions.CrossfadeTransition
 import javax.inject.Inject
 
 class MainMenuStep(
@@ -74,18 +75,18 @@ class MainMenuStep(
   }
 
   private fun showBrowseCollection() {
-    navigator.replace(browseCollectionJourney)
+    navigator.replace(browseCollectionJourney, CrossfadeTransition())
   }
 
   private fun showDesignCereal() {
-    navigator.replace(designCerealStart)
+    navigator.replace(designCerealStart, CrossfadeTransition())
   }
 
   private fun showOrderTickets() {
-    navigator.replace(orderTicketsStart)
+    navigator.replace(orderTicketsStart, CrossfadeTransition())
   }
 
   private fun showRequestExhibit() {
-    navigator.replace(suggestExhibitStart)
+    navigator.replace(suggestExhibitStart, CrossfadeTransition())
   }
 }

@@ -51,8 +51,14 @@ public open class LazySetNavigator(
 
   public fun replace(
     navigable: NavigableCompat,
-    transition: MagellanTransition = DefaultTransition()
+    requestedTransition: MagellanTransition = DefaultTransition()
   ) {
+    val transition = if (currentNavigable == null) {
+      NoAnimationTransition()
+    } else {
+      requestedTransition
+    }
+
     if (currentNavigable == navigable) {
       return
     }
