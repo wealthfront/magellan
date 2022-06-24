@@ -8,6 +8,7 @@ import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.rx2.RxDisposer
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
+import com.wealthfront.magellan.sample.advanced.ToolbarHelper
 import com.wealthfront.magellan.sample.advanced.api.ApiClient
 import com.wealthfront.magellan.sample.advanced.databinding.BrowseCollectionBinding
 import com.wealthfront.magellan.transitions.CrossfadeTransition
@@ -22,12 +23,14 @@ class BrowseCollectionJourney : Journey<BrowseCollectionBinding>(
 
   private val rxUnsubscriber by attachFieldToLifecycle(RxDisposer())
   @Inject lateinit var apiClient: ApiClient
+  @Inject lateinit var toolbarHelper: ToolbarHelper
 
   override fun onCreate(context: Context) {
     app(context).injector().inject(this)
   }
 
   override fun onShow(context: Context, binding: BrowseCollectionBinding) {
+    toolbarHelper.hideToolbar()
     rxUnsubscriber.autoDispose(
       apiClient.getCollection()
         .observeOn(mainThread())

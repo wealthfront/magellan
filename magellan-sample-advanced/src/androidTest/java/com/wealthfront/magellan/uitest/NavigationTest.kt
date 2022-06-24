@@ -11,10 +11,12 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.wealthfront.magellan.sample.advanced.MainActivity
 import com.wealthfront.magellan.sample.advanced.R
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Before
 import org.junit.Test
 
@@ -25,12 +27,14 @@ class NavigationTest {
   @Before
   fun setup() {
     activityScenario = launchActivity()
-    onView(withText("Welcome to the Cereal Museum!")).check(matches(isDisplayed()))
+    onView(withTagValue(equalTo("MainMenu"))).check(matches(isDisplayed()))
   }
 
   @Test
   fun buildYourOwn() {
     onView(withId(R.id.designCereal)).perform(click())
+    onView(withId(R.id.designCerealStart)).perform(click())
+
     onView(withText("Design a cereal!")).check(matches(isDisplayed()))
     onView(withText("Corn Flakes")).perform(click())
 
@@ -61,14 +65,12 @@ class NavigationTest {
       .perform(click())
     onView(allOf(withText(R.string.cornflakes_title), withId(R.id.cerealTitle)))
       .check(matches(isDisplayed()))
-
-    pressBack()
-    onView(withText("Welcome to the Cereal Museum!")).check(matches(isDisplayed()))
   }
 
   @Test
   fun orderTickets() {
     onView(withId(R.id.orderTickets)).perform(click())
+    onView(withId(R.id.orderTicketsStart)).perform(click())
 
     onView(withId(R.id.adultTicketCount)).perform(replaceText("2"))
     onView(withId(R.id.childTicketCount)).perform(replaceText("3"))
@@ -84,23 +86,26 @@ class NavigationTest {
     onView(withId(R.id.order)).perform(click())
 
     onView(withId(R.id.done)).perform(click())
-    onView(withText("Welcome to the Cereal Museum!")).check(matches(isDisplayed()))
+    onView(withTagValue(equalTo("MainMenu"))).check(matches(isDisplayed()))
   }
 
   @Test
   fun suggestExhibit() {
     onView(withId(R.id.suggestExhibit)).perform(click())
+    onView(withId(R.id.suggestExhibitStart)).perform(click())
     onView(withText("Download the latest version")).check(matches(isDisplayed()))
     pressBack()
-    onView(withText("Welcome to the Cereal Museum!")).check(matches(isDisplayed()))
+    onView(withTagValue(equalTo("MainMenu"))).check(matches(isDisplayed()))
   }
 
   @Test
   fun suggestExhibit_nonIdempotentNavigation() {
     onView(withId(R.id.suggestExhibit)).perform(click())
+    onView(withId(R.id.suggestExhibitStart)).perform(click())
     onView(withText("Download the latest version")).check(matches(isDisplayed()))
     pressBack()
     onView(withId(R.id.suggestExhibit)).perform(click())
+    onView(withId(R.id.suggestExhibitStart)).perform(click())
     onView(withText("Already submitted")).check(matches(isDisplayed()))
   }
 }

@@ -1,45 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/normalSpacing"
+    android:tag="MainMenu"
     >
 
-  <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginBottom="@dimen/normalSpacing"
-      android:text="Welcome to the Cereal Museum!"
-      android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+  <com.wealthfront.magellan.ScreenContainer
+      android:id="@+id/navigableContainer"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
       />
 
-  <Button
-      android:id="@+id/browseCollection"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Browse Collection"
+  <View
+      android:id="@+id/bottomBarDivider"
+      android:layout_width="match_parent"
+      android:layout_height="5dp"
+      android:background="@color/black"
       />
 
-  <Button
-      android:id="@+id/designCereal"
-      android:layout_width="wrap_content"
+  <com.google.android.material.bottomnavigation.BottomNavigationView
+      android:id="@+id/bottomBarNavigation"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="Build Your Own"
-      />
-
-  <Button
-      android:id="@+id/orderTickets"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Order Tickets"
-      />
-
-  <Button
-      android:id="@+id/suggestExhibit"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Suggest Exhibit"
+      android:layout_gravity="left"
+      app:itemIconSize="28dp"
+      app:labelVisibilityMode="unlabeled"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:menu="@menu/bottom_menu"
       />
 </LinearLayout>
