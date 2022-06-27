@@ -44,7 +44,6 @@ class DesignCerealJourney(private val cerealComplete: () -> Unit) : SimpleJourne
   }
 
   override fun onShow(context: Context, binding: MagellanSimpleJourneyBinding) {
-    super.onShow(context, binding)
     toolbarHelper.hideToolbar()
   }
 

@@ -25,7 +25,6 @@ class OrderTicketsJourney(
   }
 
   override fun onShow(context: Context, binding: MagellanSimpleJourneyBinding) {
-    super.onShow(context, binding)
     toolbarHelper.setTitle("Order tickets")
     toolbarHelper.showToolbar()
   }
