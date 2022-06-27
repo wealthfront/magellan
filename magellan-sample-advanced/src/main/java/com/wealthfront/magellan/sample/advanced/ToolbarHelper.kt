@@ -21,6 +21,7 @@ class ToolbarHelper : LifecycleEventObserver {
       actionBar!!.setDisplayHomeAsUpEnabled(true)
       actionBar!!.setDisplayShowTitleEnabled(true)
     } else if (event == Lifecycle.Event.ON_DESTROY) {
+      toolbar = null
       actionBar = null
     }
   }

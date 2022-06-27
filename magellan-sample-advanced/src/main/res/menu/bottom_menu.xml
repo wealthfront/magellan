@@ -1,0 +1,27 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <item
+      android:id="@+id/browseCollection"
+      android:icon="@drawable/ic_home"
+      android:title="Browse Collection"
+      />
+
+  <item
+      android:id="@+id/designCereal"
+      android:icon="@drawable/ic_design"
+      android:title="Build Your Own"
+      />
+
+  <item
+      android:id="@+id/orderTickets"
+      android:icon="@drawable/ic_order"
+      android:title="Order Tickets"
+      />
+
+  <item
+      android:id="@+id/suggestExhibit"
+      android:icon="@drawable/ic_suggest"
+      android:title="Suggest Exhibit"
+      />
+</menu>

@@ -7,10 +7,10 @@
     >
 
   <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="match_parent"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
       android:layout_marginTop="@dimen/giantSpacing"
-      android:text="Order complete. See you soon!"
+      android:text="Visit the museum! Purchase tickets here"
       android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
@@ -18,12 +18,14 @@
       />
 
   <Button
-      android:id="@+id/done"
+      android:id="@+id/orderTicketsStart"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="Go back"
+      android:layout_marginBottom="@dimen/normalSpacing"
+      android:text="Order tickets"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
       />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
