@@ -2,8 +2,8 @@ package com.wealthfront.magellan.sample.advanced;
 
 import com.wealthfront.magellan.sample.advanced.cerealcollection.BrowseCollectionJourney;
 import com.wealthfront.magellan.sample.advanced.designcereal.DesignCerealJourney;
+import com.wealthfront.magellan.sample.advanced.ordertickets.OrderTicketsBasketStep;
 import com.wealthfront.magellan.sample.advanced.ordertickets.OrderTicketsConfirmationStep;
-import com.wealthfront.magellan.sample.advanced.ordertickets.OrderTicketsJourney;
 import com.wealthfront.magellan.sample.advanced.ordertickets.OrderTicketsSuccessStep;
 import com.wealthfront.magellan.sample.advanced.paymentinfo.PaymentInfoJourney;
 import com.wealthfront.magellan.sample.advanced.suggestexhibit.SuggestConfirmationStep;
@@ -21,7 +21,7 @@ public interface AppComponent {
 
   void inject(MainMenuStep mainMenuStep);
 
-  void inject(OrderTicketsJourney orderTicketsJourney);
+  void inject(OrderTicketsBasketStep orderTicketsBasketStep);
 
   void inject(OrderTicketsSuccessStep orderTicketsSuccessStep);
 

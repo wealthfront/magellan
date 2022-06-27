@@ -3,30 +3,25 @@ package com.wealthfront.magellan.sample.advanced.ordertickets
 import android.content.Context
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.core.SimpleJourney
-import com.wealthfront.magellan.databinding.MagellanSimpleJourneyBinding
 import com.wealthfront.magellan.navigation.NavigationEvent
-import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
-import com.wealthfront.magellan.sample.advanced.ToolbarHelper
 import com.wealthfront.magellan.sample.advanced.paymentinfo.PaymentInfoJourney
 import com.wealthfront.magellan.sample.advanced.paymentinfo.PaymentMethod
 import com.wealthfront.magellan.transitions.DefaultTransition
-import javax.inject.Inject
 
-class OrderTicketsJourney(
-  private val onOrderComplete: () -> Unit
-) : SimpleJourney(), BasketStepListener {
+class OrderTicketsJourney : SimpleJourney(), BasketStepListener {
 
-  @Inject lateinit var toolbarHelper: ToolbarHelper
-  private var ticketOrder = TicketOrder(0, 0)
+  private lateinit var ticketOrder: TicketOrder
 
-  override fun onCreate(context: Context) {
-    app(context).injector().inject(this)
-    navigator.goTo(OrderTicketsBasketStep(this, ticketOrder))
-  }
+  override fun onCreate(context: Context) = startOrder()
 
-  override fun onShow(context: Context, binding: MagellanSimpleJourneyBinding) {
-    toolbarHelper.setTitle("Order tickets")
-    toolbarHelper.showToolbar()
+  private fun startOrder() {
+    ticketOrder = TicketOrder(0, 0)
+    navigator.navigate(Direction.FORWARD) { backstack ->
+      backstack.clear()
+      val next = NavigationEvent(OrderTicketsBasketStep(this, ticketOrder), DefaultTransition())
+      backstack.push(next)
+      next.magellanTransition
+    }
   }
 
   override fun onBasketFilled(adultTicketCount: Int, childTicketCount: Int) {
@@ -35,7 +30,7 @@ class OrderTicketsJourney(
   }
 
   private fun onTicketsOrdered() {
-    val successStep = OrderTicketsSuccessStep(onOrderComplete)
+    val successStep = OrderTicketsSuccessStep(this::startOrder)
     navigator.navigate(Direction.FORWARD) { backstack ->
       backstack.clear()
       val next = NavigationEvent(successStep, DefaultTransition())

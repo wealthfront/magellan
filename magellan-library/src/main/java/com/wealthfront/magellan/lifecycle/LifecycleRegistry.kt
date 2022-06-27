@@ -112,7 +112,7 @@ public class LifecycleRegistry : LifecycleAware, LifecycleOwner {
   private fun onAllActiveListenersUntilTrue(action: (LifecycleAware) -> Boolean): Boolean =
     listenersToMaxStates
       .asSequence()
-      .filter { it.value >= NO_LIMIT }
+      .filter { it.value >= SHOWN }
       .map { it.key }
       .map(action)
       .any { it }
