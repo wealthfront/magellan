@@ -18,7 +18,6 @@ class RootJourney : SimpleJourney() {
   private var alreadyRequestedExhibit = false
 
   override fun onCreate(context: Context) {
-    super.onCreate(context)
     val mainStep = MainMenuStep(
       this::goToDesignCereal,
       this::goToOrderTickets,

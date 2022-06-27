@@ -74,6 +74,18 @@ class MainMenuStep(
     binding.bottomBarNavigation.selectedItemId = selectedTab
   }
 
+  override fun onBackPressed(): Boolean {
+    if (navigator.backPressed()) {
+      return true
+    }
+
+    if (selectedTab == R.id.browseCollection) {
+      return super.onBackPressed()
+    }
+    viewBinding!!.bottomBarNavigation.selectedItemId = R.id.browseCollection
+    return true
+  }
+
   private fun showBrowseCollection() {
     navigator.replace(browseCollectionJourney, CrossfadeTransition())
   }

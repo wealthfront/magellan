@@ -61,8 +61,12 @@ class NavigationTest {
 
     onView(allOf(withText(R.string.monster_cereals_title), withId(R.id.cerealTitle)))
       .check(matches(isDisplayed()))
-    onView(allOf(withText(R.string.cornflakes_title), isAssignableFrom(AppCompatButton::class.java)))
-      .perform(click())
+    onView(
+      allOf(
+        withText(R.string.cornflakes_title),
+        isAssignableFrom(AppCompatButton::class.java)
+      )
+    ).perform(click())
     onView(allOf(withText(R.string.cornflakes_title), withId(R.id.cerealTitle)))
       .check(matches(isDisplayed()))
   }
@@ -107,5 +111,18 @@ class NavigationTest {
     onView(withId(R.id.suggestExhibit)).perform(click())
     onView(withId(R.id.suggestExhibitStart)).perform(click())
     onView(withText("Already submitted")).check(matches(isDisplayed()))
+  }
+
+  @Test
+  fun backButton() {
+    onView(withTagValue(equalTo("BrowseCollection"))).check(matches(isDisplayed()))
+    onView(withId(R.id.orderTickets)).perform(click())
+    onView(withTagValue(equalTo("OrderTicketsStart"))).check(matches(isDisplayed()))
+    onView(withId(R.id.orderTicketsStart)).perform(click())
+    onView(withTagValue(equalTo("OrderTicketsBasket"))).check(matches(isDisplayed()))
+    pressBack()
+    onView(withTagValue(equalTo("OrderTicketsStart"))).check(matches(isDisplayed()))
+    pressBack()
+    onView(withTagValue(equalTo("BrowseCollection"))).check(matches(isDisplayed()))
   }
 }

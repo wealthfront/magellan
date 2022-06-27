@@ -24,6 +24,7 @@ class PaymentInfoJourney(
   }
 
   override fun onShow(context: Context, binding: MagellanSimpleJourneyBinding) {
+    super.onShow(context, binding)
     toolbarHelper.setTitle("Payment method")
     toolbarHelper.showToolbar()
   }

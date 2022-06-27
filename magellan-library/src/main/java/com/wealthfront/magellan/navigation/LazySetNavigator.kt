@@ -129,5 +129,7 @@ public open class LazySetNavigator(
     }
   }
 
-  override fun onBackPressed(): Boolean = currentNavigable?.backPressed() ?: false
+  override fun onBackPressed(): Boolean {
+    return currentNavigable?.backPressed() ?: false
+  }
 }
