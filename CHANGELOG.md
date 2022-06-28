@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.10-beta
+- Introduce `LazySetNavigator` for driving the lifecycle of previously `NO_LIMIT`-ed navigables with a floor of `SHOWN`, rather than `CREATED` 
+
 ## 2.1.9-beta
 - Add `whenTransitionFinished(TransitionFinishedListener)` method to `Step`, supporting an API available for `Screen`
 - Introduce `LegacyJourney` for easier migration from 1.x. Similar to `LegacyExpedition`, this construct allows nesting
