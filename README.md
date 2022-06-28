@@ -22,7 +22,7 @@ Add the dependencies you need in your `build.gradle`:
 ### Core library
 
 ```groovy
-def magellanVersion = '2.1.9-beta'
+def magellanVersion = '2.1.10-beta'
 implementation "com.wealthfront:magellan-library:${magellanVersion}"
 ```
 
