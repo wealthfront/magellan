@@ -6,22 +6,18 @@ import com.wealthfront.magellan.core.SimpleJourney
 import com.wealthfront.magellan.init.getDefaultTransition
 import com.wealthfront.magellan.navigation.NavigationEvent
 import com.wealthfront.magellan.sample.advanced.designcereal.DesignCerealJourney
-import com.wealthfront.magellan.sample.advanced.ordertickets.OrderTicketsJourney
 import com.wealthfront.magellan.sample.advanced.suggestexhibit.SuggestConfirmationStep
 import com.wealthfront.magellan.sample.advanced.suggestexhibit.SuggestExhibitJourney
 
 class RootJourney : SimpleJourney() {
 
   private val designCerealJourney = DesignCerealJourney(this::designCerealComplete)
-  private val orderTicketsJourney = OrderTicketsJourney(this::orderTicketsComplete)
   private val suggestExhibitJourney = SuggestExhibitJourney(this::requestExhibitComplete)
   private var alreadyRequestedExhibit = false
 
   override fun onCreate(context: Context) {
-    super.onCreate(context)
     val mainStep = MainMenuStep(
       this::goToDesignCereal,
-      this::goToOrderTickets,
       this::goToSuggestExhibit
     )
     navigator.goTo(mainStep)
@@ -29,10 +25,6 @@ class RootJourney : SimpleJourney() {
 
   private fun goToDesignCereal() {
     navigator.goTo(designCerealJourney)
-  }
-
-  private fun goToOrderTickets() {
-    navigator.goTo(orderTicketsJourney)
   }
 
   private fun goToSuggestExhibit() {
@@ -58,10 +50,6 @@ class RootJourney : SimpleJourney() {
   }
 
   private fun designCerealComplete() {
-    navigator.goBack()
-  }
-
-  private fun orderTicketsComplete() {
     navigator.goBack()
   }
 

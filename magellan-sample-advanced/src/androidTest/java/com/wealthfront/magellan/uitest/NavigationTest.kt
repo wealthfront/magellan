@@ -61,8 +61,12 @@ class NavigationTest {
 
     onView(allOf(withText(R.string.monster_cereals_title), withId(R.id.cerealTitle)))
       .check(matches(isDisplayed()))
-    onView(allOf(withText(R.string.cornflakes_title), isAssignableFrom(AppCompatButton::class.java)))
-      .perform(click())
+    onView(
+      allOf(
+        withText(R.string.cornflakes_title),
+        isAssignableFrom(AppCompatButton::class.java)
+      )
+    ).perform(click())
     onView(allOf(withText(R.string.cornflakes_title), withId(R.id.cerealTitle)))
       .check(matches(isDisplayed()))
   }
@@ -70,7 +74,6 @@ class NavigationTest {
   @Test
   fun orderTickets() {
     onView(withId(R.id.orderTickets)).perform(click())
-    onView(withId(R.id.orderTicketsStart)).perform(click())
 
     onView(withId(R.id.adultTicketCount)).perform(replaceText("2"))
     onView(withId(R.id.childTicketCount)).perform(replaceText("3"))
@@ -107,5 +110,24 @@ class NavigationTest {
     onView(withId(R.id.suggestExhibit)).perform(click())
     onView(withId(R.id.suggestExhibitStart)).perform(click())
     onView(withText("Already submitted")).check(matches(isDisplayed()))
+  }
+
+  @Test
+  fun backButton() {
+    onView(withTagValue(equalTo("BrowseCollection"))).check(matches(isDisplayed()))
+    onView(withId(R.id.orderTickets)).perform(click())
+
+    onView(withTagValue(equalTo("OrderTicketsBasket"))).check(matches(isDisplayed()))
+    onView(withId(R.id.adultTicketCount)).perform(replaceText("2"))
+    onView(withId(R.id.childTicketCount)).perform(replaceText("3"))
+    onView(withText("Your total: $32.00")).check(matches(isDisplayed()))
+    onView(withId(R.id.next)).perform(click())
+    onView(withTagValue(equalTo("PaymentMethodSelection"))).check(matches(isDisplayed()))
+
+    pressBack()
+    onView(withTagValue(equalTo("OrderTicketsBasket"))).check(matches(isDisplayed()))
+
+    pressBack()
+    onView(withTagValue(equalTo("BrowseCollection"))).check(matches(isDisplayed()))
   }
 }

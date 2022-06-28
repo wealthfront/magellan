@@ -5,8 +5,11 @@ import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.sample.advanced.R
+import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
+import com.wealthfront.magellan.sample.advanced.ToolbarHelper
 import com.wealthfront.magellan.sample.advanced.databinding.OrderTicketsBasketBinding
 import java.math.BigDecimal
+import javax.inject.Inject
 
 val adultTicketCost: BigDecimal = BigDecimal("8.50")
 val childTicketCost: BigDecimal = BigDecimal("5.00")
@@ -21,7 +24,15 @@ class OrderTicketsBasketStep(
   private val ticketOrder: TicketOrder
 ) : Step<OrderTicketsBasketBinding>(OrderTicketsBasketBinding::inflate) {
 
+  @Inject lateinit var toolbarHelper: ToolbarHelper
+
+  override fun onCreate(context: Context) {
+    app(context).injector().inject(this)
+  }
+
   override fun onShow(context: Context, binding: OrderTicketsBasketBinding) {
+    toolbarHelper.hideToolbar()
+
     binding.adultTicketPriceLabel.text =
       context.getString(R.string.order_tickets_price_label, adultTicketCost.toPlainString())
     binding.childTicketPriceLabel.text =

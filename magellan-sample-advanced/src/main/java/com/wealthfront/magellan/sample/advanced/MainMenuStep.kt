@@ -8,14 +8,13 @@ import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.advanced.cerealcollection.BrowseCollectionJourney
 import com.wealthfront.magellan.sample.advanced.databinding.MainMenuBinding
 import com.wealthfront.magellan.sample.advanced.designcereal.DesignCerealStartStep
-import com.wealthfront.magellan.sample.advanced.ordertickets.OrderTicketsStartStep
+import com.wealthfront.magellan.sample.advanced.ordertickets.OrderTicketsJourney
 import com.wealthfront.magellan.sample.advanced.suggestexhibit.SuggestExhibitStartStep
 import com.wealthfront.magellan.transitions.CrossfadeTransition
 import javax.inject.Inject
 
 class MainMenuStep(
   goToDesignCereal: () -> Unit,
-  goToOrderTickets: () -> Unit,
   goToSuggestExhibit: () -> Unit
 ) : Step<MainMenuBinding>(MainMenuBinding::inflate) {
 
@@ -23,7 +22,7 @@ class MainMenuStep(
 
   private val browseCollectionJourney = BrowseCollectionJourney()
   private val suggestExhibitStart = SuggestExhibitStartStep(goToSuggestExhibit)
-  private val orderTicketsStart = OrderTicketsStartStep(goToOrderTickets)
+  private val orderTickets = OrderTicketsJourney()
   private val designCerealStart = DesignCerealStartStep(goToDesignCereal)
 
   private var selectedTab = R.id.browseCollection
@@ -37,7 +36,7 @@ class MainMenuStep(
       setOf(
         browseCollectionJourney,
         designCerealStart,
-        orderTicketsStart,
+        orderTickets,
         suggestExhibitStart
       )
     )
@@ -74,6 +73,14 @@ class MainMenuStep(
     binding.bottomBarNavigation.selectedItemId = selectedTab
   }
 
+  override fun onBackPressed(): Boolean {
+    if (selectedTab == R.id.browseCollection) {
+      return super.onBackPressed()
+    }
+    viewBinding!!.bottomBarNavigation.selectedItemId = R.id.browseCollection
+    return true
+  }
+
   private fun showBrowseCollection() {
     navigator.replace(browseCollectionJourney, CrossfadeTransition())
   }
@@ -83,7 +90,7 @@ class MainMenuStep(
   }
 
   private fun showOrderTickets() {
-    navigator.replace(orderTicketsStart, CrossfadeTransition())
+    navigator.replace(orderTickets, CrossfadeTransition())
   }
 
   private fun showRequestExhibit() {
