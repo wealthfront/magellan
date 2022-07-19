@@ -13,7 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 
 public abstract class LegacyStep<V : View> : LifecycleAwareComponent(), Navigable {
 
-  protected val dialogComponent: DialogComponent by attachFieldToLifecycle(DialogComponent())
+  public val dialogComponent: DialogComponent by attachFieldToLifecycle(DialogComponent())
 
   override var view: V? by createAndAttachFieldToLifecycleWhenShown { context ->
     createView(context)
