@@ -1,5 +1,6 @@
 import Versions.androidXCoreVersion
 import Versions.archVersion
+import Versions.blendVersion
 import Versions.butterKnifeVersion
 import Versions.constraintLayoutVersion
 import Versions.coroutinesVersion
@@ -46,6 +47,8 @@ object Dependencies {
   const val androidXCore = "androidx.core:core-ktx:$androidXCoreVersion"
 
   const val material = "com.google.android.material:material:$materialVersion"
+  const val blend = "com.wealthfront:blend-library:$blendVersion"
+  const val blendTest = "com.wealthfront:blend-test:$blendVersion"
   const val junit = "junit:junit:$junitVersion"
   const val truth = "com.google.truth:truth:$truthVersion"
   const val mockito = "org.mockito:mockito-core:$mockitoVersion"
