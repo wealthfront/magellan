@@ -9,7 +9,6 @@ import com.wealthfront.magellan.init.getDefaultTransition
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.lifecycle.LifecycleState
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
-import com.wealthfront.magellan.navigation.CurrentNavigableProvider
 import com.wealthfront.magellan.navigation.LinearNavigator
 import com.wealthfront.magellan.navigation.NavigableCompat
 import com.wealthfront.magellan.navigation.NavigationDelegate
@@ -41,15 +40,13 @@ import java.util.Deque
 public class Navigator(
   container: () -> ScreenContainer,
   navigationOverrides: NavigationOverrideProvider? = Magellan.getNavigationOverrideProvider(),
-  templateApplier: ViewTemplateApplier?
+  templateApplier: ViewTemplateApplier? = null
 ) : Navigator, LifecycleAwareComponent() {
 
   protected var delegate: NavigationDelegate by attachFieldToLifecycle(NavigationDelegate(container, navigationOverrides, templateApplier))
 
   override val backStack: List<NavigationEvent>
     get() = delegate.backStack.toList()
-
-  internal var currentNavigableProvider: CurrentNavigableProvider? = null
 
   init {
     setUpCurrentNavigableSetup()
@@ -111,7 +108,7 @@ public class Navigator(
   }
 
   public fun hide(navigable: NavigableCompat) {
-    if (currentNavigableProvider!!.isCurrentNavigable(navigable)) {
+    if (isCurrentScreen(navigable)) {
       goBack()
     }
   }
@@ -130,16 +127,18 @@ public class Navigator(
 
   public override fun goBack(): Boolean = delegate.goBack()
 
-  public fun isCurrentScreen(other: NavigableCompat): Boolean = currentNavigableProvider!!.isCurrentNavigable(other)
+  public fun isCurrentScreen(other: NavigableCompat): Boolean {
+    return currentScreen() == other
+  }
 
-  public fun currentScreen(): NavigableCompat? = currentNavigableProvider!!.navigable
+  public fun currentScreen(): NavigableCompat? = backStack.firstOrNull()?.navigable?.currentNavigable
 
   public fun isCurrentScreenOfType(other: Class<*>): Boolean {
-    return currentNavigableProvider!!.navigable?.javaClass?.isAssignableFrom(other) ?: false
+    return currentScreen()?.javaClass?.isAssignableFrom(other) ?: false
   }
 
   public fun isCurrentScreenOfAnnotationType(other: Class<out Annotation>): Boolean {
-    return currentNavigableProvider!!.navigable?.javaClass?.isAnnotationPresent(other) ?: false
+    return currentScreen()?.javaClass?.isAnnotationPresent(other) ?: false
   }
 
   public fun rewriteHistory(activity: Activity?, historyRewriter: HistoryRewriter) {

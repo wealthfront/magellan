@@ -14,6 +14,7 @@ import com.wealthfront.magellan.view.DialogComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import kotlin.Unit;
 import kotlinx.coroutines.CoroutineScope;
@@ -175,6 +176,12 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   @Override
   protected boolean onBackPressed() {
     return handleBack();
+  }
+
+  @NonNull
+  @Override
+  public NavigableCompat getCurrentNavigable() {
+    return this;
   }
 
   /**

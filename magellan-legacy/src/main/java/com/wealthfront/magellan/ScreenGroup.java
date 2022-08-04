@@ -4,11 +4,14 @@ import android.content.Context;
 import android.view.ViewGroup;
 
 import com.wealthfront.magellan.lifecycle.LifecycleAware;
+import com.wealthfront.magellan.navigation.NavigableCompat;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 import static com.wealthfront.magellan.lifecycle.LifecycleState.Destroyed;
 
@@ -38,6 +41,12 @@ public abstract class ScreenGroup<S extends Screen, V extends ViewGroup & Screen
   @NotNull
   public final List<S> getScreens() {
     return new ArrayList<>(screens);
+  }
+
+  @NonNull
+  @Override
+  public NavigableCompat getCurrentNavigable() {
+    return this;
   }
 
   private void attachToLifecycleWithNavigator(@NotNull S screen) {

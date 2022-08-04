@@ -9,6 +9,7 @@ import com.wealthfront.magellan.init.Magellan
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.navigation.DefaultLinearNavigator
 import com.wealthfront.magellan.navigation.LinearNavigator
+import com.wealthfront.magellan.navigation.NavigableCompat
 import com.wealthfront.magellan.navigation.NavigationOverrideProvider
 import com.wealthfront.magellan.navigation.ViewTemplateApplier
 
@@ -23,4 +24,7 @@ public abstract class Journey<V : ViewBinding>(
   public open var navigator: LinearNavigator by attachFieldToLifecycle(
     DefaultLinearNavigator({ viewBinding!!.getContainer() }, navigationOverrideProvider, templateApplier)
   )
+
+  override val currentNavigable: NavigableCompat
+    get() = navigator.backStack.firstOrNull()?.navigable?.currentNavigable ?: super.currentNavigable
 }
