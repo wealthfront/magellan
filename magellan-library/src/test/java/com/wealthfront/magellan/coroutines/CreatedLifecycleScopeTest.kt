@@ -9,12 +9,10 @@ import com.wealthfront.magellan.lifecycle.LifecycleState.Resumed
 import com.wealthfront.magellan.lifecycle.LifecycleState.Shown
 import com.wealthfront.magellan.lifecycle.transition
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
@@ -22,7 +20,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
-@OptIn(ExperimentalCoroutinesApi::class, InternalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class)
 internal class CreatedLifecycleScopeTest {
 
@@ -41,86 +38,77 @@ internal class CreatedLifecycleScopeTest {
   }
 
   @Test
-  fun cancelBeforeCreated() {
-    runBlockingTest {
+  fun cancelBeforeCreated() = runTest {
+    val async = createdScope.async { delay(5000) }
+    assertThat(async.isCancelled).isTrue()
+    assertThat(async.getCancellationException()).hasMessageThat().contains("Not created yet")
 
-      val async = createdScope.async { delay(5000) }
-      assertThat(async.isCancelled).isTrue()
-      assertThat(async.getCancellationException()).hasMessageThat().contains("Not created yet")
+    createdScope.transition(Destroyed, Resumed(context))
 
-      createdScope.transition(Destroyed, Resumed(context))
+    assertThat(async.isCancelled).isTrue()
 
-      assertThat(async.isCancelled).isTrue()
+    createdScope.transition(Resumed(context), Created(context))
 
-      createdScope.transition(Resumed(context), Created(context))
-
-      assertThat(async.isCancelled).isTrue()
-      assertThat(async.getCancellationException()).hasMessageThat().contains("Not created yet")
-    }
+    assertThat(async.isCancelled).isTrue()
+    assertThat(async.getCancellationException()).hasMessageThat().contains("Not created yet")
   }
 
   @Test
-  fun cancelAfterCreated() {
-    runBlockingTest {
-      createdScope.transition(Destroyed, Created(context))
+  fun cancelAfterCreated() = runTest {
+    createdScope.transition(Destroyed, Created(context))
 
-      val async = createdScope.async { delay(5000) }
-      assertThat(async.isCancelled).isFalse()
+    val async = createdScope.async { delay(5000) }
+    assertThat(async.isCancelled).isFalse()
 
-      createdScope.transition(Created(context), Resumed(context))
+    createdScope.transition(Created(context), Resumed(context))
 
-      assertThat(async.isCancelled).isFalse()
+    assertThat(async.isCancelled).isFalse()
 
-      createdScope.transition(Resumed(context), Created(context))
+    createdScope.transition(Resumed(context), Created(context))
 
-      assertThat(async.isCancelled).isFalse()
+    assertThat(async.isCancelled).isFalse()
 
-      createdScope.transition(Created(context), Destroyed)
+    createdScope.transition(Created(context), Destroyed)
 
-      assertThat(async.isCancelled).isTrue()
-      assertThat(async.getCancellationException()).hasMessageThat().contains("Destroyed")
-    }
+    assertThat(async.isCancelled).isTrue()
+    assertThat(async.getCancellationException()).hasMessageThat().contains("Destroyed")
   }
 
   @Test
-  fun cancelAfterShown() {
-    runBlockingTest {
-      createdScope.transition(Destroyed, Shown(context))
+  fun cancelAfterShown() = runTest {
+    createdScope.transition(Destroyed, Shown(context))
 
-      val async = createdScope.async { delay(5000) }
-      assertThat(async.isCancelled).isFalse()
+    val async = createdScope.async { delay(5000) }
+    assertThat(async.isCancelled).isFalse()
 
-      createdScope.transition(Shown(context), Resumed(context))
+    createdScope.transition(Shown(context), Resumed(context))
 
-      assertThat(async.isCancelled).isFalse()
+    assertThat(async.isCancelled).isFalse()
 
-      createdScope.transition(Resumed(context), Created(context))
+    createdScope.transition(Resumed(context), Created(context))
 
-      assertThat(async.isCancelled).isFalse()
+    assertThat(async.isCancelled).isFalse()
 
-      createdScope.transition(Created(context), Destroyed)
+    createdScope.transition(Created(context), Destroyed)
 
-      assertThat(async.isCancelled).isTrue()
-      assertThat(async.getCancellationException()).hasMessageThat().contains("Destroyed")
-    }
+    assertThat(async.isCancelled).isTrue()
+    assertThat(async.getCancellationException()).hasMessageThat().contains("Destroyed")
   }
 
   @Test
-  fun cancelAfterResumed() {
-    runBlockingTest {
-      createdScope.transition(Destroyed, Resumed(context))
+  fun cancelAfterResumed() = runTest {
+    createdScope.transition(Destroyed, Resumed(context))
 
-      val async = createdScope.async { delay(5000) }
-      assertThat(async.isCancelled).isFalse()
+    val async = createdScope.async { delay(5000) }
+    assertThat(async.isCancelled).isFalse()
 
-      createdScope.transition(Resumed(context), Created(context))
+    createdScope.transition(Resumed(context), Created(context))
 
-      assertThat(async.isCancelled).isFalse()
+    assertThat(async.isCancelled).isFalse()
 
-      createdScope.transition(Created(context), Destroyed)
+    createdScope.transition(Created(context), Destroyed)
 
-      assertThat(async.isCancelled).isTrue()
-      assertThat(async.getCancellationException()).hasMessageThat().contains("Destroyed")
-    }
+    assertThat(async.isCancelled).isTrue()
+    assertThat(async.getCancellationException()).hasMessageThat().contains("Destroyed")
   }
 }

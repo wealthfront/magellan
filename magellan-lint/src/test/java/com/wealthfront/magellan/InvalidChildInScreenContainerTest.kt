@@ -27,7 +27,7 @@ class InvalidChildInScreenContainerTest {
                    />
              
              </com.wealthfront.magellan.ScreenContainer>
-             """
+          """
         ).indented()
       )
       .issues(INVALID_CHILD_IN_SCREEN_CONTAINER)
@@ -54,7 +54,8 @@ class InvalidChildInScreenContainerTest {
                 android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                />"""
+                />
+          """
         ).indented()
       )
       .issues(INVALID_CHILD_IN_SCREEN_CONTAINER)

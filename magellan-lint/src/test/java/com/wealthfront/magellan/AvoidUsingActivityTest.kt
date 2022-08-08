@@ -17,9 +17,7 @@ class AvoidUsingActivityTest {
       val activity: Activity? = null
       
     }
-
-
-  """
+    """
   ).indented()
 
   private val ACTIVITY = kt(
@@ -30,7 +28,7 @@ class AvoidUsingActivityTest {
     
       fun setTitle() {}
     }
-  """
+    """
   ).indented()
 
   private val ACTIVITY_FILES = arrayOf(NAVIGABLE_COMPAT, ACTIVITY)
@@ -52,7 +50,7 @@ class AvoidUsingActivityTest {
               activity.setTitle()
             }
           }
-        """
+          """
         ).indented()
       )
       .issues(AVOID_USING_ACTIVITY)
@@ -82,7 +80,7 @@ class AvoidUsingActivityTest {
             fun someFunc() {
             }
           }
-        """
+          """
         ).indented()
       )
       .issues(AVOID_USING_ACTIVITY)
