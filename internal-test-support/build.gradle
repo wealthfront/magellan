@@ -31,7 +31,7 @@ android {
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
   if (!name.contains("UnitTest")) {
-    kotlinOptions.freeCompilerArgs = ['-Xjvm-default=compatibility', '-Xexplicit-api=strict', '-Xopt-in=kotlin.RequiresOptIn']
+    kotlinOptions.freeCompilerArgs = ['-Xjvm-default=compatibility', '-Xexplicit-api=strict', '-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi']
   }
   kotlinOptions.allWarningsAsErrors = true
   kotlinOptions.jvmTarget = "1.8"
