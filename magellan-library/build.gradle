@@ -44,7 +44,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
   if (!name.contains("UnitTest")) {
     kotlinOptions.freeCompilerArgs = ['-Xexplicit-api=strict', '-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi']
   } else {
-    kotlinOptions.freeCompilerArgs = ['-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi']
+    kotlinOptions.freeCompilerArgs = ['-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi,kotlinx.coroutines.InternalCoroutinesApi']
   }
   kotlinOptions.allWarningsAsErrors = true
   kotlinOptions.jvmTarget = "1.8"
