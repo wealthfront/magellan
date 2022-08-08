@@ -3,9 +3,9 @@ object Versions {
   const val minSdkVersion = 18
   const val targetSdkVersion = 30
 
-  const val kotlinVersion = "1.5.20"
-  const val kotlinterVersion = "3.6.0"
-  const val detektVersion = "1.18.1"
+  const val kotlinVersion = "1.6.20"
+  const val kotlinterVersion = "3.9.0"
+  const val detektVersion = "1.19.0"
   const val supportLibVersion = "1.3.1"
   const val constraintLayoutVersion = "2.1.0"
   const val robolectricVersion = "4.4"
