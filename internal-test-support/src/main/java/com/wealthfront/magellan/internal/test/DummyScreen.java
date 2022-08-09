@@ -4,8 +4,11 @@ import android.content.Context;
 
 import com.wealthfront.magellan.BaseScreenView;
 import com.wealthfront.magellan.Screen;
+import com.wealthfront.magellan.navigation.NavigableCompat;
 
 import org.jetbrains.annotations.NotNull;
+
+import androidx.annotation.NonNull;
 
 public class DummyScreen extends Screen<BaseScreenView<DummyScreen>> {
 
@@ -20,4 +23,9 @@ public class DummyScreen extends Screen<BaseScreenView<DummyScreen>> {
     return view;
   }
 
+  @NonNull
+  @Override
+  public NavigableCompat getCurrentNavigable() {
+    return this;
+  }
 }

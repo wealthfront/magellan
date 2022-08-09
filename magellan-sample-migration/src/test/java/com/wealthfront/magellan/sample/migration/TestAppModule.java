@@ -1,6 +1,5 @@
 package com.wealthfront.magellan.sample.migration;
 
-import com.wealthfront.magellan.navigation.CurrentNavigableProvider;
 import com.wealthfront.magellan.navigation.NavigationTraverser;
 import com.wealthfront.magellan.sample.migration.api.DogApi;
 
@@ -24,12 +23,6 @@ final class TestAppModule {
   @Singleton
   NavigationTraverser provideNavigationTraverser(Expedition root) {
     return new NavigationTraverser(root);
-  }
-
-  @Provides
-  @Singleton
-  CurrentNavigableProvider provideCurrentNavigableProvider() {
-    return new CurrentNavigableProvider();
   }
 
   @Provides
