@@ -3,7 +3,6 @@ package com.wealthfront.magellan.sample.migration.toolbar
 import android.content.Context
 import com.wealthfront.magellan.Navigator
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
-import com.wealthfront.magellan.navigation.NavigableCompat
 import com.wealthfront.magellan.navigation.NavigationListener
 import com.wealthfront.magellan.navigation.NavigationPropagator
 
@@ -31,7 +30,7 @@ object ToolbarHelper : LifecycleAwareComponent(), NavigationListener {
     this.toolbarView = null
   }
 
-  override fun onNavigatedFrom(navigable: NavigableCompat) {
+  override fun beforeNavigation() {
     toolbarView?.reset()
   }
 

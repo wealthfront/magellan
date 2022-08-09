@@ -24,6 +24,7 @@ object Versions {
   const val rxAndroid2Version = "2.1.1"
   const val jacksonVersion = "2.7.2"
   const val okhttpVersion = "4.4.0"
+  const val jodaTimeVersion = "2.10.9.1"
   const val javaInjectVersion = "1"
   const val materialVersion = "1.4.0"
   const val coroutinesVersion = "1.6.4"

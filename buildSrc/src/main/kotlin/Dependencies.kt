@@ -9,6 +9,7 @@ import Versions.espressoVersion
 import Versions.glideVersion
 import Versions.jacksonVersion
 import Versions.javaInjectVersion
+import Versions.jodaTimeVersion
 import Versions.junitTestExtVersion
 import Versions.junitVersion
 import Versions.kotlinVersion
@@ -71,6 +72,7 @@ object Dependencies {
   const val rxAndroid2 = "io.reactivex.rxjava2:rxandroid:$rxAndroid2Version"
   const val jackson = "com.squareup.retrofit2:converter-jackson:$jacksonVersion"
   const val okhttp = "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+  const val jodaTime = "net.danlew:android.joda:$jodaTimeVersion"
 
   const val testCore = "androidx.test:core:$testCoreVersion"
   const val testCoreKtx = "androidx.test:core-ktx:$testCoreVersion"

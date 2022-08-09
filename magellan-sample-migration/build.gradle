@@ -68,6 +68,7 @@ dependencies {
   implementation Dependencies.okhttp
   implementation Dependencies.coroutines
   implementation Dependencies.coroutinesAndroid
+  implementation Dependencies.jodaTime
 
   kaptTest Dependencies.daggerCompiler
   testImplementation Dependencies.junit
