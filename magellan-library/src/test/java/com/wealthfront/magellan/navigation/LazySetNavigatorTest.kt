@@ -33,25 +33,25 @@ class LazySetNavigatorTest {
   @Before
   fun setUp() {
     init(this)
-    NavigationPropagator.addNavigableListener(navigableListener)
+    initMocks()
 
     navigator = LazySetNavigator { ScreenContainer(activityController.get()) }
     step1 = DummyStep()
     step2 = DummyStep()
 
-    initMocks()
-  }
-
-  private fun initMocks() {
-    every { navigableListener.onNavigatedTo(any()) }.answers {  }
-    every { navigableListener.onNavigatedFrom(any()) }.answers {  }
-    every { navigableListener.beforeNavigation() }.answers {  }
-    every { navigableListener.afterNavigation() }.answers {  }
+    NavigationPropagator.addNavigableListener(navigableListener)
   }
 
   @After
   fun tearDown() {
     NavigationPropagator.removeNavigableListener(navigableListener)
+  }
+
+  private fun initMocks() {
+    every { navigableListener.onNavigatedTo(any()) }.answers { }
+    every { navigableListener.onNavigatedFrom(any()) }.answers { }
+    every { navigableListener.beforeNavigation() }.answers { }
+    every { navigableListener.afterNavigation() }.answers { }
   }
 
   @Test
