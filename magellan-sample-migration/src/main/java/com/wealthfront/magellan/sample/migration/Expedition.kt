@@ -2,6 +2,7 @@ package com.wealthfront.magellan.sample.migration
 
 import android.content.Context
 import com.wealthfront.magellan.LegacyJourney
+import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.lifecycle.attachLateinitFieldToLifecycle
 import com.wealthfront.magellan.navigation.LoggingNavigableListener
 import com.wealthfront.magellan.sample.migration.SampleApplication.Companion.app
@@ -19,6 +20,7 @@ class Expedition @Inject constructor() : LegacyJourney<ExpeditionBinding>(
 ) {
 
   @set:Inject var navListener: LoggingNavigableListener by attachLateinitFieldToLifecycle()
+  private val lifecycleMetricsListener by attachFieldToLifecycle(LifecycleMetricsListener())
 
   override fun onCreate(context: Context) {
     app(context).injector().inject(this)

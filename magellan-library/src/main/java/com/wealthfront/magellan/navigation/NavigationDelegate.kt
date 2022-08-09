@@ -98,7 +98,6 @@ public open class NavigationDelegate(
     val newBackStack = backStack.map { it.navigable }
     findBackstackChangesAndUpdateStates(oldBackStack = oldBackStack, newBackStack = newBackStack)
     val to = navigateTo(backStack.currentNavigable!!, direction)
-    navigationPropagator.afterNavigation()
     animateAndRemove(from, to, direction, transition)
   }
 
@@ -148,6 +147,7 @@ public open class NavigationDelegate(
         if (context != null && containerView != null) {
           containerView!!.removeView(from)
           currentNavigable!!.transitionFinished()
+          navigationPropagator.afterNavigation()
           containerView!!.setInterceptTouchEvents(false)
         }
       }

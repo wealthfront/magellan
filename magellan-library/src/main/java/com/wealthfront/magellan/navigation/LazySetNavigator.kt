@@ -78,8 +78,6 @@ public open class LazySetNavigator(
     currentNavigableSetup?.invoke(navigable)
 
     val to = navigateTo(navigable)
-    navigationPropagator.afterNavigation()
-
     animateAndRemove(from, to, transition)
   }
 
@@ -101,6 +99,7 @@ public open class LazySetNavigator(
         if (context != null && containerView != null) {
           containerView!!.removeView(from)
           currentNavigable!!.transitionFinished()
+          navigationPropagator.afterNavigation()
           containerView!!.setInterceptTouchEvents(false)
         }
       }

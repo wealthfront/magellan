@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.navigation
 
 import android.app.Activity
+import android.os.Looper.getMainLooper
 import androidx.appcompat.app.AppCompatActivity
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.Direction.FORWARD
@@ -11,16 +12,23 @@ import com.wealthfront.magellan.internal.test.TransitionState.FINISHED
 import com.wealthfront.magellan.internal.test.TransitionState.NOT_STARTED
 import com.wealthfront.magellan.internal.test.databinding.MagellanDummyLayoutBinding
 import com.wealthfront.magellan.lifecycle.LifecycleState.Created
+import com.wealthfront.magellan.lifecycle.LifecycleState.Destroyed
+import com.wealthfront.magellan.lifecycle.LifecycleState.Resumed
 import com.wealthfront.magellan.lifecycle.LifecycleState.Shown
 import com.wealthfront.magellan.lifecycle.transitionToState
 import com.wealthfront.magellan.transitions.DefaultTransition
 import com.wealthfront.magellan.transitions.ShowTransition
+import io.mockk.MockKAnnotations.init
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.verify
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.MockitoAnnotations.initMocks
 import org.robolectric.Robolectric.buildActivity
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.Shadows.shadowOf
 import org.robolectric.android.controller.ActivityController
 
 @RunWith(RobolectricTestRunner::class)
@@ -36,10 +44,14 @@ internal class DefaultLinearNavigatorTest {
   private lateinit var step4: DummyStep
   private lateinit var linearNavigator: DefaultLinearNavigator
   private lateinit var context: Activity
+  @MockK private lateinit var navigableListener: NavigationListener
 
   @Before
   fun setUp() {
-    initMocks(this)
+    init(this)
+    initMocks()
+    NavigationPropagator.addNavigableListener(navigableListener)
+
     step1 = DummyStep()
     journey1 = DummyJourney()
     step2 = DummyStep()
@@ -51,17 +63,48 @@ internal class DefaultLinearNavigatorTest {
     screenContainer = ScreenContainer(context)
 
     linearNavigator = DefaultLinearNavigator({ screenContainer })
-    linearNavigator.create(context)
+    linearNavigator.transitionToState(Created(context))
+  }
+
+  @After
+  fun tearDown() {
+    NavigationPropagator.removeNavigableListener(navigableListener)
+  }
+
+  private fun initMocks() {
+    every { navigableListener.onNavigatedTo(any()) }.answers { }
+    every { navigableListener.onNavigatedFrom(any()) }.answers { }
+    every { navigableListener.beforeNavigation() }.answers { }
+    every { navigableListener.afterNavigation() }.answers { }
   }
 
   @Test
   fun goTo() {
+    linearNavigator.transitionToState(Resumed(context))
     linearNavigator.goTo(step1)
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
     assertThat(linearNavigator.backStack.first().magellanTransition.javaClass)
       .isEqualTo(DefaultTransition::class.java)
+
+    verify { navigableListener.beforeNavigation() }
+    verify(exactly = 0) { navigableListener.onNavigatedFrom(any()) }
+    verify { navigableListener.onNavigatedTo(step1) }
+
+    step1.view!!.viewTreeObserver.dispatchOnPreDraw()
+    shadowOf(getMainLooper()).idle()
+    verify { navigableListener.afterNavigation() }
+  }
+
+  @Test
+  fun goTo_viewDoesNotExist() {
+    linearNavigator.goTo(step1)
+
+    verify { navigableListener.beforeNavigation() }
+    verify(exactly = 0) { navigableListener.onNavigatedFrom(any()) }
+    verify { navigableListener.onNavigatedTo(step1) }
+    verify(exactly = 0) { navigableListener.afterNavigation() }
   }
 
   @Test(expected = IllegalStateException::class)
@@ -80,12 +123,21 @@ internal class DefaultLinearNavigatorTest {
 
   @Test
   fun show() {
+    linearNavigator.transitionToState(Resumed(context))
     linearNavigator.goTo(step1, ShowTransition())
 
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
     assertThat(linearNavigator.backStack.first().magellanTransition.javaClass)
       .isEqualTo(ShowTransition::class.java)
+
+    verify { navigableListener.beforeNavigation() }
+    verify(exactly = 0) { navigableListener.onNavigatedFrom(any()) }
+    verify { navigableListener.onNavigatedTo(step1) }
+
+    step1.view!!.viewTreeObserver.dispatchOnPreDraw()
+    shadowOf(getMainLooper()).idle()
+    verify { navigableListener.afterNavigation() }
   }
 
   @Test
@@ -145,6 +197,7 @@ internal class DefaultLinearNavigatorTest {
 
   @Test
   fun goBack_multipleScreen_removeScreenFromBackstack() {
+    linearNavigator.transitionToState(Resumed(context))
     linearNavigator.goTo(step1)
     linearNavigator.goTo(step2)
     val didNavigate = linearNavigator.goBack()
@@ -154,25 +207,17 @@ internal class DefaultLinearNavigatorTest {
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
     assertThat(linearNavigator.backStack.first().magellanTransition.javaClass)
       .isEqualTo(DefaultTransition::class.java)
-  }
 
-  @Test
-  fun goBack_oneScreen_backOutOfApp() {
-    linearNavigator.goTo(step1)
-    val didNavigate = linearNavigator.goBack()
-
-    assertThat(didNavigate).isFalse()
-    assertThat(linearNavigator.backStack.size).isEqualTo(1)
-    assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
-    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass)
-      .isEqualTo(DefaultTransition::class.java)
+    verify { navigableListener.beforeNavigation() }
+    verify { navigableListener.onNavigatedFrom(step2) }
+    verify { navigableListener.onNavigatedTo(step1) }
+    step1.view!!.viewTreeObserver.dispatchOnPreDraw()
+    shadowOf(getMainLooper()).idle()
+    verify { navigableListener.afterNavigation() }
   }
 
   @Test
   fun goBack_journey_back() {
-    activityController.restart()
-    linearNavigator.show(context)
-    linearNavigator.resume(context)
     linearNavigator.navigate(FORWARD) {
       it.push(NavigationEvent(step1, DefaultTransition()))
       it.push(NavigationEvent(step2, DefaultTransition()))
@@ -190,28 +235,19 @@ internal class DefaultLinearNavigatorTest {
   }
 
   @Test
-  fun destroy() {
-    activityController.restart()
-    linearNavigator.show(context)
-    linearNavigator.resume(context)
-    linearNavigator.navigate(FORWARD) {
-      it.push(NavigationEvent(step1, DefaultTransition()))
-      it.push(NavigationEvent(step2, DefaultTransition()))
-      it.push(NavigationEvent(journey1, ShowTransition()))
-      it.first()!!.magellanTransition
-    }
+  fun goBack_oneScreen() {
+    linearNavigator.goTo(step1)
+    val didNavigate = linearNavigator.goBack()
 
-    assertThat(linearNavigator.backStack.size).isEqualTo(3)
-
-    linearNavigator.pause(context)
-    linearNavigator.hide(context)
-    linearNavigator.destroy(context)
-
-    assertThat(linearNavigator.backStack.size).isEqualTo(0)
+    assertThat(didNavigate).isFalse()
+    assertThat(linearNavigator.backStack.size).isEqualTo(1)
+    assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
+    assertThat(linearNavigator.backStack.first().magellanTransition.javaClass)
+      .isEqualTo(DefaultTransition::class.java)
   }
 
   @Test
-  fun goBack_backOutOfJourney() {
+  fun goBack_oneJourney() {
     linearNavigator.navigate(FORWARD) {
       it.push(NavigationEvent(journey1, ShowTransition()))
       it.first()!!.magellanTransition
@@ -221,13 +257,15 @@ internal class DefaultLinearNavigatorTest {
 
     assertThat(didNavigate).isFalse()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
+    assertThat(linearNavigator.backStack.first().navigable).isEqualTo(journey1)
   }
 
   @Test
-  fun goBack_withoutScreen_backOutOfApp() {
+  fun goBack_withoutScreen() {
     val didNavigate = linearNavigator.goBack()
 
     assertThat(didNavigate).isFalse()
+    assertThat(linearNavigator.backStack.size).isEqualTo(0)
   }
 
   @Test
@@ -240,6 +278,22 @@ internal class DefaultLinearNavigatorTest {
     assertThat(screenContainer.childCount).isEqualTo(1)
     assertThat(step1.currentState).isInstanceOf(Shown::class.java)
     assertThat(step1.currentTransitionState).isEqualTo(FINISHED)
+  }
+
+  @Test
+  fun destroy() {
+    linearNavigator.navigate(FORWARD) {
+      it.push(NavigationEvent(step1, DefaultTransition()))
+      it.push(NavigationEvent(step2, DefaultTransition()))
+      it.push(NavigationEvent(journey1, ShowTransition()))
+      it.first()!!.magellanTransition
+    }
+
+    assertThat(linearNavigator.backStack.size).isEqualTo(3)
+
+    linearNavigator.transitionToState(Destroyed)
+
+    assertThat(linearNavigator.backStack.size).isEqualTo(0)
   }
 }
 
