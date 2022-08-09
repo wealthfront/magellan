@@ -3,9 +3,12 @@ package com.wealthfront.magellan.rx2;
 import android.content.Context;
 import android.view.ViewGroup;
 
+import com.wealthfront.magellan.navigation.NavigableCompat;
+
 import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
+import androidx.annotation.NonNull;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 
@@ -30,6 +33,11 @@ public class RxScreenTest {
       return null;
     }
 
+    @NonNull
+    @Override
+    public NavigableCompat getCurrentNavigable() {
+      return this;
+    }
   }
 
 }
