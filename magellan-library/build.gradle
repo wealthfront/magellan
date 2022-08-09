@@ -64,6 +64,7 @@ dependencies {
   testImplementation Dependencies.extJunitKtx
   testImplementation Dependencies.truth
   testImplementation Dependencies.mockito
+  testImplementation Dependencies.mockK
   testImplementation Dependencies.archTesting
   testImplementation Dependencies.robolectric
   testImplementation Dependencies.coroutinesTest
