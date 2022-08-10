@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 
 import com.wealthfront.magellan.coroutines.ShownLifecycleScope;
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent;
+import com.wealthfront.magellan.navigation.LeafNode;
 import com.wealthfront.magellan.navigation.NavigableCompat;
+import com.wealthfront.magellan.navigation.NavigationNode;
 import com.wealthfront.magellan.view.DialogComponent;
 
 import org.jetbrains.annotations.NotNull;
@@ -182,6 +184,12 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
   @Override
   public NavigableCompat getCurrentNavigable() {
     return this;
+  }
+
+  @NonNull
+  @Override
+  public NavigationNode createSnapshot() {
+    return new LeafNode(this);
   }
 
   /**

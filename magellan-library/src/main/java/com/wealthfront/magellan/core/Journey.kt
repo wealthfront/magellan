@@ -7,9 +7,11 @@ import androidx.viewbinding.ViewBinding
 import com.wealthfront.magellan.ScreenContainer
 import com.wealthfront.magellan.init.Magellan
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
+import com.wealthfront.magellan.navigation.BackstackNode
 import com.wealthfront.magellan.navigation.DefaultLinearNavigator
 import com.wealthfront.magellan.navigation.LinearNavigator
 import com.wealthfront.magellan.navigation.NavigableCompat
+import com.wealthfront.magellan.navigation.NavigationNode
 import com.wealthfront.magellan.navigation.NavigationOverrideProvider
 import com.wealthfront.magellan.navigation.ViewTemplateApplier
 
@@ -27,4 +29,8 @@ public abstract class Journey<V : ViewBinding>(
 
   override val currentNavigable: NavigableCompat
     get() = navigator.backStack.firstOrNull()?.navigable?.currentNavigable ?: super.currentNavigable
+
+  override fun createSnapshot(): NavigationNode {
+    return BackstackNode(this, navigator)
+  }
 }
