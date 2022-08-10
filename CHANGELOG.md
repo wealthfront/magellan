@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.2.0-beta
+- Make `currentNavigable` a recursive function of the current backstack
+- Move `afterNavigation` trigger to post-transition animation
+- Support custom navigable behavior in `NavigationTraverser`
+
 ## 2.1.10-beta
 - Introduce `LazySetNavigator` for driving the lifecycle of previously `NO_LIMIT`-ed navigables with a floor of `SHOWN`, rather than `CREATED` 
 
