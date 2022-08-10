@@ -5,7 +5,9 @@ import androidx.viewbinding.ViewBinding
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.init.Magellan
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
+import com.wealthfront.magellan.navigation.BackstackNode
 import com.wealthfront.magellan.navigation.NavigableCompat
+import com.wealthfront.magellan.navigation.NavigationNode
 import com.wealthfront.magellan.navigation.NavigationOverrideProvider
 import com.wealthfront.magellan.navigation.ViewTemplateApplier
 
@@ -22,4 +24,8 @@ public abstract class LegacyJourney<V : ViewBinding>(
 
   override val currentNavigable: NavigableCompat
     get() = navigator.backStack.firstOrNull()?.navigable?.currentNavigable ?: super.currentNavigable
+
+  override fun createSnapshot(): NavigationNode {
+    return BackstackNode(this, navigator)
+  }
 }

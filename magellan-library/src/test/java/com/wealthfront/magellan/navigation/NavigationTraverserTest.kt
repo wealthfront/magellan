@@ -21,6 +21,7 @@ internal class NavigationTraverserTest {
   private lateinit var oneStepRoot: Journey<*>
   private lateinit var multiStepRoot: Journey<*>
   private lateinit var siblingRoot: Journey<*>
+  private lateinit var customRoot: Journey<*>
   private lateinit var journey1: Journey<*>
   private lateinit var step1: Step<*>
   private lateinit var step2: Step<*>
@@ -28,6 +29,7 @@ internal class NavigationTraverserTest {
   private lateinit var journey2: Journey<*>
   private lateinit var step4: Step<*>
   private lateinit var journey3: DummyJourney3
+  private lateinit var customStep: Step<*>
   private lateinit var context: Activity
 
   @Before
@@ -36,9 +38,11 @@ internal class NavigationTraverserTest {
     oneStepRoot = RootJourney()
     multiStepRoot = MultiStepJourney()
     siblingRoot = SiblingJourney()
+    customRoot = CustomJourney()
     journey1 = DummyJourney1()
     journey2 = DummyJourney2()
     journey3 = DummyJourney3((siblingRoot as SiblingJourney)::goToJourney2)
+    customStep = CustomStep(DummyStep1())
     step1 = DummyStep1()
     step2 = DummyStep2()
     step3 = DummyStep3()
@@ -99,6 +103,22 @@ internal class NavigationTraverserTest {
     )
   }
 
+  @Test
+  fun globalBackStackWithCustomNavigable() {
+    traverser = NavigationTraverser(customRoot)
+
+    customRoot.transitionToState(Created(context))
+
+    assertThat(traverser.getGlobalBackstackDescription()).isEqualTo(
+      """
+    CustomJourney
+    └ CustomStep
+      └ DummyStep1
+    
+      """.trimIndent()
+    )
+  }
+
   private inner class RootJourney : Journey<MagellanDummyLayoutBinding>(
     MagellanDummyLayoutBinding::inflate,
     MagellanDummyLayoutBinding::container
@@ -130,6 +150,16 @@ internal class NavigationTraverserTest {
 
     fun goToJourney2() {
       navigator.goTo(journey2)
+    }
+  }
+
+  private inner class CustomJourney : Journey<MagellanDummyLayoutBinding>(
+    MagellanDummyLayoutBinding::inflate,
+    MagellanDummyLayoutBinding::container
+  ) {
+
+    override fun onCreate(context: Context) {
+      navigator.goTo(customStep)
     }
   }
 
@@ -180,4 +210,15 @@ internal class NavigationTraverserTest {
 
   private inner class DummyStep4 :
     Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate)
+
+  private inner class CustomStep(val customChild: NavigableCompat) : Step<MagellanDummyLayoutBinding>(MagellanDummyLayoutBinding::inflate) {
+    override fun createSnapshot(): NavigationNode {
+      return object : NavigationNode {
+        override val value: NavigableCompat
+          get() = this@CustomStep
+        override val children: List<NavigationNode>
+          get() = listOf(customChild.createSnapshot())
+      }
+    }
+  }
 }

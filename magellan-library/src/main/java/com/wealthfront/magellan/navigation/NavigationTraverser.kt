@@ -7,28 +7,12 @@ import com.wealthfront.magellan.debug.INDENT_SPACE
 import com.wealthfront.magellan.debug.VERTICAL_LINE
 import com.wealthfront.magellan.debug.VERTICAL_T
 import com.wealthfront.magellan.init.shouldLogDebugInfo
-import com.wealthfront.magellan.lifecycle.LifecycleOwner
-import java.util.ArrayDeque
-import java.util.Deque
 
 @OpenForMocking
 public class NavigationTraverser(private val root: NavigableCompat) {
 
   public fun getGlobalBackStack(): NavigationNode {
-    return constructTree(root)
-  }
-
-  private fun constructTree(navigable: NavigableCompat): NavigationNode {
-    val navNode = NavigationNode(navigable, mutableListOf())
-    if (navNode.hasBackstack) {
-      val backStack = navNode.getBackstack()
-      while (backStack.isNotEmpty()) {
-        val node = backStack.removeLast()
-        val childNavNode = constructTree(node.navigable)
-        navNode.addChild(childNavNode)
-      }
-    }
-    return navNode
+    return root.createSnapshot()
   }
 
   public fun getGlobalBackstackDescription(): String {
@@ -71,22 +55,22 @@ public class NavigationTraverser(private val root: NavigableCompat) {
   }
 }
 
-public data class NavigationNode(val value: NavigableCompat, var children: List<NavigationNode>) {
-
-  val hasBackstack: Boolean
-    get() = (value as? LifecycleOwner)?.children?.mapNotNull { it as? Navigator }?.isNotEmpty()
-      ?: false
-
-  public fun getBackstack(): Deque<NavigationEvent> {
-    val backStackDeepCopy = ArrayDeque<NavigationEvent>()
-    (value as LifecycleOwner).children.mapNotNull { it as? Navigator }.first().backStack.toList()
-      .toCollection(backStackDeepCopy)
-    return backStackDeepCopy
-  }
-
-  public fun addChild(child: NavigationNode) {
-    children = children + child
-  }
+public interface NavigationNode {
+  public val value: NavigableCompat
+  public val children: List<NavigationNode>
 }
 
-private fun NavigationNode.describeSelf(indent: String): String = "$indent${this.value::class.java.simpleName}\n"
+public class BackstackNode(
+  override val value: NavigableCompat,
+  navigator: Navigator
+) : NavigationNode {
+  override val children: List<NavigationNode> = navigator.backStack.reversed().map { it.navigable.createSnapshot() }
+}
+
+public class LeafNode(
+  override val value: NavigableCompat
+) : NavigationNode {
+  override val children: List<NavigationNode> = emptyList()
+}
+
+private fun NavigationNode.describeSelf(indent: String): String = "$indent${value.javaClass.simpleName}\n"
