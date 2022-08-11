@@ -15,8 +15,8 @@ class DogDetailsView(context: Context) : BaseScreenView<DogDetailsScreen>(contex
   init {
     inflate(R.layout.dog_details)
     bind(this)
-    dogImage.setOnLongClickListener {
-      screen.goToHelpScreen()
+    dogImage.setOnLongClickListener { image ->
+      screen.goToHelpScreen(image)
       return@setOnLongClickListener true
     }
   }
