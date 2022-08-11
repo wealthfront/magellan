@@ -18,19 +18,27 @@ import com.wealthfront.magellan.navigation.NavigationEvent
  */
 public class DefaultTransition : MagellanTransition {
 
+  private var animator: Animator? = null
+
+  override fun interrupt() {
+    animator?.end()
+  }
+
   override fun animate(
     from: View?,
     to: View,
     direction: Direction,
     onAnimationEndCallback: () -> Unit
   ) {
-    val animator = createAnimator(from, to, direction)
-    animator.addListener(object : AnimatorListenerAdapter() {
-      override fun onAnimationEnd(animation: Animator) {
-        onAnimationEndCallback()
-      }
-    })
-    animator.start()
+    animator = createAnimator(from, to, direction).apply {
+      addListener(object : AnimatorListenerAdapter() {
+        override fun onAnimationEnd(animation: Animator) {
+          animator = null
+          onAnimationEndCallback()
+        }
+      })
+    }
+    animator!!.start()
   }
 
   private fun createAnimator(
@@ -44,9 +52,12 @@ public class DefaultTransition : MagellanTransition {
     val set = AnimatorSet()
     if (from != null) {
       val fromTranslation = sign * -from.width
-      set.play(ObjectAnimator.ofFloat(from, axis, 0f, fromTranslation.toFloat()))
+      val fromAnimation = ObjectAnimator.ofFloat(from, axis, 0f, fromTranslation.toFloat())
+      set.play(fromAnimation)
     }
-    set.play(ObjectAnimator.ofFloat(to, axis, toTranslation.toFloat(), 0f))
+
+    val toAnimation = ObjectAnimator.ofFloat(to, axis, toTranslation.toFloat(), 0f)
+    set.play(toAnimation)
     set.interpolator = FastOutSlowInInterpolator()
     return set
   }

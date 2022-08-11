@@ -19,6 +19,12 @@ import kotlin.math.hypot
  */
 public class CircularRevealTransition(private val clickedView: View) : MagellanTransition {
 
+  private var animator: Animator? = null
+
+  override fun interrupt() {
+    animator?.end()
+  }
+
   override fun animate(
     from: View?,
     to: View,
@@ -30,17 +36,18 @@ public class CircularRevealTransition(private val clickedView: View) : MagellanT
     val circularRevealCenterY = clickedViewCenter[1]
     val finalRadius = hypot(to.width.toDouble(), to.height.toDouble()).toFloat()
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      val anim = ViewAnimationUtils.createCircularReveal(
+      animator = ViewAnimationUtils.createCircularReveal(
         to, circularRevealCenterX,
         circularRevealCenterY, 0f, finalRadius
-      )
-      anim.addListener(object : AnimatorListenerAdapter() {
-        override fun onAnimationEnd(animation: Animator) {
-          onAnimationEndCallback()
-        }
-      })
-      anim.interpolator = FastOutSlowInInterpolator()
-      anim.start()
+      ).apply {
+        addListener(object : AnimatorListenerAdapter() {
+          override fun onAnimationEnd(animation: Animator) {
+            onAnimationEndCallback()
+          }
+        })
+        interpolator = FastOutSlowInInterpolator()
+      }
+      animator!!.start()
     } else {
       onAnimationEndCallback()
     }

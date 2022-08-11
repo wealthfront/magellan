@@ -31,4 +31,6 @@ public interface MagellanTransition {
     direction: Direction,
     onAnimationEndCallback: () -> Unit
   )
+
+  public fun interrupt()
 }

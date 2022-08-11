@@ -18,19 +18,27 @@ import com.wealthfront.magellan.Direction.FORWARD
  */
 public class ShowTransition : MagellanTransition {
 
+  private var animator: Animator? = null
+
+  override fun interrupt() {
+    animator?.end()
+  }
+
   override fun animate(
     from: View?,
     to: View,
     direction: Direction,
     onAnimationEndCallback: () -> Unit
   ) {
-    val animator = createAnimator(from, to, direction)
-    animator.addListener(object : AnimatorListenerAdapter() {
-      override fun onAnimationEnd(animation: Animator) {
-        onAnimationEndCallback()
-      }
-    })
-    animator.start()
+    animator = createAnimator(from, to, direction).apply {
+      addListener(object : AnimatorListenerAdapter() {
+        override fun onAnimationEnd(animation: Animator) {
+          animator = null
+          onAnimationEndCallback()
+        }
+      })
+      start()
+    }
   }
 
   private fun createAnimator(
