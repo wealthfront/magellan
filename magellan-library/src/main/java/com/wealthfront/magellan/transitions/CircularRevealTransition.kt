@@ -42,6 +42,7 @@ public class CircularRevealTransition(private val clickedView: View) : MagellanT
       ).apply {
         addListener(object : AnimatorListenerAdapter() {
           override fun onAnimationEnd(animation: Animator) {
+            animator = null
             onAnimationEndCallback()
           }
         })
