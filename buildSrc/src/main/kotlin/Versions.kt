@@ -8,7 +8,7 @@ object Versions {
   const val detektVersion = "1.19.0"
   const val supportLibVersion = "1.3.1"
   const val constraintLayoutVersion = "2.1.0"
-  const val robolectricVersion = "4.4"
+  const val robolectricVersion = "4.8"
   const val archVersion = "2.1.0"
   const val lifecycleVersion = "2.2.0"
   const val androidXCoreVersion = "1.6.0"

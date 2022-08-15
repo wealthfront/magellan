@@ -20,6 +20,7 @@ public open class LazySetNavigator(
 
   private var currentNavigableSetup: ((NavigableCompat) -> Unit)? = null
   private val navigationPropagator: NavigationPropagator = NavigationPropagator
+  private var ongoingTransition: MagellanTransition? = null
 
   @VisibleForTesting
   internal var containerView: ScreenContainer? = null
@@ -59,24 +60,22 @@ public open class LazySetNavigator(
     navigable: NavigableCompat,
     requestedTransition: MagellanTransition = DefaultTransition()
   ) {
+    if (currentNavigable == navigable) {
+      return
+    }
+
+    ongoingTransition?.interrupt()
     val transition = if (currentNavigable == null) {
       NoAnimationTransition()
     } else {
       requestedTransition
     }
 
-    if (currentNavigable == navigable) {
-      return
-    }
-
     containerView?.setInterceptTouchEvents(true)
-
     navigationPropagator.beforeNavigation()
     val from = navigateFrom(currentNavigable)
-
     currentNavigable = navigable
     currentNavigableSetup?.invoke(navigable)
-
     val to = navigateTo(navigable)
     animateAndRemove(from, to, transition)
   }
@@ -95,6 +94,7 @@ public open class LazySetNavigator(
       } else {
         NoAnimationTransition()
       }
+      ongoingTransition = transition
       transition.animate(from, to, Direction.FORWARD) {
         if (context != null && containerView != null) {
           containerView!!.removeView(from)
@@ -102,6 +102,7 @@ public open class LazySetNavigator(
           navigationPropagator.afterNavigation()
           containerView!!.setInterceptTouchEvents(false)
         }
+        ongoingTransition = null
       }
     }
   }

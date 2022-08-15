@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.sample.migration.tide
 
 import android.content.Context
+import android.view.View
 import android.widget.Toast
 import com.wealthfront.magellan.Screen
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
@@ -9,6 +10,7 @@ import com.wealthfront.magellan.sample.migration.R
 import com.wealthfront.magellan.sample.migration.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.migration.api.DogApi
 import com.wealthfront.magellan.sample.migration.toolbar.ToolbarHelper
+import com.wealthfront.magellan.transitions.CircularRevealTransition
 import rx.android.schedulers.AndroidSchedulers.mainThread
 import javax.inject.Inject
 
@@ -37,7 +39,7 @@ class DogDetailsScreen(private val breed: String) : Screen<DogDetailsView>() {
     )
   }
 
-  fun goToHelpScreen() {
-    navigator.goTo(HelpJourney())
+  fun goToHelpScreen(originView: View) {
+    navigator.goTo(HelpJourney(), CircularRevealTransition(originView))
   }
 }
