@@ -23,8 +23,10 @@ public class CrossfadeTransition : MagellanTransition {
     direction: Direction,
     onAnimationEndCallback: () -> Unit
   ) {
+    to.alpha = 0f
+    from!!.alpha = 1f
     to.visibility = View.VISIBLE
-    from!!.visibility = View.VISIBLE
+    from.visibility = View.VISIBLE
 
     animationSet = createAnimator(from, to).apply {
       addListener(object : AnimatorListenerAdapter() {
@@ -52,8 +54,7 @@ public class CrossfadeTransition : MagellanTransition {
 
     val toAnimator = ObjectAnimator.ofFloat(to, axis, to.alpha, 1f)
     return AnimatorSet().apply {
-      play(fromAnimator)
-      play(toAnimator)
+      playSequentially(fromAnimator, toAnimator)
     }
   }
 }
