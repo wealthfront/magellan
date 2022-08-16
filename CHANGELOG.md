@@ -2,7 +2,6 @@
 
 ## 2.2.1-beta
 - Support interrupting transitions to prevent overlapping animations in `LazySetNavigator`
-- Implement `NavigationTraverser` at navigable level
 
 ## 2.2.0-beta
 - Make `currentNavigable` a recursive function of the current backstack
