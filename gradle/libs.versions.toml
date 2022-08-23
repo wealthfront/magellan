@@ -16,9 +16,9 @@ inject = "0.5.1"
 sqldelight = "1.5.3"
 datetime = "0.4.0"
 
-kotest = "5.1.0"
+kotest = "5.4.2"
 testCore = "1.4.0"
-lint = "30.2.2"
+lint = "30.0.2"
 
 detekt = "1.18.0"
 kotlinter = "3.6.0"

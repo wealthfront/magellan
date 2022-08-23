@@ -9,11 +9,11 @@ version = extra["VERSION_NAME"]!!
 
 android {
   namespace = "com.ryanmoelter.magellanx.test"
-  compileSdk = 31
+  compileSdk = 32
 
   defaultConfig {
     minSdk = 23
-    targetSdk = 31
+    targetSdk = 32
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
