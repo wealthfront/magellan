@@ -45,7 +45,6 @@ android {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
   kotlinOptions.freeCompilerArgs = if (!name.contains("UnitTest")) {
     listOf(
-      "-Xjvm-default=compatibility",
       "-Xexplicit-api=strict",
       "-opt-in=kotlin.RequiresOptIn"
     )
