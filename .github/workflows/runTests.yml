@@ -12,11 +12,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2.4.2
     - name: Set up our JDK environment
-      uses: actions/setup-java@v3.3.0
+      uses: actions/setup-java@v3.4.1
       with:
         distribution: 'zulu'
         java-version: '11'
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@v2.1.5
+      uses: gradle/gradle-build-action@v2.2.5
       with:
         arguments: build
