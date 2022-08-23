@@ -17,10 +17,10 @@ sqldelight = "1.5.3"
 datetime = "0.4.0"
 
 kotest = "5.1.0"
-detekt = "1.21.0"
 testCore = "1.4.0"
 lint = "30.2.2"
 
+detekt = "1.18.0"
 kotlinter = "3.6.0"
 
 [plugins]

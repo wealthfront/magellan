@@ -47,6 +47,20 @@ implementation("com.github.ryanmoelter.magellanx:magellanx-core:0.1.2")
 > applies to `magellanx-compose`.
 
 <details>
+  <summary>Dependency versions</summary>
+
+  ### Dependency versions
+
+  Magellan X uses the following dependencies:
+
+  | Magellan X version     | Kotlin version | Compatible compose versions |
+|------------------------|----------------|-----------------------------|
+| 0.1.2                  | 1.6.10         | 1.2.0-alpha05               |
+| 0.1.3 (releasing soon) | 1.7.10         | 1.2.*                       |
+
+</details>
+
+<details>
   <summary>Version catalogs</summary>
   
   ### Version catalogs
