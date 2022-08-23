@@ -47,10 +47,10 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
     listOf(
       "-Xjvm-default=compatibility",
       "-Xexplicit-api=strict",
-      "-Xopt-in=kotlin.RequiresOptIn"
+      "-opt-in=kotlin.RequiresOptIn"
     )
   } else {
-    listOf("-Xopt-in=kotlin.RequiresOptIn")
+    listOf("-opt-in=kotlin.RequiresOptIn")
   }
   kotlinOptions.allWarningsAsErrors = true
   kotlinOptions.jvmTarget = "1.8"

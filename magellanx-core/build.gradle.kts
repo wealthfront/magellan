@@ -53,7 +53,7 @@ android {
 tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().all {
   kotlinOptions.freeCompilerArgs = listOf(
     "-Xexplicit-api=strict",
-    "-Xopt-in=kotlin.RequiresOptIn"
+    "-opt-in=kotlin.RequiresOptIn"
   )
 }
 
