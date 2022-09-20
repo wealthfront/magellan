@@ -19,6 +19,7 @@ import com.wealthfront.magellan.transitions.NoAnimationTransition
 import com.wealthfront.magellan.view.whenMeasured
 import java.util.ArrayDeque
 import java.util.Deque
+import java.util.concurrent.ConcurrentLinkedDeque
 
 public open class NavigationDelegate(
   protected val container: () -> ScreenContainer,
@@ -32,15 +33,11 @@ public open class NavigationDelegate(
 
   protected var containerView: ScreenContainer? = null
   protected val navigationPropagator: NavigationPropagator = NavigationPropagator
-  public val backStack: Deque<NavigationEvent> = ArrayDeque()
+  public val backStack: Deque<NavigationEvent> = ConcurrentLinkedDeque()
 
   protected val Deque<NavigationEvent>.currentNavigable: NavigableCompat?
     get() {
-      return if (isNotEmpty()) {
-        peek()?.navigable
-      } else {
-        null
-      }
+      return peek()?.navigable
     }
 
   protected val currentNavigable: NavigableCompat?
