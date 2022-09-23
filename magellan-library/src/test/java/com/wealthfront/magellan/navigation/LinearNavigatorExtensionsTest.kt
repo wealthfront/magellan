@@ -143,6 +143,20 @@ class LinearNavigatorExtensionsTest {
   }
 
   @Test
+  fun goBackToRoot_empty() {
+    var throwable: Throwable? = null
+    try {
+      navigator.goBackToRoot()
+    } catch (t: Throwable) {
+      throwable = t
+    }
+    assertThat(navigator.backStack).isEmpty()
+    assertThat(throwable).isNotNull()
+    assertThat((throwable as IllegalStateException).message)
+      .isEqualTo("Root not found in backStack")
+  }
+
+  @Test
   fun goForwardToRoot() {
     navigator.goTo(navigable1)
     navigator.goTo(navigable2)
@@ -150,6 +164,20 @@ class LinearNavigatorExtensionsTest {
     navigator.goForwardToRoot()
     assertThat(navigator.backStack).hasSize(1)
     assertThat(navigator.backStack.first().navigable).isEqualTo(navigable1)
+  }
+
+  @Test
+  fun goForwardToRoot_empty() {
+    var throwable: Throwable? = null
+    try {
+      navigator.goForwardToRoot()
+    } catch (t: Throwable) {
+      throwable = t
+    }
+    assertThat(navigator.backStack).isEmpty()
+    assertThat(throwable).isNotNull()
+    assertThat((throwable as IllegalStateException).message)
+      .isEqualTo("Root not found in backStack")
   }
 
   @Test
@@ -162,5 +190,21 @@ class LinearNavigatorExtensionsTest {
     assertThat(navigator.backStack).hasSize(2)
     assertThat(navigator.backStack[0].navigable).isEqualTo(navigable4)
     assertThat(navigator.backStack[1].navigable).isEqualTo(navigable1)
+  }
+
+  @Test
+  fun clearUntilRootAndGoTo_empty() {
+    val navigable4 = DummyStep()
+    var throwable: Throwable? = null
+    try {
+      navigator.clearUntilRootAndGoTo(navigable4)
+    } catch (t: Throwable) {
+      throwable = t
+    }
+
+    assertThat(navigator.backStack).isEmpty()
+    assertThat(throwable).isNotNull()
+    assertThat((throwable as IllegalStateException).message)
+      .isEqualTo("Root not found in backStack")
   }
 }

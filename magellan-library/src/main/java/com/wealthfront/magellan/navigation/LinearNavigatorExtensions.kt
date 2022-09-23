@@ -56,6 +56,9 @@ public fun LinearNavigator.clearUntilRootAndGoTo(
   overrideTransition: MagellanTransition? = null
 ) {
   navigate(Direction.FORWARD) { backStack ->
+    if (backStack.isEmpty()) {
+      throw IllegalStateException("Root not found in backStack")
+    }
     while (backStack.size > 1) {
       backStack.pop()
     }
