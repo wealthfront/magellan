@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.2-beta
+- Adds extension functions to `LinearNavigator` for common navigation patterns.
+
 ## 2.2.1-beta
 - Support interrupting transitions to prevent overlapping animations in `LazySetNavigator`
 
