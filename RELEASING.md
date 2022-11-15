@@ -5,7 +5,7 @@
    - Update CHANGELOG.md for the impending release.
    - Update README.md with the new version.
 2. `git commit -am "Prepare for release X.Y.Z"` (where X.Y.Z is the new version)
-3. Open a Pull Request with the above changes. Get it merged
+3. Open a Pull Request with the above changes. Get it merged.
 4. Create a tag for this version
    - `git tag -a X.Y.Z -m "Version X.Y.Z"` (where X.Y.Z is the version)
    - Push this tag to GitHub: `git push && git push --tags`
@@ -20,7 +20,7 @@ Visit [Maven Central Repository Search](https://search.maven.org/search?q=magell
 7. Change the repo's metadata to reflect the next development cycle 
    - Change gradle.properties to the next SNAPSHOT version.
    - `git commit -am "Prepare next development version"`
-8. Open a Pull Request with the above changes. Get it merged
+8. Open a Pull Request with the above changes. Get it merged.
 
 ## Publish to local maven repo
 
