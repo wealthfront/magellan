@@ -32,7 +32,7 @@ Add the dependencies you need in your `dependencies` block:
 [![Latest release on Jitpack](https://jitpack.io/v/com.ryanmoelter/magellanx.svg)](https://jitpack.io/#com.ryanmoelter/magellanx)
 
 ```kotlin
-val magellanxVersion = "0.1.2"
+val magellanxVersion = "0.2.0"
 implementation("com.ryanmoelter.magellanx:magellanx-compose:${magellanxVersion}")
 testImplementation("com.ryanmoelter.magellanx:magellanx-test:${magellanxVersion}")
 ```
@@ -40,7 +40,7 @@ testImplementation("com.ryanmoelter.magellanx:magellanx-test:${magellanxVersion}
 Alternatively, if you only want the core library without the Compose implementation, you can use:
 
 ```kotlin
-implementation("com.github.ryanmoelter.magellanx:magellanx-core:0.1.2")
+implementation("com.github.ryanmoelter.magellanx:magellanx-core:0.2.0")
 ```
 
 > Note: `magellanx-core` is included in and exposed by `magellanx-compose`, and `magellan-test` only
@@ -51,13 +51,13 @@ implementation("com.github.ryanmoelter.magellanx:magellanx-core:0.1.2")
 
   ### Dependency versions
 
-  Magellan X uses the following dependencies, and since `0.1.3` is using
+  Magellan X uses the following dependencies, and since `0.2.0` is using
   [the compose bill of materials (BOM)](https://developer.android.com/jetpack/compose/setup#using-the-bom).
 
-  | Magellan X version     | Kotlin version | Compose compiler version | Compose BOM | Compatible compose versions |
-|------------------------|----------------|--------------------------|-------------|-----------------------------|
-| 0.1.3 (releasing soon) | 1.7.20         | 1.3.2                    | 2022.11.00  | 1.3.*                       |
-| 0.1.2                  | 1.6.10         | -                        | -           | 1.2.0-alpha05               |
+  | Magellan X version | Kotlin version | Compose compiler version | Compose BOM | Compatible compose versions |
+|--------------------|----------------|--------------------------|-------------|-----------------------------|
+| 0.2.0              | 1.7.20         | 1.3.2                    | 2022.11.00  | 1.3.*                       |
+| 0.1.2              | 1.6.10         | -                        | -           | 1.2.0-alpha05               |
 
 </details>
 
@@ -71,7 +71,7 @@ implementation("com.github.ryanmoelter.magellanx:magellanx-core:0.1.2")
 
   ```toml
   [versions]
-  magellanx = "0.1.2"
+  magellanx = "0.2.0"
   # ...
 
   [libraries]
