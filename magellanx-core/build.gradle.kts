@@ -6,16 +6,16 @@ plugins {
 
 android {
   namespace = "com.ryanmoelter.magellanx.core"
-  compileSdk = 31
+  compileSdk = 33
 
   defaultConfig {
     minSdk = 23
-    targetSdk = 31
+    targetSdk = 33
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     consumerProguardFiles("consumer-rules.pro")
     aarMetadata {
-      minCompileSdk = 31
+      minCompileSdk = 33
     }
   }
 
@@ -53,7 +53,7 @@ android {
 tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().all {
   kotlinOptions.freeCompilerArgs = listOf(
     "-Xexplicit-api=strict",
-    "-Xopt-in=kotlin.RequiresOptIn"
+    "-opt-in=kotlin.RequiresOptIn"
   )
 }
 

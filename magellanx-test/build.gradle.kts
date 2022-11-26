@@ -9,11 +9,11 @@ version = extra["VERSION_NAME"]!!
 
 android {
   namespace = "com.ryanmoelter.magellanx.test"
-  compileSdk = 31
+  compileSdk = 33
 
   defaultConfig {
     minSdk = 23
-    targetSdk = 31
+    targetSdk = 33
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
@@ -45,12 +45,11 @@ android {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
   kotlinOptions.freeCompilerArgs = if (!name.contains("UnitTest")) {
     listOf(
-      "-Xjvm-default=compatibility",
       "-Xexplicit-api=strict",
-      "-Xopt-in=kotlin.RequiresOptIn"
+      "-opt-in=kotlin.RequiresOptIn"
     )
   } else {
-    listOf("-Xopt-in=kotlin.RequiresOptIn")
+    listOf("-opt-in=kotlin.RequiresOptIn")
   }
   kotlinOptions.allWarningsAsErrors = true
   kotlinOptions.jvmTarget = "1.8"

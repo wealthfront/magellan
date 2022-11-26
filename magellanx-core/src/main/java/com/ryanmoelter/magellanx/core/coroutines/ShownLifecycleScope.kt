@@ -1,11 +1,11 @@
 package com.ryanmoelter.magellanx.core.coroutines
 
 import com.ryanmoelter.magellanx.core.lifecycle.LifecycleAware
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlin.coroutines.CoroutineContext
 
 public class ShownLifecycleScope : LifecycleAware, CoroutineScope {
 

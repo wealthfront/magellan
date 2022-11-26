@@ -2,6 +2,7 @@ package com.ryanmoelter.magellanx
 
 import com.android.tools.lint.checks.infrastructure.TestFiles.kt
 import com.android.tools.lint.checks.infrastructure.TestLintTask.lint
+import com.android.tools.lint.checks.infrastructure.TestMode
 import org.junit.Test
 
 class EnforceLifecycleAwareAttachmentTest {
@@ -11,7 +12,7 @@ class EnforceLifecycleAwareAttachmentTest {
     package com.ryanmoelter.magellanx.lifecycle
 
     interface LifecycleAware {
-    
+
       fun create() {}
     }
 
@@ -21,11 +22,11 @@ class EnforceLifecycleAwareAttachmentTest {
   private val LINEAR_NAVIGATOR = kt(
     """
     package com.ryanmoelter.magellanx.navigation
-    
+
     import com.ryanmoelter.magellanx.lifecycle.LifecycleAware
-    
+
     class LinearNavigator: LifecycleAware {
-    
+
       val backStack: List<NavigationEvent> = listOf()
     }
   """
@@ -36,9 +37,9 @@ class EnforceLifecycleAwareAttachmentTest {
       package com.ryanmoelter.magellanx.lifecycle
 
       interface LifecycleOwner {
-      
+
         fun attachToLifecycle(lifecycleAware: LifecycleAware, detachedState: LifecycleState = LifecycleState.Destroyed)
-      
+
         fun removeFromLifecycle(lifecycleAware: LifecycleAware, detachedState: LifecycleState = LifecycleState.Destroyed)
       }
 
@@ -50,6 +51,7 @@ class EnforceLifecycleAwareAttachmentTest {
   @Test
   fun testThatInstanceCreationIsDetected() {
     lint()
+      .testModes(TestMode.DEFAULT)
       .allowMissingSdk()
       .files(
         *LIFECYCLE_FILES,
@@ -59,9 +61,9 @@ class EnforceLifecycleAwareAttachmentTest {
 
           import com.ryanmoelter.magellanx.lifecycle.LifecycleOwner
           import com.ryanmoelter.magellanx.navigation.LinearNavigator
-          
+
           class SomeClass : LifecycleOwner {
-          
+
             val navigator = LinearNavigator()
           }
         """
@@ -71,8 +73,10 @@ class EnforceLifecycleAwareAttachmentTest {
       .run()
       .expect(
         "src/com/ryanmoelter/magellanx/app/SomeClass.kt:8: " +
-          "Error: In order to make this lifecycle aware work as expected, please attach it to the lifecycle owner with a lifecycle delegate. " +
-          "Eg. val someObject by lifecycle(SomeObject()) or lateinit var someObject: SomeObject by lateinitLifecycle() [EnforceLifecycleAwareAttachment]\n" +
+          "Error: In order to make this lifecycle aware work as expected, please attach it to " +
+          "the lifecycle owner with a lifecycle delegate. " +
+          "Eg. val someObject by lifecycle(SomeObject()) or lateinit var someObject: SomeObject " +
+          "by lateinitLifecycle() [EnforceLifecycleAwareAttachment]\n" +
           "  val navigator = LinearNavigator()\n" +
           "  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
           "1 errors, 0 warnings"
@@ -94,7 +98,7 @@ class EnforceLifecycleAwareAttachmentTest {
                     import com.ryanmoelter.magellanx.navigation.LinearNavigator
 
           class SomeClass : LifecycleAware {
-          
+
             val navigator by lifecycle(LinearNavigator())
           }
         """
