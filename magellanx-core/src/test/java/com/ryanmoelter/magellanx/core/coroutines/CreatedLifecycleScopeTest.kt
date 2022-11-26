@@ -31,7 +31,6 @@ internal class CreatedLifecycleScopeTest {
   @Test
   fun cancelBeforeCreated() {
     runTest {
-
       val async = createdScope.async { delay(5000) }
       async.isCancelled shouldBe true
       async.getCancellationException().message shouldContain "Not created yet"

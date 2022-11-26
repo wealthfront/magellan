@@ -73,8 +73,10 @@ class EnforceLifecycleAwareAttachmentTest {
       .run()
       .expect(
         "src/com/ryanmoelter/magellanx/app/SomeClass.kt:8: " +
-          "Error: In order to make this lifecycle aware work as expected, please attach it to the lifecycle owner with a lifecycle delegate. " +
-          "Eg. val someObject by lifecycle(SomeObject()) or lateinit var someObject: SomeObject by lateinitLifecycle() [EnforceLifecycleAwareAttachment]\n" +
+          "Error: In order to make this lifecycle aware work as expected, please attach it to " +
+          "the lifecycle owner with a lifecycle delegate. " +
+          "Eg. val someObject by lifecycle(SomeObject()) or lateinit var someObject: SomeObject " +
+          "by lateinitLifecycle() [EnforceLifecycleAwareAttachment]\n" +
           "  val navigator = LinearNavigator()\n" +
           "  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
           "1 errors, 0 warnings"

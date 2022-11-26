@@ -1,4 +1,5 @@
 @file:Suppress("ForbiddenComment")
+
 package com.ryanmoelter.magellanx.compose.navigation
 
 import androidx.compose.animation.AnimatedContent
@@ -25,7 +26,8 @@ import com.ryanmoelter.magellanx.core.lifecycle.LifecycleLimit
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
-public open class ComposeNavigator : LifecycleAwareComponent(), Displayable<@Composable () -> Unit> {
+public open class ComposeNavigator :
+  LifecycleAwareComponent(), Displayable<@Composable () -> Unit> {
 
   /**
    * The backstack. The last item in each list is the top of the stack.

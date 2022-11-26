@@ -13,9 +13,9 @@ import com.ryanmoelter.magellanx.core.lifecycle.transition
 
 private typealias ActivityLifecycleOwner = androidx.lifecycle.LifecycleOwner
 private typealias ActivityLifecycle = androidx.lifecycle.Lifecycle
+private typealias AdapterLifecyclePair = Pair<ActivityLifecycleComposeAdapter, ActivityLifecycle>
 
-private var adapterMap =
-  emptyMap<Navigable<@Composable () -> Unit>, Pair<ActivityLifecycleComposeAdapter, ActivityLifecycle>>()
+private var adapterMap = emptyMap<Navigable<@Composable () -> Unit>, AdapterLifecyclePair>()
 
 public class ActivityLifecycleComposeAdapter(
   private val navigable: Navigable<@Composable () -> Unit>,

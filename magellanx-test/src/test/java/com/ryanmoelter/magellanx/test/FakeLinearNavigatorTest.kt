@@ -63,20 +63,20 @@ public class FakeLinearNavigatorTest {
     val newTopNavigable = TestNavigable()
     navigator.backStack = listOf(
       ComposeNavigationEvent(originalBottomNavigable, defaultTransition),
-      ComposeNavigationEvent(TestNavigable(), defaultTransition),
+      ComposeNavigationEvent(TestNavigable(), defaultTransition)
     )
 
     navigator.navigate(Direction.FORWARD) {
       listOf(
         ComposeNavigationEvent(newBottomNavigable, defaultTransition),
         ComposeNavigationEvent(originalBottomNavigable, defaultTransition),
-        ComposeNavigationEvent(newTopNavigable, defaultTransition),
+        ComposeNavigationEvent(newTopNavigable, defaultTransition)
       )
     }
     navigator.backStack.map { it.navigable } shouldContainExactly listOf(
       newBottomNavigable,
       originalBottomNavigable,
-      newTopNavigable,
+      newTopNavigable
     )
     navigator.currentNavigable shouldBeSameInstanceAs newTopNavigable
   }
@@ -94,7 +94,7 @@ public class FakeLinearNavigatorTest {
     val bottomNavigable = TestNavigable()
     navigator.backStack = listOf(
       ComposeNavigationEvent(bottomNavigable, defaultTransition),
-      ComposeNavigationEvent(TestNavigable(), defaultTransition),
+      ComposeNavigationEvent(TestNavigable(), defaultTransition)
     )
     navigator.goBack().shouldBeTrue()
     navigator.backStack shouldHaveSize 1

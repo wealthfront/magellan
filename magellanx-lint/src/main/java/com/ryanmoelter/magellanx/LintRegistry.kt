@@ -12,7 +12,7 @@ class LintRegistry : IssueRegistry() {
 
   override val issues: List<Issue>
     get() = listOf(
-      ENFORCE_LIFECYCLE_AWARE_ATTACHMENT,
+      ENFORCE_LIFECYCLE_AWARE_ATTACHMENT
     )
 
   override val api: Int
