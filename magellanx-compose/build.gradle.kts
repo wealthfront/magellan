@@ -7,11 +7,11 @@ plugins {
 
 android {
   namespace = "com.ryanmoelter.magellanx.compose"
-  compileSdk = 32
+  compileSdk = 33
 
   defaultConfig {
     minSdk = 23
-    targetSdk = 32
+    targetSdk = 33
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     consumerProguardFiles("consumer-rules.pro")
@@ -69,6 +69,10 @@ tasks.withType<Test> {
 
 dependencies {
   api(project(":magellanx-core"))
+
+  val composeBom = platform(libs.compose.bom)
+  implementation(composeBom)
+  androidTestImplementation(composeBom)
 
   // Kotlin
   implementation(libs.coroutines.core)

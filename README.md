@@ -51,28 +51,29 @@ implementation("com.github.ryanmoelter.magellanx:magellanx-core:0.1.2")
 
   ### Dependency versions
 
-  Magellan X uses the following dependencies:
+  Magellan X uses the following dependencies, and since `0.1.3` is using
+  [the compose bill of materials (BOM)](https://developer.android.com/jetpack/compose/setup#using-the-bom).
 
-  | Magellan X version     | Kotlin version | Compatible compose versions |
-|------------------------|----------------|-----------------------------|
-| 0.1.2                  | 1.6.10         | 1.2.0-alpha05               |
-| 0.1.3 (releasing soon) | 1.7.10         | 1.2.*                       |
+  | Magellan X version     | Kotlin version | Compose compiler version | Compose BOM | Compatible compose versions |
+|------------------------|----------------|--------------------------|-------------|-----------------------------|
+| 0.1.3 (releasing soon) | 1.7.20         | 1.3.2                    | 2022.11.00  | 1.3.*                       |
+| 0.1.2                  | 1.6.10         | -                        | -           | 1.2.0-alpha05               |
 
 </details>
 
 <details>
   <summary>Version catalogs</summary>
-  
+
   ### Version catalogs
-  
+
   To use in [gradle's version catalogs](https://docs.gradle.org/current/userguide/platforms.html),
   add the following to your `libs.versions.toml`:
-  
+
   ```toml
   [versions]
   magellanx = "0.1.2"
   # ...
-  
+
   [libraries]
   magellanx-compose = { module = "com.ryanmoelter.magellanx:magellanx-compose", version.ref = "magellanx" }
   magellanx-test = { module = "com.ryanmoelter.magellanx:magellanx-test", version.ref = "magellanx" }

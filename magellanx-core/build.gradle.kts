@@ -6,16 +6,16 @@ plugins {
 
 android {
   namespace = "com.ryanmoelter.magellanx.core"
-  compileSdk = 32
+  compileSdk = 33
 
   defaultConfig {
     minSdk = 23
-    targetSdk = 32
+    targetSdk = 33
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     consumerProguardFiles("consumer-rules.pro")
     aarMetadata {
-      minCompileSdk = 32
+      minCompileSdk = 33
     }
   }
 

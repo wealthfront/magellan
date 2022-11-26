@@ -8,7 +8,7 @@ buildscript {
   }
   dependencies {
     classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
-    classpath("com.android.tools.build:gradle:7.2.0-rc02")
+    classpath("com.android.tools.build:gradle:7.3.1")
     classpath("org.jmailen.gradle:kotlinter-gradle:${libs.versions.kotlinter.get()}")
     classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${libs.versions.detekt.get()}")
   }
@@ -32,8 +32,6 @@ allprojects {
   }
 
   kotlinter {
-    indentSize = 2
-
     tasks.findByName("lint")?.dependsOn("lintKotlin")
   }
 
