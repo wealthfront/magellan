@@ -10,6 +10,7 @@
   "reviewers": [
     "ryanmoelter"
   ],
+  "prHourlyLimit": 0,
   "packageRules": [
     {
       "matchUpdateTypes": [
