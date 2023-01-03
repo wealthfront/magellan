@@ -2,6 +2,7 @@ package com.wealthfront.magellan;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.os.Parcelable;
 import android.util.SparseArray;
 import android.view.ViewGroup;
@@ -43,6 +44,17 @@ public class LegacyViewComponent<V extends ViewGroup & ScreenView> implements Li
   }
 
   private void setActivity(@NotNull Context context) {
-    screen.setActivity((Activity) context);
+    screen.setActivity(findActivity(context));
+  }
+
+  @NotNull
+  private Activity findActivity(@NotNull Context context) {
+    if (context instanceof Activity) {
+      return (Activity) context;
+    } else if (context instanceof ContextWrapper) {
+      return findActivity(((ContextWrapper) context).getBaseContext());
+    } else {
+      throw new IllegalStateException("Context must be Activity or wrap Activity");
+    }
   }
 }
