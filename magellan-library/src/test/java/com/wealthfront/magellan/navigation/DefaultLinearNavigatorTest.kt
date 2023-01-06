@@ -32,7 +32,7 @@ import org.robolectric.Shadows.shadowOf
 import org.robolectric.android.controller.ActivityController
 
 @RunWith(RobolectricTestRunner::class)
-internal class DefaultLinearNavigatorTest {
+class DefaultLinearNavigatorTest {
 
   private lateinit var activityController: ActivityController<FakeActivity>
   private lateinit var screenContainer: ScreenContainer
@@ -261,6 +261,22 @@ internal class DefaultLinearNavigatorTest {
   }
 
   @Test
+  fun onBackPressed_oneJourney() {
+    linearNavigator.transitionToState(Resumed(context))
+    linearNavigator.navigate(FORWARD) {
+      it.push(NavigationEvent(journey1, ShowTransition()))
+      it.first()!!.magellanTransition
+    }
+
+    val didNavigate = linearNavigator.backPressed()
+
+    assertThat(didNavigate).isFalse()
+    assertThat(linearNavigator.backStack.size).isEqualTo(1)
+    assertThat(linearNavigator.backStack.first().navigable).isEqualTo(journey1)
+    assertThat(journey1.onBackPressedCount).isEqualTo(1)
+  }
+
+  @Test
   fun goBack_withoutScreen() {
     val didNavigate = linearNavigator.goBack()
 
@@ -299,8 +315,16 @@ internal class DefaultLinearNavigatorTest {
 
 private open class FakeActivity : AppCompatActivity()
 
-private open class DummyJourney :
-  Journey<MagellanDummyLayoutBinding>(
-    MagellanDummyLayoutBinding::inflate,
-    MagellanDummyLayoutBinding::container
-  )
+private open class DummyJourney : Journey<MagellanDummyLayoutBinding>(
+  MagellanDummyLayoutBinding::inflate,
+  MagellanDummyLayoutBinding::container
+) {
+
+  var onBackPressedCount: Int = 0
+    private set
+
+  override fun onBackPressed(): Boolean {
+    onBackPressedCount += 1
+    return super.onBackPressed()
+  }
+}
