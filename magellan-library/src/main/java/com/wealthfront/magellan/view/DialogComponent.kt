@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import androidx.annotation.VisibleForTesting
+import com.wealthfront.magellan.ContextUtil
 import com.wealthfront.magellan.DialogCreator
 import com.wealthfront.magellan.lifecycle.LifecycleAware
 import javax.inject.Inject
@@ -42,9 +43,12 @@ public class DialogComponent @Inject constructor() : LifecycleAware {
   }
 
   private fun createDialog() {
+    val dialogCreator = dialogCreator
+    val context = context
     if (dialogCreator != null && context != null) {
-      dialog = dialogCreator!!.createDialog(context as Activity)
+      val dialog = dialogCreator.createDialog(ContextUtil.findActivity(context))
       dialog!!.show()
+      this.dialog = dialog
     }
   }
 
