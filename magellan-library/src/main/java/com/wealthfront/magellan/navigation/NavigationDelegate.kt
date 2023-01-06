@@ -181,7 +181,7 @@ public open class NavigationDelegate(
     }
   }
 
-  override fun onBackPressed(): Boolean = currentNavigable?.backPressed() ?: false || goBack()
+  override fun onBackPressed(): Boolean = goBack()
 
   public fun goBack(): Boolean {
     return if (!atRoot()) {
