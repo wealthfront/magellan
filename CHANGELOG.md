@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.3-beta
+- Fixes `onBackPressed` called twice for navigables at the top of a navigator's backstack
+- Support non-Activity contexts (ie. ContextWrapper)
+
 ## 2.2.2-beta
 - Adds extension functions to `LinearNavigator` for common navigation patterns.
 
