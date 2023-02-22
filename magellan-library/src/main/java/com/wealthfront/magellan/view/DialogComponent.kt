@@ -29,8 +29,11 @@ public class DialogComponent @Inject constructor() : LifecycleAware {
     createDialog()
   }
 
-  override fun resume(context: Context) {
+  override fun show(context: Context) {
     this.context = context
+  }
+
+  override fun resume(context: Context) {
     if (shouldRestoreDialog) {
       createDialog()
       shouldRestoreDialog = false
@@ -39,10 +42,14 @@ public class DialogComponent @Inject constructor() : LifecycleAware {
 
   override fun pause(context: Context) {
     destroyDialog()
+  }
+
+  override fun hide(context: Context) {
     this.context = null
   }
 
   private fun createDialog() {
+    shouldRestoreDialog = false
     val dialogCreator = dialogCreator
     val context = context
     if (dialogCreator != null && context != null) {

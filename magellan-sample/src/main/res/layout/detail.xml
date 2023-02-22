@@ -38,6 +38,14 @@
       />
 
   <Button
+      android:id="@+id/dialog3"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="@dimen/largePadding"
+      android:text="@string/dialog_3"
+      />
+
+  <Button
       android:id="@+id/nextJourney"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"

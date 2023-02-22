@@ -11,6 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.wealthfront.magellan.DisableAnimationsAndKeyboardRule
 import com.wealthfront.magellan.action.orientationLandscape
 import com.wealthfront.magellan.onDialogView
 import com.wealthfront.magellan.sample.MainActivity
@@ -22,7 +23,9 @@ import org.junit.Test
 class DialogTest {
 
   @get:Rule
-  var activityRule = ActivityScenarioRule(MainActivity::class.java)
+  val activityRule = ActivityScenarioRule(MainActivity::class.java)
+  @get:Rule
+  val animationsAndKeyboardRule = DisableAnimationsAndKeyboardRule()
 
   @Before
   fun setup() {
@@ -57,6 +60,12 @@ class DialogTest {
 
     activityRule.scenario.recreate()
 
+    assertDialogContentsShown()
+  }
+
+  @Test
+  fun showDialog_immediate() {
+    onView(withId(R.id.dialog3)).perform(click())
     assertDialogContentsShown()
   }
 }

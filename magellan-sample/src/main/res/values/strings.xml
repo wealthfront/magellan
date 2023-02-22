@@ -4,6 +4,7 @@
   <string name="new_journey_text">Start next journey</string>
   <string name="dialog_1">Show a dialog</string>
   <string name="dialog_2">Show a different dialog</string>
+  <string name="dialog_3">Start a step with a dialog</string>
   <string name="response_affirmative">Yes</string>
   <string name="response_negative">No</string>
   <string name="exit">Exit</string>
