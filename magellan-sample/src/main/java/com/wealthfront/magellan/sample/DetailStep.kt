@@ -11,11 +11,11 @@ import com.wealthfront.magellan.view.DialogComponent
 import javax.inject.Inject
 
 class DetailStep(
-  private val startSecondJourney: () -> Unit
+  private val startSecondJourney: () -> Unit,
+  private val startDialogStep: () -> Unit
 ) : Step<DetailBinding>(DetailBinding::inflate) {
 
-  @set:Inject var dialogComponent1: DialogComponent by attachLateinitFieldToLifecycle()
-  @set:Inject var dialogComponent2: DialogComponent by attachLateinitFieldToLifecycle()
+  @set:Inject var dialogComponent: DialogComponent by attachLateinitFieldToLifecycle()
 
   override fun onCreate(context: Context) {
     appComponent.inject(this)
@@ -23,11 +23,14 @@ class DetailStep(
 
   override fun onShow(context: Context, binding: DetailBinding) {
     binding.dialog1.setOnClickListener {
-      dialogComponent1.showDialog(DialogCreator { activity -> getHelloDialog(activity) })
+      dialogComponent.showDialog(DialogCreator { activity -> getHelloDialog(activity) })
     }
 
     binding.dialog2.setOnClickListener {
-      dialogComponent2.showDialog(DialogCreator { activity -> getOrderDialog(activity) })
+      dialogComponent.showDialog(DialogCreator { activity -> getOrderDialog(activity) })
+    }
+    binding.dialog3.setOnClickListener {
+      startDialogStep()
     }
     binding.nextJourney.setOnClickListener {
       startSecondJourney()

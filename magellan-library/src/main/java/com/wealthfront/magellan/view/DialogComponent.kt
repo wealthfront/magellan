@@ -12,6 +12,7 @@ import javax.inject.Inject
 public class DialogComponent @Inject constructor() : LifecycleAware {
 
   private var dialogCreator: DialogCreator? = null
+  private var resumed = false
   public var dialog: Dialog? = null
     private set
   public var context: Context? = null
@@ -21,16 +22,20 @@ public class DialogComponent @Inject constructor() : LifecycleAware {
 
   public fun showDialog(dialogCreator: DialogCreator) {
     this.dialogCreator = dialogCreator
-    createDialog()
+    createDialogIfResumed()
   }
 
   public fun showDialog(dialogCreator: (Activity) -> Dialog) {
     this.dialogCreator = DialogCreator { dialogCreator.invoke(it) }
-    createDialog()
+    createDialogIfResumed()
+  }
+
+  override fun create(context: Context) {
   }
 
   override fun resume(context: Context) {
     this.context = context
+    resumed = true
     if (shouldRestoreDialog) {
       createDialog()
       shouldRestoreDialog = false
@@ -38,8 +43,21 @@ public class DialogComponent @Inject constructor() : LifecycleAware {
   }
 
   override fun pause(context: Context) {
-    destroyDialog()
     this.context = null
+    resumed = false
+    destroyDialog()
+  }
+
+  override fun destroy(context: Context) {
+    this.context = null
+  }
+
+  private fun createDialogIfResumed() {
+    if (resumed) {
+      createDialog()
+    } else {
+      shouldRestoreDialog = true
+    }
   }
 
   private fun createDialog() {

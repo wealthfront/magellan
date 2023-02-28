@@ -12,10 +12,14 @@ class SecondJourney : Journey<SecondJourneyBinding>(SecondJourneyBinding::inflat
 
   override fun onCreate(context: Context) {
     appComponent.inject(this)
-    navigator.goTo(DetailStep(::startSecondJourney))
+    navigator.goTo(DetailStep(::startSecondJourney, ::startDialogStep))
   }
 
   private fun startSecondJourney() {
     navigator.goTo(LearnMoreStep())
+  }
+
+  private fun startDialogStep() {
+    navigator.goTo(DialogStep())
   }
 }

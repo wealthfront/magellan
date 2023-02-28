@@ -227,7 +227,6 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
 
   public final void setActivity(@Nullable Activity activity) {
     this.activity = activity;
-    this.dialogComponent.setContext(activity);
   }
 
   public final void setNavigator(@NotNull Navigator navigator) {
