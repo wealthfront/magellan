@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.4-beta
+- Fixes `DialogComponent` not displaying dialog when `showDialog` called before `resume`
+
 ## 2.2.3-beta
 - Fixes `onBackPressed` called twice for navigables at the top of a navigator's backstack
 - Support non-Activity contexts (ie. ContextWrapper)
