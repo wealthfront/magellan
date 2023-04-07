@@ -1,9 +1,11 @@
 package com.wealthfront.magellan.sample
 
 import android.content.Context
+import android.view.View
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.sample.App.Provider.appComponent
 import com.wealthfront.magellan.sample.databinding.SecondJourneyBinding
+import com.wealthfront.magellan.transitions.CircularRevealTransition
 import javax.inject.Inject
 
 class SecondJourney : Journey<SecondJourneyBinding>(SecondJourneyBinding::inflate, SecondJourneyBinding::container) {
@@ -15,8 +17,8 @@ class SecondJourney : Journey<SecondJourneyBinding>(SecondJourneyBinding::inflat
     navigator.goTo(DetailStep(::startSecondJourney, ::startDialogStep))
   }
 
-  private fun startSecondJourney() {
-    navigator.goTo(LearnMoreStep())
+  private fun startSecondJourney(clickedView: View) {
+    navigator.goTo(LearnMoreStep(), CircularRevealTransition(clickedView))
   }
 
   private fun startDialogStep() {
