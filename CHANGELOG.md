@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.5-beta
+- Fixes `CircularRevealTransition` leaking memory and crashing on back press.
+
 ## 2.2.4-beta
 - Fixes `DialogComponent` not displaying dialog when `showDialog` called before `resume`
 
