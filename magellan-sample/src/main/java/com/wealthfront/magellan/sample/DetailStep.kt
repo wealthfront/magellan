@@ -2,6 +2,7 @@ package com.wealthfront.magellan.sample
 
 import android.app.AlertDialog
 import android.content.Context
+import android.view.View
 import com.wealthfront.magellan.DialogCreator
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.lifecycle.attachLateinitFieldToLifecycle
@@ -11,7 +12,7 @@ import com.wealthfront.magellan.view.DialogComponent
 import javax.inject.Inject
 
 class DetailStep(
-  private val startSecondJourney: () -> Unit,
+  private val startSecondJourney: (clickedView: View) -> Unit,
   private val startDialogStep: () -> Unit
 ) : Step<DetailBinding>(DetailBinding::inflate) {
 
@@ -33,7 +34,7 @@ class DetailStep(
       startDialogStep()
     }
     binding.nextJourney.setOnClickListener {
-      startSecondJourney()
+      startSecondJourney(it)
     }
   }
 

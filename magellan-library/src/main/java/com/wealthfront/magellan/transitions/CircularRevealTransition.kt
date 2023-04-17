@@ -7,17 +7,23 @@ import android.os.Build
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
+import androidx.annotation.IdRes
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.wealthfront.magellan.Direction
 import kotlin.math.hypot
 
+@Suppress("FunctionName")
+public fun CircularRevealTransition(clickedView: View): MagellanTransition {
+  return CircularRevealTransition(clickedView.id)
+}
+
 /**
  * A [MagellanTransition] that reveals the next screen circularly outward from the middle of the
- * [clickedView].
+ * [clickedViewId].
  *
- * @property clickedView the view on which this circular reveal is centered
+ * @property clickedViewId the id of the view on which this circular reveal is centered
  */
-public class CircularRevealTransition(private val clickedView: View) : MagellanTransition {
+private class CircularRevealTransition(@IdRes private val clickedViewId: Int) : MagellanTransition {
 
   private var animator: Animator? = null
 
@@ -31,33 +37,38 @@ public class CircularRevealTransition(private val clickedView: View) : MagellanT
     direction: Direction,
     onAnimationEndCallback: () -> Unit
   ) {
-    val clickedViewCenter = getCenterClickedView(from as ViewGroup)
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+      onAnimationEndCallback()
+      return
+    }
+
+    val clickedViewContainer = if (direction == Direction.FORWARD) from else to
+    val viewToReveal = if (direction == Direction.FORWARD) to else from!!
+    val clickedViewCenter = getCenterClickedView(clickedViewContainer as ViewGroup)
     val circularRevealCenterX = clickedViewCenter[0]
     val circularRevealCenterY = clickedViewCenter[1]
-    val finalRadius = hypot(to.width.toDouble(), to.height.toDouble()).toFloat()
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      animator = ViewAnimationUtils.createCircularReveal(
-        to, circularRevealCenterX,
-        circularRevealCenterY, 0f, finalRadius
-      ).apply {
-        addListener(object : AnimatorListenerAdapter() {
-          override fun onAnimationEnd(animation: Animator) {
-            animator = null
-            onAnimationEndCallback()
-          }
-        })
-        interpolator = FastOutSlowInInterpolator()
-      }
-      animator!!.start()
-    } else {
-      onAnimationEndCallback()
-    }
+    val revealedRadius = hypot(viewToReveal.width.toDouble(), viewToReveal.height.toDouble()).toFloat()
+    val finalRadius = if (direction == Direction.FORWARD) revealedRadius else 0f
+    val startRadius = if (direction == Direction.FORWARD) 0f else revealedRadius
+    animator = ViewAnimationUtils.createCircularReveal(
+      viewToReveal, circularRevealCenterX,
+      circularRevealCenterY, startRadius, finalRadius
+    ).apply {
+      addListener(object : AnimatorListenerAdapter() {
+        override fun onAnimationEnd(animation: Animator) {
+          animator = null
+          onAnimationEndCallback()
+        }
+      })
+      interpolator = FastOutSlowInInterpolator()
+    }.also { it.start() }
   }
 
-  private fun getCenterClickedView(from: ViewGroup): IntArray {
+  private fun getCenterClickedView(clickedViewContainer: ViewGroup): IntArray {
+    val clickedView = clickedViewContainer.findViewById<View>(clickedViewId)
     val clickedViewRect = Rect()
     clickedView.getDrawingRect(clickedViewRect)
-    from.offsetDescendantRectToMyCoords(clickedView, clickedViewRect)
+    clickedViewContainer.offsetDescendantRectToMyCoords(clickedView, clickedViewRect)
     return intArrayOf(
       clickedViewRect.exactCenterX().toInt(),
       clickedViewRect.exactCenterY().toInt()
