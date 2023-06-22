@@ -67,11 +67,15 @@ private class CircularRevealTransition(@IdRes private val clickedViewId: Int) : 
   private fun getCenterClickedView(clickedViewContainer: ViewGroup): IntArray {
     val clickedView = clickedViewContainer.findViewById<View>(clickedViewId)
     val clickedViewRect = Rect()
-    clickedView.getDrawingRect(clickedViewRect)
-    clickedViewContainer.offsetDescendantRectToMyCoords(clickedView, clickedViewRect)
-    return intArrayOf(
-      clickedViewRect.exactCenterX().toInt(),
-      clickedViewRect.exactCenterY().toInt()
-    )
+    return if (clickedView != null) {
+      clickedView.getDrawingRect(clickedViewRect)
+      clickedViewContainer.offsetDescendantRectToMyCoords(clickedView, clickedViewRect)
+      intArrayOf(
+        clickedViewRect.exactCenterX().toInt(),
+        clickedViewRect.exactCenterY().toInt()
+      )
+    } else {
+      intArrayOf(clickedViewContainer.width / 2, clickedViewContainer.height / 2)
+    }
   }
 }
