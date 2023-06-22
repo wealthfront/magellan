@@ -8,6 +8,7 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:ignore="Overdraw"
+    android:id="@+id/introStepRoot"
     >
 
   <ImageView

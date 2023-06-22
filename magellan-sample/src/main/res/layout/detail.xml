@@ -10,6 +10,7 @@
     android:paddingLeft="@dimen/largePadding"
     android:paddingRight="@dimen/largePadding"
     tools:ignore="Overdraw"
+    android:id="@+id/detailStepRoot"
     >
 
   <TextView
@@ -46,7 +47,7 @@
       />
 
   <Button
-      android:id="@+id/nextJourney"
+      android:id="@+id/detailNextJourney"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/new_journey_text"

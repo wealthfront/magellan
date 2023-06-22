@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.sample
 
 import android.content.Context
+import android.view.View
 import com.wealthfront.magellan.core.Journey
 import com.wealthfront.magellan.sample.App.Provider.appComponent
 import com.wealthfront.magellan.sample.databinding.FirstJourneyBinding
@@ -18,7 +19,7 @@ class FirstJourney(
   }
 
   override fun onShow(context: Context, binding: FirstJourneyBinding) {
-    binding.nextJourney.setOnClickListener {
+    binding.firstNextJourney.setOnClickListener {
       goToSecondJourney()
     }
   }

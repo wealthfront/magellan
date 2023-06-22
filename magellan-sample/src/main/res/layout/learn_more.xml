@@ -7,6 +7,7 @@
     android:background="@color/colorCyan"
     android:orientation="vertical"
     tools:ignore="Overdraw"
+    android:id="@+id/learnMoreStepRoot"
     >
 
   <TextView

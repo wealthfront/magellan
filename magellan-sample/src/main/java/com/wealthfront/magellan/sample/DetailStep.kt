@@ -33,7 +33,7 @@ class DetailStep(
     binding.dialog3.setOnClickListener {
       startDialogStep()
     }
-    binding.nextJourney.setOnClickListener {
+    binding.detailNextJourney.setOnClickListener {
       startSecondJourney(it)
     }
   }

@@ -6,10 +6,11 @@
     android:gravity="center"
     android:orientation="vertical"
     android:background="@android:color/white"
+    android:id="@+id/firstJourneyRoot"
     >
 
   <Button
-      android:id="@+id/nextJourney"
+      android:id="@+id/firstNextJourney"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_margin="@dimen/largePadding"
