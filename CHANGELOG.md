@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.6-beta
+- Fixes `CircularRevealTransition` attempting to target non-existent views
+
 ## 2.2.5-beta
 - Fixes `CircularRevealTransition` leaking memory and crashing on back press.
 
