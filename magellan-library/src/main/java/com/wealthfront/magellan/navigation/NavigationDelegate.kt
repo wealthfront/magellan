@@ -94,11 +94,13 @@ public open class NavigationDelegate(
       }
     }
 
-    val from = navigateFrom(oldBackStackCopy.currentNavigable)
+    val fromNavigable = oldBackStackCopy.currentNavigable
+    val from = navigateFrom(fromNavigable)
     val newBackStack = backStack.map { it.navigable }
     findBackstackChangesAndUpdateStates(oldBackStack = oldBackStack, newBackStack = newBackStack)
-    val to = navigateTo(backStack.currentNavigable!!, direction)
-    animateAndRemove(from, to, direction, transition)
+    val toNavigable = backStack.currentNavigable!!
+    val to = navigateTo(toNavigable, direction)
+    animateAndRemove(fromNavigable, from, toNavigable, to, direction, transition)
   }
 
   private fun findBackstackChangesAndUpdateStates(
@@ -129,7 +131,9 @@ public open class NavigationDelegate(
     joinToString(prefix = "[", postfix = "]") { it::class.java.simpleName }
 
   protected open fun animateAndRemove(
+    fromNavigable: NavigableCompat?,
     from: View?,
+    toNavigable: NavigableCompat,
     to: View?,
     direction: Direction,
     magellanTransition: MagellanTransition
@@ -144,6 +148,9 @@ public open class NavigationDelegate(
         NoAnimationTransition()
       }
       transition.animate(from, to, direction) {
+        if (fromNavigable != null && lifecycleRegistry.children.contains(fromNavigable)) {
+          lifecycleRegistry.updateMaxState(fromNavigable, CREATED)
+        }
         if (context != null && containerView != null) {
           containerView!!.removeView(from)
           currentNavigable!!.transitionFinished()
@@ -174,7 +181,6 @@ public open class NavigationDelegate(
   protected open fun navigateFrom(currentNavigable: NavigableCompat?): View? {
     return currentNavigable?.let { oldNavigable ->
       val currentView = templatedViewMap[oldNavigable] ?: oldNavigable.view
-      lifecycleRegistry.updateMaxState(oldNavigable, CREATED)
       navigationPropagator.onNavigatedFrom(oldNavigable)
       templatedViewMap.remove(oldNavigable)
       currentView
