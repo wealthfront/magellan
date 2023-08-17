@@ -90,5 +90,5 @@ constraintlayout = { module = "androidx.constraintlayout:constraintlayout", vers
 ktx-core = { module = "androidx.core:core-ktx", version = "1.10.1" }
 
 # Sentry
-sentry-android = { module = "io.sentry:sentry-android", version = "6.8.0" }
+sentry-android = { module = "io.sentry:sentry-android", version = "6.28.0" }
 
