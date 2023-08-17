@@ -17,9 +17,7 @@
         "minor",
         "pin",
         "digest"
-      ],
-      "groupName": "Minor dependency updates",
-      "automerge": true
+      ]
     },
     {
       "matchUpdateTypes": [
