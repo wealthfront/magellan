@@ -14,7 +14,7 @@ material3 = "1.0.1"
 appcompat = "1.5.1"
 constraintlayout = "2.1.4"
 inject = "0.5.1"
-sqldelight = "1.5.4"
+sqldelight = "1.5.5"
 datetime = "0.4.0"
 
 kotest = "5.5.4"
