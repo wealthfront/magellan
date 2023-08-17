@@ -1,6 +1,6 @@
 [versions]
 kotlin = "1.7.20"
-coroutines = "1.6.4"
+coroutines = "1.7.3"
 # https://developer.android.com/jetpack/compose/setup#bom-version-mapping
 composebom = "2022.12.00"
 # https://developer.android.com/jetpack/androidx/releases/compose-kotlin#pre-release_kotlin_compatibility
