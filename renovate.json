@@ -17,7 +17,8 @@
         "minor",
         "pin",
         "digest"
-      ]
+      ],
+      "automerge": true
     },
     {
       "matchUpdateTypes": [
