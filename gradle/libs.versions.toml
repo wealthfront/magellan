@@ -87,7 +87,7 @@ accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-dra
 material = { module = "com.google.android.material:material", version.ref = "material" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
-ktx-core = { module = "androidx.core:core-ktx", version = "1.9.0" }
+ktx-core = { module = "androidx.core:core-ktx", version = "1.10.1" }
 
 # Sentry
 sentry-android = { module = "io.sentry:sentry-android", version = "6.8.0" }
