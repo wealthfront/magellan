@@ -1,0 +1,30 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+  "schedule": "every weekend",
+  "labels": [
+    "dependencies"
+  ],
+  "reviewers": [
+    "ryanmoelter"
+  ],
+  "prHourlyLimit": 0,
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "pin",
+        "digest"
+      ]
+    },
+    {
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "groupName": "Patch dependency updates",
+      "automerge": true
+    }
+  ]
+}
