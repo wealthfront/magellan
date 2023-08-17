@@ -73,7 +73,7 @@ compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeb
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-foundation = { module = "androidx.compose.foundation:foundation" }
-compose-material3 = { module = "androidx.compose.material3:material3", version = "1.0.1" }
+compose-material3 = { module = "androidx.compose.material3:material3", version = "1.1.1" }
 compose-material2 = { module = "androidx.compose.material:material" }
 compose-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
 compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
