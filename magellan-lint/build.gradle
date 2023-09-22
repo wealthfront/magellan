@@ -3,8 +3,8 @@ apply plugin: "kotlin"
 apply plugin: 'com.android.lint'
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_1_8
-  targetCompatibility = JavaVersion.VERSION_1_8
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
 }
 
 lintOptions {
@@ -16,15 +16,15 @@ lintOptions {
 }
 
 dependencies {
-  compileOnly Dependencies.lintApi
-  compileOnly Dependencies.lintChecks
+  compileOnly Libs.lintApi
+  compileOnly Libs.lintChecks
 
-  testImplementation Dependencies.junit
-  testImplementation Dependencies.truth
-  testImplementation Dependencies.lint
-  testImplementation Dependencies.lintTests
-  testImplementation Dependencies.testUtils
-  testImplementation(Dependencies.truth) {
+  testImplementation Libs.junit
+  testImplementation Libs.truth
+  testImplementation Libs.lint
+  testImplementation Libs.lintTests
+  testImplementation Libs.testUtils
+  testImplementation(Libs.truth) {
     exclude group: 'com.google.guava', module: 'guava'
   }
 }

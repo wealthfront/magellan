@@ -85,7 +85,7 @@ afterEvaluate { project ->
       project.getPlugins().hasPlugin('com.android.library')) {
 
     task androidSourcesJar(type: Jar) {
-      classifier = 'sources'
+      archiveClassifier = 'sources'
       from android.sourceSets.main.java.source
     }
   }

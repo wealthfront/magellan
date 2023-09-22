@@ -17,8 +17,8 @@ android {
   }
 
   compileOptions {
-    setSourceCompatibility(JavaVersion.VERSION_1_8)
-    setTargetCompatibility(JavaVersion.VERSION_1_8)
+    setSourceCompatibility(JavaVersion.VERSION_17)
+    setTargetCompatibility(JavaVersion.VERSION_17)
   }
 
   buildTypes {
@@ -26,6 +26,7 @@ android {
       minifyEnabled false
     }
   }
+  namespace 'com.wealthfront.magellan.legacy'
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
@@ -33,23 +34,23 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
     kotlinOptions.freeCompilerArgs = ['-Xexplicit-api=strict', '-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi']
   }
   kotlinOptions.allWarningsAsErrors = true
-  kotlinOptions.jvmTarget = "1.8"
+  kotlinOptions.jvmTarget = JavaVersion.VERSION_17
 }
 
 dependencies {
   implementation project(':magellan-library')
 
-  implementation Dependencies.appCompat
-  implementation Dependencies.inject
-  implementation Dependencies.coroutines
-  implementation Dependencies.coroutinesAndroid
+  implementation Libs.appCompat
+  implementation Libs.inject
+  implementation Libs.coroutines
+  implementation Libs.coroutinesAndroid
 
   testImplementation project(':internal-test-support')
-  testImplementation Dependencies.testCore
-  testImplementation Dependencies.junit
-  testImplementation Dependencies.truth
-  testImplementation Dependencies.mockito
-  testImplementation Dependencies.robolectric
+  testImplementation Libs.testCore
+  testImplementation Libs.junit
+  testImplementation Libs.truth
+  testImplementation Libs.mockito
+  testImplementation Libs.robolectric
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

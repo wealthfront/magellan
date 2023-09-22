@@ -15,8 +15,8 @@ android {
   }
 
   compileOptions {
-    setSourceCompatibility(JavaVersion.VERSION_1_8)
-    setTargetCompatibility(JavaVersion.VERSION_1_8)
+    setSourceCompatibility(JavaVersion.VERSION_17)
+    setTargetCompatibility(JavaVersion.VERSION_17)
   }
 
   buildFeatures {
@@ -36,7 +36,7 @@ android {
   }
 
   kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = JavaVersion.VERSION_17
   }
 
   packagingOptions {
@@ -46,6 +46,7 @@ android {
   lintOptions {
     disable 'InvalidPackage','IconDensities', 'ObsoleteLintCustomCheck', 'IconMissingDensityFolder', 'AllowBackup'
   }
+  namespace 'com.wealthfront.magellan.sample.migration'
 }
 
 dependencies {
@@ -53,30 +54,27 @@ dependencies {
   implementation project(':magellan-legacy')
   implementation project(':magellan-rx')
 
-  implementation Dependencies.appCompat
-  implementation Dependencies.butterknife
-  kapt Dependencies.butterknifeCompiler
+  implementation Libs.appCompat
+  implementation Libs.dagger
+  kapt Libs.daggerCompiler
 
-  implementation Dependencies.dagger
-  kapt Dependencies.daggerCompiler
+  implementation Libs.glide
+  implementation Libs.retrofit
+  implementation Libs.rxjavaAdapter
+  implementation Libs.rxandroid
+  implementation Libs.jackson
+  implementation Libs.okhttp
+  implementation Libs.coroutines
+  implementation Libs.coroutinesAndroid
+  implementation Libs.jodaTime
 
-  implementation Dependencies.glide
-  implementation Dependencies.retrofit
-  implementation Dependencies.rxjavaAdapter
-  implementation Dependencies.rxandroid
-  implementation Dependencies.jackson
-  implementation Dependencies.okhttp
-  implementation Dependencies.coroutines
-  implementation Dependencies.coroutinesAndroid
-  implementation Dependencies.jodaTime
+  kaptTest Libs.daggerCompiler
+  testImplementation Libs.junit
+  testImplementation Libs.testCore
+  testImplementation Libs.truth
+  testImplementation Libs.mockito
+  testImplementation Libs.robolectric
 
-  kaptTest Dependencies.daggerCompiler
-  testImplementation Dependencies.junit
-  testImplementation Dependencies.testCore
-  testImplementation Dependencies.truth
-  testImplementation Dependencies.mockito
-  testImplementation Dependencies.robolectric
-
-  androidTestImplementation Dependencies.extJunit
-  androidTestImplementation Dependencies.espressoCore
+  androidTestImplementation Libs.extJunit
+  androidTestImplementation Libs.espressoCore
 }

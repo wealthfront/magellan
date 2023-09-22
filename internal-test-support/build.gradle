@@ -12,8 +12,8 @@ android {
   }
 
   compileOptions {
-    setSourceCompatibility(JavaVersion.VERSION_1_8)
-    setTargetCompatibility(JavaVersion.VERSION_1_8)
+    setSourceCompatibility(JavaVersion.VERSION_17)
+    setTargetCompatibility(JavaVersion.VERSION_17)
   }
 
   buildFeatures {
@@ -25,17 +25,18 @@ android {
       minifyEnabled false
     }
   }
+  namespace 'com.wealthfront.magellan.internal.test'
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
   kotlinOptions.allWarningsAsErrors = true
-  kotlinOptions.jvmTarget = "1.8"
+  kotlinOptions.jvmTarget = JavaVersion.VERSION_17
 }
 
 dependencies {
   implementation project(':magellan-library')
   implementation project(':magellan-legacy')
 
-  implementation Dependencies.inject
-  implementation Dependencies.appCompat
+  implementation Libs.inject
+  implementation Libs.appCompat
 }

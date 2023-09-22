@@ -15,8 +15,8 @@ android {
   }
 
   compileOptions {
-    setSourceCompatibility(JavaVersion.VERSION_1_8)
-    setTargetCompatibility(JavaVersion.VERSION_1_8)
+    setSourceCompatibility(JavaVersion.VERSION_17)
+    setTargetCompatibility(JavaVersion.VERSION_17)
   }
 
   buildTypes {
@@ -24,6 +24,7 @@ android {
       minifyEnabled false
     }
   }
+  namespace 'com.wealthfront.magellan.rx2'
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
@@ -31,19 +32,19 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
     kotlinOptions.freeCompilerArgs = ['-Xexplicit-api=strict']
   }
   kotlinOptions.allWarningsAsErrors = true
-  kotlinOptions.jvmTarget = "1.8"
+  kotlinOptions.jvmTarget = JavaVersion.VERSION_17
 }
 
 dependencies {
   implementation project(':magellan-legacy')
   implementation project(':magellan-library')
 
-  implementation Dependencies.rxjava2
-  implementation Dependencies.inject
+  implementation Libs.rxjava2
+  implementation Libs.inject
 
-  testImplementation Dependencies.junit
-  testImplementation Dependencies.truth
-  testImplementation Dependencies.mockito
+  testImplementation Libs.junit
+  testImplementation Libs.truth
+  testImplementation Libs.mockito
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
