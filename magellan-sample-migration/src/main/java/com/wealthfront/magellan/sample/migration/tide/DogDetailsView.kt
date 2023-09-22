@@ -1,21 +1,17 @@
 package com.wealthfront.magellan.sample.migration.tide
 
 import android.content.Context
-import android.widget.ImageView
-import butterknife.BindView
-import butterknife.ButterKnife.bind
+import android.view.LayoutInflater
 import com.bumptech.glide.Glide
 import com.wealthfront.magellan.BaseScreenView
-import com.wealthfront.magellan.sample.migration.R
+import com.wealthfront.magellan.sample.migration.databinding.DogDetailsBinding
 
 class DogDetailsView(context: Context) : BaseScreenView<DogDetailsScreen>(context) {
 
-  @BindView(R.id.dogImage) lateinit var dogImage: ImageView
+  private val viewBinding = DogDetailsBinding.inflate(LayoutInflater.from(context), this, true)
 
   init {
-    inflate(R.layout.dog_details)
-    bind(this)
-    dogImage.setOnLongClickListener { image ->
+    viewBinding.dogImage.setOnLongClickListener { image ->
       screen.goToHelpScreen(image)
       return@setOnLongClickListener true
     }
@@ -24,6 +20,6 @@ class DogDetailsView(context: Context) : BaseScreenView<DogDetailsScreen>(contex
   fun setDogPic(dogUrl: String) {
     Glide.with(this)
       .load(dogUrl)
-      .into(dogImage)
+      .into(viewBinding.dogImage)
   }
 }

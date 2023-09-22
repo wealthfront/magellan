@@ -55,9 +55,6 @@ dependencies {
   implementation project(':magellan-rx')
 
   implementation Libs.appCompat
-  implementation Libs.butterknife
-  kapt Libs.butterknifeCompiler
-
   implementation Libs.dagger
   kapt Libs.daggerCompiler
 
