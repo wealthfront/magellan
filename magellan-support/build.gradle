@@ -14,8 +14,8 @@ android {
   }
 
   compileOptions {
-    setSourceCompatibility(JavaVersion.VERSION_1_8)
-    setTargetCompatibility(JavaVersion.VERSION_1_8)
+    setSourceCompatibility(JavaVersion.VERSION_17)
+    setTargetCompatibility(JavaVersion.VERSION_17)
   }
 
   buildTypes {
@@ -40,5 +40,3 @@ dependencies {
   testImplementation Libs.mockito
   testImplementation Libs.robolectric
 }
-
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
