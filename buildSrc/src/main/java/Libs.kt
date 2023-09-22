@@ -40,7 +40,7 @@ object Plugins {
   const val detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektVersion"
 }
 
-object Dependencies {
+object Libs {
 
   const val appCompat = "androidx.appcompat:appcompat:$supportLibVersion"
   const val constraintLayout = "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"

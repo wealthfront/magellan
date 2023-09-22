@@ -24,6 +24,7 @@ android {
       minifyEnabled false
     }
   }
+  namespace 'com.wealthfront.magellan.test'
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
@@ -34,11 +35,11 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
 dependencies {
   implementation project(':magellan-library')
 
-  implementation Dependencies.inject
+  implementation Libs.inject
 
-  testImplementation Dependencies.junit
-  testImplementation Dependencies.truth
-  testImplementation Dependencies.mockito
+  testImplementation Libs.junit
+  testImplementation Libs.truth
+  testImplementation Libs.mockito
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

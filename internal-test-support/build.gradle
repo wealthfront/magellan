@@ -25,6 +25,7 @@ android {
       minifyEnabled false
     }
   }
+  namespace 'com.wealthfront.magellan.internal.test'
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
@@ -36,6 +37,6 @@ dependencies {
   implementation project(':magellan-library')
   implementation project(':magellan-legacy')
 
-  implementation Dependencies.inject
-  implementation Dependencies.appCompat
+  implementation Libs.inject
+  implementation Libs.appCompat
 }

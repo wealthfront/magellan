@@ -46,6 +46,7 @@ android {
   kotlinOptions {
     jvmTarget = '1.8'
   }
+  namespace 'com.wealthfront.magellan.sample.advanced'
 }
 
 dependencies {
@@ -53,36 +54,36 @@ dependencies {
   implementation project(':magellan-library')
   implementation project(':magellan-rx2')
 
-  implementation Dependencies.androidXCore
-  implementation Dependencies.appCompat
-  implementation Dependencies.material
-  implementation Dependencies.constraintLayout
+  implementation Libs.androidXCore
+  implementation Libs.appCompat
+  implementation Libs.material
+  implementation Libs.constraintLayout
 
-  implementation Dependencies.dagger
-  kapt Dependencies.daggerCompiler
+  implementation Libs.dagger
+  kapt Libs.daggerCompiler
 
-  implementation Dependencies.retrofit
-  implementation Dependencies.rxjava
-  implementation Dependencies.rxAndroid2
-  implementation Dependencies.retrofitMock
-  implementation Dependencies.rxJava2Adapter
-  implementation Dependencies.jackson
-  implementation Dependencies.okhttp
-  implementation Dependencies.coroutines
-  implementation Dependencies.coroutinesAndroid
+  implementation Libs.retrofit
+  implementation Libs.rxjava
+  implementation Libs.rxAndroid2
+  implementation Libs.retrofitMock
+  implementation Libs.rxJava2Adapter
+  implementation Libs.jackson
+  implementation Libs.okhttp
+  implementation Libs.coroutines
+  implementation Libs.coroutinesAndroid
 
-  testImplementation Dependencies.junit
-  testImplementation Dependencies.testCore
-  testImplementation Dependencies.truth
-  testImplementation Dependencies.mockito
-  testImplementation Dependencies.robolectric
+  testImplementation Libs.junit
+  testImplementation Libs.testCore
+  testImplementation Libs.truth
+  testImplementation Libs.mockito
+  testImplementation Libs.robolectric
 
-  androidTestImplementation Dependencies.rx2idler
-  androidTestImplementation Dependencies.testCore
-  androidTestImplementation Dependencies.testCoreKtx
-  androidTestImplementation Dependencies.espressoCore
-  androidTestImplementation Dependencies.testRunner
-  androidTestImplementation Dependencies.testRules
+  androidTestImplementation Libs.rx2idler
+  androidTestImplementation Libs.testCore
+  androidTestImplementation Libs.testCoreKtx
+  androidTestImplementation Libs.espressoCore
+  androidTestImplementation Libs.testRunner
+  androidTestImplementation Libs.testRules
 
   androidTestImplementation 'androidx.test:runner:1.4.0'
   androidTestUtil 'androidx.test:orchestrator:1.4.1'

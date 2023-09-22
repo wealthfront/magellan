@@ -36,8 +36,6 @@ detekt {
   tasks.findByName("check")?.dependsOn("detekt")
 }
 
-tasks.withType(Test) {
-  reports {
-    html.setEnabled(true)
-  }
+tasks.withType(TestReport).configureEach {
+  enabled = true
 }

@@ -27,17 +27,18 @@ android {
   lintOptions {
     disable 'StaticFieldLeak'
   }
+  namespace 'com.wealthfront.magellan.support'
 }
 
 dependencies {
   implementation project(':magellan-legacy')
 
-  implementation Dependencies.appCompat
+  implementation Libs.appCompat
 
-  testImplementation Dependencies.junit
-  testImplementation Dependencies.truth
-  testImplementation Dependencies.mockito
-  testImplementation Dependencies.robolectric
+  testImplementation Libs.junit
+  testImplementation Libs.truth
+  testImplementation Libs.mockito
+  testImplementation Libs.robolectric
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

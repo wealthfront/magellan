@@ -36,6 +36,7 @@ android {
       minifyEnabled false
     }
   }
+  namespace 'com.wealthfront.magellan'
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
@@ -49,23 +50,23 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
 }
 
 dependencies {
-  implementation Dependencies.appCompat
-  implementation Dependencies.lifecycle
-  implementation Dependencies.inject
-  implementation Dependencies.coroutines
-  implementation Dependencies.coroutinesAndroid
+  implementation Libs.appCompat
+  implementation Libs.lifecycle
+  implementation Libs.inject
+  implementation Libs.coroutines
+  implementation Libs.coroutinesAndroid
 
   testImplementation project(':internal-test-support')
-  testImplementation Dependencies.testCore
-  testImplementation Dependencies.testCoreKtx
-  testImplementation Dependencies.junit
-  testImplementation Dependencies.extJunitKtx
-  testImplementation Dependencies.truth
-  testImplementation Dependencies.mockito
-  testImplementation Dependencies.mockK
-  testImplementation Dependencies.archTesting
-  testImplementation Dependencies.robolectric
-  testImplementation Dependencies.coroutinesTest
+  testImplementation Libs.testCore
+  testImplementation Libs.testCoreKtx
+  testImplementation Libs.junit
+  testImplementation Libs.extJunitKtx
+  testImplementation Libs.truth
+  testImplementation Libs.mockito
+  testImplementation Libs.mockK
+  testImplementation Libs.archTesting
+  testImplementation Libs.robolectric
+  testImplementation Libs.coroutinesTest
 
 // Bug in AGP: Follow this issue - https://issuetracker.google.com/issues/141840950
 // lintPublish project(':magellan-lint')

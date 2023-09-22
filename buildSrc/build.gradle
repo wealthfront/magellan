@@ -1,5 +1,5 @@
 plugins {
-  id 'org.jetbrains.kotlin.jvm' version '1.6.20'
+  id 'org.jetbrains.kotlin.jvm' version '1.8.21'
 }
 
 repositories {
@@ -9,17 +9,17 @@ repositories {
 }
 
 dependencies {
-  implementation 'com.android.tools.build:gradle:7.4.2'
+  implementation 'com.android.tools.build:gradle:8.1.1'
 }
 
 compileKotlin {
   kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = JavaVersion.VERSION_17
   }
 }
 
 compileTestKotlin {
   kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = JavaVersion.VERSION_17
   }
 }

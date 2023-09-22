@@ -33,27 +33,28 @@ android {
       minifyEnabled false
     }
   }
+  namespace 'com.wealthfront.magellan.sample'
 }
 
 dependencies {
   implementation project(':magellan-library')
   implementation project(':magellan-legacy')
 
-  implementation Dependencies.appCompat
-  implementation Dependencies.material
-  implementation Dependencies.coroutines
-  implementation Dependencies.coroutinesAndroid
+  implementation Libs.appCompat
+  implementation Libs.material
+  implementation Libs.coroutines
+  implementation Libs.coroutinesAndroid
 
-  implementation Dependencies.dagger
-  kapt Dependencies.daggerCompiler
+  implementation Libs.dagger
+  kapt Libs.daggerCompiler
 
-  testImplementation Dependencies.junit
+  testImplementation Libs.junit
 
-  androidTestImplementation Dependencies.testRunner
-  androidTestImplementation Dependencies.testRules
-  androidTestImplementation Dependencies.uiAutomator
-  androidTestImplementation Dependencies.extJunit
-  androidTestImplementation Dependencies.espressoCore
+  androidTestImplementation Libs.testRunner
+  androidTestImplementation Libs.testRules
+  androidTestImplementation Libs.uiAutomator
+  androidTestImplementation Libs.extJunit
+  androidTestImplementation Libs.espressoCore
 
   lintPublish project(':magellan-lint')
 }

@@ -24,6 +24,7 @@ android {
       minifyEnabled false
     }
   }
+  namespace 'com.wealthfront.magellan.rx'
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
@@ -38,12 +39,12 @@ dependencies {
   implementation project(':magellan-legacy')
   implementation project(':magellan-library')
 
-  implementation Dependencies.rxjava
-  implementation Dependencies.inject
+  implementation Libs.rxjava
+  implementation Libs.inject
 
-  testImplementation Dependencies.junit
-  testImplementation Dependencies.truth
-  testImplementation Dependencies.mockito
+  testImplementation Libs.junit
+  testImplementation Libs.truth
+  testImplementation Libs.mockito
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

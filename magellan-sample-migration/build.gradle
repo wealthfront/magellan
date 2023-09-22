@@ -46,6 +46,7 @@ android {
   lintOptions {
     disable 'InvalidPackage','IconDensities', 'ObsoleteLintCustomCheck', 'IconMissingDensityFolder', 'AllowBackup'
   }
+  namespace 'com.wealthfront.magellan.sample.migration'
 }
 
 dependencies {
@@ -53,30 +54,30 @@ dependencies {
   implementation project(':magellan-legacy')
   implementation project(':magellan-rx')
 
-  implementation Dependencies.appCompat
-  implementation Dependencies.butterknife
-  kapt Dependencies.butterknifeCompiler
+  implementation Libs.appCompat
+  implementation Libs.butterknife
+  kapt Libs.butterknifeCompiler
 
-  implementation Dependencies.dagger
-  kapt Dependencies.daggerCompiler
+  implementation Libs.dagger
+  kapt Libs.daggerCompiler
 
-  implementation Dependencies.glide
-  implementation Dependencies.retrofit
-  implementation Dependencies.rxjavaAdapter
-  implementation Dependencies.rxandroid
-  implementation Dependencies.jackson
-  implementation Dependencies.okhttp
-  implementation Dependencies.coroutines
-  implementation Dependencies.coroutinesAndroid
-  implementation Dependencies.jodaTime
+  implementation Libs.glide
+  implementation Libs.retrofit
+  implementation Libs.rxjavaAdapter
+  implementation Libs.rxandroid
+  implementation Libs.jackson
+  implementation Libs.okhttp
+  implementation Libs.coroutines
+  implementation Libs.coroutinesAndroid
+  implementation Libs.jodaTime
 
-  kaptTest Dependencies.daggerCompiler
-  testImplementation Dependencies.junit
-  testImplementation Dependencies.testCore
-  testImplementation Dependencies.truth
-  testImplementation Dependencies.mockito
-  testImplementation Dependencies.robolectric
+  kaptTest Libs.daggerCompiler
+  testImplementation Libs.junit
+  testImplementation Libs.testCore
+  testImplementation Libs.truth
+  testImplementation Libs.mockito
+  testImplementation Libs.robolectric
 
-  androidTestImplementation Dependencies.extJunit
-  androidTestImplementation Dependencies.espressoCore
+  androidTestImplementation Libs.extJunit
+  androidTestImplementation Libs.espressoCore
 }
