@@ -6,17 +6,17 @@ import android.content.DialogInterface
 import com.wealthfront.magellan.LegacyStep
 import com.wealthfront.magellan.OpenForMocking
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
-import com.wealthfront.magellan.rx.RxUnsubscriber
+import com.wealthfront.magellan.rx2.RxDisposer
 import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.api.DogApi
-import rx.android.schedulers.AndroidSchedulers
+import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import javax.inject.Inject
 
 @OpenForMocking
 class HelpScreen(private val goToBreedsStep: () -> Unit) : LegacyStep<HelpView>() {
 
   @Inject lateinit var api: DogApi
-  private val rxUnsubscriber by attachFieldToLifecycle(RxUnsubscriber())
+  private val rxUnsubscriber by attachFieldToLifecycle(RxDisposer())
 
   override fun onCreate(context: Context) {
     (context.applicationContext as AppComponentContainer).injector().inject(this)
@@ -27,9 +27,9 @@ class HelpScreen(private val goToBreedsStep: () -> Unit) : LegacyStep<HelpView>(
   }
 
   override fun onShow(context: Context) {
-    rxUnsubscriber.autoUnsubscribe(
+    rxUnsubscriber.autoDispose(
       api.getRandomImageForBreed("husky")
-        .observeOn(AndroidSchedulers.mainThread())
+        .observeOn(mainThread())
         .subscribe {
           view!!.setDogPic(it.message)
         }

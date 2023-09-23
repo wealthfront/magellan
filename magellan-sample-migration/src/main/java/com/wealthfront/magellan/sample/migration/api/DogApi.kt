@@ -1,9 +1,9 @@
 package com.wealthfront.magellan.sample.migration.api
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
-import rx.Observable
 
 interface DogApi {
 

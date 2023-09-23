@@ -5,19 +5,19 @@ import android.view.View
 import android.widget.Toast
 import com.wealthfront.magellan.Screen
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
-import com.wealthfront.magellan.rx.RxUnsubscriber
+import com.wealthfront.magellan.rx2.RxDisposer
 import com.wealthfront.magellan.sample.migration.R
 import com.wealthfront.magellan.sample.migration.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.migration.api.DogApi
 import com.wealthfront.magellan.sample.migration.toolbar.ToolbarHelper
 import com.wealthfront.magellan.transitions.CircularRevealTransition
-import rx.android.schedulers.AndroidSchedulers.mainThread
+import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import javax.inject.Inject
 
 class DogDetailsScreen(private val breed: String) : Screen<DogDetailsView>() {
 
   @Inject lateinit var api: DogApi
-  private val rxUnsubscriber by attachFieldToLifecycle(RxUnsubscriber())
+  private val rxUnsubscriber by attachFieldToLifecycle(RxDisposer())
 
   override fun createView(context: Context): DogDetailsView {
     app(context).injector().inject(this)
@@ -30,7 +30,7 @@ class DogDetailsScreen(private val breed: String) : Screen<DogDetailsView>() {
       Toast.makeText(activity, "Menu - Notifications clicked", Toast.LENGTH_SHORT).show()
     }
     ToolbarHelper.setMenuColor(R.color.water)
-    rxUnsubscriber.autoUnsubscribe(
+    rxUnsubscriber.autoDispose(
       api.getRandomImageForBreed(breed)
         .observeOn(mainThread())
         .subscribe {
