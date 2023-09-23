@@ -84,6 +84,7 @@ object Libs {
   const val extJunit = "androidx.test.ext:junit:$junitTestExtVersion"
   const val extJunitKtx = "androidx.test.ext:junit-ktx:$junitTestExtVersion"
   const val espressoCore = "androidx.test.espresso:espresso-core:$espressoVersion"
+  const val espressoContrib = "androidx.test.espresso:espresso-contrib:$espressoVersion"
   const val rx2idler = "com.squareup.rx.idler:rx2-idler:0.11.0"
 
   const val lintApi = "com.android.tools.lint:lint-api:$lintVersion"
