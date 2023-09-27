@@ -2,6 +2,7 @@ package com.wealthfront.magellan.sample.migration;
 
 import com.wealthfront.magellan.sample.migration.tide.DogBreedsStep;
 import com.wealthfront.magellan.sample.migration.tide.DogDetailsScreen;
+import com.wealthfront.magellan.sample.migration.tide.DogListStep;
 import com.wealthfront.magellan.sample.migration.tide.HelpScreen;
 
 import javax.inject.Singleton;
@@ -13,6 +14,8 @@ import dagger.Component;
 public interface AppComponent {
 
   void inject(MainActivity activity);
+
+  void inject(DogListStep step);
 
   void inject(DogDetailsScreen screen);
 

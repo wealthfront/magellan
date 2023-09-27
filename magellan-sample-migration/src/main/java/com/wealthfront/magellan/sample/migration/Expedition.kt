@@ -20,20 +20,21 @@ class Expedition @Inject constructor() : LegacyJourney<ExpeditionBinding>(
 ) {
 
   @set:Inject var navListener: LoggingNavigableListener by attachLateinitFieldToLifecycle()
+  @Inject lateinit var toolbarHelper: ToolbarHelper
   private val lifecycleMetricsListener by attachFieldToLifecycle(LifecycleMetricsListener())
 
   override fun onCreate(context: Context) {
     app(context).injector().inject(this)
-    attachToLifecycle(ToolbarHelper)
+    attachToLifecycle(toolbarHelper)
   }
 
   override fun onShow(context: Context, binding: ExpeditionBinding) {
-    ToolbarHelper.init(viewBinding!!.menu, navigator)
+    toolbarHelper.init(viewBinding!!.menu, navigator)
     navigator.showNow(DogListStep(::goToDetailsScreen))
   }
 
   override fun onDestroy(context: Context) {
-    removeFromLifecycle(ToolbarHelper)
+    removeFromLifecycle(toolbarHelper)
   }
 
   private fun goToDetailsScreen(name: String) {

@@ -2,6 +2,7 @@ package com.wealthfront.magellan.sample.migration.toolbar
 
 import android.content.Context
 import com.wealthfront.magellan.Navigator
+import com.wealthfront.magellan.OpenForMocking
 import com.wealthfront.magellan.lifecycle.LifecycleAwareComponent
 import com.wealthfront.magellan.navigation.NavigationListener
 import com.wealthfront.magellan.navigation.NavigationPropagator
@@ -12,7 +13,8 @@ import com.wealthfront.magellan.navigation.NavigationPropagator
  * Ideally, this dependency is provider by dependency injection and configured so that the views are cleaned up when the activity
  * is destroyed with the help of (subcomponents & custom scopes)[https://dagger.dev/dev-guide/subcomponents].
  */
-object ToolbarHelper : LifecycleAwareComponent(), NavigationListener {
+@OpenForMocking
+class ToolbarHelper : LifecycleAwareComponent(), NavigationListener {
 
   private var toolbarView: ToolbarView? = null
 

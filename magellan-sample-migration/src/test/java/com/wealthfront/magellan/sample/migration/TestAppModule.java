@@ -2,6 +2,7 @@ package com.wealthfront.magellan.sample.migration;
 
 import com.wealthfront.magellan.navigation.NavigationTraverser;
 import com.wealthfront.magellan.sample.migration.api.DogApi;
+import com.wealthfront.magellan.sample.migration.toolbar.ToolbarHelper;
 
 import org.mockito.Mockito;
 
@@ -31,4 +32,9 @@ final class TestAppModule {
     return Mockito.mock(DogApi.class);
   }
 
+  @Provides
+  @Singleton
+  ToolbarHelper provideToolbarHelper() {
+    return Mockito.mock(ToolbarHelper.class);
+  }
 }
