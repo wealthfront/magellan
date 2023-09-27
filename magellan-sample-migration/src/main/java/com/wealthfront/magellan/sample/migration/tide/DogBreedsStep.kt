@@ -10,8 +10,8 @@ import android.widget.Toast.LENGTH_SHORT
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.coroutines.ShownLifecycleScope
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
+import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.R
-import com.wealthfront.magellan.sample.migration.SampleApplication.Companion.app
 import com.wealthfront.magellan.sample.migration.api.DogApi
 import com.wealthfront.magellan.sample.migration.databinding.DogBreedBinding
 import kotlinx.coroutines.launch
@@ -24,7 +24,7 @@ class DogBreedsStep : Step<DogBreedBinding>(DogBreedBinding::inflate) {
   private val scope by attachFieldToLifecycle(ShownLifecycleScope())
 
   override fun onCreate(context: Context) {
-    app(context).injector().inject(this)
+    (context.applicationContext as AppComponentContainer).injector().inject(this)
   }
 
   override fun onShow(context: Context, binding: DogBreedBinding) {

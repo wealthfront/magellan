@@ -4,8 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import com.bumptech.glide.Glide
 import com.wealthfront.magellan.BaseScreenView
+import com.wealthfront.magellan.OpenForMocking
 import com.wealthfront.magellan.sample.migration.databinding.DogDetailsBinding
 
+@OpenForMocking
 class DogDetailsView(context: Context) : BaseScreenView<DogDetailsScreen>(context) {
 
   private val viewBinding = DogDetailsBinding.inflate(LayoutInflater.from(context), this, true)

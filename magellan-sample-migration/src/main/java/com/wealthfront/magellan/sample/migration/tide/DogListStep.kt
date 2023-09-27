@@ -6,15 +6,23 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.wealthfront.magellan.core.Step
+import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.R
 import com.wealthfront.magellan.sample.migration.databinding.DashboardBinding
 import com.wealthfront.magellan.sample.migration.toolbar.ToolbarHelper
 import java.util.Locale
+import javax.inject.Inject
 
 class DogListStep(private val goToDogDetails: (name: String) -> Unit) : Step<DashboardBinding>(DashboardBinding::inflate) {
 
+  @Inject lateinit var toolbarHelper: ToolbarHelper
+
+  override fun onCreate(context: Context) {
+    (context.applicationContext as AppComponentContainer).injector().inject(this)
+  }
+
   override fun onShow(context: Context, binding: DashboardBinding) {
-    ToolbarHelper.setTitle(context.getText(R.string.app_name))
+    toolbarHelper.setTitle(context.getText(R.string.app_name))
     binding.dogItems.adapter = DogListAdapter(context)
   }
 

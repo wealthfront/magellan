@@ -1,7 +1,9 @@
 package com.wealthfront.magellan.sample.migration.tide
 
+import android.app.Application
 import android.content.Context
 import android.os.Looper.getMainLooper
+import androidx.activity.ComponentActivity
 import androidx.test.core.app.ApplicationProvider
 import com.wealthfront.magellan.lifecycle.LifecycleState
 import com.wealthfront.magellan.lifecycle.transitionToState
@@ -20,50 +22,45 @@ import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 import org.mockito.quality.Strictness
+import org.robolectric.Robolectric.buildActivity
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
 import javax.inject.Inject
 
 @RunWith(RobolectricTestRunner::class)
-class HelpScreenTest {
-
-  @Mock lateinit var helpView: HelpView
-
-  private lateinit var helpScreen: HelpScreen
-  private lateinit var context: Context
-  private var goToBreedsStep = false
+class DogDetailsScreenTest {
+  private lateinit var screen: DogDetailsScreen
+  private val activity = buildActivity(ComponentActivity::class.java).get()
+  private val breedData = DogMessage(
+    message = "image-url",
+    status = "success"
+  )
 
   @Inject lateinit var api: DogApi
+  @Mock lateinit var dogDetailsView: DogDetailsView
 
   @Rule @JvmField
   val mockitoRule: MockitoRule = MockitoJUnit.rule().strictness(Strictness.WARN)
 
   @Before
   fun setup() {
-    context = ApplicationProvider.getApplicationContext()
+    val context = ApplicationProvider.getApplicationContext<Application>()
     ((context as AppComponentContainer).injector() as TestAppComponent).inject(this)
 
-    helpScreen = object : HelpScreen({ goToBreedsStep = true }) {
-      override fun createView(context: Context): HelpView {
+    screen = object : DogDetailsScreen("robotic") {
+      override fun createView(context: Context): DogDetailsView {
         super.createView(context)
-        return helpView
+        return dogDetailsView
       }
     }
 
-    `when`(api.getRandomImageForBreed("husky")).thenReturn(
-      Observable.just(
-        DogMessage(
-          message = "https://dailybeagle.com/latest-picture",
-          status = "something"
-        )
-      )
-    )
+    `when`(api.getRandomImageForBreed("robotic")).thenReturn(Observable.just(breedData))
   }
 
   @Test
-  fun fetchesDogPicOnShow() {
-    helpScreen.transitionToState(LifecycleState.Shown(context))
+  fun fetchesDogBreedOnShow() {
+    screen.transitionToState(LifecycleState.Shown(activity))
     shadowOf(getMainLooper()).idle()
-    verify(helpView).setDogPic("https://dailybeagle.com/latest-picture")
+    verify(dogDetailsView).setDogPic("image-url")
   }
 }

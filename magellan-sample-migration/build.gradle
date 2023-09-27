@@ -75,6 +75,7 @@ dependencies {
   testImplementation Libs.truth
   testImplementation Libs.mockito
   testImplementation Libs.robolectric
+  testImplementation Libs.truth
 
   androidTestImplementation Libs.extJunit
   androidTestImplementation Libs.rxjava2

@@ -2,6 +2,7 @@ package com.wealthfront.magellan.sample.migration;
 
 import com.wealthfront.magellan.navigation.NavigationTraverser;
 import com.wealthfront.magellan.sample.migration.api.DogApi;
+import com.wealthfront.magellan.sample.migration.toolbar.ToolbarHelper;
 
 import javax.inject.Singleton;
 
@@ -18,6 +19,12 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 final class AppModule {
 
   private static final String DOG_BASE_URL = "https://dog.ceo/api/";
+
+  @Provides
+  @Singleton
+  ToolbarHelper provideToolbarHelper() {
+    return new ToolbarHelper();
+  }
 
   @Provides
   @Singleton
