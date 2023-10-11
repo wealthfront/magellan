@@ -9,14 +9,13 @@ import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.TestAppComponent
 import com.wealthfront.magellan.sample.migration.api.DogApi
 import com.wealthfront.magellan.sample.migration.api.DogMessage
-import io.reactivex.Observable
+import com.wealthfront.magellan.sample.migration.coWhen
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 import org.mockito.quality.Strictness
@@ -50,12 +49,10 @@ class HelpScreenTest {
       }
     }
 
-    `when`(api.getRandomImageForBreed("husky")).thenReturn(
-      Observable.just(
-        DogMessage(
-          message = "https://dailybeagle.com/latest-picture",
-          status = "something"
-        )
+    coWhen { api.getRandomImageForBreed("husky") }.thenReturn(
+      DogMessage(
+        message = "https://dailybeagle.com/latest-picture",
+        status = "something"
       )
     )
   }

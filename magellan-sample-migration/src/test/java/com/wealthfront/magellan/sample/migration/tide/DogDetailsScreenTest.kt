@@ -11,14 +11,13 @@ import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.TestAppComponent
 import com.wealthfront.magellan.sample.migration.api.DogApi
 import com.wealthfront.magellan.sample.migration.api.DogMessage
-import io.reactivex.Observable
+import com.wealthfront.magellan.sample.migration.coWhen
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 import org.mockito.quality.Strictness
@@ -54,7 +53,7 @@ class DogDetailsScreenTest {
       }
     }
 
-    `when`(api.getRandomImageForBreed("robotic")).thenReturn(Observable.just(breedData))
+    coWhen { api.getRandomImageForBreed("robotic") }.thenReturn(breedData)
   }
 
   @Test

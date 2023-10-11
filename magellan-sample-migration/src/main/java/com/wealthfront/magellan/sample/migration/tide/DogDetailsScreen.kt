@@ -5,14 +5,12 @@ import android.view.View
 import android.widget.Toast
 import com.wealthfront.magellan.OpenForMocking
 import com.wealthfront.magellan.Screen
-import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
-import com.wealthfront.magellan.rx2.RxDisposer
 import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.R
 import com.wealthfront.magellan.sample.migration.api.DogApi
 import com.wealthfront.magellan.sample.migration.toolbar.ToolbarHelper
 import com.wealthfront.magellan.transitions.CircularRevealTransition
-import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @OpenForMocking
@@ -20,7 +18,6 @@ class DogDetailsScreen(private val breed: String) : Screen<DogDetailsView>() {
 
   @Inject lateinit var api: DogApi
   @Inject lateinit var toolbarHelper: ToolbarHelper
-  private val rxUnsubscriber by attachFieldToLifecycle(RxDisposer())
 
   override fun createView(context: Context): DogDetailsView {
     (context.applicationContext as AppComponentContainer).injector().inject(this)
@@ -34,13 +31,10 @@ class DogDetailsScreen(private val breed: String) : Screen<DogDetailsView>() {
     }
     toolbarHelper.setMenuColor(R.color.water)
 
-    rxUnsubscriber.autoDispose(
-      api.getRandomImageForBreed(breed)
-        .observeOn(mainThread())
-        .subscribe {
-          view!!.setDogPic(it.message)
-        }
-    )
+    shownScope.launch {
+      val imageResponse = api.getRandomImageForBreed(breed)
+      view!!.setDogPic(imageResponse.message)
+    }
   }
 
   fun goToHelpScreen(originView: View) {
