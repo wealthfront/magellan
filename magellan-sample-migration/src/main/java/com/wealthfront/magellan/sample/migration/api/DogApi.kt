@@ -1,7 +1,6 @@
 package com.wealthfront.magellan.sample.migration.api
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -11,7 +10,7 @@ interface DogApi {
   suspend fun getListOfAllBreedsOfRetriever(): DogBreeds
 
   @GET("breed/{id}/images/random")
-  fun getRandomImageForBreed(@Path("id") breed: String): Observable<DogMessage>
+  suspend fun getRandomImageForBreed(@Path("id") breed: String): DogMessage
 }
 
 data class DogMessage(

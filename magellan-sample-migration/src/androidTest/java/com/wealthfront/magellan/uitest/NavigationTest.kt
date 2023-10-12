@@ -8,14 +8,19 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.wealthfront.magellan.CoroutineIdlingRule
 import com.wealthfront.magellan.sample.migration.MainActivity
 import com.wealthfront.magellan.sample.migration.R
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 class NavigationTest {
 
-  lateinit var activityScenario: ActivityScenario<MainActivity>
+  @Rule @JvmField
+  val coroutineIdlingRule = CoroutineIdlingRule()
+
+  private lateinit var activityScenario: ActivityScenario<MainActivity>
 
   @Before
   fun setup() {

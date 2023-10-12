@@ -52,7 +52,6 @@ android {
 dependencies {
   implementation project(':magellan-library')
   implementation project(':magellan-legacy')
-  implementation project(':magellan-rx2')
 
   implementation Libs.appCompat
   implementation Libs.dagger
@@ -60,9 +59,6 @@ dependencies {
 
   implementation Libs.glide
   implementation Libs.retrofit
-  implementation Libs.rxjava2
-  implementation Libs.rxAndroid2
-  implementation Libs.rxJava2Adapter
   implementation Libs.jackson
   implementation Libs.okhttp
   implementation Libs.coroutines
@@ -78,8 +74,6 @@ dependencies {
   testImplementation Libs.truth
 
   androidTestImplementation Libs.extJunit
-  androidTestImplementation Libs.rxjava2
-  androidTestImplementation Libs.rx2idler
   androidTestImplementation Libs.espressoCore
   androidTestImplementation Libs.espressoContrib
   androidTestImplementation Libs.testCore
