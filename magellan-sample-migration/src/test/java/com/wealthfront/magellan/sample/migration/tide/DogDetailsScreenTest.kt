@@ -10,7 +10,7 @@ import com.wealthfront.magellan.lifecycle.transitionToState
 import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.TestAppComponent
 import com.wealthfront.magellan.sample.migration.api.DogApi
-import com.wealthfront.magellan.sample.migration.api.DogMessage
+import com.wealthfront.magellan.sample.migration.api.DogImageResponse
 import com.wealthfront.magellan.sample.migration.coWhen
 import org.junit.Before
 import org.junit.Rule
@@ -30,7 +30,7 @@ import javax.inject.Inject
 class DogDetailsScreenTest {
   private lateinit var screen: DogDetailsScreen
   private val activity = buildActivity(ComponentActivity::class.java).get()
-  private val breedData = DogMessage(
+  private val breedData = DogImageResponse(
     message = "image-url",
     status = "success"
   )

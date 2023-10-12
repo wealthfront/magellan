@@ -16,8 +16,8 @@ import com.wealthfront.magellan.sample.migration.MainActivity
 import com.wealthfront.magellan.sample.migration.R
 import com.wealthfront.magellan.sample.migration.TestAppComponent
 import com.wealthfront.magellan.sample.migration.api.DogApi
-import com.wealthfront.magellan.sample.migration.api.DogBreeds
-import com.wealthfront.magellan.sample.migration.api.DogMessage
+import com.wealthfront.magellan.sample.migration.api.DogBreedsResponse
+import com.wealthfront.magellan.sample.migration.api.DogImageResponse
 import com.wealthfront.magellan.sample.migration.coWhen
 import org.junit.Before
 import org.junit.Rule
@@ -39,9 +39,9 @@ class NavigationTest {
     ((context as AppComponentContainer).injector() as TestAppComponent).inject(this)
 
     coWhen { api.getAllBreeds() }
-      .thenReturn(DogBreeds(message = mapOf("robotic" to emptyList()), status = "success"))
+      .thenReturn(DogBreedsResponse(message = mapOf("robotic" to emptyList()), status = "success"))
     coWhen { api.getRandomImageForBreed("robotic") }.thenReturn(
-      DogMessage(message = "image-url", status = "success")
+      DogImageResponse(message = "image-url", status = "success")
     )
   }
 

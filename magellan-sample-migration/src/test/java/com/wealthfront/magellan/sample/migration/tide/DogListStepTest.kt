@@ -9,7 +9,7 @@ import com.wealthfront.magellan.lifecycle.setContentScreen
 import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.TestAppComponent
 import com.wealthfront.magellan.sample.migration.api.DogApi
-import com.wealthfront.magellan.sample.migration.api.DogBreeds
+import com.wealthfront.magellan.sample.migration.api.DogBreedsResponse
 import com.wealthfront.magellan.sample.migration.coWhen
 import org.junit.Before
 import org.junit.Test
@@ -33,7 +33,7 @@ class DogListStepTest {
     ((context as AppComponentContainer).injector() as TestAppComponent).inject(this)
 
     coWhen { api.getAllBreeds() }
-      .thenReturn(DogBreeds(message = mapOf("akita" to emptyList()), status = "success"))
+      .thenReturn(DogBreedsResponse(message = mapOf("akita" to emptyList()), status = "success"))
   }
 
   @Test
