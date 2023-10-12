@@ -1,19 +1,23 @@
 package com.wealthfront.magellan.sample.migration.tide
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
+import androidx.recyclerview.widget.RecyclerView
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.R
 import com.wealthfront.magellan.sample.migration.databinding.DashboardBinding
 import com.wealthfront.magellan.sample.migration.toolbar.ToolbarHelper
-import java.util.Locale
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class DogListStep(private val goToDogDetails: (name: String) -> Unit) : Step<DashboardBinding>(DashboardBinding::inflate) {
+class DogListStep(private val goToDogDetails: (name: String) -> Unit) :
+  Step<DashboardBinding>(DashboardBinding::inflate) {
 
   @Inject lateinit var toolbarHelper: ToolbarHelper
 
@@ -23,50 +27,36 @@ class DogListStep(private val goToDogDetails: (name: String) -> Unit) : Step<Das
 
   override fun onShow(context: Context, binding: DashboardBinding) {
     toolbarHelper.setTitle(context.getText(R.string.app_name))
-    binding.dogItems.adapter = DogListAdapter(context)
-  }
-
-  fun onDogSelected(name: String) {
-    goToDogDetails(name)
-  }
-
-  enum class DogBreed {
-    AKITA,
-    BEAGLE,
-    CHOW,
-    MIX,
-    LABRADOR,
-    SHIBA,
-    HUSKY,
-    SHIHTZU;
-
-    fun getName(): String {
-      return name.replace("_", " ").toLowerCase(Locale.getDefault()).capitalize()
-    }
-
-    fun getBreedName(): String {
-      return name.replace("_", " ").toLowerCase(Locale.getDefault())
+    binding.dogItems.layoutManager = LinearLayoutManager(context, VERTICAL, false)
+    binding.dogItems.adapter = DogListAdapter(goToDogDetails)
+    shownScope.launch {
+      api
     }
   }
 
-  private inner class DogListAdapter(context: Context) : ArrayAdapter<DogBreed>(context, R.layout.dog_item, R.id.dogName, DogBreed.values()) {
+  private class DogListAdapter(private val onDogSelected: (String) -> Unit) :
+    RecyclerView.Adapter<DogListAdapter.ViewHolder>() {
 
-    override fun getView(
-      position: Int,
-      convertView: View?,
-      parent: ViewGroup
-    ): View {
-      var view = convertView
-      if (convertView == null) {
-        view = View.inflate(context, R.layout.dog_item, null)
+    var dataSet: Array<String> = emptyArray()
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+      val textView: TextView = view.findViewById(R.id.dogName)
+    }
+
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+      val view = LayoutInflater.from(viewGroup.context)
+        .inflate(R.layout.dog_item, viewGroup, false)
+
+      return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+      viewHolder.textView.text = dataSet[position]
+      viewHolder.itemView.setOnClickListener {
+        onDogSelected(dataSet[position])
       }
-      val dogDetail = getItem(position)!!
-      val dogDetailTextView = view!!.findViewById<TextView>(R.id.dogName)
-      dogDetailTextView.text = dogDetail.getName()
-      view.setOnClickListener {
-        onDogSelected(dogDetail.getBreedName())
-      }
-      return view
     }
+
+    override fun getItemCount() = dataSet.size
   }
 }

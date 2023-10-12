@@ -27,6 +27,7 @@ object Versions {
   const val jodaTimeVersion = "2.10.9.1"
   const val javaInjectVersion = "1"
   const val materialVersion = "1.4.0"
+  const val recyclerViewVersion = "1.2.1"
   const val coroutinesVersion = "1.6.4"
 
   const val testCoreVersion = "1.4.0"

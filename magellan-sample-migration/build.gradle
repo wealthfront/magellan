@@ -64,6 +64,7 @@ dependencies {
   implementation Libs.coroutines
   implementation Libs.coroutinesAndroid
   implementation Libs.jodaTime
+  implementation Libs.recyclerView
 
   kaptTest Libs.daggerCompiler
   testImplementation Libs.junit
