@@ -1,7 +1,6 @@
 package com.wealthfront.magellan.sample.migration.tide
 
 import android.content.Context
-import android.view.View
 import android.widget.Toast
 import com.wealthfront.magellan.OpenForMocking
 import com.wealthfront.magellan.Screen
@@ -9,7 +8,6 @@ import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.R
 import com.wealthfront.magellan.sample.migration.api.DogApi
 import com.wealthfront.magellan.sample.migration.toolbar.ToolbarHelper
-import com.wealthfront.magellan.transitions.CircularRevealTransition
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,12 +30,13 @@ class DogDetailsScreen(private val breed: String) : Screen<DogDetailsView>() {
     toolbarHelper.setMenuColor(R.color.water)
 
     shownScope.launch {
-      val imageResponse = api.getRandomImageForBreed(breed)
-      view!!.setDogPic(imageResponse.message)
+      val imageResponse = runCatching { api.getRandomImageForBreed(breed) }
+      imageResponse.onSuccess { image ->
+        view!!.setDogPic(image.message)
+      }
+      imageResponse.onFailure { throwable ->
+        Toast.makeText(context, throwable.message, Toast.LENGTH_SHORT).show()
+      }
     }
-  }
-
-  fun goToHelpScreen(originView: View) {
-    navigator.goTo(HelpJourney(), CircularRevealTransition(originView))
   }
 }

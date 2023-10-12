@@ -1,9 +1,7 @@
 package com.wealthfront.magellan.sample.migration;
 
-import com.wealthfront.magellan.sample.migration.tide.DogBreedsStep;
 import com.wealthfront.magellan.sample.migration.tide.DogDetailsScreen;
 import com.wealthfront.magellan.sample.migration.tide.DogListStep;
-import com.wealthfront.magellan.sample.migration.tide.HelpScreen;
 
 import javax.inject.Singleton;
 
@@ -18,10 +16,6 @@ public interface AppComponent {
   void inject(DogListStep step);
 
   void inject(DogDetailsScreen screen);
-
-  void inject(DogBreedsStep step);
-
-  void inject(HelpScreen screen);
 
   void inject(Expedition expedition);
 }

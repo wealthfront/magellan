@@ -9,10 +9,10 @@ interface DogApi {
   @GET("breed/{id}/list")
   suspend fun getAllSubBreeds(@Path("id") breed: String): DogSubBreeds
 
-  @GET("/breeds/list/all")
+  @GET("breeds/list/all")
   suspend fun getAllBreeds(): DogBreeds
 
-  @GET("/breed/{id}}/images")
+  @GET("breed/{id}}/images")
   suspend fun getAllBreeds(@Path("id") breed: String): DogImages
 
   @GET("breed/{id}/images/random")
