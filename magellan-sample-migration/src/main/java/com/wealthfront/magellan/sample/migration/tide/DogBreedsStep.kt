@@ -30,7 +30,7 @@ class DogBreedsStep : Step<DogBreedBinding>(DogBreedBinding::inflate) {
   override fun onShow(context: Context, binding: DogBreedBinding) {
     scope.launch {
       // show loading
-      val breeds = runCatching { api.getListOfAllBreedsOfRetriever() }
+      val breeds = runCatching { api.getAllSubBreeds("retriever") }
       breeds.onSuccess {
         binding.dogBreeds.adapter = DogBreedListAdapter(context, it.message)
       }.onFailure {

@@ -6,8 +6,14 @@ import retrofit2.http.Path
 
 interface DogApi {
 
-  @GET("breed/retriever/list")
-  suspend fun getListOfAllBreedsOfRetriever(): DogBreeds
+  @GET("breed/{id}/list")
+  suspend fun getAllSubBreeds(@Path("id") breed: String): DogSubBreeds
+
+  @GET("/breeds/list/all")
+  suspend fun getAllBreeds(): DogBreeds
+
+  @GET("/breed/{id}}/images")
+  suspend fun getAllBreeds(@Path("id") breed: String): DogImages
 
   @GET("breed/{id}/images/random")
   suspend fun getRandomImageForBreed(@Path("id") breed: String): DogMessage
@@ -21,9 +27,25 @@ data class DogMessage(
   val status: String
 )
 
-data class DogBreeds(
+data class DogSubBreeds(
   @JsonProperty("message")
   val message: List<String>,
+
+  @JsonProperty("status")
+  val status: String
+)
+
+data class DogImages(
+  @JsonProperty("message")
+  val message: List<String>,
+
+  @JsonProperty("status")
+  val status: String
+)
+
+data class DogBreeds(
+  @JsonProperty("message")
+  val message: Map<String, List<String>>,
 
   @JsonProperty("status")
   val status: String
