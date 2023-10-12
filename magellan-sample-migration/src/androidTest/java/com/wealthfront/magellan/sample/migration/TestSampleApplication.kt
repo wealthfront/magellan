@@ -11,7 +11,7 @@ class TestSampleApplication : Application(), AppComponentContainer {
     appComponent = DaggerTestAppComponent.builder()
       .appModule(AppModule)
       .testDogApiModule(TestDogApiModule)
-      .testToolbarHelperModule(TestToolbarHelperModule)
+      .toolbarHelperModule(ToolbarHelperModule)
       .build()
   }
 

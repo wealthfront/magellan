@@ -53,6 +53,7 @@ object Libs {
   const val junit = "junit:junit:$junitVersion"
   const val truth = "com.google.truth:truth:$truthVersion"
   const val mockito = "org.mockito:mockito-core:$mockitoVersion"
+  const val mockitoAndroid = "org.mockito:mockito-android:$mockitoVersion"
   const val mockK = "io.mockk:mockk:$mockKVersion"
   const val archTesting = "androidx.arch.core:core-testing:$archVersion"
   const val robolectric = "org.robolectric:robolectric:$robolectricVersion"

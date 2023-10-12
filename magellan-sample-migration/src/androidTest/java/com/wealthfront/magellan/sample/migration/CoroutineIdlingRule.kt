@@ -1,4 +1,4 @@
-package com.wealthfront.magellan
+package com.wealthfront.magellan.sample.migration
 
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.idling.CountingIdlingResource
