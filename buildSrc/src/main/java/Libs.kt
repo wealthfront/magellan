@@ -20,6 +20,7 @@ import Versions.materialVersion
 import Versions.mockKVersion
 import Versions.mockitoVersion
 import Versions.okhttpVersion
+import Versions.recyclerViewVersion
 import Versions.retrofitVersion
 import Versions.robolectricVersion
 import Versions.rxAndroid2Version
@@ -48,9 +49,11 @@ object Libs {
   const val androidXCore = "androidx.core:core-ktx:$androidXCoreVersion"
 
   const val material = "com.google.android.material:material:$materialVersion"
+  const val recyclerView = "androidx.recyclerview:recyclerview:$recyclerViewVersion"
   const val junit = "junit:junit:$junitVersion"
   const val truth = "com.google.truth:truth:$truthVersion"
   const val mockito = "org.mockito:mockito-core:$mockitoVersion"
+  const val mockitoAndroid = "org.mockito:mockito-android:$mockitoVersion"
   const val mockK = "io.mockk:mockk:$mockKVersion"
   const val archTesting = "androidx.arch.core:core-testing:$archVersion"
   const val robolectric = "org.robolectric:robolectric:$robolectricVersion"

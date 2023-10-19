@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     >
 
-  <ListView
+  <ProgressBar
+      android:id="@+id/dogItemsLoading"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      tools:visibility="visible"
+      />
+  
+  <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/dogItems"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:numColumns="2"
       />
 
-</LinearLayout>
+</FrameLayout>

@@ -10,7 +10,9 @@ class SampleApplication : Application(), AppComponentContainer {
   override fun onCreate() {
     super.onCreate()
     appComponent = DaggerAppComponent.builder()
-      .appModule(AppModule())
+      .appModule(AppModule)
+      .dogApiModule(DogApiModule)
+      .toolbarHelperModule(ToolbarHelperModule)
       .build()
   }
 
@@ -20,8 +22,8 @@ class SampleApplication : Application(), AppComponentContainer {
 
   companion object {
     @JvmStatic
-    fun app(context: Context): SampleApplication {
-      return context.applicationContext as SampleApplication
+    fun app(context: Context): AppComponentContainer {
+      return context.applicationContext as AppComponentContainer
     }
   }
 }

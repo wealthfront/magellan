@@ -11,7 +11,7 @@ android {
     targetSdkVersion Versions.targetSdkVersion
     versionCode 1
     versionName "1.0"
-    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner "com.wealthfront.magellan.sample.migration.IntegrationTestRunner"
   }
 
   compileOptions {
@@ -64,6 +64,7 @@ dependencies {
   implementation Libs.coroutines
   implementation Libs.coroutinesAndroid
   implementation Libs.jodaTime
+  implementation Libs.recyclerView
 
   kaptTest Libs.daggerCompiler
   testImplementation Libs.junit
@@ -73,6 +74,7 @@ dependencies {
   testImplementation Libs.robolectric
   testImplementation Libs.truth
 
+  kaptAndroidTest Libs.daggerCompiler
   androidTestImplementation Libs.extJunit
   androidTestImplementation Libs.espressoCore
   androidTestImplementation Libs.espressoContrib
@@ -80,6 +82,7 @@ dependencies {
   androidTestImplementation Libs.testCoreKtx
   androidTestImplementation Libs.testRunner
   androidTestImplementation Libs.testRules
+  androidTestImplementation Libs.mockitoAndroid
 
   androidTestImplementation 'androidx.test:runner:1.4.0'
   androidTestUtil 'androidx.test:orchestrator:1.4.1'

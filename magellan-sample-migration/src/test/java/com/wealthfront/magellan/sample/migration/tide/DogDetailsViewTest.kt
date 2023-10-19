@@ -21,13 +21,12 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
 
 @RunWith(RobolectricTestRunner::class)
-class HelpViewTest {
+class DogDetailsViewTest {
 
-  @Mock lateinit var screen: HelpScreen
   @Mock lateinit var glideRequest: RequestManager
   @Mock lateinit var drawableRequest: RequestBuilder<Drawable>
 
-  private lateinit var helpView: HelpView
+  private lateinit var view: DogDetailsView
   private lateinit var context: Context
 
   @Rule @JvmField
@@ -36,7 +35,7 @@ class HelpViewTest {
   @Before
   fun setup() {
     context = ApplicationProvider.getApplicationContext()
-    helpView = HelpView(context, screen).apply {
+    view = DogDetailsView(context).apply {
       glideBuilder = glideRequest
     }
 
@@ -45,8 +44,8 @@ class HelpViewTest {
 
   @Test
   fun fetchesDogPicOnShow() {
-    helpView.setDogPic("https://dailybeagle.com/latest-picture")
+    view.setDogPic("https://dailybeagle.com/latest-picture")
     shadowOf(getMainLooper()).idle()
-    verify(drawableRequest).into(helpView.binding.dogImage)
+    verify(drawableRequest).into(view.viewBinding.dogImage)
   }
 }
