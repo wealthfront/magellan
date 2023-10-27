@@ -22,6 +22,7 @@ import org.robolectric.Shadows.shadowOf
 
 @RunWith(RobolectricTestRunner::class)
 class DogDetailsScreenTest {
+
   private lateinit var screen: DogDetailsScreen
   private val activity = buildActivity(ComponentActivity::class.java).get()
   private val breedData = DogImageResponse(
