@@ -7,23 +7,25 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import com.wealthfront.magellan.core.Step
-import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.R
 import com.wealthfront.magellan.sample.migration.api.DogApi
 import com.wealthfront.magellan.sample.migration.databinding.DashboardBinding
 import com.wealthfront.magellan.sample.migration.toolbar.ToolbarHelper
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class DogListStep(private val goToDogDetails: (name: String) -> Unit) :
-  Step<DashboardBinding>(DashboardBinding::inflate) {
+@AssistedFactory
+fun interface DogListStepFactory {
+  fun create(goToDogDetails: (name: String) -> Unit): DogListStep
+}
 
-  @Inject lateinit var toolbarHelper: ToolbarHelper
-  @Inject lateinit var api: DogApi
-
-  override fun onCreate(context: Context) {
-    (context.applicationContext as AppComponentContainer).injector().inject(this)
-  }
+class DogListStep @AssistedInject constructor(
+  private val toolbarHelper: ToolbarHelper,
+  private val api: DogApi,
+  @Assisted private val goToDogDetails: (name: String) -> Unit
+) : Step<DashboardBinding>(DashboardBinding::inflate) {
 
   override fun onShow(context: Context, binding: DashboardBinding) {
     toolbarHelper.setTitle(context.getText(R.string.app_name))

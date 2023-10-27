@@ -4,7 +4,6 @@ import android.content.Context
 import android.widget.Toast
 import com.wealthfront.magellan.OpenForMocking
 import com.wealthfront.magellan.Screen
-import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.R
 import com.wealthfront.magellan.sample.migration.api.DogApi
 import com.wealthfront.magellan.sample.migration.toolbar.ToolbarHelper
@@ -25,9 +24,7 @@ class DogDetailsScreen @AssistedInject constructor(
   @Assisted private val breed: String
 ) : Screen<DogDetailsView>() {
 
-
   override fun createView(context: Context): DogDetailsView {
-    (context.applicationContext as AppComponentContainer).injector().inject(this)
     return DogDetailsView(context)
   }
 

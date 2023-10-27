@@ -46,7 +46,8 @@ class DogDetailsScreenTest {
     screen = object : DogDetailsScreen(
       component.api,
       component.toolbarHelper,
-      "robotic") {
+      "robotic"
+    ) {
       override fun createView(context: Context): DogDetailsView {
         super.createView(context)
         return dogDetailsView
