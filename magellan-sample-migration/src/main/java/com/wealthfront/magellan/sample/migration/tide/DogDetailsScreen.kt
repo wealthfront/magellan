@@ -8,14 +8,23 @@ import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.R
 import com.wealthfront.magellan.sample.migration.api.DogApi
 import com.wealthfront.magellan.sample.migration.toolbar.ToolbarHelper
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+
+@AssistedFactory
+fun interface DogDetailsScreenFactory {
+  fun create(breed: String): DogDetailsScreen
+}
 
 @OpenForMocking
-class DogDetailsScreen(private val breed: String) : Screen<DogDetailsView>() {
+class DogDetailsScreen @AssistedInject constructor(
+  private val api: DogApi,
+  private val toolbarHelper: ToolbarHelper,
+  @Assisted private val breed: String
+) : Screen<DogDetailsView>() {
 
-  @Inject lateinit var api: DogApi
-  @Inject lateinit var toolbarHelper: ToolbarHelper
 
   override fun createView(context: Context): DogDetailsView {
     (context.applicationContext as AppComponentContainer).injector().inject(this)

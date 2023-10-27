@@ -9,7 +9,6 @@ import com.wealthfront.magellan.lifecycle.LifecycleState
 import com.wealthfront.magellan.lifecycle.transitionToState
 import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.TestAppComponent
-import com.wealthfront.magellan.sample.migration.api.DogApi
 import com.wealthfront.magellan.sample.migration.api.DogImageResponse
 import com.wealthfront.magellan.sample.migration.coWhen
 import org.junit.Before
@@ -24,7 +23,6 @@ import org.mockito.quality.Strictness
 import org.robolectric.Robolectric.buildActivity
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
-import javax.inject.Inject
 
 @RunWith(RobolectricTestRunner::class)
 class DogDetailsScreenTest {
@@ -35,7 +33,6 @@ class DogDetailsScreenTest {
     status = "success"
   )
 
-  @Inject lateinit var api: DogApi
   @Mock lateinit var dogDetailsView: DogDetailsView
 
   @Rule @JvmField
@@ -44,16 +41,19 @@ class DogDetailsScreenTest {
   @Before
   fun setup() {
     val context = ApplicationProvider.getApplicationContext<Application>()
-    ((context as AppComponentContainer).injector() as TestAppComponent).inject(this)
+    val component = ((context as AppComponentContainer).injector() as TestAppComponent)
 
-    screen = object : DogDetailsScreen("robotic") {
+    screen = object : DogDetailsScreen(
+      component.api,
+      component.toolbarHelper,
+      "robotic") {
       override fun createView(context: Context): DogDetailsView {
         super.createView(context)
         return dogDetailsView
       }
     }
 
-    coWhen { api.getRandomImageForBreed("robotic") }.thenReturn(breedData)
+    coWhen { component.api.getRandomImageForBreed("robotic") }.thenReturn(breedData)
   }
 
   @Test
