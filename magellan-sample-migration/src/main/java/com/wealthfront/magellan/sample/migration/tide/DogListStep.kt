@@ -30,7 +30,7 @@ class DogListStep @AssistedInject constructor(
   override fun onShow(context: Context, binding: DashboardBinding) {
     toolbarHelper.setTitle(context.getText(R.string.app_name))
     binding.dogItems.layoutManager = LinearLayoutManager(context, VERTICAL, false)
-    binding.dogItems.adapter = DogListAdapter(goToDogDetails)
+    binding.dogItems.adapter = DogListAdapter(emptyList(), goToDogDetails)
     val decoration = DividerItemDecoration(context, VERTICAL)
     binding.dogItems.addItemDecoration(decoration)
 
@@ -38,7 +38,7 @@ class DogListStep @AssistedInject constructor(
     shownScope.launch {
       val dogBreedsResponse = runCatching { api.getAllBreeds() }
       dogBreedsResponse.onSuccess { dogBreeds ->
-        (binding.dogItems.adapter as DogListAdapter).dataSet = dogBreeds.message.keys.toTypedArray()
+        (binding.dogItems.adapter as DogListAdapter).dataSet = dogBreeds.message.keys.toList()
         (binding.dogItems.adapter as DogListAdapter).notifyDataSetChanged()
       }
       dogBreedsResponse.onFailure { throwable ->

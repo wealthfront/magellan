@@ -11,8 +11,8 @@ import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.TestAppComponent
 import com.wealthfront.magellan.sample.migration.api.DogImageResponse
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.mockk
+import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -55,6 +55,6 @@ class DogDetailsScreenTest {
   fun fetchesDogBreedOnShow() {
     screen.transitionToState(LifecycleState.Shown(activity))
     shadowOf(getMainLooper()).idle()
-    coVerify { dogDetailsView.setDogPic("image-url") }
+    verify { dogDetailsView.setDogPic("image-url") }
   }
 }

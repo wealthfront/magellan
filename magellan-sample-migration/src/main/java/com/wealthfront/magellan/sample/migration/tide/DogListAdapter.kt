@@ -8,10 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wealthfront.magellan.sample.migration.R
 
 class DogListAdapter(
+  var dataSet: List<String> = emptyList(),
   private val onDogSelected: (String) -> Unit
 ) : RecyclerView.Adapter<DogListAdapter.ViewHolder>() {
-
-  var dataSet: Array<String> = emptyArray()
 
   class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
