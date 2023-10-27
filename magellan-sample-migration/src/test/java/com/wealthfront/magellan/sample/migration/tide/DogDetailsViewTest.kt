@@ -6,31 +6,23 @@ import android.os.Looper.getMainLooper
 import androidx.test.core.app.ApplicationProvider
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mock
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
-import org.mockito.junit.MockitoJUnit
-import org.mockito.junit.MockitoRule
-import org.mockito.quality.Strictness
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
 
 @RunWith(RobolectricTestRunner::class)
 class DogDetailsViewTest {
 
-  @Mock lateinit var glideRequest: RequestManager
-  @Mock lateinit var drawableRequest: RequestBuilder<Drawable>
+  private val glideRequest = mockk<RequestManager>(relaxed = true)
+  private val drawableRequest = mockk<RequestBuilder<Drawable>>(relaxed = true)
 
   private lateinit var view: DogDetailsView
   private lateinit var context: Context
-
-  @Rule @JvmField
-  val mockitoRule: MockitoRule = MockitoJUnit.rule().strictness(Strictness.WARN)
 
   @Before
   fun setup() {
@@ -39,13 +31,13 @@ class DogDetailsViewTest {
       glideBuilder = glideRequest
     }
 
-    `when`(glideRequest.load(anyString())).thenReturn(drawableRequest)
+    every { glideRequest.load(ofType(String::class)) } returns drawableRequest
   }
 
   @Test
   fun fetchesDogPicOnShow() {
     view.setDogPic("https://dailybeagle.com/latest-picture")
     shadowOf(getMainLooper()).idle()
-    verify(drawableRequest).into(view.viewBinding.dogImage)
+    verify { drawableRequest.into(view.viewBinding.dogImage) }
   }
 }

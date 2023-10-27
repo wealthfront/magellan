@@ -10,22 +10,19 @@ import com.wealthfront.magellan.lifecycle.transitionToState
 import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.TestAppComponent
 import com.wealthfront.magellan.sample.migration.api.DogImageResponse
-import com.wealthfront.magellan.sample.migration.coWhen
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito.verify
-import org.mockito.junit.MockitoJUnit
-import org.mockito.junit.MockitoRule
-import org.mockito.quality.Strictness
 import org.robolectric.Robolectric.buildActivity
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
 
 @RunWith(RobolectricTestRunner::class)
 class DogDetailsScreenTest {
+
   private lateinit var screen: DogDetailsScreen
   private val activity = buildActivity(ComponentActivity::class.java).get()
   private val breedData = DogImageResponse(
@@ -33,10 +30,7 @@ class DogDetailsScreenTest {
     status = "success"
   )
 
-  @Mock lateinit var dogDetailsView: DogDetailsView
-
-  @Rule @JvmField
-  val mockitoRule: MockitoRule = MockitoJUnit.rule().strictness(Strictness.WARN)
+  private val dogDetailsView = mockk<DogDetailsView>(relaxed = true)
 
   @Before
   fun setup() {
@@ -54,13 +48,13 @@ class DogDetailsScreenTest {
       }
     }
 
-    coWhen { component.api.getRandomImageForBreed("robotic") }.thenReturn(breedData)
+    coEvery { component.api.getRandomImageForBreed("robotic") } returns breedData
   }
 
   @Test
   fun fetchesDogBreedOnShow() {
     screen.transitionToState(LifecycleState.Shown(activity))
     shadowOf(getMainLooper()).idle()
-    verify(dogDetailsView).setDogPic("image-url")
+    coVerify { dogDetailsView.setDogPic("image-url") }
   }
 }
