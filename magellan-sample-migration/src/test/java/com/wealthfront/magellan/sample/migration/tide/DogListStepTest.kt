@@ -16,19 +16,23 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
+import javax.inject.Inject
 
 @RunWith(RobolectricTestRunner::class)
 class DogListStepTest {
 
-  private var chosenBreed: String? = null
   private lateinit var dogListStep: DogListStep
+  @Inject lateinit var dogListStepFactory: DogListStepFactory
   private val activityController = Robolectric.buildActivity(ComponentActivity::class.java)
+
+  private var chosenBreed: String? = null
 
   @Before
   fun setUp() {
     val context = ApplicationProvider.getApplicationContext<Application>()
     val component = ((context as AppComponentContainer).injector() as TestAppComponent)
-    dogListStep = DogListStep(component.toolbarHelper, component.api) { chosenBreed = it }
+    component.inject(this)
+    dogListStep = dogListStepFactory.create { chosenBreed = it }
     coWhen { component.api.getAllBreeds() }
       .thenReturn(DogBreedsResponse(message = mapOf("akita" to emptyList()), status = "success"))
   }
