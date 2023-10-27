@@ -70,7 +70,7 @@ dependencies {
   testImplementation Libs.junit
   testImplementation Libs.testCore
   testImplementation Libs.truth
-  testImplementation Libs.mockito
+  testImplementation Libs.mockK
   testImplementation Libs.robolectric
   testImplementation Libs.truth
 
