@@ -8,7 +8,6 @@ import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.lifecycle.setContentScreen
 import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.TestAppComponent
-import com.wealthfront.magellan.sample.migration.api.DogApi
 import com.wealthfront.magellan.sample.migration.api.DogBreedsResponse
 import com.wealthfront.magellan.sample.migration.coWhen
 import org.junit.Before
@@ -21,18 +20,20 @@ import javax.inject.Inject
 
 @RunWith(RobolectricTestRunner::class)
 class DogListStepTest {
-  @Inject lateinit var api: DogApi
+
+  private lateinit var dogListStep: DogListStep
+  @Inject lateinit var dogListStepFactory: DogListStepFactory
+  private val activityController = Robolectric.buildActivity(ComponentActivity::class.java)
 
   private var chosenBreed: String? = null
-  private val dogListStep = DogListStep { chosenBreed = it }
-  private val activityController = Robolectric.buildActivity(ComponentActivity::class.java)
 
   @Before
   fun setUp() {
     val context = ApplicationProvider.getApplicationContext<Application>()
-    ((context as AppComponentContainer).injector() as TestAppComponent).inject(this)
-
-    coWhen { api.getAllBreeds() }
+    val component = ((context as AppComponentContainer).injector() as TestAppComponent)
+    component.inject(this)
+    dogListStep = dogListStepFactory.create { chosenBreed = it }
+    coWhen { component.api.getAllBreeds() }
       .thenReturn(DogBreedsResponse(message = mapOf("akita" to emptyList()), status = "success"))
   }
 

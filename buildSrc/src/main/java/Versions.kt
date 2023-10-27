@@ -13,7 +13,7 @@ object Versions {
   const val lifecycleVersion = "2.2.0"
   const val androidXCoreVersion = "1.6.0"
   const val butterKnifeVersion = "10.0.0"
-  const val daggerVersion = "2.24"
+  const val daggerVersion = "2.48"
   const val javaInject = "1"
   const val retrofitVersion = "2.9.0"
   const val glideVersion = "4.11.0"
