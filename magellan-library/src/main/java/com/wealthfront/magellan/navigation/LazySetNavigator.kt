@@ -112,7 +112,15 @@ public open class LazySetNavigator(
     navigationPropagator.onNavigatedTo(currentNavigable)
     when (currentState) {
       is LifecycleState.Shown, is LifecycleState.Resumed -> {
-        containerView!!.addView(currentNavigable.view!!, 0)
+        val currentView = currentNavigable.view!!
+        val currentViewParent = currentView.parent
+        if (currentViewParent == null) {
+          containerView!!.addView(currentView, 0)
+        } else if (currentViewParent != containerView) {
+          throw IllegalStateException(
+            "currentNavigable ${currentNavigable.javaClass.simpleName} has view already attached to a parent"
+          )
+        }
       }
       is LifecycleState.Destroyed, is LifecycleState.Created -> {
       }

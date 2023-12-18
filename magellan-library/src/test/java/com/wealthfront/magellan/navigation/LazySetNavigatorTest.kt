@@ -106,4 +106,35 @@ class LazySetNavigatorTest {
     verify { navigableListener.onNavigatedTo(step2) }
     verify { navigableListener.afterNavigation() }
   }
+
+  @Test
+  fun replaceTwice() {
+    navigator.addNavigables(setOf(step1, step2))
+    navigator.transitionToState(LifecycleState.Resumed(activityController.get()))
+
+    navigator.replace(step1, CrossfadeTransition())
+    step1.view!!.viewTreeObserver.dispatchOnPreDraw()
+    shadowOf(Looper.getMainLooper()).idle()
+    assertThat(navigator.containerView!!.childCount).isEqualTo(1)
+    assertThat(navigator.containerView!!.getChildAt(0)).isEqualTo(step1.view)
+    assertThat(step1.currentState).isInstanceOf(LifecycleState.Resumed::class.java)
+    assertThat(step2.currentState).isInstanceOf(LifecycleState.Created::class.java)
+
+    verify { navigableListener.beforeNavigation() }
+    verify(exactly = 0) { navigableListener.onNavigatedFrom(any()) }
+    verify { navigableListener.onNavigatedTo(step1) }
+    verify { navigableListener.afterNavigation() }
+    clearMocks(navigableListener)
+    initMocks()
+
+    navigator.replace(step2, CrossfadeTransition())
+    navigator.replace(step1, CrossfadeTransition())
+
+    step1.view!!.viewTreeObserver.dispatchOnPreDraw()
+    shadowOf(Looper.getMainLooper()).idle()
+    assertThat(navigator.containerView!!.childCount).isEqualTo(1)
+    assertThat(navigator.containerView!!.getChildAt(0)).isEqualTo(step1.view)
+    assertThat(step1.currentState).isInstanceOf(LifecycleState.Resumed::class.java)
+    assertThat(step2.currentState).isInstanceOf(LifecycleState.Shown::class.java)
+  }
 }
