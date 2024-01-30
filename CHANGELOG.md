@@ -2,6 +2,7 @@
 
 ## 2.2.7-beta
 - Fixes crash during synchronous navigation in `LazySetNavigator`
+- Support backstack read operations from a background thread
 
 ## 2.2.6-beta
 - Fixes `CircularRevealTransition` attempting to target non-existent views
