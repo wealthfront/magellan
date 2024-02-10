@@ -17,6 +17,7 @@ import com.wealthfront.magellan.lifecycle.LifecycleState.Resumed
 import com.wealthfront.magellan.lifecycle.LifecycleState.Shown
 import com.wealthfront.magellan.lifecycle.transitionToState
 import com.wealthfront.magellan.transitions.DefaultTransition
+import com.wealthfront.magellan.transitions.NoAnimationTransition
 import com.wealthfront.magellan.transitions.ShowTransition
 import io.mockk.MockKAnnotations.init
 import io.mockk.every
@@ -198,15 +199,19 @@ class DefaultLinearNavigatorTest {
   @Test
   fun goBack_multipleScreen_removeScreenFromBackstack() {
     linearNavigator.transitionToState(Resumed(context))
-    linearNavigator.goTo(step1)
-    linearNavigator.goTo(step2)
+    linearNavigator.goTo(step1, NoAnimationTransition())
+    step1.view!!.measure(200, 200)
+    step1.view!!.viewTreeObserver.dispatchOnPreDraw()
+    linearNavigator.goTo(step2, NoAnimationTransition())
+    step2.view!!.measure(200, 200)
+    step2.view!!.viewTreeObserver.dispatchOnPreDraw()
     val didNavigate = linearNavigator.goBack()
 
     assertThat(didNavigate).isTrue()
     assertThat(linearNavigator.backStack.size).isEqualTo(1)
     assertThat(linearNavigator.backStack.first().navigable).isEqualTo(step1)
     assertThat(linearNavigator.backStack.first().magellanTransition.javaClass)
-      .isEqualTo(DefaultTransition::class.java)
+      .isEqualTo(NoAnimationTransition::class.java)
 
     verify { navigableListener.beforeNavigation() }
     verify { navigableListener.onNavigatedFrom(step2) }
