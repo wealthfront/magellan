@@ -19,6 +19,17 @@ android {
     setTargetCompatibility(JavaVersion.VERSION_17)
   }
 
+  flavorDimensions += "ui"
+  productFlavors {
+    register("androidViews") {
+      isDefault = true
+      dimension = "ui"
+    }
+    register("compose") {
+      dimension = "ui"
+    }
+  }
+
   buildFeatures {
     viewBinding = true
   }
