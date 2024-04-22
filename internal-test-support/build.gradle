@@ -37,6 +37,6 @@ dependencies {
   implementation project(':magellan-library')
   implementation project(':magellan-legacy')
 
-  implementation Libs.inject
-  implementation Libs.appCompat
+  implementation libs.inject
+  implementation libs.appCompat
 }

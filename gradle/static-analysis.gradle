@@ -23,7 +23,7 @@ kotlinter {
 }
 
 detekt {
-  toolVersion = Versions.detektVersion
+  toolVersion = "1.19.0"
   config = files("$rootDir/config/detekt/detekt-config.yml")
   parallel = true
   autoCorrect = true

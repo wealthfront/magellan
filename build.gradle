@@ -1,21 +1,11 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-buildscript {
-  repositories {
-    jcenter()
-    mavenCentral()
-    maven { url "https://plugins.gradle.org/m2/" }
-    google()
-  }
-  dependencies {
-    classpath(Plugins.kotlinGradle)
-    classpath(Plugins.kotlinterGradle)
-    classpath(Plugins.kotlinAllOpen)
-    classpath(Plugins.detekt)
-  }
+plugins {
+  alias(libs.plugins.kotlin.gradle).apply(false)
+  alias(libs.plugins.kotlinter.gradle).apply(false)
+  alias(libs.plugins.kotlin.allopen).apply(false)
+  alias(libs.plugins.detekt)
 }
-
-apply plugin: 'io.gitlab.arturbosch.detekt'
 
 allprojects {
   apply from: "$rootDir/gradle/static-analysis.gradle"

@@ -35,11 +35,11 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
 dependencies {
   implementation project(':magellan-library')
 
-  implementation Libs.inject
+  implementation libs.inject
 
-  testImplementation Libs.junit
-  testImplementation Libs.truth
-  testImplementation Libs.mockito
+  testImplementation libs.junit
+  testImplementation libs.truth
+  testImplementation libs.mockito
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

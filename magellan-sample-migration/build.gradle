@@ -53,36 +53,36 @@ dependencies {
   implementation project(':magellan-library')
   implementation project(':magellan-legacy')
 
-  implementation Libs.appCompat
-  implementation Libs.dagger
-  kapt Libs.daggerCompiler
+  implementation libs.appCompat
+  implementation libs.dagger
+  kapt libs.daggerCompiler
 
-  implementation Libs.glide
-  implementation Libs.retrofit
-  implementation Libs.jackson
-  implementation Libs.okhttp
-  implementation Libs.coroutines
-  implementation Libs.coroutinesAndroid
-  implementation Libs.jodaTime
-  implementation Libs.recyclerView
+  implementation libs.glide
+  implementation libs.retrofit
+  implementation libs.jackson
+  implementation libs.okhttp
+  implementation libs.coroutines
+  implementation libs.coroutinesAndroid
+  implementation libs.jodaTime
+  implementation libs.recyclerView
 
-  kaptTest Libs.daggerCompiler
-  testImplementation Libs.junit
-  testImplementation Libs.testCore
-  testImplementation Libs.truth
-  testImplementation Libs.mockK
-  testImplementation Libs.robolectric
-  testImplementation Libs.truth
+  kaptTest libs.daggerCompiler
+  testImplementation libs.junit
+  testImplementation libs.testCore
+  testImplementation libs.truth
+  testImplementation libs.mockK
+  testImplementation libs.robolectric
+  testImplementation libs.truth
 
-  kaptAndroidTest Libs.daggerCompiler
-  androidTestImplementation Libs.extJunit
-  androidTestImplementation Libs.espressoCore
-  androidTestImplementation Libs.espressoContrib
-  androidTestImplementation Libs.testCore
-  androidTestImplementation Libs.testCoreKtx
-  androidTestImplementation Libs.testRunner
-  androidTestImplementation Libs.testRules
-  androidTestImplementation Libs.mockitoAndroid
+  kaptAndroidTest libs.daggerCompiler
+  androidTestImplementation libs.extJunit
+  androidTestImplementation libs.espressoCore
+  androidTestImplementation libs.espressoContrib
+  androidTestImplementation libs.testCore
+  androidTestImplementation libs.testCoreKtx
+  androidTestImplementation libs.testRunner
+  androidTestImplementation libs.testRules
+  androidTestImplementation libs.mockitoAndroid
 
   androidTestImplementation 'androidx.test:runner:1.4.0'
   androidTestUtil 'androidx.test:orchestrator:1.4.1'

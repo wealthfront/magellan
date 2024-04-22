@@ -1,0 +1,100 @@
+[versions]
+kotlin = "1.8.22"
+kotlinter = "3.9.0"
+detekt = "1.19.0"
+supportLib = "1.3.1"
+constraintLayout = "2.1.0"
+robolectric = "4.8"
+arch = "2.1.0"
+lifecycle = "2.2.0"
+androidXCore = "1.6.0"
+butterKnife = "10.0.0"
+dagger = "2.48"
+javaInject = "1"
+retrofit = "2.9.0"
+glide = "4.11.0"
+rxjava = "1.3.8"
+rxjava2 = "2.2.19"
+rxjavaAdapter = "2.3.0"
+rxandroid = "1.2.1"
+rxAndroid2 = "2.1.1"
+jackson = "2.7.2"
+okhttp = "4.4.0"
+jodaTime = "2.10.9.1"
+javainject = "1"
+material = "1.4.0"
+recyclerView = "1.2.1"
+coroutines = "1.6.4"
+
+testCore = "1.4.0"
+junit = "4.13.2"
+junitTestExt = "1.1.3"
+truth = "1.0"
+mockito = "2.23.4"
+mockK = "1.12.5"
+testRunner = "1.4.0"
+uiAutomator = "2.2.0"
+espresso = "3.4.0"
+
+lint = "30.0.2"
+
+
+[libraries]
+appCompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "supportLib" }
+constraintLayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintLayout" }
+lifecycle = { group = "androidx.lifecycle", name = "lifecycle-common-java8", version.ref = "lifecycle" }
+androidXCore = { group = "androidx.core", name = "core-ktx", version.ref = "androidXCore" }
+
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+recyclerView = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerView" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
+mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
+mockitoAndroid = { group = "org.mockito", name = "mockito-android", version.ref = "mockito" }
+mockK = { group = "io.mockk", name = "mockk", version.ref = "mockK" }
+archTesting = { group = "androidx.arch.core", name = "core-testing", version.ref = "arch" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+butterknife = { group = "com.jakewharton", name = "butterknife", version.ref = "butterKnife" }
+butterknifeCompiler = { group = "com.jakewharton", name = "butterknife-compiler", version.ref = "butterKnife" }
+dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
+daggerCompiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
+inject = { group = "javax.inject", name = "javax.inject", version.ref = "javainject" }
+coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutinesAndroid = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+coroutinesTest = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofitMock = { group = "com.squareup.retrofit2", name = "retrofit-mock", version.ref = "retrofit" }
+rxjavaAdapter = { group = "com.squareup.retrofit2", name = "adapter-rxjava", version.ref = "rxjavaAdapter" }
+rxJava2Adapter = { group = "com.squareup.retrofit2", name = "adapter-rxjava2", version.ref = "rxjavaAdapter" }
+rxjava = { group = "io.reactivex", name = "rxjava", version.ref = "rxjava" }
+rxjava2 = { group = "io.reactivex.rxjava2", name = "rxjava", version.ref = "rxjava2" }
+rxandroid = { group = "io.reactivex", name = "rxandroid", version.ref = "rxandroid" }
+rxAndroid2 = { group = "io.reactivex.rxjava2", name = "rxandroid", version.ref = "rxAndroid2" }
+jackson = { group = "com.squareup.retrofit2", name = "converter-jackson", version.ref = "jackson" }
+okhttp = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+jodaTime = { group = "net.danlew", name = "android.joda", version.ref = "jodaTime" }
+
+testCore = { group = "androidx.test", name = "core", version.ref = "testCore" }
+testCoreKtx = { group = "androidx.test", name = "core-ktx", version.ref = "testCore" }
+testRunner = { group = "androidx.test", name = "runner", version.ref = "testRunner" }
+testRules = { group = "com.android.support.test", name = "rules", version.ref = "testRunner" }
+uiAutomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiAutomator" }
+extJunit = { group = "androidx.test.ext", name = "junit", version.ref = "junitTestExt" }
+extJunitKtx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitTestExt" }
+espressoCore = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
+espressoContrib = { group = "androidx.test.espresso", name = "espresso-contrib", version.ref = "espresso" }
+rx2idler = { group = "com.squareup.rx.idler", name = "rx2-idler", version = "0.11.0" }
+
+lintApi = { group = "com.android.tools.lint", name = "lint-api", version.ref = "lint" }
+lintChecks = { group = "com.android.tools.lint", name = "lint-checks", version.ref = "lint" }
+lint = { group = "com.android.tools.lint", name = "lint", version.ref = "lint" }
+lintTests = { group = "com.android.tools.lint", name = "lint-tests", version.ref = "lint" }
+testUtils = { group = "com.android.tools", name = "testutils", version.ref = "lint" }
+
+[plugins]
+kotlin-gradle = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlinter-gradle = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
+kotlin-allopen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

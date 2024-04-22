@@ -50,23 +50,23 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
 }
 
 dependencies {
-  implementation Libs.appCompat
-  implementation Libs.lifecycle
-  implementation Libs.inject
-  implementation Libs.coroutines
-  implementation Libs.coroutinesAndroid
+  implementation libs.appCompat
+  implementation libs.lifecycle
+  implementation libs.inject
+  implementation libs.coroutines
+  implementation libs.coroutinesAndroid
 
   testImplementation project(':internal-test-support')
-  testImplementation Libs.testCore
-  testImplementation Libs.testCoreKtx
-  testImplementation Libs.junit
-  testImplementation Libs.extJunitKtx
-  testImplementation Libs.truth
-  testImplementation Libs.mockito
-  testImplementation Libs.mockK
-  testImplementation Libs.archTesting
-  testImplementation Libs.robolectric
-  testImplementation Libs.coroutinesTest
+  testImplementation libs.testCore
+  testImplementation libs.testCoreKtx
+  testImplementation libs.junit
+  testImplementation libs.extJunitKtx
+  testImplementation libs.truth
+  testImplementation libs.mockito
+  testImplementation libs.mockK
+  testImplementation libs.archTesting
+  testImplementation libs.robolectric
+  testImplementation libs.coroutinesTest
 
 // Bug in AGP: Follow this issue - https://issuetracker.google.com/issues/141840950
 // lintPublish project(':magellan-lint')

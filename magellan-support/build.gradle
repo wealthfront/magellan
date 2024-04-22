@@ -33,10 +33,10 @@ android {
 dependencies {
   implementation project(':magellan-legacy')
 
-  implementation Libs.appCompat
+  implementation libs.appCompat
 
-  testImplementation Libs.junit
-  testImplementation Libs.truth
-  testImplementation Libs.mockito
-  testImplementation Libs.robolectric
+  testImplementation libs.junit
+  testImplementation libs.truth
+  testImplementation libs.mockito
+  testImplementation libs.robolectric
 }
