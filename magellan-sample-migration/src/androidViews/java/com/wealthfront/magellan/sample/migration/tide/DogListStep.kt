@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
-import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.core.Step
 import com.wealthfront.magellan.sample.migration.R
 import com.wealthfront.magellan.sample.migration.api.DogApi

@@ -4,7 +4,6 @@ import android.content.Context
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.compose.runtime.mutableStateListOf
-import com.wealthfront.magellan.core.Navigable
 import com.wealthfront.magellan.coroutines.ShownLifecycleScope
 import com.wealthfront.magellan.lifecycle.attachFieldToLifecycle
 import com.wealthfront.magellan.sample.migration.api.DogApi
@@ -43,5 +42,4 @@ class DogListStep @AssistedInject constructor(
       // hide loading
     }
   }
-
 }
