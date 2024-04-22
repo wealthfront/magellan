@@ -31,7 +31,12 @@ android {
   }
 
   buildFeatures {
+    compose = true
     viewBinding = true
+  }
+
+  composeOptions {
+    kotlinCompilerExtensionVersion = "1.4.8"
   }
 
   testOptions {
@@ -77,12 +82,12 @@ dependencies {
   implementation libs.jodaTime
   implementation libs.recyclerView
 
-  implementation(enforcedPlatform(libs.compose.bom))
+  implementation(platform(libs.compose.bom))
   implementation libs.compose.foundation
   implementation libs.compose.ui
+  implementation libs.compose.ui.graphics
   implementation libs.compose.tooling
   implementation libs.compose.tooling.preview
-  implementation libs.compose.material
   implementation libs.compose.material3
 
   kaptTest libs.daggerCompiler

@@ -1,7 +1,5 @@
 package com.wealthfront.magellan.sample.migration
 
-import com.wealthfront.magellan.sample.migration.tide.DogDetailsScreen
-import com.wealthfront.magellan.sample.migration.tide.DogListStep
 import dagger.Component
 import javax.inject.Singleton
 
@@ -10,7 +8,5 @@ import javax.inject.Singleton
 interface AppComponent {
 
   fun inject(activity: MainActivity)
-  fun inject(step: DogListStep)
-  fun inject(screen: DogDetailsScreen)
   fun inject(expedition: Expedition)
 }
