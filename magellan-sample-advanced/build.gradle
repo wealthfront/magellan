@@ -54,36 +54,36 @@ dependencies {
   implementation project(':magellan-library')
   implementation project(':magellan-rx2')
 
-  implementation Libs.androidXCore
-  implementation Libs.appCompat
-  implementation Libs.material
-  implementation Libs.constraintLayout
+  implementation libs.androidXCore
+  implementation libs.appCompat
+  implementation libs.material
+  implementation libs.constraintLayout
 
-  implementation Libs.dagger
-  kapt Libs.daggerCompiler
+  implementation libs.dagger
+  kapt libs.daggerCompiler
 
-  implementation Libs.retrofit
-  implementation Libs.rxjava
-  implementation Libs.rxAndroid2
-  implementation Libs.retrofitMock
-  implementation Libs.rxJava2Adapter
-  implementation Libs.jackson
-  implementation Libs.okhttp
-  implementation Libs.coroutines
-  implementation Libs.coroutinesAndroid
+  implementation libs.retrofit
+  implementation libs.rxjava
+  implementation libs.rxAndroid2
+  implementation libs.retrofitMock
+  implementation libs.rxJava2Adapter
+  implementation libs.jackson
+  implementation libs.okhttp
+  implementation libs.coroutines
+  implementation libs.coroutinesAndroid
 
-  testImplementation Libs.junit
-  testImplementation Libs.testCore
-  testImplementation Libs.truth
-  testImplementation Libs.mockito
-  testImplementation Libs.robolectric
+  testImplementation libs.junit
+  testImplementation libs.testCore
+  testImplementation libs.truth
+  testImplementation libs.mockito
+  testImplementation libs.robolectric
 
-  androidTestImplementation Libs.rx2idler
-  androidTestImplementation Libs.testCore
-  androidTestImplementation Libs.testCoreKtx
-  androidTestImplementation Libs.espressoCore
-  androidTestImplementation Libs.testRunner
-  androidTestImplementation Libs.testRules
+  androidTestImplementation libs.rx2idler
+  androidTestImplementation libs.testCore
+  androidTestImplementation libs.testCoreKtx
+  androidTestImplementation libs.espressoCore
+  androidTestImplementation libs.testRunner
+  androidTestImplementation libs.testRules
 
   androidTestImplementation 'androidx.test:runner:1.4.0'
   androidTestUtil 'androidx.test:orchestrator:1.4.1'

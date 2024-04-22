@@ -16,15 +16,15 @@ lintOptions {
 }
 
 dependencies {
-  compileOnly Libs.lintApi
-  compileOnly Libs.lintChecks
+  compileOnly libs.lintApi
+  compileOnly libs.lintChecks
 
-  testImplementation Libs.junit
-  testImplementation Libs.truth
-  testImplementation Libs.lint
-  testImplementation Libs.lintTests
-  testImplementation Libs.testUtils
-  testImplementation(Libs.truth) {
+  testImplementation libs.junit
+  testImplementation libs.truth
+  testImplementation libs.lint
+  testImplementation libs.lintTests
+  testImplementation libs.testUtils
+  testImplementation(libs.truth) {
     exclude group: 'com.google.guava', module: 'guava'
   }
 }

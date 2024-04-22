@@ -40,21 +40,21 @@ dependencies {
   implementation project(':magellan-library')
   implementation project(':magellan-legacy')
 
-  implementation Libs.appCompat
-  implementation Libs.material
-  implementation Libs.coroutines
-  implementation Libs.coroutinesAndroid
+  implementation libs.appCompat
+  implementation libs.material
+  implementation libs.coroutines
+  implementation libs.coroutinesAndroid
 
-  implementation Libs.dagger
-  kapt Libs.daggerCompiler
+  implementation libs.dagger
+  kapt libs.daggerCompiler
 
-  testImplementation Libs.junit
+  testImplementation libs.junit
 
-  androidTestImplementation Libs.testRunner
-  androidTestImplementation Libs.testRules
-  androidTestImplementation Libs.uiAutomator
-  androidTestImplementation Libs.extJunit
-  androidTestImplementation Libs.espressoCore
+  androidTestImplementation libs.testRunner
+  androidTestImplementation libs.testRules
+  androidTestImplementation libs.uiAutomator
+  androidTestImplementation libs.extJunit
+  androidTestImplementation libs.espressoCore
 
   lintPublish project(':magellan-lint')
 }

@@ -39,12 +39,12 @@ dependencies {
   implementation project(':magellan-legacy')
   implementation project(':magellan-library')
 
-  implementation Libs.rxjava2
-  implementation Libs.inject
+  implementation libs.rxjava2
+  implementation libs.inject
 
-  testImplementation Libs.junit
-  testImplementation Libs.truth
-  testImplementation Libs.mockito
+  testImplementation libs.junit
+  testImplementation libs.truth
+  testImplementation libs.mockito
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
