@@ -25,6 +25,7 @@ javainject = "1"
 material = "1.4.0"
 recyclerView = "1.2.1"
 coroutines = "1.6.4"
+compose-bom = "2024.04.01"
 
 testCore = "1.4.0"
 junit = "4.13.2"
@@ -37,7 +38,6 @@ uiAutomator = "2.2.0"
 espresso = "3.4.0"
 
 lint = "30.0.2"
-
 
 [libraries]
 appCompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "supportLib" }
@@ -62,6 +62,16 @@ inject = { group = "javax.inject", name = "javax.inject", version.ref = "javainj
 coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutinesAndroid = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 coroutinesTest = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
+compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+compose-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+compose-material = { group = "androidx.compose.material", name = "material" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+compose-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+compose-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }

@@ -66,6 +66,14 @@ dependencies {
   implementation libs.jodaTime
   implementation libs.recyclerView
 
+  implementation(enforcedPlatform(libs.compose.bom))
+  implementation libs.compose.foundation
+  implementation libs.compose.ui
+  implementation libs.compose.tooling
+  implementation libs.compose.tooling.preview
+  implementation libs.compose.material
+  implementation libs.compose.material3
+
   kaptTest libs.daggerCompiler
   testImplementation libs.junit
   testImplementation libs.testCore
