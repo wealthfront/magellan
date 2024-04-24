@@ -6,10 +6,10 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 
 @Composable
-fun DogBreeds(dogBreeds: List<String>) {
+fun DogBreeds(dogBreeds: List<String>, onBreedClick: (name: String) -> Unit) {
   LazyColumn {
     itemsIndexed(dogBreeds) { index, item ->
-      DogBreedListItem(item)
+      DogBreedListItem(item, onBreedClick)
       if (index != (dogBreeds.size - 1)) {
         HorizontalDivider()
       }

@@ -27,7 +27,7 @@ class DogListStep @AssistedInject constructor(
 
   override fun onShow(context: Context) {
     setContent {
-      DogBreeds(dogBreeds = dogBreedsData)
+      DogBreeds(dogBreeds = dogBreedsData, onBreedClick = goToDogDetails)
     }
 
     scope.launch {
