@@ -102,9 +102,3 @@ lintChecks = { group = "com.android.tools.lint", name = "lint-checks", version.r
 lint = { group = "com.android.tools.lint", name = "lint", version.ref = "lint" }
 lintTests = { group = "com.android.tools.lint", name = "lint-tests", version.ref = "lint" }
 testUtils = { group = "com.android.tools", name = "testutils", version.ref = "lint" }
-
-[plugins]
-kotlin-gradle = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlinter-gradle = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
-kotlin-allopen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin" }
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
