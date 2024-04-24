@@ -1,5 +1,5 @@
 plugins {
-  id 'org.jetbrains.kotlin.jvm' version '1.8.21'
+  id 'org.jetbrains.kotlin.jvm' version '1.8.22'
 }
 
 repositories {
@@ -10,6 +10,7 @@ repositories {
 
 dependencies {
   implementation 'com.android.tools.build:gradle:8.1.2'
+  implementation 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.22'
 }
 
 compileKotlin {
