@@ -97,6 +97,9 @@ dependencies {
   testImplementation libs.mockK
   testImplementation libs.robolectric
   testImplementation libs.truth
+//  testImplementation libs.espressoCore
+  testImplementation libs.compose.junit4
+  testImplementation libs.compose.manifest
 
   kaptAndroidTest libs.daggerCompiler
   androidTestImplementation libs.extJunit

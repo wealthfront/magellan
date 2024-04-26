@@ -14,6 +14,7 @@ import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.CoroutineIdlingRule
 import com.wealthfront.magellan.sample.migration.MainActivity
 import com.wealthfront.magellan.sample.migration.R
+import com.wealthfront.magellan.sample.migration.TestAppComponent
 import com.wealthfront.magellan.sample.migration.api.DogApi
 import com.wealthfront.magellan.sample.migration.api.DogBreedsResponse
 import com.wealthfront.magellan.sample.migration.api.DogImageResponse
