@@ -19,8 +19,24 @@ android {
     setTargetCompatibility(JavaVersion.VERSION_17)
   }
 
+  flavorDimensions += "ui"
+  productFlavors {
+    register("androidViews") {
+      isDefault = true
+      dimension = "ui"
+    }
+    register("compose") {
+      dimension = "ui"
+    }
+  }
+
   buildFeatures {
+    compose = true
     viewBinding = true
+  }
+
+  composeOptions {
+    kotlinCompilerExtensionVersion = "1.4.8"
   }
 
   testOptions {
@@ -66,12 +82,12 @@ dependencies {
   implementation libs.jodaTime
   implementation libs.recyclerView
 
-  implementation(enforcedPlatform(libs.compose.bom))
+  implementation(platform(libs.compose.bom))
   implementation libs.compose.foundation
   implementation libs.compose.ui
+  implementation libs.compose.ui.graphics
   implementation libs.compose.tooling
   implementation libs.compose.tooling.preview
-  implementation libs.compose.material
   implementation libs.compose.material3
 
   kaptTest libs.daggerCompiler
@@ -81,6 +97,9 @@ dependencies {
   testImplementation libs.mockK
   testImplementation libs.robolectric
   testImplementation libs.truth
+//  testImplementation libs.espressoCore
+  testImplementation libs.compose.junit4
+  testImplementation libs.compose.manifest
 
   kaptAndroidTest libs.daggerCompiler
   androidTestImplementation libs.extJunit

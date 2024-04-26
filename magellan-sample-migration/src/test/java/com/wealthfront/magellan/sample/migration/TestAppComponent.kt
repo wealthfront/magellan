@@ -1,7 +1,7 @@
 package com.wealthfront.magellan.sample.migration
 
 import com.wealthfront.magellan.sample.migration.api.DogApi
-import com.wealthfront.magellan.sample.migration.tide.DogListStepTest
+import com.wealthfront.magellan.sample.migration.tide.DogListStepFactory
 import com.wealthfront.magellan.sample.migration.toolbar.ToolbarHelper
 import dagger.Component
 import javax.inject.Singleton
@@ -12,6 +12,5 @@ interface TestAppComponent : AppComponent {
 
   val toolbarHelper: ToolbarHelper
   val api: DogApi
-
-  fun inject(test: DogListStepTest)
+  val dogListStepFactory: DogListStepFactory
 }
