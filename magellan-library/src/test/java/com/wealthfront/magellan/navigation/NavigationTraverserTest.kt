@@ -84,20 +84,34 @@ internal class NavigationTraverserTest {
 
   @Test
   fun globalBackStackWithSiblingJourney() {
-    traverser = NavigationTraverser(siblingRoot)
+    val rootJourney =
+      DummyJourney(
+        DummyJourney(
+          DummyJourney(
+            DummyJourney(
+              siblingRoot
+            )
+          )
+        )
+      )
+    traverser = NavigationTraverser(rootJourney)
 
-    siblingRoot.transitionToState(Created(context))
+    rootJourney.transitionToState(Created(context))
     journey3.goToAnotherJourney()
 
     assertThat(traverser.getGlobalBackstackDescription()).isEqualTo(
       """
-    SiblingJourney
-    ├ DummyJourney3
-    | ├ DummyStep3
-    | └ DummyStep4
-    └ DummyJourney2
-      ├ DummyStep1
-      └ DummyStep2
+    DummyJourney
+    └ DummyJourney
+      └ DummyJourney
+        └ DummyJourney
+          └ SiblingJourney
+            ├ DummyJourney3
+            | ├ DummyStep3
+            | └ DummyStep4
+            └ DummyJourney2
+              ├ DummyStep1
+              └ DummyStep2
     
       """.trimIndent()
     )
@@ -126,6 +140,16 @@ internal class NavigationTraverserTest {
 
     override fun onCreate(context: Context) {
       navigator.goTo(journey1)
+    }
+  }
+
+  private inner class DummyJourney(val otherJourney: Journey<*>) : Journey<MagellanDummyLayoutBinding>(
+    MagellanDummyLayoutBinding::inflate,
+    MagellanDummyLayoutBinding::container
+  ) {
+
+    override fun onCreate(context: Context) {
+      navigator.goTo(otherJourney)
     }
   }
 

@@ -41,7 +41,7 @@ public class NavigationTraverser(private val root: NavigableCompat) {
         "$VERTICAL_LINE$INDENT_SPACE"
       }
       node.getNavigationSnapshotRecursive(
-        indent + childIndent,
+        childIndent,
         index == children.lastIndex
       )
     }.forEach { stringBuilder.append(it) }
