@@ -17,6 +17,6 @@ jobs:
         distribution: 'adopt'
         java-version: 17
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@v2
+      uses: gradle/actions/setup-gradle@v3
       with:
         arguments: testDebugUnitTest lintRelease checkstyle lintKotlin
