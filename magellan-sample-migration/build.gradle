@@ -91,6 +91,7 @@ dependencies {
   implementation libs.compose.material3
 
   kaptTest libs.daggerCompiler
+  testImplementation(platform(libs.compose.bom))
   testImplementation libs.junit
   testImplementation libs.testCore
   testImplementation libs.truth
@@ -99,9 +100,10 @@ dependencies {
   testImplementation libs.truth
 //  testImplementation libs.espressoCore
   testImplementation libs.compose.junit4
-  testImplementation libs.compose.manifest
+  debugImplementation libs.compose.manifest
 
   kaptAndroidTest libs.daggerCompiler
+  androidTestImplementation(platform(libs.compose.bom))
   androidTestImplementation libs.extJunit
   androidTestImplementation libs.espressoCore
   androidTestImplementation libs.espressoContrib
@@ -110,6 +112,7 @@ dependencies {
   androidTestImplementation libs.testRunner
   androidTestImplementation libs.testRules
   androidTestImplementation libs.mockitoAndroid
+  androidTestImplementation libs.compose.junit4
 
   androidTestImplementation 'androidx.test:runner:1.4.0'
   androidTestUtil 'androidx.test:orchestrator:1.4.1'
