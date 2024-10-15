@@ -1,6 +1,8 @@
 package com.wealthfront.magellan.sample.migration.uitest
 
 import android.app.Application
+import androidx.compose.ui.test.junit4.ComposeTestRule
+import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.launchActivity
@@ -12,6 +14,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.CoroutineIdlingRule
+import com.wealthfront.magellan.sample.migration.DisableAnimationsAndKeyboardRule
 import com.wealthfront.magellan.sample.migration.MainActivity
 import com.wealthfront.magellan.sample.migration.R
 import com.wealthfront.magellan.sample.migration.TestAppComponent
@@ -25,6 +28,9 @@ import org.junit.Test
 import javax.inject.Inject
 
 class NavigationTest {
+
+  @Rule @JvmField
+  val disableAnimationsAndKeyboardRule = DisableAnimationsAndKeyboardRule()
 
   @Rule @JvmField
   val coroutineIdlingRule = CoroutineIdlingRule()

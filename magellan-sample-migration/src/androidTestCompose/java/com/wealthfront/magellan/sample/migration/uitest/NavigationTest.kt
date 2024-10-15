@@ -10,6 +10,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.launchActivity
 import com.wealthfront.magellan.sample.migration.AppComponentContainer
 import com.wealthfront.magellan.sample.migration.CoroutineIdlingRule
+import com.wealthfront.magellan.sample.migration.DisableAnimationsAndKeyboardRule
 import com.wealthfront.magellan.sample.migration.MainActivity
 import com.wealthfront.magellan.sample.migration.TestAppComponent
 import com.wealthfront.magellan.sample.migration.api.DogApi
@@ -24,12 +25,15 @@ import javax.inject.Inject
 class NavigationTest {
 
   @Rule @JvmField
+  val disableAnimationsAndKeyboardRule = DisableAnimationsAndKeyboardRule()
+
+  @Rule @JvmField
   val coroutineIdlingRule = CoroutineIdlingRule()
 
-  @Inject lateinit var api: DogApi
-
-  @get:Rule
+  @Rule @JvmField
   val composeRule: ComposeTestRule = createEmptyComposeRule()
+
+  @Inject lateinit var api: DogApi
 
   private lateinit var activityScenario: ActivityScenario<MainActivity>
 
