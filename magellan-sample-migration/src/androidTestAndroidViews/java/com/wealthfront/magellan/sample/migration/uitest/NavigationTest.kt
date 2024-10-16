@@ -1,8 +1,6 @@
 package com.wealthfront.magellan.sample.migration.uitest
 
 import android.app.Application
-import androidx.compose.ui.test.junit4.ComposeTestRule
-import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.launchActivity
