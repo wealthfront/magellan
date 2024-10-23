@@ -23,6 +23,9 @@ public open class LazySetNavigator(
   private var ongoingTransition: MagellanTransition? = null
 
   @VisibleForTesting
+  internal var existingNavigables: MutableSet<NavigableCompat> = mutableSetOf()
+
+  @VisibleForTesting
   internal var containerView: ScreenContainer? = null
   private var currentNavigable: NavigableCompat? = null
 
@@ -36,7 +39,37 @@ public open class LazySetNavigator(
   }
 
   public fun addNavigable(navigable: NavigableCompat) {
+    existingNavigables.add(navigable)
     lifecycleRegistry.attachToLifecycleWithMaxState(navigable, LifecycleLimit.CREATED)
+  }
+
+  public fun removeNavigables(navigables: Set<NavigableCompat>) {
+    for (navigable in navigables) {
+      removeNavigable(navigable)
+    }
+  }
+
+  public fun removeNavigable(navigable: NavigableCompat) {
+    existingNavigables.remove(navigable)
+    lifecycleRegistry.removeFromLifecycle(navigable)
+  }
+
+  public fun safeAddNavigable(navigable: NavigableCompat) {
+    if (!existingNavigables.contains(navigable)) {
+      addNavigable(navigable)
+    }
+  }
+
+  public fun updateNavigables(navigables: Set<NavigableCompat>, handleCurrentTabRemoval: () -> Unit) {
+    val navigablesToRemove = existingNavigables subtract navigables
+    val navigablesToAdd = navigables subtract existingNavigables
+
+    if (navigablesToRemove.contains(currentNavigable)) {
+      handleCurrentTabRemoval()
+    }
+
+    removeNavigables(navigablesToRemove)
+    addNavigables(navigablesToAdd)
   }
 
   override fun onShow(context: Context) {
