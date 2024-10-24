@@ -25,12 +25,6 @@ android {
     }
   }
 
-  publishing {
-    singleVariant("release") {
-      withSourcesJar()
-    }
-  }
-
   namespace 'com.wealthfront.magellan.test'
 
   publishing {

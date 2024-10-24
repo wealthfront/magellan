@@ -19,12 +19,6 @@ android {
     setTargetCompatibility(JavaVersion.VERSION_17)
   }
 
-  publishing {
-    singleVariant("release") {
-      withSourcesJar()
-    }
-  }
-
   buildTypes {
     release {
       minifyEnabled false
