@@ -81,27 +81,9 @@ afterEvaluate { project ->
     }
   }
 
-  if (project.getPlugins().hasPlugin('com.android.application') ||
-      project.getPlugins().hasPlugin('com.android.library')) {
-
-    task androidSourcesJar(type: Jar) {
-      archiveClassifier = 'sources'
-      from android.sourceSets.main.java.source
-    }
-  }
-
-  artifacts {
-    if (project.getPlugins().hasPlugin('com.android.application') ||
-        project.getPlugins().hasPlugin('com.android.library')) {
-      archives androidSourcesJar
-    }
-  }
-
   publishing.publications.all { publication ->
     publication.groupId = GROUP
     publication.version = VERSION_NAME
-
-    publication.artifact androidSourcesJar
 
     configurePom(publication.pom)
   }
