@@ -1,7 +1,9 @@
 package com.wealthfront.magellan.navigation
 
 import android.content.Context
+import android.os.Build
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.annotation.VisibleForTesting
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.ScreenContainer
@@ -43,15 +45,19 @@ public open class LazySetNavigator(
     lifecycleRegistry.attachToLifecycleWithMaxState(navigable, LifecycleLimit.CREATED)
   }
 
+  @RequiresApi(Build.VERSION_CODES.N)
   public fun removeNavigables(navigables: Set<NavigableCompat>) {
     for (navigable in navigables) {
       removeNavigable(navigable)
     }
   }
 
+  @RequiresApi(Build.VERSION_CODES.N)
   public fun removeNavigable(navigable: NavigableCompat) {
-    existingNavigables.remove(navigable)
-    lifecycleRegistry.removeFromLifecycle(navigable)
+    existingNavigables.removeIf { it == navigable }
+    if (lifecycleRegistry.children.contains(navigable)) {
+      lifecycleRegistry.removeFromLifecycle(navigable)
+    }
   }
 
   public fun safeAddNavigable(navigable: NavigableCompat) {
@@ -60,6 +66,7 @@ public open class LazySetNavigator(
     }
   }
 
+  @RequiresApi(Build.VERSION_CODES.N)
   public fun updateNavigables(navigables: Set<NavigableCompat>, handleCurrentTabRemoval: () -> Unit) {
     val navigablesToRemove = existingNavigables subtract navigables
     val navigablesToAdd = navigables subtract existingNavigables
@@ -87,6 +94,7 @@ public open class LazySetNavigator(
 
   override fun onDestroy(context: Context) {
     lifecycleRegistry.children.forEach { lifecycleRegistry.removeFromLifecycle(it) }
+    existingNavigables.clear()
   }
 
   public fun replace(

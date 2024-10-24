@@ -183,6 +183,36 @@ class LazySetNavigatorTest {
   }
 
   @Test
+  fun attemptRemoveNavigables_afterOnDestroy() {
+    navigator.addNavigables(setOf(step1, step2, step3, step4))
+    navigator.transitionToState(LifecycleState.Resumed(activityController.get()))
+
+    navigator.replace(step1, CrossfadeTransition())
+    step1.view!!.viewTreeObserver.dispatchOnPreDraw()
+    shadowOf(Looper.getMainLooper()).idle()
+    assertThat(navigator.containerView!!.childCount).isEqualTo(1)
+    assertThat(navigator.containerView!!.getChildAt(0)).isEqualTo(step1.view)
+    assertThat(step1.currentState).isInstanceOf(LifecycleState.Resumed::class.java)
+    assertThat(step2.currentState).isInstanceOf(LifecycleState.Created::class.java)
+    assertThat(step3.currentState).isInstanceOf(LifecycleState.Created::class.java)
+    assertThat(step4.currentState).isInstanceOf(LifecycleState.Created::class.java)
+    assertThat(navigator.existingNavigables).containsExactly(step1, step2, step3, step4)
+
+    verify { navigableListener.beforeNavigation() }
+    verify(exactly = 0) { navigableListener.onNavigatedFrom(any()) }
+    verify { navigableListener.onNavigatedTo(step1) }
+    verify { navigableListener.afterNavigation() }
+    clearMocks(navigableListener)
+    initMocks()
+
+    navigator.transitionToState(LifecycleState.Destroyed)
+    navigator.removeNavigables(setOf(step2, step4))
+
+    assertThat(navigator.existingNavigables).isEmpty()
+    verify(exactly = 0) { navigableListener.onNavigatedTo(any()) }
+  }
+
+  @Test
   fun updateMultipleNavigables() {
     navigator.updateNavigables(setOf(step1, step2)) {}
     navigator.transitionToState(LifecycleState.Resumed(activityController.get()))
