@@ -24,7 +24,20 @@ android {
       minifyEnabled false
     }
   }
+
+  publishing {
+    singleVariant("release") {
+      withSourcesJar()
+    }
+  }
+
   namespace 'com.wealthfront.magellan.test'
+
+  publishing {
+    singleVariant("release") {
+      withSourcesJar()
+    }
+  }
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {

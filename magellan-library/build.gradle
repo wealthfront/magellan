@@ -36,7 +36,14 @@ android {
       minifyEnabled false
     }
   }
+
   namespace 'com.wealthfront.magellan'
+
+  publishing {
+    singleVariant("release") {
+      withSourcesJar()
+    }
+  }
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
