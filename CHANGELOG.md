@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.8-beta
+- Support removal from `LazySetNavigator`
+
 ## 2.2.7-beta
 - Fixes crash during synchronous navigation in `LazySetNavigator`
 - Support backstack read operations from a background thread
