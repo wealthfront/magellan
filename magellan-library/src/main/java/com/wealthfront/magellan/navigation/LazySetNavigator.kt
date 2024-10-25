@@ -1,7 +1,9 @@
 package com.wealthfront.magellan.navigation
 
 import android.content.Context
+import android.os.Build
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.annotation.VisibleForTesting
 import com.wealthfront.magellan.Direction
 import com.wealthfront.magellan.ScreenContainer
@@ -23,6 +25,9 @@ public open class LazySetNavigator(
   private var ongoingTransition: MagellanTransition? = null
 
   @VisibleForTesting
+  internal var existingNavigables: MutableSet<NavigableCompat> = mutableSetOf()
+
+  @VisibleForTesting
   internal var containerView: ScreenContainer? = null
   private var currentNavigable: NavigableCompat? = null
 
@@ -36,7 +41,42 @@ public open class LazySetNavigator(
   }
 
   public fun addNavigable(navigable: NavigableCompat) {
+    existingNavigables.add(navigable)
     lifecycleRegistry.attachToLifecycleWithMaxState(navigable, LifecycleLimit.CREATED)
+  }
+
+  @RequiresApi(Build.VERSION_CODES.N)
+  public fun removeNavigables(navigables: Set<NavigableCompat>) {
+    for (navigable in navigables) {
+      removeNavigable(navigable)
+    }
+  }
+
+  @RequiresApi(Build.VERSION_CODES.N)
+  public fun removeNavigable(navigable: NavigableCompat) {
+    existingNavigables.removeIf { it == navigable }
+    if (lifecycleRegistry.children.contains(navigable)) {
+      lifecycleRegistry.removeFromLifecycle(navigable)
+    }
+  }
+
+  public fun safeAddNavigable(navigable: NavigableCompat) {
+    if (!existingNavigables.contains(navigable)) {
+      addNavigable(navigable)
+    }
+  }
+
+  @RequiresApi(Build.VERSION_CODES.N)
+  public fun updateNavigables(navigables: Set<NavigableCompat>, handleCurrentTabRemoval: () -> Unit) {
+    val navigablesToRemove = existingNavigables subtract navigables
+    val navigablesToAdd = navigables subtract existingNavigables
+
+    if (navigablesToRemove.contains(currentNavigable)) {
+      handleCurrentTabRemoval()
+    }
+
+    removeNavigables(navigablesToRemove)
+    addNavigables(navigablesToAdd)
   }
 
   override fun onShow(context: Context) {
@@ -54,6 +94,7 @@ public open class LazySetNavigator(
 
   override fun onDestroy(context: Context) {
     lifecycleRegistry.children.forEach { lifecycleRegistry.removeFromLifecycle(it) }
+    existingNavigables.clear()
   }
 
   public fun replace(
