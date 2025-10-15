@@ -11,8 +11,6 @@ internal class IntroStep(
   override fun onShow(context: Context, binding: IntroBinding) {
     binding.root.tag = "IntroStep"
     binding.learnMore.setOnClickListener {
-      println("viewBinding: $viewBinding")
-      viewBinding!!
       goToLearnMore()
     }
   }

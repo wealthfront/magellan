@@ -54,6 +54,7 @@ public class DefaultTransition : MagellanTransition {
       val fromTranslation = sign * -from.width
       val fromAnimation = ObjectAnimator.ofFloat(from, axis, from.translationX, fromTranslation.toFloat())
       set.play(fromAnimation)
+      set.duration = (300 * (1.0f - (from.translationX / from.width))).toLong()
     }
 
     val toAnimation = ObjectAnimator.ofFloat(to, axis, toTranslation, 0f)
