@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.9-beta
+- Support transition interruption in `NavigationDelegate`
+
 ## 2.2.8-beta
 - Support removal from `LazySetNavigator`
 
