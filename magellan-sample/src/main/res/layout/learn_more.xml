@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorCyan"
     android:orientation="vertical"
+    android:tag="LearnMore"
     tools:ignore="Overdraw"
     >
 

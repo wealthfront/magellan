@@ -21,7 +21,7 @@ public class DefaultTransition : MagellanTransition {
   private var animator: Animator? = null
 
   override fun interrupt() {
-    animator?.end()
+    animator?.cancel()
   }
 
   override fun animate(
@@ -48,15 +48,16 @@ public class DefaultTransition : MagellanTransition {
   ): AnimatorSet {
     val sign = direction.sign()
     val axis: Property<View, Float> = View.TRANSLATION_X
-    val toTranslation = sign * to.width
+    val toTranslation = sign * to.width + (from?.translationX ?: 0f)
     val set = AnimatorSet()
     if (from != null) {
       val fromTranslation = sign * -from.width
-      val fromAnimation = ObjectAnimator.ofFloat(from, axis, 0f, fromTranslation.toFloat())
+      val fromAnimation = ObjectAnimator.ofFloat(from, axis, from.translationX, fromTranslation.toFloat())
       set.play(fromAnimation)
+      set.duration = (300 * (1.0f - (from.translationX / from.width))).toLong()
     }
 
-    val toAnimation = ObjectAnimator.ofFloat(to, axis, toTranslation.toFloat(), 0f)
+    val toAnimation = ObjectAnimator.ofFloat(to, axis, toTranslation, 0f)
     set.play(toAnimation)
     set.interpolator = FastOutSlowInInterpolator()
     return set

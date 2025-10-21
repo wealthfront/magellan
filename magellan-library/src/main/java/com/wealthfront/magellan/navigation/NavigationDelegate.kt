@@ -29,6 +29,7 @@ public open class NavigationDelegate(
 
   public var currentNavigableSetup: ((NavigableCompat) -> Unit)? = null
 
+  private var activeTransition: MagellanTransition? = null
   private var templatedViewMap = HashMap<NavigableCompat, View>()
 
   protected var containerView: ScreenContainer? = null
@@ -64,6 +65,7 @@ public open class NavigationDelegate(
   override fun onHide(context: Context) {
     containerView = null
     templatedViewMap.clear()
+    activeTransition = null
   }
 
   override fun onDestroy(context: Context) {
@@ -75,6 +77,7 @@ public open class NavigationDelegate(
     direction: Direction,
     backStackOperation: (Deque<NavigationEvent>) -> MagellanTransition
   ) {
+    activeTransition?.interrupt()
     containerView?.setInterceptTouchEvents(true)
     navigationPropagator.beforeNavigation()
     val oldBackStack = backStack.map { it.navigable }
@@ -140,12 +143,14 @@ public open class NavigationDelegate(
       } else {
         NoAnimationTransition()
       }
+      activeTransition = transition
       transition.animate(from, to, direction) {
         if (context != null && containerView != null) {
           containerView!!.removeView(from)
           currentNavigable!!.transitionFinished()
           navigationPropagator.afterNavigation()
           containerView!!.setInterceptTouchEvents(false)
+          activeTransition = null
         }
       }
     }
