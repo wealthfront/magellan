@@ -12,8 +12,8 @@
 
 5. Someone with the necessary permissions publishes the repo:
    - `./gradlew clean publish`
-   - Visit [Sonatype Nexus](https://oss.sonatype.org/) and promote the artifact.
-If this step fails: drop the Sonatype repo, fix the problem, commit, and start again.
+   - Visit [Sonatype Central](https://central.sonatype.com/publishing), wait for the "pending" artifacts to become validated, and finally publish the artifacts.
+If this step fails: drop the deployment, fix the problem, commit, and start again.
 Visit [Maven Central Repository Search](https://search.maven.org/search?q=magellan) to verify the artifact is live. Note that it may take a few hours.
 
 6. Visit [the GitHub releases page](https://github.com/wealthfront/magellan/releases) and create a new release, copying the changelog from CHANGELOG.md.
