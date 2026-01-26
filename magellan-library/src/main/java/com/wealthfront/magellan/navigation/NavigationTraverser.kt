@@ -73,4 +73,10 @@ public class LeafNode(
   override val children: List<NavigationNode> = emptyList()
 }
 
-private fun NavigationNode.describeSelf(indent: String): String = "$indent${value.javaClass.simpleName}\n"
+private fun NavigationNode.describeSelf(indent: String): String {
+  return if (value.navigableId != null) {
+    "$indent${value.navigableId}\n"
+  } else {
+    "$indent${value.javaClass.simpleName}\n"
+  }
+}
