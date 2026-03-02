@@ -48,7 +48,11 @@ public class DefaultTransition : MagellanTransition {
   ): AnimatorSet {
     val sign = direction.sign()
     val axis: Property<View, Float> = View.TRANSLATION_X
-    val toTranslation = sign * to.width
+    val toTranslation = if (to.width > 0) {
+      sign * to.width
+    } else {
+      sign * (to.parent as View).width
+    }
     val set = AnimatorSet()
     if (from != null) {
       val fromTranslation = sign * -from.width
