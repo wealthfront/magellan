@@ -65,7 +65,6 @@ public open class NavigationDelegate(
   override fun onHide(context: Context) {
     containerView = null
     templatedViewMap.clear()
-    activeTransition = null
   }
 
   override fun onDestroy(context: Context) {
@@ -150,7 +149,6 @@ public open class NavigationDelegate(
           currentNavigable!!.transitionFinished()
           navigationPropagator.afterNavigation()
           containerView!!.setInterceptTouchEvents(false)
-          activeTransition = null
         }
       }
     }
