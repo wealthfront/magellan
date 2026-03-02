@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.2.10-beta
+- Support `navigableId` for customizing names of navigables in `NavigationTraverser`
+- Revert transition interruption
+- Fix `DefaultTransition` animation when destination hasn't been measured yet
+
 ## 2.2.9-beta
 - Support transition interruption in `NavigationDelegate`
 
