@@ -9,7 +9,6 @@ internal class IntroStep(
 ) : Step<IntroBinding>(IntroBinding::inflate) {
 
   override fun onShow(context: Context, binding: IntroBinding) {
-    binding.root.tag = "IntroStep"
     binding.learnMore.setOnClickListener {
       goToLearnMore()
     }
