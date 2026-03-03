@@ -192,6 +192,12 @@ public abstract class Screen<V extends ViewGroup & ScreenView> extends Lifecycle
     return new LeafNode(this);
   }
 
+  @Override
+  @Nullable
+  public String getNavigableId() {
+    return null;
+  }
+
   /**
    * Finish the Activity, and therefore quit the app in a Single Activity Architecture.
    */
