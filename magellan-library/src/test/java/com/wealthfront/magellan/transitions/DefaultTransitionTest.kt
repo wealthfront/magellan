@@ -2,6 +2,7 @@ package com.wealthfront.magellan.transitions
 
 import android.os.Looper.getMainLooper
 import android.view.View
+import android.widget.FrameLayout
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.google.common.truth.Truth.assertThat
 import com.wealthfront.magellan.Direction
@@ -47,6 +48,10 @@ class DefaultTransitionTest {
   private fun animate(direction: Direction): MagellanTransition {
     val from = View(getApplicationContext())
     val to = View(getApplicationContext())
+    FrameLayout(getApplicationContext()).apply {
+      addView(from)
+      addView(to)
+    }
     return DefaultTransition().apply {
       animate(from, to, direction) {
         onAnimationEndCalled = true
