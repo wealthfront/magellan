@@ -37,7 +37,7 @@ testRunner = "1.4.0"
 uiAutomator = "2.2.0"
 espresso = "3.4.0"
 
-lint = "30.0.2"
+lint = "31.13.2"
 
 [libraries]
 appCompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "supportLib" }

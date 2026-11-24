@@ -23,17 +23,15 @@ android {
     viewBinding = true
   }
 
-  lintOptions {
-    disable 'UnusedResources'
-    disable 'IconLocation'
-  }
-
   buildTypes {
     release {
       minifyEnabled false
     }
   }
   namespace 'com.wealthfront.magellan.sample'
+  lint {
+    disable 'UnusedResources', 'IconLocation'
+  }
 }
 
 dependencies {

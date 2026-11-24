@@ -24,10 +24,10 @@ android {
     }
   }
 
-  lintOptions {
+  namespace 'com.wealthfront.magellan.support'
+  lint {
     disable 'StaticFieldLeak'
   }
-  namespace 'com.wealthfront.magellan.support'
 }
 
 dependencies {

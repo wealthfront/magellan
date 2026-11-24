@@ -54,15 +54,17 @@ android {
   kotlinOptions {
     jvmTarget = JavaVersion.VERSION_17
   }
-
   packagingOptions {
-    exclude 'META-INF/LICENSE'
+    resources {
+      excludes += ['META-INF/LICENSE']
+    }
   }
 
-  lintOptions {
-    disable 'InvalidPackage','IconDensities', 'ObsoleteLintCustomCheck', 'IconMissingDensityFolder', 'AllowBackup'
-  }
   namespace 'com.wealthfront.magellan.sample.migration'
+  lint {
+    disable 'InvalidPackage', 'IconDensities', 'ObsoleteLintCustomCheck',
+        'IconMissingDensityFolder', 'AllowBackup'
+  }
 }
 
 dependencies {

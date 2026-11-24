@@ -3,7 +3,7 @@ object Versions {
   const val kotlinterVersion = "3.9.0"
   const val detektVersion = "1.19.0"
 
-  const val compileSdkVersion = 34
+  const val compileSdkVersion = 37
   const val minSdkVersion = 21
-  const val targetSdkVersion = 31
+  const val targetSdkVersion = 36
 }
