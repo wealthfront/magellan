@@ -20,8 +20,8 @@ class CerealDetailStep(private val cerealDetails: CerealDetails) :
 }
 
 data class CerealDetails(
-  @StringRes val title: Int,
-  @StringRes val description: Int,
+  @param:StringRes val title: Int,
+  @param:StringRes val description: Int,
   val status: CerealStatus
 )
 

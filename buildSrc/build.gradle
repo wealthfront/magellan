@@ -1,26 +1,19 @@
 plugins {
-  id 'org.jetbrains.kotlin.jvm' version '1.8.22'
+  id 'org.jetbrains.kotlin.jvm' version '2.2.10'
 }
 
 repositories {
-  jcenter()
   mavenCentral()
   google()
 }
 
 dependencies {
-  implementation 'com.android.tools.build:gradle:8.1.4'
-  implementation 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.22'
+  implementation 'com.android.tools.build:gradle:9.4.1'
+  implementation 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.10'
 }
 
-compileKotlin {
-  kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_17
-  }
-}
-
-compileTestKotlin {
-  kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_17
+kotlin {
+  compilerOptions {
+    jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
   }
 }

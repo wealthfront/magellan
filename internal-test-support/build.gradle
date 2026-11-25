@@ -1,12 +1,10 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
 
 android {
-  compileSdkVersion Versions.compileSdkVersion
+  compileSdk Versions.compileSdkVersion
 
   defaultConfig {
-    minSdkVersion Versions.minSdkVersion
-    targetSdkVersion Versions.targetSdkVersion
+    minSdk Versions.minSdkVersion
 
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
@@ -14,6 +12,10 @@ android {
   compileOptions {
     setSourceCompatibility(JavaVersion.VERSION_17)
     setTargetCompatibility(JavaVersion.VERSION_17)
+  }
+
+  testOptions {
+    targetSdk Versions.targetSdkVersion
   }
 
   buildFeatures {
@@ -29,8 +31,10 @@ android {
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-  kotlinOptions.allWarningsAsErrors = true
-  kotlinOptions.jvmTarget = JavaVersion.VERSION_17
+  compilerOptions {
+    allWarningsAsErrors.set(true)
+    jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+  }
 }
 
 dependencies {

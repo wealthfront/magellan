@@ -1,7 +1,7 @@
 [versions]
-kotlin = "1.8.22"
+kotlin = "2.2.10"
 kotlinter = "3.9.0"
-detekt = "1.19.0"
+detekt = "1.23.8"
 supportLib = "1.3.1"
 constraintLayout = "2.1.0"
 robolectric = "4.8"
@@ -9,7 +9,7 @@ arch = "2.1.0"
 lifecycle = "2.2.0"
 androidXCore = "1.6.0"
 butterKnife = "10.0.0"
-dagger = "2.48"
+dagger = "2.59.2"
 javaInject = "1"
 retrofit = "2.9.0"
 glide = "4.11.0"
@@ -37,7 +37,8 @@ testRunner = "1.4.0"
 uiAutomator = "2.2.0"
 espresso = "3.4.0"
 
-lint = "30.0.2"
+lint = "32.4.1"
+kotlinVersion = "2.2.10"
 
 [libraries]
 appCompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "supportLib" }
@@ -103,3 +104,5 @@ lintChecks = { group = "com.android.tools.lint", name = "lint-checks", version.r
 lint = { group = "com.android.tools.lint", name = "lint", version.ref = "lint" }
 lintTests = { group = "com.android.tools.lint", name = "lint-tests", version.ref = "lint" }
 testUtils = { group = "com.android.tools", name = "testutils", version.ref = "lint" }
+[plugins]
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinVersion" }

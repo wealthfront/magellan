@@ -4,11 +4,11 @@ group = GROUP
 version = VERSION_NAME
 
 android {
-  compileSdkVersion Versions.compileSdkVersion
+  compileSdk Versions.compileSdkVersion
+  enableKotlin = false
 
   defaultConfig {
-    minSdkVersion Versions.minSdkVersion
-    targetSdkVersion Versions.targetSdkVersion
+    minSdk Versions.minSdkVersion
 
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
@@ -18,16 +18,20 @@ android {
     setTargetCompatibility(JavaVersion.VERSION_17)
   }
 
+  testOptions {
+    targetSdk Versions.targetSdkVersion
+  }
+
   buildTypes {
     release {
       minifyEnabled false
     }
   }
 
-  lintOptions {
+  namespace 'com.wealthfront.magellan.support'
+  lint {
     disable 'StaticFieldLeak'
   }
-  namespace 'com.wealthfront.magellan.support'
 }
 
 dependencies {

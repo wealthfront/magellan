@@ -9,11 +9,7 @@ class SampleApplication : Application(), AppComponentContainer {
 
   override fun onCreate() {
     super.onCreate()
-    appComponent = DaggerAppComponent.builder()
-      .appModule(AppModule)
-      .dogApiModule(DogApiModule)
-      .toolbarHelperModule(ToolbarHelperModule)
-      .build()
+    appComponent = DaggerAppComponent.create()
   }
 
   override fun injector(): AppComponent {

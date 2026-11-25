@@ -1,15 +1,13 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
 
 group = GROUP
 version = VERSION_NAME
 
 android {
-  compileSdkVersion Versions.compileSdkVersion
+  compileSdk Versions.compileSdkVersion
 
   defaultConfig {
-    minSdkVersion Versions.minSdkVersion
-    targetSdkVersion Versions.targetSdkVersion
+    minSdk Versions.minSdkVersion
 
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
@@ -19,20 +17,31 @@ android {
     setTargetCompatibility(JavaVersion.VERSION_17)
   }
 
+  testOptions {
+    targetSdk Versions.targetSdkVersion
+  }
+
   buildTypes {
     release {
       minifyEnabled false
     }
   }
   namespace 'com.wealthfront.magellan.rx'
+
+  publishing {
+    singleVariant("release")
+  }
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-  if (!name.contains("UnitTest")) {
-    kotlinOptions.freeCompilerArgs = ['-Xexplicit-api=strict']
+  def isUnitTest = name.contains("UnitTest")
+  compilerOptions {
+    if (!isUnitTest) {
+      freeCompilerArgs.set(['-Xexplicit-api=strict'])
+    }
+    allWarningsAsErrors.set(true)
+    jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
   }
-  kotlinOptions.allWarningsAsErrors = true
-  kotlinOptions.jvmTarget = JavaVersion.VERSION_17
 }
 
 dependencies {

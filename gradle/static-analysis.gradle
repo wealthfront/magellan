@@ -23,14 +23,14 @@ kotlinter {
 }
 
 detekt {
-  toolVersion = "1.19.0"
+  toolVersion = Versions.detektVersion
   config = files("$rootDir/config/detekt/detekt-config.yml")
   parallel = true
   autoCorrect = true
   reports {
     html {
-      enabled = true
-      destination = file("build/reports/detekt.html")
+      required.set(true)
+      outputLocation.set(file("build/reports/detekt.html"))
     }
   }
   tasks.findByName("check")?.dependsOn("detekt")

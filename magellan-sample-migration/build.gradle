@@ -1,14 +1,16 @@
+plugins {
+  alias(libs.plugins.kotlin.compose)
+}
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: "org.jetbrains.kotlin.kapt"
+apply plugin: 'com.google.devtools.ksp'
 
 android {
-  compileSdkVersion Versions.compileSdkVersion
+  compileSdk Versions.compileSdkVersion
 
   defaultConfig {
     applicationId "com.wealthfront.magellan.sample"
-    minSdkVersion Versions.minSdkVersion
-    targetSdkVersion Versions.targetSdkVersion
+    minSdk Versions.minSdkVersion
+    targetSdk Versions.targetSdkVersion
     versionCode 1
     versionName "1.0"
     testInstrumentationRunner "com.wealthfront.magellan.sample.migration.IntegrationTestRunner"
@@ -35,10 +37,6 @@ android {
     viewBinding = true
   }
 
-  composeOptions {
-    kotlinCompilerExtensionVersion = "1.4.8"
-  }
-
   testOptions {
     unitTests {
       includeAndroidResources = true
@@ -51,18 +49,17 @@ android {
     }
   }
 
-  kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_17
+  packaging {
+    resources {
+      excludes += ['META-INF/LICENSE']
+    }
   }
 
-  packagingOptions {
-    exclude 'META-INF/LICENSE'
-  }
-
-  lintOptions {
-    disable 'InvalidPackage','IconDensities', 'ObsoleteLintCustomCheck', 'IconMissingDensityFolder', 'AllowBackup'
-  }
   namespace 'com.wealthfront.magellan.sample.migration'
+  lint {
+    disable 'InvalidPackage', 'IconDensities', 'ObsoleteLintCustomCheck',
+        'IconMissingDensityFolder', 'AllowBackup'
+  }
 }
 
 dependencies {
@@ -71,7 +68,7 @@ dependencies {
 
   implementation libs.appCompat
   implementation libs.dagger
-  kapt libs.daggerCompiler
+  ksp libs.daggerCompiler
 
   implementation libs.glide
   implementation libs.retrofit
@@ -90,7 +87,7 @@ dependencies {
   implementation libs.compose.tooling.preview
   implementation libs.compose.material3
 
-  kaptTest libs.daggerCompiler
+  kspTest libs.daggerCompiler
   testImplementation(platform(libs.compose.bom))
   testImplementation libs.junit
   testImplementation libs.testCore
@@ -102,7 +99,7 @@ dependencies {
   testImplementation libs.compose.junit4
   debugImplementation libs.compose.manifest
 
-  kaptAndroidTest libs.daggerCompiler
+  kspAndroidTest libs.daggerCompiler
   androidTestImplementation(platform(libs.compose.bom))
   androidTestImplementation libs.extJunit
   androidTestImplementation libs.espressoCore

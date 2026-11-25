@@ -1,16 +1,16 @@
 plugins {
   id 'com.android.application'
-  id 'kotlin-android'
-  id 'kotlin-kapt'
 }
 
+apply plugin: 'com.google.devtools.ksp'
+
 android {
-  compileSdkVersion Versions.compileSdkVersion
+  compileSdk Versions.compileSdkVersion
 
   defaultConfig {
     applicationId "com.wealthfront.magellan.sample.advanced"
-    minSdkVersion 21
-    targetSdkVersion Versions.targetSdkVersion
+    minSdk 21
+    targetSdk Versions.targetSdkVersion
     versionCode 1
     versionName "1.0"
 
@@ -43,9 +43,6 @@ android {
     targetCompatibility JavaVersion.VERSION_17
   }
 
-  kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_17
-  }
   namespace 'com.wealthfront.magellan.sample.advanced'
 }
 
@@ -60,7 +57,7 @@ dependencies {
   implementation libs.constraintLayout
 
   implementation libs.dagger
-  kapt libs.daggerCompiler
+  ksp libs.daggerCompiler
 
   implementation libs.retrofit
   implementation libs.rxjava
