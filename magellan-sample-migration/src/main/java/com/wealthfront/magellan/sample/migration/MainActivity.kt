@@ -1,6 +1,7 @@
 package com.wealthfront.magellan.sample.migration
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.wealthfront.magellan.lifecycle.setContentScreen
 import com.wealthfront.magellan.sample.migration.SampleApplication.Companion.app
@@ -14,11 +15,14 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     app(this).injector().inject(this)
     setContentScreen(expedition)
-  }
-
-  override fun onBackPressed() {
-    if (!expedition.backPressed()) {
-      super.onBackPressed()
-    }
+    onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+      override fun handleOnBackPressed() {
+        if (!expedition.backPressed()) {
+          isEnabled = false
+          onBackPressedDispatcher.onBackPressed()
+          isEnabled = true
+        }
+      }
+    })
   }
 }

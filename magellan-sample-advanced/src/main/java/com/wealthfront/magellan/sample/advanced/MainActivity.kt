@@ -2,6 +2,7 @@ package com.wealthfront.magellan.sample.advanced
 
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.wealthfront.magellan.lifecycle.setContentScreen
 import com.wealthfront.magellan.sample.advanced.SampleApplication.Companion.app
@@ -17,6 +18,15 @@ class MainActivity : AppCompatActivity() {
     app(this).injector().inject(this)
     setContentScreen(rootJourney, R.layout.activity_main)
     lifecycle.addObserver(toolbarHelper)
+    onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+      override fun handleOnBackPressed() {
+        if (!rootJourney.backPressed()) {
+          isEnabled = false
+          onBackPressedDispatcher.onBackPressed()
+          isEnabled = true
+        }
+      }
+    })
   }
 
   override fun onDestroy() {
@@ -24,16 +34,10 @@ class MainActivity : AppCompatActivity() {
     lifecycle.removeObserver(toolbarHelper)
   }
 
-  override fun onBackPressed() {
-    if (!rootJourney.backPressed()) {
-      super.onBackPressed()
-    }
-  }
-
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     return when {
       (item.itemId == android.R.id.home) -> {
-        onBackPressed()
+        onBackPressedDispatcher.onBackPressed()
         true
       }
       else -> false
