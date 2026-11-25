@@ -23,7 +23,7 @@ public fun CircularRevealTransition(clickedView: View): MagellanTransition {
  *
  * @property clickedViewId the id of the view on which this circular reveal is centered
  */
-private class CircularRevealTransition(@IdRes private val clickedViewId: Int) : MagellanTransition {
+private class CircularRevealTransition(@param:IdRes private val clickedViewId: Int) : MagellanTransition {
 
   private var animator: Animator? = null
 

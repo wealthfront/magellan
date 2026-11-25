@@ -32,7 +32,6 @@ android {
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
   compilerOptions {
-    freeCompilerArgs.add('-Xannotation-default-target=first-only')
     allWarningsAsErrors.set(true)
     jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
   }

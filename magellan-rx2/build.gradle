@@ -40,10 +40,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
   def isUnitTest = name.contains("UnitTest")
   compilerOptions {
     if (!isUnitTest) {
-      freeCompilerArgs.set(['-Xexplicit-api=strict', '-Xannotation-default-target=first-only'])
-    }
-    if (isUnitTest) {
-      freeCompilerArgs.add('-Xannotation-default-target=first-only')
+      freeCompilerArgs.set(['-Xexplicit-api=strict'])
     }
     allWarningsAsErrors.set(true)
     jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)

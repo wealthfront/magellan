@@ -26,33 +26,33 @@ interface DogApi {
 }
 
 data class DogImageResponse(
-  @JsonProperty("message")
+  @param:JsonProperty("message")
   val message: String,
 
-  @JsonProperty("status")
+  @param:JsonProperty("status")
   val status: String
 )
 
 data class DogSubBreedsResponse(
-  @JsonProperty("message")
+  @param:JsonProperty("message")
   val message: List<String>,
 
-  @JsonProperty("status")
+  @param:JsonProperty("status")
   val status: String
 )
 
 data class DogImagesResposne(
-  @JsonProperty("message")
+  @param:JsonProperty("message")
   val message: List<String>,
 
-  @JsonProperty("status")
+  @param:JsonProperty("status")
   val status: String
 )
 
 data class DogBreedsResponse(
-  @JsonProperty("message")
+  @param:JsonProperty("message")
   val message: Map<String, List<String>>,
 
-  @JsonProperty("status")
+  @param:JsonProperty("status")
   val status: String
 )

@@ -49,9 +49,9 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
   def isUnitTest = name.contains("UnitTest")
   compilerOptions {
     if (isUnitTest) {
-      freeCompilerArgs.set(['-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi,kotlinx.coroutines.InternalCoroutinesApi', '-Xannotation-default-target=first-only'])
+      freeCompilerArgs.set(['-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi,kotlinx.coroutines.InternalCoroutinesApi'])
     } else {
-      freeCompilerArgs.set(['-Xexplicit-api=strict', '-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi', '-Xannotation-default-target=first-only'])
+      freeCompilerArgs.set(['-Xexplicit-api=strict', '-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi'])
     }
     allWarningsAsErrors.set(true)
     jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
