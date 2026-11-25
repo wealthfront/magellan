@@ -4,11 +4,11 @@ group = GROUP
 version = VERSION_NAME
 
 android {
-  compileSdkVersion Versions.compileSdkVersion
+  compileSdk Versions.compileSdkVersion
+  enableKotlin = false
 
   defaultConfig {
-    minSdkVersion Versions.minSdkVersion
-    targetSdkVersion Versions.targetSdkVersion
+    minSdk Versions.minSdkVersion
 
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
@@ -16,6 +16,10 @@ android {
   compileOptions {
     setSourceCompatibility(JavaVersion.VERSION_17)
     setTargetCompatibility(JavaVersion.VERSION_17)
+  }
+
+  testOptions {
+    targetSdk Versions.targetSdkVersion
   }
 
   buildTypes {

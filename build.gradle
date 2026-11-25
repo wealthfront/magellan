@@ -8,10 +8,14 @@ buildscript {
   }
   dependencies {
     classpath(Plugins.kotlinGradle)
+    classpath(Plugins.ksp)
     classpath(Plugins.kotlinterGradle)
     classpath(Plugins.kotlinAllOpen)
     classpath(Plugins.detekt)
   }
+}
+plugins {
+  alias(libs.plugins.kotlin.compose) apply false
 }
 
 apply plugin: 'io.gitlab.arturbosch.detekt'

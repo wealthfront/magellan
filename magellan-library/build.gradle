@@ -1,17 +1,15 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
 
 group = GROUP
 version = VERSION_NAME
 
 android {
-  compileSdkVersion Versions.compileSdkVersion
+  compileSdk Versions.compileSdkVersion
 
   resourcePrefix 'magellan_'
 
   defaultConfig {
-    minSdkVersion Versions.minSdkVersion
-    targetSdkVersion Versions.targetSdkVersion
+    minSdk Versions.minSdkVersion
 
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
@@ -22,6 +20,7 @@ android {
   }
 
   testOptions {
+    targetSdk Versions.targetSdkVersion
     unitTests {
       includeAndroidResources = true
     }
@@ -47,13 +46,16 @@ android {
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-  if (!name.contains("UnitTest")) {
-    kotlinOptions.freeCompilerArgs = ['-Xexplicit-api=strict', '-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi']
-  } else {
-    kotlinOptions.freeCompilerArgs = ['-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi,kotlinx.coroutines.InternalCoroutinesApi']
+  def isUnitTest = name.contains("UnitTest")
+  compilerOptions {
+    if (isUnitTest) {
+      freeCompilerArgs.set(['-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi,kotlinx.coroutines.InternalCoroutinesApi', '-Xannotation-default-target=first-only'])
+    } else {
+      freeCompilerArgs.set(['-Xexplicit-api=strict', '-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi', '-Xannotation-default-target=first-only'])
+    }
+    allWarningsAsErrors.set(true)
+    jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
   }
-  kotlinOptions.allWarningsAsErrors = true
-  kotlinOptions.jvmTarget = JavaVersion.VERSION_17
 }
 
 dependencies {

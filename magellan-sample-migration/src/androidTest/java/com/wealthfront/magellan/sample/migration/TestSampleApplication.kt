@@ -8,11 +8,7 @@ class TestSampleApplication : Application(), AppComponentContainer {
 
   override fun onCreate() {
     super.onCreate()
-    appComponent = DaggerTestAppComponent.builder()
-      .appModule(AppModule)
-      .testDogApiModule(TestDogApiModule)
-      .toolbarHelperModule(ToolbarHelperModule)
-      .build()
+    appComponent = DaggerTestAppComponent.create()
   }
 
   override fun injector(): AppComponent {
